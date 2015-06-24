@@ -16,6 +16,11 @@ For solutions involving gateways, there is also gateway middleware that allows
 to interface with devices connected to it. Leave communications to DeviceHive
 and focus on actual product and innovation.
 
+DeviceHive Server
+------------------
+Java Server code was moved to a separate repository: https://github.com/devicehive/devicehive-java
+
+
 DeviceHive license
 ------------------
 
