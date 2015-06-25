@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/devicehive/devicehive-java.svg?branch=master)](https://travis-ci.org/devicehive/devicehive-java)
+
+https://travis-ci.org/devicehive/devicehive-java.svg?branch=master
 
 DeviceHive Java Client Library & Examples
 =========================================
