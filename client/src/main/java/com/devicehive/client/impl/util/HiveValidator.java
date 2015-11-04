@@ -5,7 +5,6 @@ import com.devicehive.client.model.Device;
 import com.devicehive.client.model.DeviceNotification;
 import com.devicehive.client.model.Equipment;
 import com.devicehive.client.model.exceptions.HiveClientException;
-
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.LinkedList;
@@ -18,6 +17,12 @@ import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
  */
 public class HiveValidator {
 
+    /**
+     * Validates a {@link Device} object.
+     *
+     * @param device a device object to validate
+     * @throws HiveClientException in case of validation errors
+     */
     public static void validate(Device device) throws HiveClientException {
         List<String> constraintViolations = new LinkedList<>();
         if (StringUtils.isBlank(device.getId())) {
@@ -60,10 +65,16 @@ public class HiveValidator {
         if (!constraintViolations.isEmpty()) {
             String message = "Validation failed with following constraint violations: ";
             throw new HiveClientException(message + StringUtils.join(constraintViolations, ";"),
-                                          BAD_REQUEST.getStatusCode());
+                BAD_REQUEST.getStatusCode());
         }
     }
 
+    /**
+     * Validates a {@link DeviceNotification} object.
+     *
+     * @param deviceNotification a device notification to validate
+     * @throws HiveClientException in case of validation errors
+     */
     public static void validate(DeviceNotification deviceNotification) throws HiveClientException {
         if (StringUtils.isEmpty(deviceNotification.getNotification())) {
             throw new HiveClientException("Device notification name is required!", BAD_REQUEST.getStatusCode());

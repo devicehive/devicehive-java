@@ -5,21 +5,22 @@ import com.devicehive.client.model.ApiInfo;
 import com.devicehive.client.model.exceptions.HiveException;
 
 /**
- * Hive client that represents the number of controller getters methods. Controllers are used only to delegate methods
- * with similar logic to some container. The separation of client controllers is equal or similar to the server's
- * controller.
+ * A Device Hive client that provides access to a number of controllers each of which serves as a proxy between the
+ * client code and the corresponding Device Hive RESTful API resource. A client needs to be authenticated in order to use
+ * controllers methods. For more details on the controllers and methods they provide see the
+ * <a href="http://devicehive.com/restful/#Reference">Device Hive RESTful API Reference</a>.
  */
 public interface HiveClient extends AutoCloseable {
 
     /**
-     * Requests API information
+     * Requests API information.
      *
      * @return API info
      */
     ApiInfo getInfo() throws HiveException;
 
     /**
-     * Authenticates client as user (by login and password). Permissions will be determined by user's role.
+     * Authenticates a client as a user (by login and password). Permissions will be determined by user's role.
      *
      * @param login    login
      * @param password password
@@ -27,76 +28,78 @@ public interface HiveClient extends AutoCloseable {
     void authenticate(String login, String password) throws HiveException;
 
     /**
-     * Authenticates client by access key. Permissions will be determined by the access key permissions.
+     * Authenticates a client by an access key. Permissions will be determined by the access key permissions.
      *
      * @param key access key
      */
     void authenticate(String key) throws HiveException;
 
     /**
-     * Return new instance of access key controller
+     * Returns a new instance of access key controller.
      *
      * @return access key controller
      */
     AccessKeyController getAccessKeyController();
 
     /**
-     * Return new instance of command controller
+     * Returns a new instance of command controller.
      *
      * @return command controller
      */
     CommandsController getCommandsController();
 
     /**
-     * Return new instance of device controller
+     * Returns a new instance of device controller.
      *
      * @return device controller
      */
     DeviceController getDeviceController();
 
     /**
-     * Return new instance of network controller
+     * Returns new instance of network controller.
      *
      * @return network controller
      */
     NetworkController getNetworkController();
 
     /**
-     * Return new instance of notification controller
+     * Returns a new instance of notification controller.
      *
      * @return notification controller
      */
     NotificationsController getNotificationsController();
 
     /**
-     * Return new instance of user controller.
+     * Returns a new instance of user controller.
      *
      * @return user controller
      */
     UserController getUserController();
 
     /**
-     * Return new instance of OAuth controller.
+     * Returns a new instance of OAuth client controller.
      *
-     * @return user controller
+     * @return OAuth controller
      */
     OAuthClientController getOAuthClientController();
 
     /**
-     * Return new instance of OAuth client controller.
+     * Returns a new instance of OAuth grant controller.
      *
-     * @return user controller
+     * @return OAuth grant controller
      */
     OAuthGrantController getOAuthGrantController();
 
     /**
-     * Return new instance of OAuth token controller.
+     * Returns a new instance of OAuth token controller.
      *
-     * @return user controller
+     * @return OAuth token controller
      */
     OAuthTokenController getOAuthTokenController();
 
-
+    /**
+     * Disconnects the client from the server.
+     */
     void close();
 
 }

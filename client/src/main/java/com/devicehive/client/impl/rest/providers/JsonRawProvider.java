@@ -1,24 +1,13 @@
 package com.devicehive.client.impl.rest.providers;
 
 
+import com.devicehive.client.impl.Constants;
+import com.devicehive.client.impl.json.GsonFactory;
+import com.devicehive.client.impl.util.Messages;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import com.devicehive.client.impl.Constants;
-import com.devicehive.client.impl.json.GsonFactory;
-import com.devicehive.client.impl.util.Messages;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
-import java.nio.charset.Charset;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
@@ -26,6 +15,9 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
+import java.io.*;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 
 /**
  * Provider that converts hive entity to JSON and JSON to hive entity
@@ -44,8 +36,7 @@ public class JsonRawProvider implements MessageBodyWriter<JsonObject>, MessageBo
     public JsonObject readFrom(Class<JsonObject> type, Type genericType, Annotation[] annotations, MediaType mediaType,
                                MultivaluedMap<String, String> httpHeaders, InputStream entityStream)
         throws IOException, WebApplicationException {
-        JsonElement element = new JsonParser().parse(new InputStreamReader(entityStream,
-                                                                           Charset.forName(Constants.CURRENT_CHARSET)));
+        JsonElement element = new JsonParser().parse(new InputStreamReader(entityStream, Constants.CURRENT_CHARSET));
         if (element.isJsonObject()) {
             return element.getAsJsonObject();
         }
@@ -71,7 +62,7 @@ public class JsonRawProvider implements MessageBodyWriter<JsonObject>, MessageBo
         Gson gson = GsonFactory.createGson();
         Writer writer = null;
         try {
-            writer = new OutputStreamWriter(entityStream, Charset.forName(Constants.CURRENT_CHARSET));
+            writer = new OutputStreamWriter(entityStream, Constants.CURRENT_CHARSET);
             gson.toJson(jsonObject, writer);
         } finally {
             if (writer != null) {

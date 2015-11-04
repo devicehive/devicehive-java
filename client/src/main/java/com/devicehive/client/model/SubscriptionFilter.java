@@ -6,6 +6,9 @@ import org.apache.commons.lang3.ObjectUtils;
 import java.sql.Timestamp;
 import java.util.Set;
 
+/**
+ * A container for subscription filtering parameters.
+ */
 public class SubscriptionFilter {
 
     private final Set<String> uuids;
