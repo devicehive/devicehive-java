@@ -54,6 +54,8 @@ public interface CommandsController {
      *
      * @param guid    a device identifier
      * @param command a command to be inserted
+     * @param commandUpdateMessageHandler a handler that gets called every time an update on the command status is
+     *                                    received. The handler receives the command with updated status as a parameter
      * @return an inserted {@link DeviceCommand} resource
      * @throws HiveException if an error occurs during the request execution
      * @see <a href="http://devicehive.com/restful/#Reference/DeviceCommand/insert">DeviceHive RESTful API: DeviceCommand:

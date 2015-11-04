@@ -58,8 +58,7 @@ public interface DeviceController {
      * Registers a device. If device with specified identifier has already been registered, it's updated (providing a
      * valid key is specified in the authorization header).
      *
-     * @param device   In the request body, supply a Device resource. See <a href="http://www.devicehive
-     *                 .com/restful#Reference/Device/register">
+     * @param device   a {@link Device} resource to send in the request body
      * @param deviceId Device unique identifier.
      * @throws HiveException if an error occurs during the request execution
      * @see <a href="http://www.devicehive.com/restful#Reference/Device/register">DeviceHive RESTful API: Device: register</a>

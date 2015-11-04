@@ -68,7 +68,7 @@ class CommandsControllerRestImpl implements CommandsController {
         List<DeviceCommand> result = restAgent.execute(path, HttpMethod.GET, null, queryParams,
             new TypeToken<List<DeviceCommand>>() {}.getType(), COMMAND_LISTED);
 
-        LOGGER.debug("DeviceCommand: query request proceed successfully for device id {}, start timestamp {}, " +
+        LOGGER.debug("DeviceCommand: query request processed successfully for device id {}, start timestamp {}, " +
             "end timestamp {},commandName {}, status {}, sort field {}, sort order {}, take param {}, " +
             "skip param {}, grid interval {}", deviceGuid, start, end, commandName, status, sortField, sortOrder,
             take, skip, gridInterval);
@@ -87,7 +87,7 @@ class CommandsControllerRestImpl implements CommandsController {
 
         DeviceCommand result = restAgent.execute(path, HttpMethod.GET, null, DeviceCommand.class, COMMAND_TO_DEVICE);
 
-        LOGGER.debug("DeviceCommand: get request proceed successfully for device id {} and command id {}. Timestamp {}, " +
+        LOGGER.debug("DeviceCommand: get request processed successfully for device id {} and command id {}. Timestamp {}, " +
             "userId {}, command {}, parameters {}, lifetime {}, flags {}, status {}, result {}", guid, id,
             result.getTimestamp(), result.getUserId(), result.getCommand(), result.getParameters(), result.getLifetime(),
             result.getFlags(), result.getStatus(), result.getResult());
@@ -117,7 +117,7 @@ class CommandsControllerRestImpl implements CommandsController {
             restAgent.subscribeForCommandUpdates(result.getId(), guid, commandUpdatesHandler);
         }
 
-        LOGGER.debug("DeviceCommand: insert request proceed successfully for device id {} and command: command {}, " +
+        LOGGER.debug("DeviceCommand: insert request processed successfully for device id {} and command: command {}, " +
             "parameters {}, lifetime {}, flags {}. Result command id {}, timestamp {}, userId {}", guid,
             command.getCommand(), command.getParameters(), command.getLifetime(), command.getFlags(), result.getId(),
             result.getTimestamp(), result.getUserId());
@@ -143,7 +143,7 @@ class CommandsControllerRestImpl implements CommandsController {
         String path = String.format(DEVICE_COMMAND_RESOURCE_PATH, deviceId, command.getId());
         restAgent.execute(path, HttpMethod.PUT, null, command, REST_COMMAND_UPDATE_FROM_DEVICE);
 
-        LOGGER.debug("DeviceCommand: update request proceed successfully for device id {} and command: id {}, flags {}, " +
+        LOGGER.debug("DeviceCommand: update request processed successfully for device id {} and command: id {}, flags {}, " +
             "status {}, result {}", deviceId, command.getId(), command.getFlags(), command.getStatus(), command.getResult());
     }
 
