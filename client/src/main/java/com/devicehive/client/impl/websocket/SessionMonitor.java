@@ -1,39 +1,53 @@
 package com.devicehive.client.impl.websocket;
 
+import com.devicehive.client.impl.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
-import java.util.Date;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import javax.websocket.CloseReason;
 import javax.websocket.MessageHandler;
 import javax.websocket.PongMessage;
 import javax.websocket.Session;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.Date;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
+/**
+ * A websocket session monitor that acts as a watchdog checking that the server responds to the client requests in time.
+ * If a response from a server is not received within a certain period of time, the session is forcibly closed and
+ * reconnection is initiated.
+ */
 public class SessionMonitor {
-    private static final Logger logger = LoggerFactory.getLogger(SessionMonitor.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SessionMonitor.class);
 
     public static final String SESSION_MONITOR_KEY = "SESSION_MONITOR_KEY";
+    /**
+     * A ping message payload.
+     */
     private static final String PING_MESSAGE = "devicehive-client-ping";
     /**
-     * Timeout for websocket ping/pongs. If no pongs received during this timeout, reconnection will be started. Notice,
-     * that reconnection will be started, if some request did not received any message during response timeout,
-     * reconnection action will be started.
+     * Timeout for websocket ping/pongs (ms). If no pongs is received during this timeout, the session will be closed.
      */
-    private static final long WEBSOCKET_PING_TIMEOUT = 2L;
+    private static final long WEBSOCKET_PING_TIMEOUT = TimeUnit.MINUTES.toMillis(2L);
+    /**
+     * How often pings are sent (seconds).
+     */
+    private static final long PING_SEND_PERIOD = 30L;
+    /**
+     * How often the last response time is checked (minutes).
+     */
+    private static final long PONG_CHECK_PERIOD = 1L;
+
     private final Date timeOfLastReceivedPong;
     private final Session userSession;
     private ScheduledExecutorService monitor = Executors.newScheduledThreadPool(2);
 
     public SessionMonitor(Session userSession) {
         this.userSession = userSession;
-        timeOfLastReceivedPong = new Date();
+        this.timeOfLastReceivedPong = new Date();
         addPongHandler();
         startMonitoring();
         sendPings();
@@ -43,7 +57,7 @@ public class SessionMonitor {
         userSession.addMessageHandler(new MessageHandler.Whole<PongMessage>() {
             @Override
             public void onMessage(PongMessage message) {
-                logger.debug("Pong received for session " + userSession.getId());
+                LOGGER.debug("Pong received for session {}", userSession.getId());
                 timeOfLastReceivedPong.setTime(System.currentTimeMillis());
             }
         });
@@ -55,13 +69,13 @@ public class SessionMonitor {
             public void run() {
                 try {
                     Thread.currentThread().setName("pings_sender");
-                    userSession.getAsyncRemote()
-                        .sendPing(ByteBuffer.wrap(PING_MESSAGE.getBytes(Charset.forName("UTF-8"))));
+                    userSession.getAsyncRemote().sendPing(
+                        ByteBuffer.wrap(PING_MESSAGE.getBytes(Constants.CURRENT_CHARSET)));
                 } catch (IOException ioe) {
-                    logger.warn("Unable to send ping", ioe);
+                    LOGGER.warn("Unable to send ping", ioe);
                 }
             }
-        }, 0, 30, TimeUnit.SECONDS);
+        }, 0, PING_SEND_PERIOD, TimeUnit.SECONDS);
     }
 
     private void startMonitoring() {
@@ -69,20 +83,19 @@ public class SessionMonitor {
             @Override
             public void run() {
                 Thread.currentThread().setName("monitoring");
-                if (System.currentTimeMillis() - timeOfLastReceivedPong.getTime() > TimeUnit.MINUTES.toMillis
-                    (WEBSOCKET_PING_TIMEOUT)) {
-                    logger.info("No pings received from server for a long time. Session will be closed");
+                if (System.currentTimeMillis() - timeOfLastReceivedPong.getTime() > WEBSOCKET_PING_TIMEOUT) {
+                    LOGGER.info("No pings received from server for a long time. Session will be closed");
                     try {
                         if (userSession.isOpen()) {
                             userSession.close(new CloseReason(CloseReason.CloseCodes.CLOSED_ABNORMALLY,
-                                                              "No pings from server"));
+                                "No pings from server"));
                         }
                     } catch (IOException ioe) {
-                        logger.debug("unable to close session");
+                        LOGGER.debug("unable to close session");
                     }
                 }
             }
-        }, 0, 1, TimeUnit.MINUTES);
+        }, 0, PONG_CHECK_PERIOD, TimeUnit.MINUTES);
     }
 
     public void close() {

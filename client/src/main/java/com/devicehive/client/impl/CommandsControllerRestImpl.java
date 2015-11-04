@@ -1,8 +1,6 @@
 package com.devicehive.client.impl;
 
 
-import com.google.common.reflect.TypeToken;
-
 import com.devicehive.client.CommandsController;
 import com.devicehive.client.HiveMessageHandler;
 import com.devicehive.client.impl.context.RestAgent;
@@ -10,43 +8,52 @@ import com.devicehive.client.model.DeviceCommand;
 import com.devicehive.client.model.SubscriptionFilter;
 import com.devicehive.client.model.exceptions.HiveClientException;
 import com.devicehive.client.model.exceptions.HiveException;
-
+import com.google.common.reflect.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ws.rs.HttpMethod;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.HttpMethod;
-
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.COMMAND_FROM_CLIENT;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.COMMAND_LISTED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.COMMAND_TO_CLIENT;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.COMMAND_TO_DEVICE;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.REST_COMMAND_UPDATE_FROM_DEVICE;
+import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.*;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
+/**
+ * Implementation of {@link CommandsController} that uses REST transport.
+ */
 class CommandsControllerRestImpl implements CommandsController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommandsControllerRestImpl.class);
 
-    private static Logger logger = LoggerFactory.getLogger(CommandsControllerRestImpl.class);
+    private static final String DEVICE_COMMANDS_COLLECTION_PATH = "/device/%s/command";
+    private static final String DEVICE_COMMAND_RESOURCE_PATH = "/device/%s/command/%s";
+
     private final RestAgent restAgent;
 
+    /**
+     * Initializes a controller with a {@link RestAgent} to use for requests.
+     *
+     * @param restAgent an instance of {@link RestAgent}
+     */
     CommandsControllerRestImpl(RestAgent restAgent) {
         this.restAgent = restAgent;
     }
 
-    @SuppressWarnings("serial")
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<DeviceCommand> queryCommands(String deviceGuid, Timestamp start, Timestamp end, String commandName,
                                              String status, String sortField, String sortOrder, Integer take,
                                              Integer skip, Integer gridInterval) throws HiveException {
-        logger.debug("DeviceCommand: query requested for device id {}, start timestamp {], end timestamp {}, " +
-                     "commandName {}, status {}, sort field {}, sort order {}, take param {}, skip param {}, " +
-                     "grid interval {}", deviceGuid, start, end, commandName, status, sortField, sortOrder, take, skip,
-                     gridInterval);
-        String path = "/device/" + deviceGuid + "/command";
+        LOGGER.debug("DeviceCommand: query requested for device id {}, start timestamp {}, end timestamp {}, " +
+            "commandName {}, status {}, sort field {}, sort order {}, take param {}, skip param {}, grid interval {}",
+            deviceGuid, start, end, commandName, status, sortField, sortOrder, take, skip, gridInterval);
+
+        String path = String.format(DEVICE_COMMANDS_COLLECTION_PATH, deviceGuid);
+
         Map<String, Object> queryParams = new HashMap<>();
         queryParams.put("start", start);
         queryParams.put("end", end);
@@ -57,56 +64,70 @@ class CommandsControllerRestImpl implements CommandsController {
         queryParams.put("take", take);
         queryParams.put("skip", skip);
         queryParams.put("gridInterval", gridInterval);
-        List<DeviceCommand> result = restAgent.execute(path, HttpMethod.GET,
-                                                       null, queryParams,
-                                                       new TypeToken<List<DeviceCommand>>() {
-                                                       }.getType(), COMMAND_LISTED);
-        logger.debug("DeviceCommand: query request proceed successfully for device id {}, start timestamp {], " +
-                     "end timestamp {},commandName {}, status {}, sort field {}, sort order {}, take param {}, " +
-                     "skip param {}, grid interval {}",
-                     deviceGuid, start, end, commandName, status, sortField, sortOrder, take, skip, gridInterval);
+
+        List<DeviceCommand> result = restAgent.execute(path, HttpMethod.GET, null, queryParams,
+            new TypeToken<List<DeviceCommand>>() {}.getType(), COMMAND_LISTED);
+
+        LOGGER.debug("DeviceCommand: query request proceed successfully for device id {}, start timestamp {}, " +
+            "end timestamp {},commandName {}, status {}, sort field {}, sort order {}, take param {}, " +
+            "skip param {}, grid interval {}", deviceGuid, start, end, commandName, status, sortField, sortOrder,
+            take, skip, gridInterval);
+
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public DeviceCommand getCommand(String guid, long id) throws HiveException {
-        logger.debug("DeviceCommand: get requested for device id {] and command id {}", guid, id);
-        String path = "/device/" + guid + "/command/" + id;
-        DeviceCommand result = restAgent
-            .execute(path, HttpMethod.GET, null, DeviceCommand.class, COMMAND_TO_DEVICE);
-        logger.debug("DeviceCommand: get request proceed successfully for device id {] and command id {}. Timestamp " +
-                     "{}, userId {}, command {], parameters {}, lifetime {}, flags {}, status {}, result {}", guid, id,
-                     result.getTimestamp(), result.getUserId(), result.getCommand(), result.getParameters(),
-                     result.getLifetime(), result.getFlags(), result.getStatus(), result.getResult());
+        LOGGER.debug("DeviceCommand: get requested for device id {} and command id {}", guid, id);
+
+        String path = String.format(DEVICE_COMMAND_RESOURCE_PATH, guid, id);
+
+        DeviceCommand result = restAgent.execute(path, HttpMethod.GET, null, DeviceCommand.class, COMMAND_TO_DEVICE);
+
+        LOGGER.debug("DeviceCommand: get request proceed successfully for device id {} and command id {}. Timestamp {}, " +
+            "userId {}, command {}, parameters {}, lifetime {}, flags {}, status {}, result {}", guid, id,
+            result.getTimestamp(), result.getUserId(), result.getCommand(), result.getParameters(), result.getLifetime(),
+            result.getFlags(), result.getStatus(), result.getResult());
+
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public DeviceCommand insertCommand(String guid,
-                                       DeviceCommand command,
+    public DeviceCommand insertCommand(String guid, DeviceCommand command,
                                        HiveMessageHandler<DeviceCommand> commandUpdatesHandler) throws HiveException {
         if (command == null) {
             throw new HiveClientException("Command cannot be null!", BAD_REQUEST.getStatusCode());
         }
-        logger.debug("DeviceCommand: insert requested for device id {] and command: command {}, parameters {}, " +
-                     "lifetime {}, flags {}", guid, command.getCommand(), command.getParameters(),
-                     command.getLifetime(),
-                     command.getFlags());
-        DeviceCommand toReturn;
-        String path = "/device/" + guid + "/command";
-        toReturn = restAgent.execute(path, HttpMethod.POST, null, null, command,
-                                     DeviceCommand.class, COMMAND_FROM_CLIENT, COMMAND_TO_CLIENT);
+
+        LOGGER.debug("DeviceCommand: insert requested for device id {} and command: command {}, parameters {}, " +
+            "lifetime {}, flags {}", guid, command.getCommand(), command.getParameters(), command.getLifetime(),
+             command.getFlags());
+
+        String path = String.format(DEVICE_COMMANDS_COLLECTION_PATH, guid);
+        DeviceCommand result = restAgent.execute(path, HttpMethod.POST, null, null, command, DeviceCommand.class,
+            COMMAND_FROM_CLIENT, COMMAND_TO_CLIENT);
 
         if (commandUpdatesHandler != null) {
-            restAgent.subscribeForCommandUpdates(toReturn.getId(), guid, commandUpdatesHandler);
+            restAgent.subscribeForCommandUpdates(result.getId(), guid, commandUpdatesHandler);
         }
-        logger.debug("DeviceCommand: insert request proceed successfully for device id {] and command: command {}, " +
-                     "parameters {}, lifetime {}, flags {}. Result command id {}, timestamp {}, userId {}", guid,
-                     command.getCommand(), command.getParameters(), command.getLifetime(), command.getFlags(),
-                     toReturn.getId(), toReturn.getTimestamp(), toReturn.getUserId());
-        return toReturn;
+
+        LOGGER.debug("DeviceCommand: insert request proceed successfully for device id {} and command: command {}, " +
+            "parameters {}, lifetime {}, flags {}. Result command id {}, timestamp {}, userId {}", guid,
+            command.getCommand(), command.getParameters(), command.getLifetime(), command.getFlags(), result.getId(),
+            result.getTimestamp(), result.getUserId());
+
+        return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateCommand(String deviceId, DeviceCommand command) throws HiveException {
         if (command == null) {
@@ -115,29 +136,35 @@ class CommandsControllerRestImpl implements CommandsController {
         if (command.getId() == null) {
             throw new HiveClientException("Command id cannot be null!", BAD_REQUEST.getStatusCode());
         }
-        logger.debug("DeviceCommand: update requested for device id {] and command: id {},  flags {}, status {}, " +
-                     " result {}", deviceId, command.getId(), command.getFlags(), command.getStatus(),
-                     command.getResult());
-        String path = "/device/" + deviceId + "/command/" + command.getId();
-        restAgent
-            .execute(path, HttpMethod.PUT, null, command, REST_COMMAND_UPDATE_FROM_DEVICE);
-        logger.debug("DeviceCommand: update request proceed successfully for device id {] and command: id {},  " +
-                     "flags {}, status {}, result {}", deviceId, command.getId(), command.getFlags(),
-                     command.getStatus(),
-                     command.getResult());
+
+        LOGGER.debug("DeviceCommand: update requested for device id {} and command: id {},  flags {}, status {}, result {}",
+            deviceId, command.getId(), command.getFlags(), command.getStatus(), command.getResult());
+
+        String path = String.format(DEVICE_COMMAND_RESOURCE_PATH, deviceId, command.getId());
+        restAgent.execute(path, HttpMethod.PUT, null, command, REST_COMMAND_UPDATE_FROM_DEVICE);
+
+        LOGGER.debug("DeviceCommand: update request proceed successfully for device id {} and command: id {}, flags {}, " +
+            "status {}, result {}", deviceId, command.getId(), command.getFlags(), command.getStatus(), command.getResult());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String subscribeForCommands(SubscriptionFilter filter,
-                                       HiveMessageHandler<DeviceCommand> commandMessageHandler)
-        throws HiveException {
-        logger.debug("Device: command/subscribe requested for filter {},", filter);
+                                       HiveMessageHandler<DeviceCommand> commandMessageHandler) throws HiveException {
+        LOGGER.debug("Device: command/subscribe requested for filter {}", filter);
+
         return restAgent.subscribeForCommands(filter, commandMessageHandler);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void unsubscribeFromCommands(String subscriptionId) throws HiveException {
-        logger.debug("Device: command/unsubscribe requested");
+        LOGGER.debug("Device: command/unsubscribe requested for subscription {}", subscriptionId);
+
         restAgent.unsubscribeFromCommands(subscriptionId);
     }
 }

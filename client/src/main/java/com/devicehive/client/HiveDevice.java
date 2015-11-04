@@ -10,8 +10,8 @@ import java.sql.Timestamp;
 import java.util.List;
 
 /**
- * HiveDevice represents a simple device in terms of DeviceHive. After connection is established, devices need to
- * registered, perform authentication and then start sending notifications. Devices may also subscribe to commands and
+ * HiveDevice represents a simple device in terms of DeviceHive. After connection is established, devices needs to
+ * register, authenticate and then start sending notifications. Devices may also subscribe to commands and
  * then start receiving server-originated messages about new commands.
  */
 public interface HiveDevice extends AutoCloseable {
@@ -21,6 +21,7 @@ public interface HiveDevice extends AutoCloseable {
      *
      * @param deviceId  device identifier
      * @param deviceKey device key
+     * @throws HiveException
      */
     void authenticate(String deviceId, String deviceKey) throws HiveException;
 
@@ -28,6 +29,7 @@ public interface HiveDevice extends AutoCloseable {
      * Gets information about the current device.
      *
      * @return current device info
+     * @throws HiveException
      */
     Device getDevice() throws HiveException;
 
@@ -35,6 +37,7 @@ public interface HiveDevice extends AutoCloseable {
      * Registers or updates a device.
      *
      * @param device update/create device info
+     * @throws HiveException
      */
     void registerDevice(Device device) throws HiveException;
 
@@ -50,6 +53,7 @@ public interface HiveDevice extends AutoCloseable {
      * @param take    Number of records to take from the result list (default is 1000).
      * @param skip    Number of records to skip from the result list.
      * @return list of device commands
+     * @throws HiveException
      */
     List<DeviceCommand> queryCommands(Timestamp start, Timestamp end, String command, String status,
                                       String sortBy, boolean sortAsc, Integer take, Integer skip) throws HiveException;
@@ -59,6 +63,7 @@ public interface HiveDevice extends AutoCloseable {
      *
      * @param commandId command identifier
      * @return existing device command
+     * @throws HiveException
      */
     DeviceCommand getCommand(long commandId) throws HiveException;
 
@@ -66,6 +71,7 @@ public interface HiveDevice extends AutoCloseable {
      * Updates an existing device command.
      *
      * @param deviceCommand update info in the device command representation
+     * @throws HiveException
      */
     void updateCommand(DeviceCommand deviceCommand) throws HiveException;
 
@@ -75,12 +81,16 @@ public interface HiveDevice extends AutoCloseable {
      *
      * @param timestamp Timestamp of the last received command (UTC). If not specified, the server's timestamp is taken
      *                  instead.
+     * @param commandsHandler a delegate that handles received commands
+     * @throws HiveException
      */
     void subscribeForCommands(Timestamp timestamp, HiveMessageHandler<DeviceCommand> commandsHandler)
         throws HiveException;
 
     /**
      * Unsubscribes the device from commands.
+     *
+     * @throws HiveException
      */
     void unsubscribeFromCommands() throws HiveException;
 
@@ -89,16 +99,21 @@ public interface HiveDevice extends AutoCloseable {
      *
      * @param deviceNotification device notification that should be created
      * @return info about inserted notification
+     * @throws HiveException
      */
     DeviceNotification insertNotification(DeviceNotification deviceNotification) throws HiveException;
 
     /**
-     * Requests API info from server
+     * Requests API info from server.
      *
      * @return API info
+     * @throws HiveException
      */
     ApiInfo getInfo() throws HiveException;
 
+    /**
+     * Disconnects the device from the server.
+     */
     void close();
 
 }
