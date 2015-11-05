@@ -4,7 +4,7 @@ package com.devicehive.client.impl;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.JsonObject;
 
-import com.devicehive.client.UserController;
+import com.devicehive.client.UserAPI;
 import com.devicehive.client.impl.context.RestAgent;
 import com.devicehive.client.model.User;
 import com.devicehive.client.model.UserNetwork;
@@ -28,12 +28,12 @@ import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.US
 import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.USER_UPDATE;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
-class UserControllerImpl implements UserController {
+class UserAPIImpl implements UserAPI {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserControllerImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserAPIImpl.class);
     private final RestAgent restAgent;
 
-    UserControllerImpl(RestAgent restAgent) {
+    UserAPIImpl(RestAgent restAgent) {
         this.restAgent = restAgent;
     }
 

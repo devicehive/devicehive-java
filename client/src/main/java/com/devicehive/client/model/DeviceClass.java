@@ -1,16 +1,9 @@
 package com.devicehive.client.model;
 
 import com.devicehive.client.impl.json.strategies.JsonPolicyDef;
+import com.google.common.base.Optional;
 
-import java.util.Set;
-
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.DEVICECLASS_LISTED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.DEVICECLASS_PUBLISHED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.DEVICECLASS_SUBMITTED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.DEVICE_PUBLISHED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.DEVICE_PUBLISHED_DEVICE_AUTH;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.DEVICE_SUBMITTED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.NETWORK_PUBLISHED;
+import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.*;
 
 /**
  * Represents a device class which holds meta-information about devices. For more details see <a
@@ -24,28 +17,26 @@ public class DeviceClass implements HiveEntity {
          DEVICE_PUBLISHED_DEVICE_AUTH})
     private Long id;
 
-    @JsonPolicyDef({DEVICECLASS_PUBLISHED})
-    private NullableWrapper<Set<Equipment>> equipment;
 
     @JsonPolicyDef({DEVICE_PUBLISHED, DEVICE_SUBMITTED, NETWORK_PUBLISHED, DEVICECLASS_LISTED, DEVICECLASS_PUBLISHED,
                     DEVICE_PUBLISHED_DEVICE_AUTH})
-    private NullableWrapper<String> name;
+    private Optional<String> name;
 
     @JsonPolicyDef({DEVICE_PUBLISHED, DEVICE_SUBMITTED, NETWORK_PUBLISHED, DEVICECLASS_LISTED, DEVICECLASS_PUBLISHED,
                     DEVICE_PUBLISHED_DEVICE_AUTH})
-    private NullableWrapper<String> version;
+    private Optional<String> version;
 
     @JsonPolicyDef({DEVICE_PUBLISHED, DEVICE_SUBMITTED, NETWORK_PUBLISHED, DEVICECLASS_LISTED, DEVICECLASS_PUBLISHED,
                     DEVICE_PUBLISHED_DEVICE_AUTH})
-    private NullableWrapper<Boolean> isPermanent;
+    private Optional<Boolean> isPermanent;
 
     @JsonPolicyDef({DEVICE_PUBLISHED, DEVICE_SUBMITTED, NETWORK_PUBLISHED, DEVICECLASS_LISTED, DEVICECLASS_PUBLISHED,
                     DEVICE_PUBLISHED_DEVICE_AUTH})
-    private NullableWrapper<Integer> offlineTimeout;
+    private Optional<Integer> offlineTimeout;
 
     @JsonPolicyDef({DEVICE_PUBLISHED, DEVICE_SUBMITTED, NETWORK_PUBLISHED, DEVICECLASS_LISTED, DEVICECLASS_PUBLISHED,
                     DEVICE_PUBLISHED_DEVICE_AUTH})
-    private NullableWrapper<JsonStringWrapper> data;
+    private Optional<JsonStringWrapper> data;
 
     public DeviceClass() {
     }
@@ -58,24 +49,12 @@ public class DeviceClass implements HiveEntity {
         this.id = id;
     }
 
-    public Set<Equipment> getEquipment() {
-        return NullableWrapper.value(equipment);
-    }
-
-    public void setEquipment(Set<Equipment> equipment) {
-        this.equipment = NullableWrapper.create(equipment);
-    }
-
-    public void removeEquipment() {
-        this.equipment = null;
-    }
-
     public String getName() {
         return NullableWrapper.value(name);
     }
 
     public void setName(String name) {
-        this.name = NullableWrapper.create(name);
+        this.name = Optional.fromNullable(name);
     }
 
     public void removeName() {
@@ -87,7 +66,7 @@ public class DeviceClass implements HiveEntity {
     }
 
     public void setVersion(String version) {
-        this.version = NullableWrapper.create(version);
+        this.version = Optional.fromNullable(version);
     }
 
     public void removeVersion() {
@@ -99,7 +78,7 @@ public class DeviceClass implements HiveEntity {
     }
 
     public void setPermanent(Boolean permanent) {
-        isPermanent = NullableWrapper.create(permanent);
+        isPermanent = Optional.fromNullable(permanent);
     }
 
     public void removePermanent() {
@@ -111,7 +90,7 @@ public class DeviceClass implements HiveEntity {
     }
 
     public void setOfflineTimeout(Integer offlineTimeout) {
-        this.offlineTimeout = NullableWrapper.create(offlineTimeout);
+        this.offlineTimeout = Optional.fromNullable(offlineTimeout);
     }
 
     public void removeOfflineTimeout() {
@@ -123,7 +102,7 @@ public class DeviceClass implements HiveEntity {
     }
 
     public void setData(JsonStringWrapper data) {
-        this.data = NullableWrapper.create(data);
+        this.data = Optional.fromNullable(data);
     }
 
     public void removeData() {
@@ -135,7 +114,6 @@ public class DeviceClass implements HiveEntity {
         final StringBuilder sb = new StringBuilder("DeviceClass{");
         sb.append("data=").append(data);
         sb.append(", id=").append(id);
-        sb.append(", equipment=").append(equipment);
         sb.append(", name=").append(name);
         sb.append(", version=").append(version);
         sb.append(", isPermanent=").append(isPermanent);

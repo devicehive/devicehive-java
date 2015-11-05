@@ -3,7 +3,7 @@ package com.devicehive.client.impl;
 
 import com.google.common.reflect.TypeToken;
 
-import com.devicehive.client.OAuthGrantController;
+import com.devicehive.client.OAuthGrantAPI;
 import com.devicehive.client.impl.context.RestAgent;
 import com.devicehive.client.model.AccessType;
 import com.devicehive.client.model.OAuthGrant;
@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Type;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,17 +28,17 @@ import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.OA
 import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.OAUTH_GRANT_SUBMITTED_TOKEN;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
-class OAuthGrantControllerImpl implements OAuthGrantController {
+class OAuthGrantAPIImpl implements OAuthGrantAPI {
 
-    private static final Logger logger = LoggerFactory.getLogger(OAuthGrantControllerImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(OAuthGrantAPIImpl.class);
     private final RestAgent restAgent;
 
-    OAuthGrantControllerImpl(RestAgent restAgent) {
+    OAuthGrantAPIImpl(RestAgent restAgent) {
         this.restAgent = restAgent;
     }
 
     @Override
-    public List<OAuthGrant> list(long userId, Timestamp start, Timestamp end, String clientOauthId, OAuthType type,
+    public List<OAuthGrant> list(long userId, Date start, Date end, String clientOauthId, OAuthType type,
                                  String scope, String redirectUri, AccessType accessType, String sortField,
                                  String sortOrder, Integer take, Integer skip) throws HiveException {
         logger.debug("OAuthGrant: list requested with parameters: userId {}, start timestamp {], end timestamp {}, " +
@@ -73,7 +73,7 @@ class OAuthGrantControllerImpl implements OAuthGrantController {
     }
 
     @Override
-    public List<OAuthGrant> list(Timestamp start, Timestamp end, String clientOauthId, OAuthType type, String scope,
+    public List<OAuthGrant> list(Date start, Date end, String clientOauthId, OAuthType type, String scope,
                                  String redirectUri, AccessType accessType, String sortField, String sortOrder,
                                  Integer take, Integer skip) throws HiveException {
         logger.debug("OAuthGrant: list requested for current user with parameters: start timestamp {], " +

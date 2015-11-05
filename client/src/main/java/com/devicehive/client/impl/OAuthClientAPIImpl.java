@@ -3,7 +3,7 @@ package com.devicehive.client.impl;
 
 import com.google.common.reflect.TypeToken;
 
-import com.devicehive.client.OAuthClientController;
+import com.devicehive.client.OAuthClientAPI;
 import com.devicehive.client.impl.context.RestAgent;
 import com.devicehive.client.model.OAuthClient;
 import com.devicehive.client.model.exceptions.HiveClientException;
@@ -24,12 +24,12 @@ import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.OA
 import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.OAUTH_CLIENT_SUBMITTED;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
-class OAuthClientControllerImpl implements OAuthClientController {
+class OAuthClientAPIImpl implements OAuthClientAPI {
 
-    private static final Logger logger = LoggerFactory.getLogger(OAuthClientControllerImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(OAuthClientAPIImpl.class);
     private final RestAgent restAgent;
 
-    OAuthClientControllerImpl(RestAgent restAgent) {
+    OAuthClientAPIImpl(RestAgent restAgent) {
         this.restAgent = restAgent;
     }
 

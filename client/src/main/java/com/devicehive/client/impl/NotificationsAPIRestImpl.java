@@ -4,7 +4,7 @@ package com.devicehive.client.impl;
 import com.google.common.reflect.TypeToken;
 
 import com.devicehive.client.HiveMessageHandler;
-import com.devicehive.client.NotificationsController;
+import com.devicehive.client.NotificationsAPI;
 import com.devicehive.client.impl.context.RestAgent;
 import com.devicehive.client.model.DeviceNotification;
 import com.devicehive.client.model.SubscriptionFilter;
@@ -14,7 +14,7 @@ import com.devicehive.client.model.exceptions.HiveException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,18 +26,18 @@ import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.NO
 import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.NOTIFICATION_TO_DEVICE;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
-class NotificationsControllerRestImpl implements NotificationsController {
+class NotificationsAPIRestImpl implements NotificationsAPI {
 
-    private static final Logger logger = LoggerFactory.getLogger(NotificationsControllerRestImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(NotificationsAPIRestImpl.class);
     private final RestAgent restAgent;
 
-    NotificationsControllerRestImpl(RestAgent restAgent) {
+    NotificationsAPIRestImpl(RestAgent restAgent) {
         this.restAgent = restAgent;
     }
 
     @SuppressWarnings("serial")
     @Override
-    public List<DeviceNotification> queryNotifications(String guid, Timestamp start, Timestamp end,
+    public List<DeviceNotification> queryNotifications(String guid, Date start, Date end,
                                                        String notificationName, String sortOrder, String sortField,
                                                        Integer take, Integer skip, Integer gridInterval)
         throws HiveException {

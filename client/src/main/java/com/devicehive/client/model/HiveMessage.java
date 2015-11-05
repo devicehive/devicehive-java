@@ -1,11 +1,11 @@
 package com.devicehive.client.model;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Created by stas on 05.07.14.
  */
 public interface HiveMessage extends HiveEntity {
 
-    public Timestamp getTimestamp();
+    public Date getTimestamp();
 }

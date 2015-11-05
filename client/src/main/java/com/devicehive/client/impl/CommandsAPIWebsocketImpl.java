@@ -20,12 +20,12 @@ import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.CO
 import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.COMMAND_UPDATE_FROM_DEVICE;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
-class CommandsControllerWebsocketImpl extends CommandsControllerRestImpl {
+class CommandsAPIWebsocketImpl extends CommandsAPIRestImpl {
 
-    private static Logger logger = LoggerFactory.getLogger(CommandsControllerWebsocketImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(CommandsAPIWebsocketImpl.class);
     private final WebsocketAgent websocketAgent;
 
-    CommandsControllerWebsocketImpl(WebsocketAgent websocketAgent) {
+    CommandsAPIWebsocketImpl(WebsocketAgent websocketAgent) {
         super(websocketAgent);
         this.websocketAgent = websocketAgent;
     }

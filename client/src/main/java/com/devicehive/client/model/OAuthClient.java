@@ -1,12 +1,9 @@
 package com.devicehive.client.model;
 
 import com.devicehive.client.impl.json.strategies.JsonPolicyDef;
+import com.google.common.base.Optional;
 
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.OAUTH_CLIENT_LISTED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.OAUTH_CLIENT_PUBLISHED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.OAUTH_CLIENT_SUBMITTED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.OAUTH_GRANT_LISTED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.OAUTH_GRANT_PUBLISHED;
+import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.*;
 
 /**
  * Represents a client with the access to the DeviceHive OAuth API. For more details see <a
@@ -20,22 +17,22 @@ public class OAuthClient implements HiveEntity {
 
     @JsonPolicyDef({OAUTH_CLIENT_LISTED, OAUTH_CLIENT_SUBMITTED, OAUTH_GRANT_LISTED, OAUTH_CLIENT_SUBMITTED,
                     OAUTH_GRANT_PUBLISHED})
-    private NullableWrapper<String> name;
+    private Optional<String> name;
 
     @JsonPolicyDef({OAUTH_CLIENT_LISTED, OAUTH_CLIENT_SUBMITTED, OAUTH_GRANT_LISTED, OAUTH_GRANT_PUBLISHED})
-    private NullableWrapper<String> domain;
+    private Optional<String> domain;
 
     @JsonPolicyDef({OAUTH_CLIENT_LISTED, OAUTH_CLIENT_SUBMITTED, OAUTH_GRANT_LISTED, OAUTH_GRANT_PUBLISHED})
-    private NullableWrapper<String> subnet;
+    private Optional<String> subnet;
 
     @JsonPolicyDef({OAUTH_CLIENT_LISTED, OAUTH_CLIENT_SUBMITTED, OAUTH_GRANT_LISTED, OAUTH_GRANT_PUBLISHED})
-    private NullableWrapper<String> redirectUri;
+    private Optional<String> redirectUri;
 
     @JsonPolicyDef({OAUTH_CLIENT_LISTED, OAUTH_CLIENT_SUBMITTED, OAUTH_GRANT_LISTED, OAUTH_GRANT_PUBLISHED})
-    private NullableWrapper<String> oauthId;
+    private Optional<String> oauthId;
 
     @JsonPolicyDef({OAUTH_CLIENT_LISTED, OAUTH_CLIENT_PUBLISHED, OAUTH_GRANT_LISTED})
-    private NullableWrapper<String> oauthSecret;
+    private Optional<String> oauthSecret;
 
     public Long getId() {
         return id;
@@ -50,7 +47,7 @@ public class OAuthClient implements HiveEntity {
     }
 
     public void setName(String name) {
-        this.name = NullableWrapper.create(name);
+        this.name = Optional.fromNullable(name);
     }
 
     public String getDomain() {
@@ -58,7 +55,7 @@ public class OAuthClient implements HiveEntity {
     }
 
     public void setDomain(String domain) {
-        this.domain = NullableWrapper.create(domain);
+        this.domain = Optional.fromNullable(domain);
     }
 
     public String getSubnet() {
@@ -66,7 +63,7 @@ public class OAuthClient implements HiveEntity {
     }
 
     public void setSubnet(String subnet) {
-        this.subnet = NullableWrapper.create(subnet);
+        this.subnet = Optional.fromNullable(subnet);
     }
 
     public String getRedirectUri() {
@@ -74,7 +71,7 @@ public class OAuthClient implements HiveEntity {
     }
 
     public void setRedirectUri(String redirectUri) {
-        this.redirectUri = NullableWrapper.create(redirectUri);
+        this.redirectUri = Optional.fromNullable(redirectUri);
     }
 
     public String getOauthId() {
@@ -82,7 +79,7 @@ public class OAuthClient implements HiveEntity {
     }
 
     public void setOauthId(String oauthId) {
-        this.oauthId = NullableWrapper.create(oauthId);
+        this.oauthId = Optional.fromNullable(oauthId);
     }
 
     public String getOauthSecret() {
@@ -90,7 +87,7 @@ public class OAuthClient implements HiveEntity {
     }
 
     public void setOauthSecret(String oauthSecret) {
-        this.oauthSecret = NullableWrapper.create(oauthSecret);
+        this.oauthSecret = Optional.fromNullable(oauthSecret);
     }
 
     @Override

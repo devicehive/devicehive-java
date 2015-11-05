@@ -1,16 +1,16 @@
 package com.devicehive.client.impl;
 
 
-import com.devicehive.client.AccessKeyController;
-import com.devicehive.client.CommandsController;
-import com.devicehive.client.DeviceController;
+import com.devicehive.client.AccessKeyAPI;
+import com.devicehive.client.CommandsAPI;
+import com.devicehive.client.DeviceAPI;
 import com.devicehive.client.HiveClient;
-import com.devicehive.client.NetworkController;
-import com.devicehive.client.NotificationsController;
-import com.devicehive.client.OAuthClientController;
-import com.devicehive.client.OAuthGrantController;
-import com.devicehive.client.OAuthTokenController;
-import com.devicehive.client.UserController;
+import com.devicehive.client.NetworkAPI;
+import com.devicehive.client.NotificationsAPI;
+import com.devicehive.client.OAuthClientAPI;
+import com.devicehive.client.OAuthGrantAPI;
+import com.devicehive.client.OAuthTokenAPI;
+import com.devicehive.client.UserAPI;
 import com.devicehive.client.impl.context.HivePrincipal;
 import com.devicehive.client.impl.context.RestAgent;
 import com.devicehive.client.model.ApiInfo;
@@ -40,48 +40,48 @@ public class HiveClientRestImpl implements HiveClient {
     }
 
     @Override
-    public AccessKeyController getAccessKeyController() {
-        return new AccessKeyControllerImpl(restAgent);
+    public AccessKeyAPI getAccessKeyAPI() {
+        return new AccessKeyAPIImpl(restAgent);
     }
 
     @Override
-    public CommandsController getCommandsController() {
-        return new CommandsControllerRestImpl(restAgent);
+    public CommandsAPI getCommandsAPI() {
+        return new CommandsAPIRestImpl(restAgent);
     }
 
     @Override
-    public DeviceController getDeviceController() {
-        return new DeviceControllerImpl(restAgent);
+    public DeviceAPI getDeviceAPI() {
+        return new DeviceAPIImpl(restAgent);
     }
 
     @Override
-    public NetworkController getNetworkController() {
-        return new NetworkControllerImpl(restAgent);
+    public NetworkAPI getNetworkAPI() {
+        return new NetworkAPIImpl(restAgent);
     }
 
     @Override
-    public NotificationsController getNotificationsController() {
-        return new NotificationsControllerRestImpl(restAgent);
+    public NotificationsAPI getNotificationsAPI() {
+        return new NotificationsAPIRestImpl(restAgent);
     }
 
     @Override
-    public UserController getUserController() {
-        return new UserControllerImpl(restAgent);
+    public UserAPI getUserAPI() {
+        return new UserAPIImpl(restAgent);
     }
 
     @Override
-    public OAuthClientController getOAuthClientController() {
-        return new OAuthClientControllerImpl(restAgent);
+    public OAuthClientAPI getOAuthClientAPI() {
+        return new OAuthClientAPIImpl(restAgent);
     }
 
     @Override
-    public OAuthGrantController getOAuthGrantController() {
-        return new OAuthGrantControllerImpl(restAgent);
+    public OAuthGrantAPI getOAuthGrantAPI() {
+        return new OAuthGrantAPIImpl(restAgent);
     }
 
     @Override
-    public OAuthTokenController getOAuthTokenController() {
-        return new OAuthTokenControllerImpl(restAgent);
+    public OAuthTokenAPI getOAuthTokenAPI() {
+        return new OAuthTokenAPIImpl(restAgent);
     }
 
     @Override

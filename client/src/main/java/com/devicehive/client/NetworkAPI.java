@@ -10,7 +10,7 @@ import java.util.List;
  * Client side controller for network: <i>/network</i> See <a href="http://www.devicehive.com/restful/#Reference/Network">DeviceHive
  * RESTful API: Network</a> for details. Transport declared in the hive context will be used.
  */
-public interface NetworkController {
+public interface NetworkAPI {
 
     /**
      * Queries list of networks using following criteria: See: <a href="http://www.devicehive.com/restful#Reference/Network/list">DeviceHive

@@ -2,7 +2,7 @@ package com.devicehive.client.model;
 
 import org.apache.commons.lang3.ObjectUtils;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * Represents meta-information about the current API. For more details see <a href="http://www.devicehive.com/restful#Reference/ApiInfo">ApiInfo</a>
@@ -11,7 +11,7 @@ public class ApiInfo implements HiveEntity {
 
     private static final long serialVersionUID = 2607988877048211220L;
     private String apiVersion;
-    private Timestamp serverTimestamp;
+    private Date serverTimestamp;
     private String webSocketServerUrl;
     private String restServerUrl;
 
@@ -26,11 +26,11 @@ public class ApiInfo implements HiveEntity {
         this.apiVersion = apiVersion;
     }
 
-    public Timestamp getServerTimestamp() {
+    public Date getServerTimestamp() {
         return ObjectUtils.cloneIfPossible(serverTimestamp);
     }
 
-    public void setServerTimestamp(Timestamp serverTimestamp) {
+    public void setServerTimestamp(Date serverTimestamp) {
         this.serverTimestamp = ObjectUtils.cloneIfPossible(serverTimestamp);
     }
 

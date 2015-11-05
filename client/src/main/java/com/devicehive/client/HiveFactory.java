@@ -3,10 +3,9 @@ package com.devicehive.client;
 
 import com.devicehive.client.impl.HiveClientRestImpl;
 import com.devicehive.client.impl.HiveClientWebsocketImpl;
-import com.devicehive.client.impl.HiveDeviceRestImpl;
-import com.devicehive.client.impl.HiveDeviceWebsocketImpl;
 import com.devicehive.client.impl.context.RestAgent;
 import com.devicehive.client.impl.context.WebsocketAgent;
+import com.devicehive.client.model.ApiInfo;
 import com.devicehive.client.model.exceptions.HiveException;
 
 import java.net.URI;
@@ -17,38 +16,16 @@ public class HiveFactory {
     }
 
 
-    public static HiveClient createClient(URI restUri,
-                                          boolean preferWebsockets,
-                                          ConnectionLostCallback connectionLostCallback,
-                                          ConnectionRestoredCallback connectionRestoredCallback) throws HiveException {
+    public static HiveClient createClient(URI restUri, boolean preferWebsockets) throws HiveException {
         if (preferWebsockets) {
             return new HiveClientWebsocketImpl(
-                createWebsocketClientAgent(restUri, connectionLostCallback, connectionRestoredCallback));
+                createWebsocketClientAgent(restUri));
         } else {
             return new HiveClientRestImpl(createRestAgent(restUri));
         }
     }
 
-    public static HiveClient createClient(URI restUri, boolean preferWebsockets) throws HiveException {
-        return createClient(restUri, preferWebsockets, null, null);
-    }
 
-
-    public static HiveDevice createDevice(URI restUri,
-                                          boolean preferWebsockets,
-                                          ConnectionLostCallback connectionLostCallback,
-                                          ConnectionRestoredCallback connectionRestoredCallback) throws HiveException {
-        if (preferWebsockets) {
-            return new HiveDeviceWebsocketImpl(
-                createWebsocketDeviceAgent(restUri, connectionLostCallback, connectionRestoredCallback));
-        } else {
-            return new HiveDeviceRestImpl(createRestAgent(restUri));
-        }
-    }
-
-    public static HiveDevice createDevice(URI restUri, boolean preferWebsockets) throws HiveException {
-        return createDevice(restUri, preferWebsockets, null, null);
-    }
 
     private static RestAgent createRestAgent(URI restUri) throws HiveException {
         RestAgent agent = new RestAgent(restUri);
@@ -56,25 +33,21 @@ public class HiveFactory {
         return agent;
     }
 
-    private static WebsocketAgent createWebsocketClientAgent(URI restUri,
-                                                             ConnectionLostCallback connectionLostCallback,
-                                                             ConnectionRestoredCallback connectionRestoredCallback)
+    private static WebsocketAgent createWebsocketClientAgent(URI restUri)
         throws HiveException {
         WebsocketAgent
             agent =
-            new WebsocketAgent(connectionLostCallback, connectionRestoredCallback, restUri, "client");
+            new WebsocketAgent(restUri);
         agent.connect();
         return agent;
     }
 
-    private static WebsocketAgent createWebsocketDeviceAgent(URI restUri,
-                                                             ConnectionLostCallback connectionLostCallback,
-                                                             ConnectionRestoredCallback connectionRestoredCallback)
-        throws HiveException {
-        WebsocketAgent
-            agent =
-            new WebsocketAgent(connectionLostCallback, connectionRestoredCallback, restUri, "device");
-        agent.connect();
-        return agent;
+    public static void main(String... args) throws HiveException {
+        HiveClient hiveClient = createClient(URI.create("http://playground.devicehive.com/api/rest"), false);
+        for (int i = 0; i < 1000; i++) {
+            ApiInfo apiInfo = hiveClient.getInfo();
+            System.out.println(apiInfo.getServerTimestamp());
+        }
+
     }
 }

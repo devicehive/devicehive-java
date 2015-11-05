@@ -3,7 +3,7 @@ package com.devicehive.client.impl;
 
 import com.google.common.reflect.TypeToken;
 
-import com.devicehive.client.NetworkController;
+import com.devicehive.client.NetworkAPI;
 import com.devicehive.client.impl.context.RestAgent;
 import com.devicehive.client.model.Network;
 import com.devicehive.client.model.exceptions.HiveClientException;
@@ -25,12 +25,12 @@ import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.NE
 import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.NETWORK_UPDATE;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
-class NetworkControllerImpl implements NetworkController {
+class NetworkAPIImpl implements NetworkAPI {
 
-    private static final Logger logger = LoggerFactory.getLogger(NetworkControllerImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(NetworkAPIImpl.class);
     private final RestAgent restAgent;
 
-    NetworkControllerImpl(RestAgent restAgent) {
+    NetworkAPIImpl(RestAgent restAgent) {
         this.restAgent = restAgent;
     }
 

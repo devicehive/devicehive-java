@@ -6,13 +6,13 @@ import com.devicehive.client.model.OAuthGrant;
 import com.devicehive.client.model.OAuthType;
 import com.devicehive.client.model.exceptions.HiveException;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Client side controller for OAuth grants. Transport declared in the hive context will be used.
  */
-public interface OAuthGrantController {
+public interface OAuthGrantAPI {
 
     /**
      * Queries OAuth grants
@@ -25,13 +25,13 @@ public interface OAuthGrantController {
      * @param scope         OAuth scope.
      * @param redirectUri   OAuth redirect URI.
      * @param accessType    access type.
-     * @param sortField     Result list sort field. Available values are Timestamp (default).
+     * @param sortField     Result list sort field. Available values are Date (default).
      * @param sortOrder     Result list sort order. Available values are ASC and DESC
      * @param take          Number of records to take
      * @param skip          Number of records to skip
      * @return list of OAuth grants
      */
-    List<OAuthGrant> list(long userId, Timestamp start, Timestamp end, String clientOauthId, OAuthType type,
+    List<OAuthGrant> list(long userId, Date start, Date end, String clientOauthId, OAuthType type,
                           String scope, String redirectUri, AccessType accessType, String sortField, String sortOrder,
                           Integer take, Integer skip) throws HiveException;
 
@@ -45,13 +45,13 @@ public interface OAuthGrantController {
      * @param scope         OAuth scope.
      * @param redirectUri   OAuth redirect URI.
      * @param accessType    access type.
-     * @param sortField     Result list sort field. Available values are Timestamp (default).
+     * @param sortField     Result list sort field. Available values are Date (default).
      * @param sortOrder     Result list sort order. Available values are ASC and DESC
      * @param take          Number of records to take
      * @param skip          Number of records to skip
      * @return list of OAuth grants
      */
-    List<OAuthGrant> list(Timestamp start, Timestamp end, String clientOauthId, OAuthType type,
+    List<OAuthGrant> list(Date start, Date end, String clientOauthId, OAuthType type,
                           String scope, String redirectUri, AccessType accessType, String sortField, String sortOrder,
                           Integer take, Integer skip) throws HiveException;
 

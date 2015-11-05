@@ -1,18 +1,13 @@
 package com.devicehive.client.model;
 
 import com.devicehive.client.impl.json.strategies.JsonPolicyDef;
-
+import com.google.common.base.Optional;
 import org.apache.commons.lang3.ObjectUtils;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Set;
 
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.COMMAND_TO_CLIENT;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.COMMAND_TO_DEVICE;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.USERS_LISTED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.USER_PUBLISHED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.USER_SUBMITTED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.USER_UPDATE;
+import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.*;
 
 /**
  * Represents a user to this API. See <a href="http://www.devicehive.com/restful#Reference/User">User</a>
@@ -24,19 +19,19 @@ public class User implements HiveEntity {
     private Long id;
 
     @JsonPolicyDef({USER_PUBLISHED, USERS_LISTED, USER_UPDATE})
-    private NullableWrapper<String> login;
+    private Optional<String> login;
 
     @JsonPolicyDef({USER_UPDATE})
-    private NullableWrapper<String> password;
+    private Optional<String> password;
 
     @JsonPolicyDef({USER_PUBLISHED, USERS_LISTED, USER_UPDATE})
-    private NullableWrapper<UserRole> role;
+    private Optional<UserRole> role;
 
     @JsonPolicyDef({USER_PUBLISHED, USERS_LISTED, USER_UPDATE})
-    private NullableWrapper<UserStatus> status;
+    private Optional<UserStatus> status;
 
     @JsonPolicyDef({USER_PUBLISHED, USERS_LISTED, USER_SUBMITTED})
-    private Timestamp lastLogin;
+    private Date lastLogin;
 
     @JsonPolicyDef({USER_PUBLISHED})
     private Set<UserNetwork> networks;
@@ -58,7 +53,7 @@ public class User implements HiveEntity {
     }
 
     public void setLogin(String login) {
-        this.login = NullableWrapper.create(login);
+        this.login = Optional.fromNullable(login);
     }
 
     public void removeLogin() {
@@ -70,7 +65,7 @@ public class User implements HiveEntity {
     }
 
     public void setPassword(String password) {
-        this.password = NullableWrapper.create(password);
+        this.password = Optional.fromNullable(password);
     }
 
     public void removePassword() {
@@ -82,7 +77,7 @@ public class User implements HiveEntity {
     }
 
     public void setRole(UserRole role) {
-        this.role = NullableWrapper.create(role);
+        this.role = Optional.fromNullable(role);
     }
 
     public void removeRole() {
@@ -94,18 +89,18 @@ public class User implements HiveEntity {
     }
 
     public void setStatus(UserStatus status) {
-        this.status = NullableWrapper.create(status);
+        this.status = Optional.fromNullable(status);
     }
 
     public void removeStatus() {
         this.status = null;
     }
 
-    public Timestamp getLastLogin() {
+    public Date getLastLogin() {
         return ObjectUtils.cloneIfPossible(lastLogin);
     }
 
-    public void setLastLogin(Timestamp lastLogin) {
+    public void setLastLogin(Date lastLogin) {
         this.lastLogin = ObjectUtils.cloneIfPossible(lastLogin);
     }
 
