@@ -20,7 +20,7 @@ import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.NO
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
 /**
- * Specialization of {@link NotificationsControllerRestImpl} that uses WebSockets transport.
+ * Specialization of {@link NotificationsAPIRestImpl} that uses WebSockets transport.
  */
 class NotificationsAPIWebsocketImpl extends NotificationsAPIRestImpl {
     private static final Logger LOGGER = LoggerFactory.getLogger(NotificationsAPIWebsocketImpl.class);
@@ -28,7 +28,7 @@ class NotificationsAPIWebsocketImpl extends NotificationsAPIRestImpl {
     private final WebsocketAgent websocketAgent;
 
     /**
-     * Initializes the controller with {@link WebsocketAgent} to use for requests.
+     * Initializes the API with {@link WebsocketAgent} to use for requests.
      *
      * @param websocketAgent a WebsoketAgent to use for requests
      */

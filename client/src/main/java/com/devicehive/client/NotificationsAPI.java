@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Client side controller for device notifications: {@code /device/{deviceGuid}/notification}. Transport declared in the
+ * The API for device notifications: {@code /device/{deviceGuid}/notification}. Transport declared in the
  * hive context will be used.
  *
  * @see <a href="http://www.devicehive.com/restful#Reference/DeviceNotification">DeviceHive RESTful API: DeviceNotification</a>

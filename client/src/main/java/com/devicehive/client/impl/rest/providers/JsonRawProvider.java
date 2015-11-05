@@ -1,24 +1,13 @@
 package com.devicehive.client.impl.rest.providers;
 
 
+import com.devicehive.client.impl.json.GsonFactory;
+import com.devicehive.client.impl.util.Messages;
 import com.google.common.base.Charsets;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import com.devicehive.client.impl.json.GsonFactory;
-import com.devicehive.client.impl.util.Messages;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
-import java.nio.charset.Charset;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;

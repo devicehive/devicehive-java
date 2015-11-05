@@ -1,8 +1,6 @@
 package com.devicehive.client.impl;
 
 
-import com.google.common.reflect.TypeToken;
-
 import com.devicehive.client.AccessKeyAPI;
 import com.devicehive.client.impl.context.RestAgent;
 import com.devicehive.client.model.AccessKey;
@@ -20,7 +18,7 @@ import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.*;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
 /**
- * Implementation of {@link AccessKeyController}.
+ * Implementation of {@link AccessKeyAPI}.
  */
 class AccessKeyAPIImpl implements AccessKeyAPI {
     private static final Logger LOGGER = LoggerFactory.getLogger(AccessKeyAPIImpl.class);
@@ -33,7 +31,7 @@ class AccessKeyAPIImpl implements AccessKeyAPI {
     private final RestAgent restAgent;
 
     /**
-     * Initializes a controller with a {@link RestAgent} to use for requests.
+     * Initializes the API with a {@link RestAgent} to use for requests.
      *
      * @param restAgent an instance of {@link RestAgent}
      */

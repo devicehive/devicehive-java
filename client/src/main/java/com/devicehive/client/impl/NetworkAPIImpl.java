@@ -1,8 +1,6 @@
 package com.devicehive.client.impl;
 
 
-import com.google.common.reflect.TypeToken;
-
 import com.devicehive.client.NetworkAPI;
 import com.devicehive.client.impl.context.RestAgent;
 import com.devicehive.client.model.Network;
@@ -22,7 +20,7 @@ import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.*;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
 /**
- * Implementation of {@link NetworkController}.
+ * Implementation of {@link NetworkAPI}.
  */
 class NetworkAPIImpl implements NetworkAPI {
     private static final Logger LOGGER = LoggerFactory.getLogger(NetworkAPIImpl.class);
@@ -33,7 +31,7 @@ class NetworkAPIImpl implements NetworkAPI {
     private final RestAgent restAgent;
 
     /**
-     * Initializes the controller with {@link RestAgent} to use for requests.
+     * Initializes the API with {@link RestAgent} to use for requests.
      *
      * @param restAgent a RestAgent to use for requests
      */

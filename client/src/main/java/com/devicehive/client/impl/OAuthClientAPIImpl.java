@@ -1,8 +1,6 @@
 package com.devicehive.client.impl;
 
 
-import com.google.common.reflect.TypeToken;
-
 import com.devicehive.client.OAuthClientAPI;
 import com.devicehive.client.impl.context.RestAgent;
 import com.devicehive.client.model.OAuthClient;
@@ -33,7 +31,7 @@ class OAuthClientAPIImpl implements OAuthClientAPI {
     private final RestAgent restAgent;
 
     /**
-     * Initializes the controller with {@link RestAgent} to use for requests.
+     * Initializes the API with {@link RestAgent} to use for requests.
      *
      * @param restAgent a RestAgent to use for requests
      */

@@ -1,10 +1,7 @@
 package com.devicehive.client.impl.context;
 
-import com.devicehive.client.impl.json.GsonFactory;
-import com.google.common.util.concurrent.MoreExecutors;
-import com.google.gson.reflect.TypeToken;
-
 import com.devicehive.client.HiveMessageHandler;
+import com.devicehive.client.impl.json.GsonFactory;
 import com.devicehive.client.impl.json.strategies.JsonPolicyApply;
 import com.devicehive.client.impl.json.strategies.JsonPolicyDef;
 import com.devicehive.client.impl.rest.providers.CollectionProvider;
@@ -16,6 +13,7 @@ import com.devicehive.client.model.exceptions.HiveClientException;
 import com.devicehive.client.model.exceptions.HiveException;
 import com.devicehive.client.model.exceptions.HiveServerException;
 import com.devicehive.client.model.exceptions.InternalHiveClientException;
+import com.google.common.base.Charsets;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.codec.binary.Base64;
@@ -35,16 +33,9 @@ import javax.ws.rs.core.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.net.URI;
-import java.nio.charset.Charset;
-import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -458,7 +449,7 @@ public class RestAgent {
      * @throws HiveException if an error occurs during the request execution
      */
     @SuppressWarnings("unused")
-    public Timestamp getServerTimestamp() throws HiveException {
+    public Date getServerTimestamp() throws HiveException {
         return getInfo().getServerTimestamp();
     }
 
@@ -570,7 +561,7 @@ public class RestAgent {
             final Pair<String, String> principal = hivePrincipal.getPrincipal();
             if (hivePrincipal.isUser()) {
                 final String decodedAuth = principal.getLeft() + ":" + principal.getRight();
-                final String encodedAuth = Base64.encodeBase64String(decodedAuth.getBytes(Constants.CURRENT_CHARSET));
+                final String encodedAuth = Base64.encodeBase64String(decodedAuth.getBytes(Charsets.UTF_8));
                 headers.put(HttpHeaders.AUTHORIZATION, USER_AUTH_SCHEMA + " " + encodedAuth);
 
             } else if (hivePrincipal.isDevice()) {

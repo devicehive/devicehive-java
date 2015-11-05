@@ -2,6 +2,7 @@ package com.devicehive.client;
 
 /**
  * An interface for Device Hive message handlers.
+ *
  * @param <M> a type of a message object
  */
 public interface HiveMessageHandler<M> {

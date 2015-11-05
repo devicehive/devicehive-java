@@ -1,8 +1,6 @@
 package com.devicehive.client.impl;
 
 
-import com.google.common.reflect.TypeToken;
-
 import com.devicehive.client.DeviceAPI;
 import com.devicehive.client.impl.context.RestAgent;
 import com.devicehive.client.model.Device;
@@ -19,30 +17,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.HttpMethod;
-
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.DEVICECLASS_LISTED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.DEVICECLASS_PUBLISHED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.DEVICECLASS_SUBMITTED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.DEVICE_PUBLISHED;
+import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.*;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
 /**
- * Implementation of {@link DeviceController}.
+ * Implementation of {@link DeviceAPI}.
  */
 class DeviceAPIImpl implements DeviceAPI {
     private static final Logger LOGGER = LoggerFactory.getLogger(DeviceAPIImpl.class);
 
     private static final String DEVICES_COLLECTION_PATH = "/device";
     private static final String DEVICE_RESOURCE_PATH = "/device/%s";
-    private static final String DEVICE_EQUIPMENT_RESOURCE_PATH = "/device/%s/equipment";
     private static final String DEVICE_CLASSES_COLLECTION_PATH = "/device/class";
     private static final String DEVICE_CLASS_RESOURCE_PATH = "/device/class/%s";
 
     private final RestAgent restAgent;
 
     /**
-     * Initializes the controller with {@link RestAgent} to use for requests.
+     * Initializes the API with {@link RestAgent} to use for requests.
      *
      * @param restAgent a RestAgent to use for requests
      */

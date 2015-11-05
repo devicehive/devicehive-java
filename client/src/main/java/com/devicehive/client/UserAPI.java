@@ -8,7 +8,7 @@ import com.devicehive.client.model.exceptions.HiveException;
 import java.util.List;
 
 /**
- * Client side controller for user: {@code /user}. Transport declared in the hive context will be used.
+ * The API for user: {@code /user}. Transport declared in the hive context will be used.
  *
  * @see <a href="http://www.devicehive.com/restful/#Reference/User">DeviceHive RESTful API: User</a>
  */

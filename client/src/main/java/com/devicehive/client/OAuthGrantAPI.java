@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Client side controller for OAuth grants. Transport declared in the hive context will be used.
+ * The API for OAuth grants. Transport declared in the hive context will be used.
  *
  * @see <a href="http://devicehive.com/restful/#Reference/OAuthGrant">DeviceHive RESTful API: OAuth Grant</a>
  */

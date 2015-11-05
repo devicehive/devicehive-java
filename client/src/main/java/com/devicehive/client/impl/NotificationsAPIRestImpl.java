@@ -12,6 +12,7 @@ import com.google.common.reflect.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ws.rs.HttpMethod;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +22,7 @@ import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.*;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
 /**
- * Implementation of {@link NotificationsController} that uses REST transport.
+ * Implementation of {@link NotificationsAPI} that uses REST transport.
  */
 class NotificationsAPIRestImpl implements NotificationsAPI {
     private static final Logger LOGGER = LoggerFactory.getLogger(NotificationsAPIRestImpl.class);
@@ -32,7 +33,7 @@ class NotificationsAPIRestImpl implements NotificationsAPI {
     private final RestAgent restAgent;
 
     /**
-     * Initializes the controller with {@link RestAgent} to use for requests.
+     * Initializes the API with {@link RestAgent} to use for requests.
      *
      * @param restAgent a RestAgent to use for requests
      */

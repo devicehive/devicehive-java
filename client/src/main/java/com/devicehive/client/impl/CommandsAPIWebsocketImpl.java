@@ -17,7 +17,7 @@ import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.*;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
 /**
- * Specification of {@link CommandsControllerRestImpl} that uses WebSockets as a transport.
+ * Specialization of {@link CommandsAPIRestImpl} that uses WebSockets as a transport.
  */
 class CommandsAPIWebsocketImpl extends CommandsAPIRestImpl {
     private static Logger LOGGER = LoggerFactory.getLogger(CommandsAPIWebsocketImpl.class);
@@ -28,7 +28,7 @@ class CommandsAPIWebsocketImpl extends CommandsAPIRestImpl {
     private final WebsocketAgent websocketAgent;
 
     /**
-     * Initializes the controller with a {@link WebsocketAgent} to use for requests.
+     * Initializes the API with a {@link WebsocketAgent} to use for requests.
      *
      * @param websocketAgent a websocket agent instance
      */

@@ -1,8 +1,6 @@
 package com.devicehive.client.impl;
 
 
-import com.google.common.reflect.TypeToken;
-
 import com.devicehive.client.OAuthGrantAPI;
 import com.devicehive.client.impl.context.RestAgent;
 import com.devicehive.client.model.AccessType;
@@ -25,7 +23,7 @@ import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.*;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
 /**
- * Implementation of {@link OAuthGrantController}.
+ * Implementation of {@link OAuthGrantAPI}.
  */
 class OAuthGrantAPIImpl implements OAuthGrantAPI {
     private static final Logger LOGGER = LoggerFactory.getLogger(OAuthGrantAPIImpl.class);
@@ -37,7 +35,7 @@ class OAuthGrantAPIImpl implements OAuthGrantAPI {
     private final RestAgent restAgent;
 
     /**
-     * Initializes the controller with {@link RestAgent} to use for requests.
+     * Initializes the API with {@link RestAgent} to use for requests.
      *
      * @param restAgent a RestAgent to use for requests
      */

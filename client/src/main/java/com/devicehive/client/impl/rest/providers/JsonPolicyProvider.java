@@ -1,16 +1,12 @@
 package com.devicehive.client.impl.rest.providers;
 
 
-import com.devicehive.client.model.exceptions.InternalHiveClientException;
-import com.google.common.base.Charsets;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-
 import com.devicehive.client.impl.json.GsonFactory;
 import com.devicehive.client.impl.json.strategies.JsonPolicyApply;
 import com.devicehive.client.impl.json.strategies.JsonPolicyDef;
 import com.devicehive.client.impl.util.Messages;
 import com.devicehive.client.model.exceptions.InternalHiveClientException;
+import com.google.common.base.Charsets;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 

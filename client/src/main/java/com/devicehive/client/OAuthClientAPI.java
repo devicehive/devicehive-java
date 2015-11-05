@@ -7,7 +7,7 @@ import com.devicehive.client.model.exceptions.HiveException;
 import java.util.List;
 
 /**
- * Client side controller for OAuth clients. Transport declared in the hive context will be used.
+ * The API for OAuth clients. Transport declared in the hive context will be used.
  *
  * @see <a href="http://devicehive.com/restful/#Reference/OAuthClient">DeviceHive RESTful API: OAuth Client</a>
  */
