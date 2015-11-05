@@ -9,8 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Client side controller for device commands: {@code /device/{deviceGuid}/command}. Transport declared in the hive
- * context will be used.
+ * The API for device commands: {@code /device/{deviceGuid}/command}. Transport declared in the hive context will be used.
  *
  * @see <a href="http://www.devicehive.com/restful#Reference/DeviceCommand">DeviceHive RESTful API: DeviceCommand</a>
  */
@@ -52,8 +51,8 @@ public interface CommandsAPI {
     /**
      * Insert and send a command to a device with specified identifier.
      *
-     * @param guid    a device identifier
-     * @param command a command to be inserted
+     * @param guid                        a device identifier
+     * @param command                     a command to be inserted
      * @param commandUpdateMessageHandler a handler that gets called every time an update on the command status is
      *                                    received. The handler receives the command with updated status as a parameter
      * @return an inserted {@link DeviceCommand} resource

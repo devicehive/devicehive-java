@@ -8,7 +8,7 @@ import com.devicehive.client.model.exceptions.HiveException;
 import java.util.List;
 
 /**
- * Client side controller for devices: {@code /device} and device classes: {@code device/class}.
+ * The API for devices: {@code /device} and device classes: {@code device/class}.
  *
  * @see <a href="http://www.devicehive.com/restful#Reference/Device">DeviceHive RESTful API: Device</a>
  * @see <a href="http://www.devicehive.com/restful#Reference/DeviceClass">DeviceHive RESTful API: DeviceClass</a>

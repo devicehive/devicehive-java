@@ -1,16 +1,7 @@
 package com.devicehive.client.impl;
 
 
-import com.devicehive.client.AccessKeyAPI;
-import com.devicehive.client.CommandsAPI;
-import com.devicehive.client.DeviceAPI;
-import com.devicehive.client.HiveClient;
-import com.devicehive.client.NetworkAPI;
-import com.devicehive.client.NotificationsAPI;
-import com.devicehive.client.OAuthClientAPI;
-import com.devicehive.client.OAuthGrantAPI;
-import com.devicehive.client.OAuthTokenAPI;
-import com.devicehive.client.UserAPI;
+import com.devicehive.client.*;
 import com.devicehive.client.impl.context.HivePrincipal;
 import com.devicehive.client.impl.context.RestAgent;
 import com.devicehive.client.model.ApiInfo;

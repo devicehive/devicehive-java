@@ -1,9 +1,6 @@
 package com.devicehive.client.impl;
 
 
-import com.google.common.reflect.TypeToken;
-import com.google.gson.JsonObject;
-
 import com.devicehive.client.UserAPI;
 import com.devicehive.client.impl.context.RestAgent;
 import com.devicehive.client.model.User;
@@ -25,7 +22,7 @@ import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.*;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
 /**
- * Implementation of {@link UserController}.
+ * Implementation of {@link UserAPI}.
  */
 class UserAPIImpl implements UserAPI {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserAPIImpl.class);
@@ -38,7 +35,7 @@ class UserAPIImpl implements UserAPI {
     private final RestAgent restAgent;
 
     /**
-     * Initializes the controller with {@link RestAgent} to use for requests.
+     * Initializes the API with {@link RestAgent} to use for requests.
      *
      * @param restAgent a RestAgent to use for requests
      */

@@ -4,6 +4,9 @@ package com.devicehive.client;
 import com.devicehive.client.model.AccessToken;
 import com.devicehive.client.model.exceptions.HiveException;
 
+/**
+ * The API for obtaining an OAuth access token.
+ */
 public interface OAuthTokenAPI {
 
     /**

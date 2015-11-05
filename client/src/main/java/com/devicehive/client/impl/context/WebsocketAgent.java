@@ -1,11 +1,5 @@
 package com.devicehive.client.impl.context;
 
-import com.google.common.util.concurrent.SettableFuture;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSyntaxException;
-
 import com.devicehive.client.HiveMessageHandler;
 import com.devicehive.client.impl.json.GsonFactory;
 import com.devicehive.client.impl.json.strategies.JsonPolicyDef;
@@ -329,7 +323,7 @@ public class WebsocketAgent extends RestAgent {
                     headers.put("Origin", Collections.singletonList("device://" + hostname));
                 }
             });
-            clientManager.connectToServer(endpoint, configBuilder.build(), wsUri);
+            CLIENT_MANAGER.connectToServer(endpoint, configBuilder.build(), wsUri);
         } catch (IOException | DeploymentException e) {
             throw new HiveException("Cannot connect to websockets", e);
         }
@@ -348,27 +342,6 @@ public class WebsocketAgent extends RestAgent {
             LOGGER.error("Error closing websocket session", e);
         }
         super.doDisconnect();
-    }
-
-    private ClientManager createClient() {
-        final ClientManager client = ClientManager.createClient();
-        final ClientManager.ReconnectHandler reconnectHandler = new ClientManager.ReconnectHandler() {
-            @Override
-            public boolean onDisconnect(CloseReason closeReason) {
-                final boolean lost = CloseReason.CloseCodes.NORMAL_CLOSURE != closeReason.getCloseCode();
-                if (lost && WebsocketAgent.this.connectionLostCallback != null) {
-                    connectionStateExecutor.submit(new Runnable() {
-                        @Override
-                        public void run() {
-                            connectionLostCallback.connectionLost();
-                        }
-                    });
-                }
-                return lost;
-            }
-        };
-        client.getProperties().put(ClientProperties.RECONNECT_HANDLER, reconnectHandler);
-        return client;
     }
 
     private void resubscribe() throws HiveException {
@@ -527,24 +500,6 @@ public class WebsocketAgent extends RestAgent {
         request.addProperty(ACTION_MEMBER, "notification/subscribe");
         request.add("filter", gson.toJsonTree(filter));
         return sendMessage(request, SUBSCRIPTION_ID, String.class, null);
-    }
-
-    /**
-     * A {@link WebsocketAgent} role.
-     */
-    public enum Role {
-        CLIENT("client"),
-        DEVICE("device");
-
-        private String role;
-
-        Role(String role) {
-            this.role = role;
-        }
-
-        public String getRole() {
-            return role;
-        }
     }
 
     private final class EndpointFactory {

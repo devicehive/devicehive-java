@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Implementation of {@link OAuthTokenController}.
+ * Implementation of {@link OAuthTokenAPI}.
  */
 class OAuthTokenAPIImpl implements OAuthTokenAPI {
     private static final Logger LOGGER = LoggerFactory.getLogger(OAuthTokenAPIImpl.class);
@@ -21,7 +21,7 @@ class OAuthTokenAPIImpl implements OAuthTokenAPI {
     private final RestAgent restAgent;
 
     /**
-     * Initializes the controller with {@link RestAgent} to use for requests.
+     * Initializes the API with {@link RestAgent} to use for requests.
      *
      * @param restAgent a RestAgent to use for requests
      */

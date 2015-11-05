@@ -3,13 +3,12 @@ package com.devicehive.client.model;
 import com.devicehive.client.impl.json.strategies.JsonPolicyDef;
 import com.google.common.base.Optional;
 
-import java.util.Set;
-
 import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.*;
 
 /**
- * Represents a device, a unit that runs microcode and communicates to this API. For more details see <a
- * href="http://www.devicehive.com/restful#Reference/Device">Device</a>
+ * Represents a device, a unit that runs microcode and communicates to this API.
+ *
+ * @see <a href="http://www.devicehive.com/restful#Reference/Device">Device</a>
  */
 public class Device implements HiveEntity {
 

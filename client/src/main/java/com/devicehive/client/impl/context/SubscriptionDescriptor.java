@@ -6,7 +6,6 @@ import com.devicehive.client.model.SubscriptionFilter;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.Date;
-import java.util.Date;
 
 /**
  * Stores a subscription filter and an associated message handler.

@@ -7,8 +7,7 @@ import com.devicehive.client.model.exceptions.HiveException;
 import java.util.List;
 
 /**
- * Client side controller for access keys: {@code /user/{userId}/accesskey}. Transport declared in the hive context
- * will be used.
+ * The API for access keys: {@code /user/{userId}/accesskey}. Transport declared in the hive context will be used.
  *
  * @see <a href="http://www.devicehive.com/restful/#Reference/AccessKey">DeviceHive RESTful API: AccessKey</a>
  */

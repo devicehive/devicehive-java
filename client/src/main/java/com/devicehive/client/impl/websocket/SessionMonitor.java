@@ -1,6 +1,6 @@
 package com.devicehive.client.impl.websocket;
 
-import com.devicehive.client.impl.Constants;
+import com.google.common.base.Charsets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,8 +69,7 @@ public class SessionMonitor {
             public void run() {
                 try {
                     Thread.currentThread().setName("pings_sender");
-                    userSession.getAsyncRemote().sendPing(
-                        ByteBuffer.wrap(PING_MESSAGE.getBytes(Constants.CURRENT_CHARSET)));
+                    userSession.getAsyncRemote().sendPing(ByteBuffer.wrap(PING_MESSAGE.getBytes(Charsets.UTF_8)));
                 } catch (IOException ioe) {
                     LOGGER.warn("Unable to send ping", ioe);
                 }

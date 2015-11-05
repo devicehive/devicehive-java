@@ -1,8 +1,6 @@
 package com.devicehive.client.impl;
 
 
-import com.google.common.reflect.TypeToken;
-
 import com.devicehive.client.CommandsAPI;
 import com.devicehive.client.HiveMessageHandler;
 import com.devicehive.client.impl.context.RestAgent;
@@ -14,6 +12,7 @@ import com.google.common.reflect.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ws.rs.HttpMethod;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +22,7 @@ import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.*;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
 /**
- * Implementation of {@link CommandsController} that uses REST transport.
+ * Implementation of {@link CommandsAPI} that uses REST transport.
  */
 class CommandsAPIRestImpl implements CommandsAPI {
     private static Logger LOGGER = LoggerFactory.getLogger(CommandsAPIRestImpl.class);
@@ -34,7 +33,7 @@ class CommandsAPIRestImpl implements CommandsAPI {
     private final RestAgent restAgent;
 
     /**
-     * Initializes a controller with a {@link RestAgent} to use for requests.
+     * Initializes the API with a {@link RestAgent} to use for requests.
      *
      * @param restAgent an instance of {@link RestAgent}
      */
