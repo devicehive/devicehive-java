@@ -3,16 +3,16 @@ package com.devicehive.client.model;
 
 import org.apache.commons.lang3.ObjectUtils;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Set;
 
-public class SubscriptionFilter {
+public class SubscriptionFilter implements Cloneable {
 
     private final Set<String> uuids;
     private final Set<String> names;
-    private volatile Timestamp timestamp;
+    private volatile Date timestamp;
 
-    public SubscriptionFilter(Set<String> uuids, Set<String> names, Timestamp timestamp) {
+    public SubscriptionFilter(Set<String> uuids, Set<String> names, Date timestamp) {
         this.uuids = ObjectUtils.cloneIfPossible(uuids);
         this.names = ObjectUtils.cloneIfPossible(names);
         this.timestamp = ObjectUtils.cloneIfPossible(timestamp);
@@ -26,11 +26,11 @@ public class SubscriptionFilter {
         return ObjectUtils.cloneIfPossible(names);
     }
 
-    public Timestamp getTimestamp() {
+    public Date getTimestamp() {
         return ObjectUtils.cloneIfPossible(timestamp);
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = ObjectUtils.cloneIfPossible(timestamp);
     }
 }

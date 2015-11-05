@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Client side controller for OAuth clients. Transport declared in the hive context will be used.
  */
-public interface OAuthClientController {
+public interface OAuthClientAPI {
 
     /**
      * Queries OAuth clients.

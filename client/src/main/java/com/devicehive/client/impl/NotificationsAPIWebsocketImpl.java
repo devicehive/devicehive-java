@@ -21,12 +21,12 @@ import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.NO
 import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.NOTIFICATION_TO_DEVICE;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
-class NotificationsControllerWebsocketImpl extends NotificationsControllerRestImpl {
+class NotificationsAPIWebsocketImpl extends NotificationsAPIRestImpl {
 
-    private static final Logger logger = LoggerFactory.getLogger(NotificationsControllerWebsocketImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(NotificationsAPIWebsocketImpl.class);
     private final WebsocketAgent websocketAgent;
 
-    NotificationsControllerWebsocketImpl(WebsocketAgent websocketAgent) {
+    NotificationsAPIWebsocketImpl(WebsocketAgent websocketAgent) {
         super(websocketAgent);
         this.websocketAgent = websocketAgent;
     }

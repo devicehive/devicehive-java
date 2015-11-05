@@ -2,15 +2,12 @@ package com.devicehive.client.model;
 
 
 import com.devicehive.client.impl.json.strategies.JsonPolicyDef;
+import com.google.common.base.Optional;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Set;
 
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.ACCESS_KEY_LISTED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.ACCESS_KEY_PUBLISHED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.ACCESS_KEY_SUBMITTED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.OAUTH_GRANT_LISTED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.OAUTH_GRANT_SUBMITTED_TOKEN;
+import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.*;
 
 /**
  * Represents an access key to this API. For more details see <a href="http://www.devicehive.com/restful#Reference/AccessKey">AccessKey</a>
@@ -23,16 +20,16 @@ public class AccessKey implements HiveEntity {
     private Long id;
 
     @JsonPolicyDef({ACCESS_KEY_LISTED, ACCESS_KEY_SUBMITTED, OAUTH_GRANT_SUBMITTED_TOKEN, OAUTH_GRANT_LISTED})
-    private NullableWrapper<String> key;
+    private Optional<String> key;
 
     @JsonPolicyDef({ACCESS_KEY_LISTED, ACCESS_KEY_PUBLISHED, OAUTH_GRANT_LISTED})
-    private NullableWrapper<String> label;
+    private Optional<String> label;
 
     @JsonPolicyDef({ACCESS_KEY_LISTED, ACCESS_KEY_PUBLISHED, OAUTH_GRANT_LISTED})
-    private NullableWrapper<Timestamp> expirationDate;
+    private Optional<Date> expirationDate;
 
     @JsonPolicyDef({ACCESS_KEY_LISTED, ACCESS_KEY_PUBLISHED, OAUTH_GRANT_LISTED})
-    private NullableWrapper<Set<AccessKeyPermission>> permissions;
+    private Optional<Set<AccessKeyPermission>> permissions;
 
     public Long getId() {
         return id;
@@ -47,19 +44,19 @@ public class AccessKey implements HiveEntity {
     }
 
     public void setLabel(String label) {
-        this.label = NullableWrapper.create(label);
+        this.label = Optional.fromNullable(label);
     }
 
     public void removeLabel(String label) {
         this.label = null;
     }
 
-    public Timestamp getExpirationDate() {
+    public Date getExpirationDate() {
         return NullableWrapper.value(expirationDate);
     }
 
-    public void setExpirationDate(Timestamp expirationDate) {
-        this.expirationDate = NullableWrapper.create(expirationDate);
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = Optional.fromNullable(expirationDate);
     }
 
     public Set<AccessKeyPermission> getPermissions() {
@@ -67,7 +64,7 @@ public class AccessKey implements HiveEntity {
     }
 
     public void setPermissions(Set<AccessKeyPermission> permissions) {
-        this.permissions = NullableWrapper.create(permissions);
+        this.permissions = Optional.fromNullable(permissions);
     }
 
     public void removePermissions() {
@@ -79,7 +76,7 @@ public class AccessKey implements HiveEntity {
     }
 
     public void setKey(String key) {
-        this.key = new NullableWrapper<>(key);
+        this.key = Optional.fromNullable(key);
     }
 
     public void removeKey() {

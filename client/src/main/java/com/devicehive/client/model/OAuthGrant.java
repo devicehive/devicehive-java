@@ -1,22 +1,18 @@
 package com.devicehive.client.model;
 
+import com.devicehive.client.impl.json.strategies.JsonPolicyDef;
+import com.google.common.base.Optional;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonParser;
-
-import com.devicehive.client.impl.json.strategies.JsonPolicyDef;
-
 import org.apache.commons.lang3.ObjectUtils;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.OAUTH_GRANT_LISTED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.OAUTH_GRANT_PUBLISHED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.OAUTH_GRANT_SUBMITTED_CODE;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.OAUTH_GRANT_SUBMITTED_TOKEN;
+import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.*;
 
 /**
  * Represents an OAuth permission grant. See <a href="http://www.devicehive.com/restful#Reference/OAuthGrant">OAuthGrant</a>
@@ -29,31 +25,31 @@ public class OAuthGrant implements HiveEntity {
     private Long id;
 
     @JsonPolicyDef({OAUTH_GRANT_LISTED, OAUTH_GRANT_SUBMITTED_TOKEN, OAUTH_GRANT_SUBMITTED_CODE})
-    private NullableWrapper<Timestamp> timestamp;
+    private Optional<Date> timestamp;
 
     @JsonPolicyDef({OAUTH_GRANT_LISTED, OAUTH_GRANT_SUBMITTED_CODE})
-    private NullableWrapper<String> authCode;
+    private Optional<String> authCode;
 
     @JsonPolicyDef({OAUTH_GRANT_LISTED, OAUTH_GRANT_PUBLISHED})
-    private NullableWrapper<OAuthClient> client;
+    private Optional<OAuthClient> client;
 
     @JsonPolicyDef({OAUTH_GRANT_LISTED, OAUTH_GRANT_SUBMITTED_TOKEN})
-    private NullableWrapper<AccessKey> accessKey;
+    private Optional<AccessKey> accessKey;
 
     @JsonPolicyDef({OAUTH_GRANT_LISTED, OAUTH_GRANT_PUBLISHED})
-    private NullableWrapper<OAuthType> type;
+    private Optional<OAuthType> type;
 
     @JsonPolicyDef({OAUTH_GRANT_LISTED, OAUTH_GRANT_PUBLISHED})
-    private NullableWrapper<AccessType> accessType;
+    private Optional<AccessType> accessType;
 
     @JsonPolicyDef({OAUTH_GRANT_LISTED, OAUTH_GRANT_PUBLISHED})
-    private NullableWrapper<String> redirectUri;
+    private Optional<String> redirectUri;
 
     @JsonPolicyDef({OAUTH_GRANT_LISTED, OAUTH_GRANT_PUBLISHED})
-    private NullableWrapper<String> scope;
+    private Optional<String> scope;
 
     @JsonPolicyDef({OAUTH_GRANT_LISTED, OAUTH_GRANT_PUBLISHED})
-    private NullableWrapper<JsonStringWrapper> networkIds;
+    private Optional<JsonStringWrapper> networkIds;
 
     public Long getId() {
         return id;
@@ -63,12 +59,12 @@ public class OAuthGrant implements HiveEntity {
         this.id = id;
     }
 
-    public Timestamp getTimestamp() {
-        return ObjectUtils.cloneIfPossible(timestamp.getValue());
+    public Date getTimestamp() {
+        return ObjectUtils.cloneIfPossible(timestamp.get());
     }
 
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp.setValue(ObjectUtils.cloneIfPossible(timestamp));
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = Optional.fromNullable(ObjectUtils.cloneIfPossible(timestamp));
     }
 
     public String getAuthCode() {
@@ -76,7 +72,7 @@ public class OAuthGrant implements HiveEntity {
     }
 
     public void setAuthCode(String authCode) {
-        this.authCode = NullableWrapper.create(authCode);
+        this.authCode =Optional.fromNullable(authCode);
     }
 
     public OAuthClient getClient() {
@@ -84,7 +80,7 @@ public class OAuthGrant implements HiveEntity {
     }
 
     public void setClient(OAuthClient client) {
-        this.client = NullableWrapper.create(client);
+        this.client = Optional.fromNullable(client);
     }
 
     public AccessKey getAccessKey() {
@@ -92,7 +88,7 @@ public class OAuthGrant implements HiveEntity {
     }
 
     public void setAccessKey(AccessKey accessKey) {
-        this.accessKey = NullableWrapper.create(accessKey);
+        this.accessKey = Optional.fromNullable(accessKey);
     }
 
     public OAuthType getType() {
@@ -100,7 +96,7 @@ public class OAuthGrant implements HiveEntity {
     }
 
     public void setType(OAuthType oauthType) {
-        this.type = NullableWrapper.create(oauthType);
+        this.type = Optional.fromNullable(oauthType);
     }
 
     public AccessType getAccessType() {
@@ -108,7 +104,7 @@ public class OAuthGrant implements HiveEntity {
     }
 
     public void setAccessType(AccessType accessType) {
-        this.accessType = NullableWrapper.create(accessType);
+        this.accessType = Optional.fromNullable(accessType);
     }
 
     public String getRedirectUri() {
@@ -116,7 +112,7 @@ public class OAuthGrant implements HiveEntity {
     }
 
     public void setRedirectUri(String redirectUri) {
-        this.redirectUri = NullableWrapper.create(redirectUri);
+        this.redirectUri = Optional.fromNullable(redirectUri);
     }
 
     public String getScope() {
@@ -124,7 +120,7 @@ public class OAuthGrant implements HiveEntity {
     }
 
     public void setScope(String scope) {
-        this.scope = NullableWrapper.create(scope);
+        this.scope = Optional.fromNullable(scope);
     }
 
     public JsonStringWrapper getNetworkIds() {
@@ -132,7 +128,7 @@ public class OAuthGrant implements HiveEntity {
     }
 
     public void setNetworkIds(JsonStringWrapper networkIds) {
-        this.networkIds = NullableWrapper.create(networkIds);
+        this.networkIds = Optional.fromNullable(networkIds);
     }
 
     public Set<Long> getNetworkIdsAsSet() {
@@ -140,7 +136,7 @@ public class OAuthGrant implements HiveEntity {
             return null;
         }
         JsonParser parser = new JsonParser();
-        JsonElement elem = parser.parse(networkIds.getValue().getJsonString());
+        JsonElement elem = parser.parse(networkIds.get().getJsonString());
         if (elem instanceof JsonNull) {
             return null;
         }

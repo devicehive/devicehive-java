@@ -2,18 +2,12 @@ package com.devicehive.client.model;
 
 
 import com.devicehive.client.impl.json.strategies.JsonPolicyDef;
-
+import com.google.common.base.Optional;
 import org.apache.commons.lang3.ObjectUtils;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.COMMAND_FROM_CLIENT;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.COMMAND_LISTED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.COMMAND_TO_CLIENT;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.COMMAND_TO_DEVICE;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.COMMAND_UPDATE_FROM_DEVICE;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.COMMAND_UPDATE_TO_CLIENT;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.POST_COMMAND_TO_DEVICE;
+import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.*;
 
 /**
  * Represents a device command, a unit of information sent to devices. For more details see <a
@@ -28,7 +22,7 @@ public class DeviceCommand implements HiveMessage {
 
     @JsonPolicyDef(
         {COMMAND_TO_CLIENT, COMMAND_TO_DEVICE, COMMAND_UPDATE_TO_CLIENT, POST_COMMAND_TO_DEVICE, COMMAND_LISTED})
-    private Timestamp timestamp;
+    private Date timestamp;
 
     @JsonPolicyDef({COMMAND_TO_CLIENT, COMMAND_TO_DEVICE, COMMAND_UPDATE_TO_CLIENT, COMMAND_LISTED})
     private Long userId;
@@ -45,15 +39,15 @@ public class DeviceCommand implements HiveMessage {
     private Integer lifetime;
 
     @JsonPolicyDef({COMMAND_FROM_CLIENT, COMMAND_UPDATE_TO_CLIENT, COMMAND_UPDATE_FROM_DEVICE, COMMAND_LISTED})
-    private NullableWrapper<Integer> flags;
+    private Optional<Integer> flags;
 
     @JsonPolicyDef({COMMAND_FROM_CLIENT, COMMAND_TO_DEVICE, COMMAND_UPDATE_TO_CLIENT, COMMAND_UPDATE_FROM_DEVICE,
                     POST_COMMAND_TO_DEVICE, COMMAND_LISTED})
-    private NullableWrapper<String> status;
+    private Optional<String> status;
 
     @JsonPolicyDef({COMMAND_FROM_CLIENT, COMMAND_TO_DEVICE, COMMAND_UPDATE_TO_CLIENT, COMMAND_UPDATE_FROM_DEVICE,
                     POST_COMMAND_TO_DEVICE, COMMAND_LISTED})
-    private NullableWrapper<JsonStringWrapper> result;
+    private Optional<JsonStringWrapper> result;
 
 
     public DeviceCommand() {
@@ -67,11 +61,11 @@ public class DeviceCommand implements HiveMessage {
         this.id = id;
     }
 
-    public Timestamp getTimestamp() {
+    public Date getTimestamp() {
         return ObjectUtils.cloneIfPossible(timestamp);
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = ObjectUtils.cloneIfPossible(timestamp);
     }
 
@@ -112,7 +106,7 @@ public class DeviceCommand implements HiveMessage {
     }
 
     public void setFlags(Integer flags) {
-        this.flags = NullableWrapper.create(flags);
+        this.flags = Optional.fromNullable(flags);
     }
 
     public void removeFlags() {
@@ -124,7 +118,7 @@ public class DeviceCommand implements HiveMessage {
     }
 
     public void setStatus(String status) {
-        this.status = NullableWrapper.create(status);
+        this.status = Optional.fromNullable(status);
     }
 
     public void removeStatus() {
@@ -136,7 +130,7 @@ public class DeviceCommand implements HiveMessage {
     }
 
     public void setResult(JsonStringWrapper result) {
-        this.result = NullableWrapper.create(result);
+        this.result = Optional.fromNullable(result);
     }
 
     public void removeResult() {

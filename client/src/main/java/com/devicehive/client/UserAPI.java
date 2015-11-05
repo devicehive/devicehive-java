@@ -11,7 +11,7 @@ import java.util.List;
  * Client side controller for user: <i>/user</i> See <a href="http://www.devicehive.com/restful/#Reference/User">DeviceHive
  * RESTful API: User</a> for details. Transport declared in the hive context will be used.
  */
-public interface UserController {
+public interface UserAPI {
 
     /**
      * Queries list of users using following criteria: See: <a href="http://www.devicehive.com/restful#Reference/User/listt">DeviceHive

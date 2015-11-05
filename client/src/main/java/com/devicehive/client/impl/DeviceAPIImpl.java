@@ -3,11 +3,10 @@ package com.devicehive.client.impl;
 
 import com.google.common.reflect.TypeToken;
 
-import com.devicehive.client.DeviceController;
+import com.devicehive.client.DeviceAPI;
 import com.devicehive.client.impl.context.RestAgent;
 import com.devicehive.client.model.Device;
 import com.devicehive.client.model.DeviceClass;
-import com.devicehive.client.model.DeviceEquipment;
 import com.devicehive.client.model.exceptions.HiveClientException;
 import com.devicehive.client.model.exceptions.HiveException;
 
@@ -24,16 +23,15 @@ import javax.ws.rs.HttpMethod;
 import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.DEVICECLASS_LISTED;
 import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.DEVICECLASS_PUBLISHED;
 import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.DEVICECLASS_SUBMITTED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.DEVICE_EQUIPMENT_SUBMITTED;
 import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.DEVICE_PUBLISHED;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
-class DeviceControllerImpl implements DeviceController {
+class DeviceAPIImpl implements DeviceAPI {
 
-    private static final Logger logger = LoggerFactory.getLogger(DeviceControllerImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(DeviceAPIImpl.class);
     private final RestAgent restAgent;
 
-    DeviceControllerImpl(RestAgent restAgent) {
+    DeviceAPIImpl(RestAgent restAgent) {
         this.restAgent = restAgent;
     }
 
@@ -126,18 +124,6 @@ class DeviceControllerImpl implements DeviceController {
         logger.debug("Device: delete request proceed successfully for device with id {}", deviceId);
     }
 
-    @Override
-    public List<DeviceEquipment> getDeviceEquipment(String deviceId) throws HiveException {
-        logger.debug("Device: equipment requested for device with id {}", deviceId);
-        String path = "/device/" + deviceId + "/equipment";
-        Type type = new TypeToken<List<DeviceEquipment>>() {
-            private static final long serialVersionUID = 2607988877048211222L;
-        }.getType();
-        List<DeviceEquipment> result = restAgent
-            .execute(path, HttpMethod.GET, null, null, null, type, null, DEVICE_EQUIPMENT_SUBMITTED);
-        logger.debug("Device: equipment request proceed successfully for device with id {}", deviceId);
-        return result;
-    }
 
     //for device classes
     @Override

@@ -1,12 +1,12 @@
 package com.devicehive.client.impl.rest.providers;
 
 
+import com.google.common.base.Charsets;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import com.devicehive.client.impl.Constants;
 import com.devicehive.client.impl.json.GsonFactory;
 import com.devicehive.client.impl.util.Messages;
 
@@ -45,7 +45,7 @@ public class JsonRawProvider implements MessageBodyWriter<JsonObject>, MessageBo
                                MultivaluedMap<String, String> httpHeaders, InputStream entityStream)
         throws IOException, WebApplicationException {
         JsonElement element = new JsonParser().parse(new InputStreamReader(entityStream,
-                                                                           Charset.forName(Constants.CURRENT_CHARSET)));
+                Charsets.UTF_8));
         if (element.isJsonObject()) {
             return element.getAsJsonObject();
         }
@@ -71,7 +71,7 @@ public class JsonRawProvider implements MessageBodyWriter<JsonObject>, MessageBo
         Gson gson = GsonFactory.createGson();
         Writer writer = null;
         try {
-            writer = new OutputStreamWriter(entityStream, Charset.forName(Constants.CURRENT_CHARSET));
+            writer = new OutputStreamWriter(entityStream, Charsets.UTF_8);
             gson.toJson(jsonObject, writer);
         } finally {
             if (writer != null) {

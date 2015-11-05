@@ -1,10 +1,10 @@
 package com.devicehive.client.impl.context;
 
+import com.devicehive.client.impl.json.GsonFactory;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gson.reflect.TypeToken;
 
 import com.devicehive.client.HiveMessageHandler;
-import com.devicehive.client.impl.json.adapters.TimestampAdapter;
 import com.devicehive.client.impl.json.strategies.JsonPolicyApply;
 import com.devicehive.client.impl.json.strategies.JsonPolicyDef;
 import com.devicehive.client.impl.rest.providers.CollectionProvider;
@@ -33,11 +33,9 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.nio.charset.Charset;
-import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutorService;
@@ -364,8 +362,8 @@ public class RestAgent {
         WebTarget target = restClient.target(restUri).path(path);
         if (queryParams != null) {
             for (final Map.Entry<String, Object> entry : queryParams.entrySet()) {
-                final Object value = entry.getValue() instanceof Timestamp
-                               ? TimestampAdapter.formatTimestamp((Timestamp) entry.getValue())
+                final Object value = entry.getValue() instanceof Date
+                               ? new SimpleDateFormat(GsonFactory.TIMESTAMP_FORMAT)
                                : entry.getValue();
                 target = target.queryParam(entry.getKey(), value);
             }
@@ -460,7 +458,7 @@ public class RestAgent {
                             descriptor.handleMessage(response.getCommand());
                         }
                         if (!responses.isEmpty()) {
-                            final Timestamp newTimestamp = responses.get(responses.size() - 1).getCommand().getTimestamp();
+                            final Date newTimestamp = responses.get(responses.size() - 1).getCommand().getTimestamp();
                             params.put(TIMESTAMP, newTimestamp);
                         }
                     }
@@ -506,7 +504,7 @@ public class RestAgent {
                             descriptor.handleMessage(response);
                         }
                         if (!responses.isEmpty()) {
-                            final Timestamp newTimestamp = responses.get(responses.size() - 1).getTimestamp();
+                            final Date newTimestamp = responses.get(responses.size() - 1).getTimestamp();
                             params.put(TIMESTAMP, newTimestamp);
                         }
                     }
@@ -599,7 +597,7 @@ public class RestAgent {
                             descriptor.handleMessage(response.getNotification());
                         }
                         if (!responses.isEmpty()) {
-                            final Timestamp newTimestamp = responses.get(responses.size() - 1).getNotification().getTimestamp();
+                            final Date newTimestamp = responses.get(responses.size() - 1).getNotification().getTimestamp();
                             params.put(TIMESTAMP, newTimestamp);
                         }
                     }
@@ -639,7 +637,7 @@ public class RestAgent {
     }
 
     @SuppressWarnings("unused")
-    public Timestamp getServerTimestamp() throws HiveException {
+    public Date getServerTimestamp() throws HiveException {
         return getInfo().getServerTimestamp();
     }
 

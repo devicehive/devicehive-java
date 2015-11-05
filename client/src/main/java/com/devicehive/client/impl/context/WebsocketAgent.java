@@ -6,8 +6,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSyntaxException;
 
-import com.devicehive.client.ConnectionLostCallback;
-import com.devicehive.client.ConnectionRestoredCallback;
 import com.devicehive.client.HiveMessageHandler;
 import com.devicehive.client.impl.json.GsonFactory;
 import com.devicehive.client.impl.json.strategies.JsonPolicyDef;
@@ -25,7 +23,6 @@ import com.devicehive.client.model.exceptions.HiveServerException;
 import com.devicehive.client.model.exceptions.InternalHiveClientException;
 
 import org.glassfish.tyrus.client.ClientManager;
-import org.glassfish.tyrus.client.ClientProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,6 +67,7 @@ import static javax.ws.rs.core.Response.Status.SERVICE_UNAVAILABLE;
 
 public class WebsocketAgent extends RestAgent {
     private static final Logger logger = LoggerFactory.getLogger(WebsocketAgent.class);
+    private static final ClientManager clientManager = ClientManager.createClient();
 
     private static final String REQUEST_ID_MEMBER = "requestId";
     private static final String EXPECTED_RESPONSE_STATUS = "success";
@@ -77,8 +75,6 @@ public class WebsocketAgent extends RestAgent {
     private static final String STATUS = "status";
     private static final String CODE = "code";
     private static final String ERROR = "error";
-
-    private final String role;
 
     private final ConcurrentMap<String, String> serverToLocalSubIdMap = new ConcurrentHashMap<>();
     private final ConcurrentMap<Long, HiveMessageHandler<DeviceCommand>> commandUpdatesHandlerStorage =
@@ -89,45 +85,10 @@ public class WebsocketAgent extends RestAgent {
     private Session currentSession;
 
     private final ExecutorService connectionStateExecutor = Executors.newSingleThreadExecutor();
-    private final ConnectionLostCallback connectionLostCallback;
-    private final ConnectionRestoredCallback connectionRestoredCallback;
 
-    public WebsocketAgent(final ConnectionLostCallback connectionLostCallback,
-                          final ConnectionRestoredCallback connectionRestoredCallback,
-                          final URI restUri, final String role) {
+    public WebsocketAgent(final URI restUri) {
         super(restUri);
-        this.connectionLostCallback = connectionLostCallback;
-        this.connectionRestoredCallback = connectionRestoredCallback;
-        this.role = role;
         this.endpoint = new EndpointFactory().createEndpoint();
-    }
-
-    private ClientManager createClient() {
-        final ClientManager client = ClientManager.createClient();
-        final ClientManager.ReconnectHandler reconnectHandler = new ClientManager.ReconnectHandler() {
-            @Override
-            public boolean onDisconnect(CloseReason closeReason) {
-                final boolean lost = CloseReason.CloseCodes.NORMAL_CLOSURE != closeReason.getCloseCode();
-                if (lost) {
-                    connectionStateExecutor.submit(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (connectionLostCallback != null) {
-                                connectionLostCallback.connectionLost();
-                            }
-                        }
-                    });
-                }
-                return lost;
-            }
-
-            @Override
-            public boolean onConnectFailure(final Exception exception) {
-                return super.onConnectFailure(exception);
-            }
-        };
-        client.getProperties().put(ClientProperties.RECONNECT_HANDLER, reconnectHandler);
-        return client;
     }
 
     @Override
@@ -137,7 +98,7 @@ public class WebsocketAgent extends RestAgent {
         if (basicUrl == null) {
             throw new HiveException("Can not connect to websockets, endpoint URL is not provided by server");
         }
-        final URI wsUri = URI.create(basicUrl + "/" + role);
+        final URI wsUri = URI.create(basicUrl + "/client");
         try {
             final String hostname = InetAddress.getLocalHost().getHostName();
             Builder configBuilder = ClientEndpointConfig.Builder.create();
@@ -149,7 +110,7 @@ public class WebsocketAgent extends RestAgent {
                     headers.put("Origin", origins);
                 }
             });
-            createClient().connectToServer(endpoint, configBuilder.build(), wsUri);
+            clientManager.connectToServer(endpoint, configBuilder.build(), wsUri);
         } catch (IOException | DeploymentException e) {
             throw new HiveException("Cannot connect to websockets", e);
         }
@@ -504,14 +465,6 @@ public class WebsocketAgent extends RestAgent {
                     if (reconnect) {
                         try {
                             resubscribe();
-                            connectionStateExecutor.submit(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (connectionRestoredCallback != null) {
-                                        connectionRestoredCallback.connectionRestored();
-                                    }
-                                }
-                            });
                         } catch (final HiveException he) {
                             logger.error("Can not restore session context", he);
                             connectionStateExecutor.submit(new Runnable() {

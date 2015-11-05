@@ -3,7 +3,7 @@ package com.devicehive.client.impl;
 
 import com.google.common.reflect.TypeToken;
 
-import com.devicehive.client.AccessKeyController;
+import com.devicehive.client.AccessKeyAPI;
 import com.devicehive.client.impl.context.RestAgent;
 import com.devicehive.client.model.AccessKey;
 import com.devicehive.client.model.exceptions.HiveClientException;
@@ -22,12 +22,12 @@ import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.AC
 import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.ACCESS_KEY_SUBMITTED;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
-class AccessKeyControllerImpl implements AccessKeyController {
+class AccessKeyAPIImpl implements AccessKeyAPI {
 
-    private static final Logger logger = LoggerFactory.getLogger(AccessKeyControllerImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(AccessKeyAPIImpl.class);
     private final RestAgent restAgent;
 
-    AccessKeyControllerImpl(RestAgent restAgent) {
+    AccessKeyAPIImpl(RestAgent restAgent) {
         this.restAgent = restAgent;
     }
 

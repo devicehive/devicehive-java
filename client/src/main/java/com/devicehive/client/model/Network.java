@@ -1,15 +1,9 @@
 package com.devicehive.client.model;
 
 import com.devicehive.client.impl.json.strategies.JsonPolicyDef;
+import com.google.common.base.Optional;
 
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.DEVICE_PUBLISHED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.DEVICE_PUBLISHED_DEVICE_AUTH;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.DEVICE_SUBMITTED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.NETWORKS_LISTED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.NETWORK_PUBLISHED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.NETWORK_SUBMITTED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.NETWORK_UPDATE;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.USER_PUBLISHED;
+import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.*;
 
 /**
  * Represents a network, an isolated area where devices reside. For more details see <a
@@ -24,16 +18,16 @@ public class Network implements HiveEntity {
 
     @JsonPolicyDef(
         {DEVICE_PUBLISHED, DEVICE_SUBMITTED, USER_PUBLISHED, NETWORKS_LISTED, NETWORK_PUBLISHED, NETWORK_UPDATE})
-    private NullableWrapper<String> key;
+    private Optional<String> key;
 
     @JsonPolicyDef(
         {DEVICE_PUBLISHED, DEVICE_SUBMITTED, USER_PUBLISHED, NETWORKS_LISTED, NETWORK_PUBLISHED, NETWORK_UPDATE,
          DEVICE_PUBLISHED_DEVICE_AUTH})
-    private NullableWrapper<String> name;
+    private Optional<String> name;
 
     @JsonPolicyDef({DEVICE_PUBLISHED, DEVICE_SUBMITTED, USER_PUBLISHED, NETWORKS_LISTED, NETWORK_PUBLISHED,
                     NETWORK_UPDATE, DEVICE_PUBLISHED_DEVICE_AUTH})
-    private NullableWrapper<String> description;
+    private Optional<String> description;
 
 
     public Network() {
@@ -52,7 +46,7 @@ public class Network implements HiveEntity {
     }
 
     public void setKey(String key) {
-        this.key = NullableWrapper.create(key);
+        this.key = Optional.fromNullable(key);
     }
 
     public void removeKey() {
@@ -64,7 +58,7 @@ public class Network implements HiveEntity {
     }
 
     public void setName(String name) {
-        this.name = NullableWrapper.create(name);
+        this.name = Optional.fromNullable(name);
     }
 
     public void removeName() {
@@ -76,7 +70,7 @@ public class Network implements HiveEntity {
     }
 
     public void setDescription(String description) {
-        this.description = NullableWrapper.create(description);
+        this.description = Optional.fromNullable(description);
     }
 
     public void removeDescription() {

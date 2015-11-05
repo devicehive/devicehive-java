@@ -1,13 +1,11 @@
 package com.devicehive.client.model;
 
 import com.devicehive.client.impl.json.strategies.JsonPolicyDef;
+import com.google.common.base.Optional;
 
 import java.util.Set;
 
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.DEVICE_PUBLISHED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.DEVICE_PUBLISHED_DEVICE_AUTH;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.DEVICE_SUBMITTED;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.NETWORK_PUBLISHED;
+import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.*;
 
 /**
  * Represents a device, a unit that runs microcode and communicates to this API. For more details see <a
@@ -20,25 +18,23 @@ public class Device implements HiveEntity {
     private String id;
 
     @JsonPolicyDef({DEVICE_SUBMITTED, DEVICE_PUBLISHED})
-    private NullableWrapper<String> key;
+    private Optional<String> key;
 
     @JsonPolicyDef({DEVICE_PUBLISHED, DEVICE_SUBMITTED, NETWORK_PUBLISHED, DEVICE_PUBLISHED_DEVICE_AUTH})
-    private NullableWrapper<String> name;
+    private Optional<String> name;
 
     @JsonPolicyDef({DEVICE_PUBLISHED, DEVICE_SUBMITTED, NETWORK_PUBLISHED, DEVICE_PUBLISHED_DEVICE_AUTH})
-    private NullableWrapper<String> status;
+    private Optional<String> status;
 
     @JsonPolicyDef({DEVICE_PUBLISHED, DEVICE_SUBMITTED, NETWORK_PUBLISHED, DEVICE_PUBLISHED_DEVICE_AUTH})
-    private NullableWrapper<JsonStringWrapper> data;
+    private Optional<JsonStringWrapper> data;
 
     @JsonPolicyDef({DEVICE_PUBLISHED, DEVICE_SUBMITTED, DEVICE_PUBLISHED_DEVICE_AUTH})
-    private NullableWrapper<Network> network;
+    private Optional<Network> network;
 
     @JsonPolicyDef({DEVICE_PUBLISHED, DEVICE_SUBMITTED, NETWORK_PUBLISHED, DEVICE_PUBLISHED_DEVICE_AUTH})
-    private NullableWrapper<DeviceClass> deviceClass;
+    private Optional<DeviceClass> deviceClass;
 
-    @JsonPolicyDef(DEVICE_PUBLISHED)
-    private NullableWrapper<Set<Equipment>> equipment;
 
     public Device() {
     }
@@ -56,7 +52,7 @@ public class Device implements HiveEntity {
     }
 
     public void setKey(String key) {
-        this.key = NullableWrapper.create(key);
+        this.key = Optional.fromNullable(key);
     }
 
     public void removeKey() {
@@ -68,7 +64,7 @@ public class Device implements HiveEntity {
     }
 
     public void setName(String name) {
-        this.name = NullableWrapper.create(name);
+        this.name = Optional.fromNullable(name);
     }
 
     public void removeName() {
@@ -80,7 +76,7 @@ public class Device implements HiveEntity {
     }
 
     public void setStatus(String status) {
-        this.status = NullableWrapper.create(status);
+        this.status = Optional.fromNullable(status);
     }
 
     public void removeStatus() {
@@ -92,7 +88,7 @@ public class Device implements HiveEntity {
     }
 
     public void setData(JsonStringWrapper data) {
-        this.data = NullableWrapper.create(data);
+        this.data = Optional.fromNullable(data);
     }
 
     public void removeData() {
@@ -104,7 +100,7 @@ public class Device implements HiveEntity {
     }
 
     public void setNetwork(Network network) {
-        this.network = NullableWrapper.create(network);
+        this.network = Optional.fromNullable(network);
     }
 
     public void removeNetwork() {
@@ -116,24 +112,13 @@ public class Device implements HiveEntity {
     }
 
     public void setDeviceClass(DeviceClass deviceClass) {
-        this.deviceClass = NullableWrapper.create(deviceClass);
+        this.deviceClass = Optional.fromNullable(deviceClass);
     }
 
     public void removeDeviceClass() {
         this.deviceClass = null;
     }
 
-    public Set<Equipment> getEquipment() {
-        return NullableWrapper.value(equipment);
-    }
-
-    public void setEquipment(Set<Equipment> equipment) {
-        this.equipment = NullableWrapper.create(equipment);
-    }
-
-    public void removeEquipment() {
-        this.equipment = null;
-    }
 
     @Override
     public String toString() {
@@ -143,7 +128,6 @@ public class Device implements HiveEntity {
         sb.append(", data=").append(data);
         sb.append(", network=").append(network);
         sb.append(", deviceClass=").append(deviceClass);
-        sb.append(", equipment=").append(equipment);
         sb.append(", id='").append(id).append('\'');
         sb.append('}');
         return sb.toString();

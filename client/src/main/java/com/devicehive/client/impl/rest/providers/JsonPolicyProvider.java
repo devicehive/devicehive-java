@@ -2,10 +2,10 @@ package com.devicehive.client.impl.rest.providers;
 
 
 import com.devicehive.client.model.exceptions.InternalHiveClientException;
+import com.google.common.base.Charsets;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 
-import com.devicehive.client.impl.Constants;
 import com.devicehive.client.impl.json.GsonFactory;
 import com.devicehive.client.impl.json.strategies.JsonPolicyApply;
 import com.devicehive.client.impl.json.strategies.JsonPolicyDef;
@@ -54,7 +54,7 @@ public abstract class JsonPolicyProvider<T> implements MessageBodyWriter<T>, Mes
         JsonElement jsonElement = gson.toJsonTree(entity);
         Writer writer = null;
         try {
-            writer = new OutputStreamWriter(entityStream, Charset.forName(Constants.CURRENT_CHARSET));
+            writer = new OutputStreamWriter(entityStream, Charsets.UTF_8);
             gson.toJson(jsonElement, writer);
         } finally {
             if (writer != null) {
@@ -74,7 +74,7 @@ public abstract class JsonPolicyProvider<T> implements MessageBodyWriter<T>, Mes
                       MultivaluedMap<String, String> httpHeaders, InputStream entityStream)
         throws IOException, WebApplicationException {
         Gson gson = createGson(annotations);
-        Reader reader = new InputStreamReader(entityStream, Charset.forName(Constants.CURRENT_CHARSET));
+        Reader reader = new InputStreamReader(entityStream, Charsets.UTF_8);
         return gson.fromJson(reader, genericType);
     }
 

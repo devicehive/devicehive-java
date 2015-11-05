@@ -3,7 +3,7 @@ package com.devicehive.client.impl;
 
 import com.google.common.reflect.TypeToken;
 
-import com.devicehive.client.CommandsController;
+import com.devicehive.client.CommandsAPI;
 import com.devicehive.client.HiveMessageHandler;
 import com.devicehive.client.impl.context.RestAgent;
 import com.devicehive.client.model.DeviceCommand;
@@ -14,7 +14,7 @@ import com.devicehive.client.model.exceptions.HiveException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,18 +28,18 @@ import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.CO
 import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.REST_COMMAND_UPDATE_FROM_DEVICE;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
-class CommandsControllerRestImpl implements CommandsController {
+class CommandsAPIRestImpl implements CommandsAPI {
 
-    private static Logger logger = LoggerFactory.getLogger(CommandsControllerRestImpl.class);
+    private static Logger logger = LoggerFactory.getLogger(CommandsAPIRestImpl.class);
     private final RestAgent restAgent;
 
-    CommandsControllerRestImpl(RestAgent restAgent) {
+    CommandsAPIRestImpl(RestAgent restAgent) {
         this.restAgent = restAgent;
     }
 
     @SuppressWarnings("serial")
     @Override
-    public List<DeviceCommand> queryCommands(String deviceGuid, Timestamp start, Timestamp end, String commandName,
+    public List<DeviceCommand> queryCommands(String deviceGuid, Date start, Date end, String commandName,
                                              String status, String sortField, String sortOrder, Integer take,
                                              Integer skip, Integer gridInterval) throws HiveException {
         logger.debug("DeviceCommand: query requested for device id {}, start timestamp {], end timestamp {}, " +
@@ -74,7 +74,7 @@ class CommandsControllerRestImpl implements CommandsController {
         String path = "/device/" + guid + "/command/" + id;
         DeviceCommand result = restAgent
             .execute(path, HttpMethod.GET, null, DeviceCommand.class, COMMAND_TO_DEVICE);
-        logger.debug("DeviceCommand: get request proceed successfully for device id {] and command id {}. Timestamp " +
+        logger.debug("DeviceCommand: get request proceed successfully for device id {] and command id {}. Date " +
                      "{}, userId {}, command {], parameters {}, lifetime {}, flags {}, status {}, result {}", guid, id,
                      result.getTimestamp(), result.getUserId(), result.getCommand(), result.getParameters(),
                      result.getLifetime(), result.getFlags(), result.getStatus(), result.getResult());

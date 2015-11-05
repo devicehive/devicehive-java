@@ -10,7 +10,7 @@ import java.util.List;
  * Client side controller for access keys: <i>/user/{userId}/accesskey</i> See <a href="http://www.devicehive.com/restful/#Reference/AccessKey">DeviceHive
  * RESTful API: AccessKey</a> for details. Transport declared in the hive context will be used.
  */
-public interface AccessKeyController {
+public interface AccessKeyAPI {
 
     /**
      * <a href="http://www.devicehive.com/restful#Reference/AccessKey/list">DeviceHive RESTful API: AccessKey: list</a>
