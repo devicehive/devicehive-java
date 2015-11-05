@@ -22,8 +22,8 @@ import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 /**
  * Specialization of {@link NotificationsControllerRestImpl} that uses WebSockets transport.
  */
-class NotificationsControllerWebsocketImpl extends NotificationsControllerRestImpl {
-    private static final Logger LOGGER = LoggerFactory.getLogger(NotificationsControllerWebsocketImpl.class);
+class NotificationsAPIWebsocketImpl extends NotificationsAPIRestImpl {
+    private static final Logger LOGGER = LoggerFactory.getLogger(NotificationsAPIWebsocketImpl.class);
 
     private final WebsocketAgent websocketAgent;
 
@@ -32,7 +32,7 @@ class NotificationsControllerWebsocketImpl extends NotificationsControllerRestIm
      *
      * @param websocketAgent a WebsoketAgent to use for requests
      */
-    NotificationsControllerWebsocketImpl(WebsocketAgent websocketAgent) {
+    NotificationsAPIWebsocketImpl(WebsocketAgent websocketAgent) {
         super(websocketAgent);
         this.websocketAgent = websocketAgent;
     }

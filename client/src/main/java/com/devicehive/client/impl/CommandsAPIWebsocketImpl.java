@@ -19,8 +19,8 @@ import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 /**
  * Specification of {@link CommandsControllerRestImpl} that uses WebSockets as a transport.
  */
-class CommandsControllerWebsocketImpl extends CommandsControllerRestImpl {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommandsControllerWebsocketImpl.class);
+class CommandsAPIWebsocketImpl extends CommandsAPIRestImpl {
+    private static Logger LOGGER = LoggerFactory.getLogger(CommandsAPIWebsocketImpl.class);
 
     private static final String WS_COMMAND_INSERT = "command/insert";
     private static final String WS_COMMAND_UPDATE = "command/update";
@@ -32,7 +32,7 @@ class CommandsControllerWebsocketImpl extends CommandsControllerRestImpl {
      *
      * @param websocketAgent a websocket agent instance
      */
-    CommandsControllerWebsocketImpl(WebsocketAgent websocketAgent) {
+    CommandsAPIWebsocketImpl(WebsocketAgent websocketAgent) {
         super(websocketAgent);
         this.websocketAgent = websocketAgent;
     }

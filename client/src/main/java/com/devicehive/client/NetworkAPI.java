@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @see <a href="http://www.devicehive.com/restful/#Reference/Network">DeviceHive RESTful API: Network</a>
  */
-public interface NetworkController {
+public interface NetworkAPI {
 
     /**
      * Queries list of networks using the following criteria.

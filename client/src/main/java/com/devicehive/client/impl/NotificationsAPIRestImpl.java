@@ -2,7 +2,7 @@ package com.devicehive.client.impl;
 
 
 import com.devicehive.client.HiveMessageHandler;
-import com.devicehive.client.NotificationsController;
+import com.devicehive.client.NotificationsAPI;
 import com.devicehive.client.impl.context.RestAgent;
 import com.devicehive.client.model.DeviceNotification;
 import com.devicehive.client.model.SubscriptionFilter;
@@ -12,8 +12,7 @@ import com.google.common.reflect.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.HttpMethod;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +23,8 @@ import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 /**
  * Implementation of {@link NotificationsController} that uses REST transport.
  */
-class NotificationsControllerRestImpl implements NotificationsController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(NotificationsControllerRestImpl.class);
+class NotificationsAPIRestImpl implements NotificationsAPI {
+    private static final Logger LOGGER = LoggerFactory.getLogger(NotificationsAPIRestImpl.class);
 
     protected static final String DEVICE_NOTIFICATIONS_COLLECTION_PATH = "/device/%s/notification";
     protected static final String DEVICE_NOTIFICATION_RESOURCE_PATH = "/device/%s/notification/%s";
@@ -37,7 +36,7 @@ class NotificationsControllerRestImpl implements NotificationsController {
      *
      * @param restAgent a RestAgent to use for requests
      */
-    NotificationsControllerRestImpl(RestAgent restAgent) {
+    NotificationsAPIRestImpl(RestAgent restAgent) {
         this.restAgent = restAgent;
     }
 
@@ -45,7 +44,7 @@ class NotificationsControllerRestImpl implements NotificationsController {
      * {@inheritDoc}
      */
     @Override
-    public List<DeviceNotification> queryNotifications(String guid, Timestamp start, Timestamp end,
+    public List<DeviceNotification> queryNotifications(String guid, Date start, Date end,
                                                        String notificationName, String sortOrder, String sortField,
                                                        Integer take, Integer skip,
                                                        Integer gridInterval) throws HiveException {

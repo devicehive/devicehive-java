@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @see <a href="http://www.devicehive.com/restful/#Reference/User">DeviceHive RESTful API: User</a>
  */
-public interface UserController {
+public interface UserAPI {
 
     /**
      * Queries a list of users using following criteria.

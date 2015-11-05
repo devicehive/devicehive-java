@@ -1,7 +1,9 @@
 package com.devicehive.client.impl;
 
 
-import com.devicehive.client.NetworkController;
+import com.google.common.reflect.TypeToken;
+
+import com.devicehive.client.NetworkAPI;
 import com.devicehive.client.impl.context.RestAgent;
 import com.devicehive.client.model.Network;
 import com.devicehive.client.model.exceptions.HiveClientException;
@@ -22,8 +24,8 @@ import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 /**
  * Implementation of {@link NetworkController}.
  */
-class NetworkControllerImpl implements NetworkController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(NetworkControllerImpl.class);
+class NetworkAPIImpl implements NetworkAPI {
+    private static final Logger LOGGER = LoggerFactory.getLogger(NetworkAPIImpl.class);
 
     private static final String NETWORKS_COLLECTION_PATH = "/network";
     private static final String NETWORK_RESOURCE_PATH = "/network/%s";
@@ -35,7 +37,7 @@ class NetworkControllerImpl implements NetworkController {
      *
      * @param restAgent a RestAgent to use for requests
      */
-    NetworkControllerImpl(RestAgent restAgent) {
+    NetworkAPIImpl(RestAgent restAgent) {
         this.restAgent = restAgent;
     }
 

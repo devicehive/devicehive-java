@@ -1,7 +1,9 @@
 package com.devicehive.client.impl;
 
 
-import com.devicehive.client.OAuthGrantController;
+import com.google.common.reflect.TypeToken;
+
+import com.devicehive.client.OAuthGrantAPI;
 import com.devicehive.client.impl.context.RestAgent;
 import com.devicehive.client.model.AccessType;
 import com.devicehive.client.model.OAuthGrant;
@@ -14,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.HttpMethod;
 import java.lang.reflect.Type;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +27,8 @@ import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 /**
  * Implementation of {@link OAuthGrantController}.
  */
-class OAuthGrantControllerImpl implements OAuthGrantController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(OAuthGrantControllerImpl.class);
+class OAuthGrantAPIImpl implements OAuthGrantAPI {
+    private static final Logger LOGGER = LoggerFactory.getLogger(OAuthGrantAPIImpl.class);
 
     private static final String CURRENT_USER = "current";
     private static final String OAUTH_GRANTS_COLLECTION_PATH = "/user/%s/oauth/grant";
@@ -39,7 +41,7 @@ class OAuthGrantControllerImpl implements OAuthGrantController {
      *
      * @param restAgent a RestAgent to use for requests
      */
-    OAuthGrantControllerImpl(RestAgent restAgent) {
+    OAuthGrantAPIImpl(RestAgent restAgent) {
         this.restAgent = restAgent;
     }
 
@@ -47,7 +49,7 @@ class OAuthGrantControllerImpl implements OAuthGrantController {
      * {@inheritDoc}
      */
     @Override
-    public List<OAuthGrant> list(long userId, Timestamp start, Timestamp end, String clientOauthId, OAuthType type,
+    public List<OAuthGrant> list(long userId, Date start, Date end, String clientOauthId, OAuthType type,
                                  String scope, String redirectUri, AccessType accessType, String sortField,
                                  String sortOrder, Integer take, Integer skip) throws HiveException {
         LOGGER.debug("OAuthGrant: list requested with parameters: userId {}, start timestamp {}, end timestamp {}, " +
@@ -86,7 +88,7 @@ class OAuthGrantControllerImpl implements OAuthGrantController {
      * {@inheritDoc}
      */
     @Override
-    public List<OAuthGrant> list(Timestamp start, Timestamp end, String clientOauthId, OAuthType type, String scope,
+    public List<OAuthGrant> list(Date start, Date end, String clientOauthId, OAuthType type, String scope,
                                  String redirectUri, AccessType accessType, String sortField, String sortOrder,
                                  Integer take, Integer skip) throws HiveException {
         LOGGER.debug("OAuthGrant: list requested for current user with parameters: start timestamp {}, end timestamp {}, " +

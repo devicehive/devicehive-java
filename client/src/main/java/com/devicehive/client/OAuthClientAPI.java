@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @see <a href="http://devicehive.com/restful/#Reference/OAuthClient">DeviceHive RESTful API: OAuth Client</a>
  */
-public interface OAuthClientController {
+public interface OAuthClientAPI {
 
     /**
      * Queries OAuth clients.

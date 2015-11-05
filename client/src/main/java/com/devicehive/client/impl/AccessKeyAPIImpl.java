@@ -1,7 +1,9 @@
 package com.devicehive.client.impl;
 
 
-import com.devicehive.client.AccessKeyController;
+import com.google.common.reflect.TypeToken;
+
+import com.devicehive.client.AccessKeyAPI;
 import com.devicehive.client.impl.context.RestAgent;
 import com.devicehive.client.model.AccessKey;
 import com.devicehive.client.model.exceptions.HiveClientException;
@@ -20,8 +22,8 @@ import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 /**
  * Implementation of {@link AccessKeyController}.
  */
-class AccessKeyControllerImpl implements AccessKeyController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AccessKeyControllerImpl.class);
+class AccessKeyAPIImpl implements AccessKeyAPI {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccessKeyAPIImpl.class);
 
     private static final String CURRENT_USER = "current";
     private static final String USER_ACCESS_KEYS_COLLECTION_PATH = "/user/%s/accesskey";
@@ -35,7 +37,7 @@ class AccessKeyControllerImpl implements AccessKeyController {
      *
      * @param restAgent an instance of {@link RestAgent}
      */
-    AccessKeyControllerImpl(RestAgent restAgent) {
+    AccessKeyAPIImpl(RestAgent restAgent) {
         this.restAgent = restAgent;
     }
 

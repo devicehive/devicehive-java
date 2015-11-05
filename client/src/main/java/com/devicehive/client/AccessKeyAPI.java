@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @see <a href="http://www.devicehive.com/restful/#Reference/AccessKey">DeviceHive RESTful API: AccessKey</a>
  */
-public interface AccessKeyController {
+public interface AccessKeyAPI {
 
     /**
      * Retrieves a list of access keys and their permissions.

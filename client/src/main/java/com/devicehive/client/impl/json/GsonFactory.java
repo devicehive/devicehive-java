@@ -3,9 +3,8 @@ package com.devicehive.client.impl.json;
 
 import com.devicehive.client.impl.json.adapters.AccessTypeAdapter;
 import com.devicehive.client.impl.json.adapters.JsonStringWrapperAdapterFactory;
-import com.devicehive.client.impl.json.adapters.NullableWrapperAdapterFactory;
+import com.devicehive.client.impl.json.adapters.OptionalAdapterFactory;
 import com.devicehive.client.impl.json.adapters.OAuthTypeAdapter;
-import com.devicehive.client.impl.json.adapters.TimestampAdapter;
 import com.devicehive.client.impl.json.adapters.UserRoleAdapter;
 import com.devicehive.client.impl.json.adapters.UserStatusAdapter;
 import com.devicehive.client.impl.json.strategies.AnnotatedStrategy;
@@ -20,12 +19,13 @@ import com.google.common.cache.LoadingCache;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.sql.Timestamp;
 import java.util.concurrent.ExecutionException;
 
 import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy;
 
 public class GsonFactory {
+
+    public static final String TIMESTAMP_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
 
     private static final LoadingCache<Policy, Gson> cache = CacheBuilder.newBuilder()
             .maximumSize(50)
@@ -60,12 +60,12 @@ public class GsonFactory {
     private static GsonBuilder createGsonBuilder() {
         return new GsonBuilder()
                 .setPrettyPrinting()
+                .setDateFormat(TIMESTAMP_FORMAT)
                 .registerTypeAdapterFactory(new JsonStringWrapperAdapterFactory())
-                .registerTypeAdapterFactory(new NullableWrapperAdapterFactory())
+                .registerTypeAdapterFactory(new OptionalAdapterFactory())
                 .registerTypeAdapter(AccessType.class, new AccessTypeAdapter())
                 .registerTypeAdapter(OAuthType.class, new OAuthTypeAdapter())
                 .registerTypeAdapter(UserRole.class, new UserRoleAdapter())
-                .registerTypeAdapter(UserStatus.class, new UserStatusAdapter())
-                .registerTypeAdapter(Timestamp.class, new TimestampAdapter());
+                .registerTypeAdapter(UserStatus.class, new UserStatusAdapter());
     }
 }

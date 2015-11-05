@@ -5,7 +5,7 @@ import com.devicehive.client.model.DeviceCommand;
 import com.devicehive.client.model.SubscriptionFilter;
 import com.devicehive.client.model.exceptions.HiveException;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @see <a href="http://www.devicehive.com/restful#Reference/DeviceCommand">DeviceHive RESTful API: DeviceCommand</a>
  */
-public interface CommandsController {
+public interface CommandsAPI {
 
     /**
      * Queries commands with the following parameters.
@@ -24,7 +24,7 @@ public interface CommandsController {
      * @param end         end timestamp
      * @param commandName filter by command
      * @param status      filter by status
-     * @param sortField   either "Timestamp", "Command" or "Status"
+     * @param sortField   either "Date", "Command" or "Status"
      * @param sortOrder   ASC or DESC
      * @param take        number of entities to take
      * @param skip        number of entities that should be skiped (first 'skip' rows will be  skipped)
@@ -33,7 +33,7 @@ public interface CommandsController {
      * @see <a href="http://devicehive.com/restful/#Reference/DeviceCommand/query">DeviceHive RESTful API: DeviceCommand:
      * query</a>
      */
-    List<DeviceCommand> queryCommands(String deviceGuid, Timestamp start, Timestamp end, String commandName,
+    List<DeviceCommand> queryCommands(String deviceGuid, Date start, Date end, String commandName,
                                       String status, String sortField, String sortOrder, Integer take, Integer skip,
                                       Integer gridInterval) throws HiveException;
 

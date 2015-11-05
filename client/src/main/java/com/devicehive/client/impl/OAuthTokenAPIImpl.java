@@ -1,6 +1,6 @@
 package com.devicehive.client.impl;
 
-import com.devicehive.client.OAuthTokenController;
+import com.devicehive.client.OAuthTokenAPI;
 import com.devicehive.client.impl.context.RestAgent;
 import com.devicehive.client.model.AccessToken;
 import com.devicehive.client.model.exceptions.HiveException;
@@ -13,8 +13,8 @@ import java.util.Map;
 /**
  * Implementation of {@link OAuthTokenController}.
  */
-class OAuthTokenControllerImpl implements OAuthTokenController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(OAuthTokenControllerImpl.class);
+class OAuthTokenAPIImpl implements OAuthTokenAPI {
+    private static final Logger LOGGER = LoggerFactory.getLogger(OAuthTokenAPIImpl.class);
 
     private static final String OAUTH_TOKEN_ENDPOINT = "/oauth2/token";
 
@@ -25,7 +25,7 @@ class OAuthTokenControllerImpl implements OAuthTokenController {
      *
      * @param restAgent a RestAgent to use for requests
      */
-    OAuthTokenControllerImpl(RestAgent restAgent) {
+    OAuthTokenAPIImpl(RestAgent restAgent) {
         this.restAgent = restAgent;
     }
 
