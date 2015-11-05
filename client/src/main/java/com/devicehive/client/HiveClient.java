@@ -35,67 +35,67 @@ public interface HiveClient extends AutoCloseable {
     void authenticate(String key) throws HiveException;
 
     /**
-     * Returns a new instance of access key controller.
+     * Return new instance of access key API
      *
-     * @return access key controller
+     * @return access key API
      */
-    AccessKeyController getAccessKeyController();
+    AccessKeyAPI getAccessKeyAPI();
 
     /**
-     * Returns a new instance of command controller.
+     * Return new instance of command API
      *
-     * @return command controller
+     * @return command API
      */
-    CommandsController getCommandsController();
+    CommandsAPI getCommandsAPI();
 
     /**
-     * Returns a new instance of device controller.
+     * Return new instance of device API
      *
-     * @return device controller
+     * @return device API
      */
-    DeviceController getDeviceController();
+    DeviceAPI getDeviceAPI();
 
     /**
-     * Returns new instance of network controller.
+     * Return new instance of network API
      *
-     * @return network controller
+     * @return network API
      */
-    NetworkController getNetworkController();
+    NetworkAPI getNetworkAPI();
 
     /**
-     * Returns a new instance of notification controller.
+     * Return new instance of notification API
      *
-     * @return notification controller
+     * @return notification API
      */
-    NotificationsController getNotificationsController();
+    NotificationsAPI getNotificationsAPI();
 
     /**
-     * Returns a new instance of user controller.
+     * Return new instance of user API.
      *
-     * @return user controller
+     * @return user API
      */
-    UserController getUserController();
+    UserAPI getUserAPI();
 
     /**
-     * Returns a new instance of OAuth client controller.
+     * Return new instance of OAuth API.
      *
-     * @return OAuth controller
+     * @return user API
      */
-    OAuthClientController getOAuthClientController();
+    OAuthClientAPI getOAuthClientAPI();
 
     /**
-     * Returns a new instance of OAuth grant controller.
+     * Return new instance of OAuth client API.
      *
-     * @return OAuth grant controller
+     * @return user API
      */
-    OAuthGrantController getOAuthGrantController();
+    OAuthGrantAPI getOAuthGrantAPI();
 
     /**
-     * Returns a new instance of OAuth token controller.
+     * Return new instance of OAuth token API.
      *
-     * @return OAuth token controller
+     * @return user API
      */
-    OAuthTokenController getOAuthTokenController();
+    OAuthTokenAPI getOAuthTokenAPI();
 
     /**
      * Disconnects the client from the server.

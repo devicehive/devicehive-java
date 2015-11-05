@@ -1,8 +1,10 @@
 package com.devicehive.client.impl.context;
 
+import com.devicehive.client.impl.json.GsonFactory;
+import com.google.common.util.concurrent.MoreExecutors;
+import com.google.gson.reflect.TypeToken;
+
 import com.devicehive.client.HiveMessageHandler;
-import com.devicehive.client.impl.Constants;
-import com.devicehive.client.impl.json.adapters.TimestampAdapter;
 import com.devicehive.client.impl.json.strategies.JsonPolicyApply;
 import com.devicehive.client.impl.json.strategies.JsonPolicyDef;
 import com.devicehive.client.impl.rest.providers.CollectionProvider;
@@ -33,12 +35,16 @@ import javax.ws.rs.core.*;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.net.URI;
-import java.sql.Timestamp;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.*;
+import java.nio.charset.Charset;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -583,9 +589,9 @@ public class RestAgent {
         WebTarget target = restClient.target(restUri).path(path);
         if (queryParams != null) {
             for (final Map.Entry<String, Object> entry : queryParams.entrySet()) {
-                final Object value = entry.getValue() instanceof Timestamp
-                    ? TimestampAdapter.formatTimestamp((Timestamp) entry.getValue())
-                    : entry.getValue();
+                final Object value = entry.getValue() instanceof Date
+                               ? new SimpleDateFormat(GsonFactory.TIMESTAMP_FORMAT)
+                               : entry.getValue();
                 target = target.queryParam(entry.getKey(), value);
             }
         }
@@ -706,7 +712,7 @@ public class RestAgent {
                 }
 
                 if (!responses.isEmpty()) {
-                    final Timestamp newTimestamp = responses.get(responses.size() - 1).getCommand().getTimestamp();
+                    final Date newTimestamp = responses.get(responses.size() - 1).getCommand().getTimestamp();
                     params.put(TIMESTAMP, newTimestamp);
                 }
             }
@@ -746,7 +752,7 @@ public class RestAgent {
                 }
 
                 if (!responses.isEmpty()) {
-                    final Timestamp newTimestamp = responses.get(responses.size() - 1).getTimestamp();
+                    final Date newTimestamp = responses.get(responses.size() - 1).getTimestamp();
                     params.put(TIMESTAMP, newTimestamp);
                 }
             }
@@ -817,7 +823,7 @@ public class RestAgent {
                 }
 
                 if (!responses.isEmpty()) {
-                    final Timestamp newTimestamp = responses.get(responses.size() - 1).getNotification().getTimestamp();
+                    final Date newTimestamp = responses.get(responses.size() - 1).getNotification().getTimestamp();
                     params.put(TIMESTAMP, newTimestamp);
                 }
             }

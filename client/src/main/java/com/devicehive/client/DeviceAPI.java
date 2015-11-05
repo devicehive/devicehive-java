@@ -3,7 +3,6 @@ package com.devicehive.client;
 
 import com.devicehive.client.model.Device;
 import com.devicehive.client.model.DeviceClass;
-import com.devicehive.client.model.DeviceEquipment;
 import com.devicehive.client.model.exceptions.HiveException;
 
 import java.util.List;
@@ -14,7 +13,7 @@ import java.util.List;
  * @see <a href="http://www.devicehive.com/restful#Reference/Device">DeviceHive RESTful API: Device</a>
  * @see <a href="http://www.devicehive.com/restful#Reference/DeviceClass">DeviceHive RESTful API: DeviceClass</a>
  */
-public interface DeviceController {
+public interface DeviceAPI {
 
     //
     // Device operations
@@ -74,21 +73,6 @@ public interface DeviceController {
      */
     void deleteDevice(String deviceId) throws HiveException;
 
-    /**
-     * Retrieves the current state of a device equipment. The equipment state is tracked by framework and it could be
-     * updated by sending the 'equipment' notification with the following parameters:
-     * <ul>
-     * <li>{@code equipment}: equipment code</li>
-     * <li>{@code parameters}: current equipment state</li>
-     * </ul>
-     *
-     * @param deviceId Device unique identifier.
-     * @return If successful, this method returns a list of {@link DeviceEquipment} resources in the response body.
-     * @throws HiveException if an error occurs during the request execution
-     * @see <a href="http://www.devicehive.com/restful#Reference/Device/equipment">DeviceHive RESTful API: Device:
-     * equipment</a>
-     */
-    List<DeviceEquipment> getDeviceEquipment(String deviceId) throws HiveException;
 
     //
     // DeviceClass operations

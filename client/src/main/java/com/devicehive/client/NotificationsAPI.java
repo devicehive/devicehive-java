@@ -5,7 +5,7 @@ import com.devicehive.client.model.DeviceNotification;
 import com.devicehive.client.model.SubscriptionFilter;
 import com.devicehive.client.model.exceptions.HiveException;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @see <a href="http://www.devicehive.com/restful#Reference/DeviceNotification">DeviceHive RESTful API: DeviceNotification</a>
  */
-public interface NotificationsController {
+public interface NotificationsAPI {
 
     /**
      * Queries device notifications.
@@ -24,7 +24,7 @@ public interface NotificationsController {
      * @param end              end timestamp
      * @param notificationName notification name
      * @param sortOrder        Result list sort order. Available values are ASC and DESC.
-     * @param sortField        Result list sort field. Available values are Timestamp (default) and Notification.
+     * @param sortField        Result list sort field. Available values are Date (default) and Notification.
      * @param take             Number of records to take from the result list (default is 1000).
      * @param skip             Number of records to skip from the result list.
      * @return If successful, this method returns a list of {@link DeviceNotification} resources in the response body.
@@ -32,7 +32,7 @@ public interface NotificationsController {
      * @see <a href="http://www.devicehive.com/restful#Reference/DeviceNotification/query">DeviceHive RESTful API:
      * DeviceNotification: query</a>
      */
-    List<DeviceNotification> queryNotifications(String deviceId, Timestamp start, Timestamp end,
+    List<DeviceNotification> queryNotifications(String deviceId, Date start, Date end,
                                                 String notificationName,
                                                 String sortOrder, String sortField, Integer take, Integer skip,
                                                 Integer gridInterval) throws HiveException;

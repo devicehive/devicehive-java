@@ -1,7 +1,9 @@
 package com.devicehive.client.impl;
 
 
-import com.devicehive.client.OAuthClientController;
+import com.google.common.reflect.TypeToken;
+
+import com.devicehive.client.OAuthClientAPI;
 import com.devicehive.client.impl.context.RestAgent;
 import com.devicehive.client.model.OAuthClient;
 import com.devicehive.client.model.exceptions.HiveClientException;
@@ -20,10 +22,10 @@ import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.*;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
 /**
- * Implementation of {@link OAuthClientController}.
+ * Implementation of {@link OAuthClientAPI}.
  */
-class OAuthClientControllerImpl implements OAuthClientController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(OAuthClientControllerImpl.class);
+class OAuthClientAPIImpl implements OAuthClientAPI {
+    private static final Logger LOGGER = LoggerFactory.getLogger(OAuthClientAPIImpl.class);
 
     private static final String OAUTH_CLIENTS_COLLECTION_PATH = "/oauth/client";
     private static final String OAUTH_CLIENT_RESOURCE_PATH = "/oauth/client/%s";
@@ -35,7 +37,7 @@ class OAuthClientControllerImpl implements OAuthClientController {
      *
      * @param restAgent a RestAgent to use for requests
      */
-    OAuthClientControllerImpl(RestAgent restAgent) {
+    OAuthClientAPIImpl(RestAgent restAgent) {
         this.restAgent = restAgent;
     }
 

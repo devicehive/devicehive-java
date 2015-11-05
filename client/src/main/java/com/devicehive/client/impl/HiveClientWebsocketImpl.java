@@ -1,8 +1,8 @@
 package com.devicehive.client.impl;
 
 
-import com.devicehive.client.CommandsController;
-import com.devicehive.client.NotificationsController;
+import com.devicehive.client.CommandsAPI;
+import com.devicehive.client.NotificationsAPI;
 import com.devicehive.client.impl.context.HivePrincipal;
 import com.devicehive.client.impl.context.WebsocketAgent;
 import com.devicehive.client.model.exceptions.HiveException;
@@ -45,15 +45,15 @@ public class HiveClientWebsocketImpl extends HiveClientRestImpl {
      * {@inheritDoc}
      */
     @Override
-    public CommandsController getCommandsController() {
-        return new CommandsControllerWebsocketImpl(websocketAgent);
+    public CommandsAPI getCommandsAPI() {
+        return new CommandsAPIWebsocketImpl(websocketAgent);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public NotificationsController getNotificationsController() {
-        return new NotificationsControllerWebsocketImpl(websocketAgent);
+    public NotificationsAPI getNotificationsAPI() {
+        return new NotificationsAPIWebsocketImpl(websocketAgent);
     }
 }

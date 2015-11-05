@@ -1,11 +1,12 @@
 package com.devicehive.client.impl;
 
 
-import com.devicehive.client.DeviceController;
+import com.google.common.reflect.TypeToken;
+
+import com.devicehive.client.DeviceAPI;
 import com.devicehive.client.impl.context.RestAgent;
 import com.devicehive.client.model.Device;
 import com.devicehive.client.model.DeviceClass;
-import com.devicehive.client.model.DeviceEquipment;
 import com.devicehive.client.model.exceptions.HiveClientException;
 import com.devicehive.client.model.exceptions.HiveException;
 import com.google.common.reflect.TypeToken;
@@ -18,14 +19,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.*;
+import javax.ws.rs.HttpMethod;
+
+import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.DEVICECLASS_LISTED;
+import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.DEVICECLASS_PUBLISHED;
+import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.DEVICECLASS_SUBMITTED;
+import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.DEVICE_PUBLISHED;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
 /**
  * Implementation of {@link DeviceController}.
  */
-class DeviceControllerImpl implements DeviceController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DeviceControllerImpl.class);
+class DeviceAPIImpl implements DeviceAPI {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeviceAPIImpl.class);
 
     private static final String DEVICES_COLLECTION_PATH = "/device";
     private static final String DEVICE_RESOURCE_PATH = "/device/%s";
@@ -40,7 +46,7 @@ class DeviceControllerImpl implements DeviceController {
      *
      * @param restAgent a RestAgent to use for requests
      */
-    DeviceControllerImpl(RestAgent restAgent) {
+    DeviceAPIImpl(RestAgent restAgent) {
         this.restAgent = restAgent;
     }
 
@@ -152,23 +158,6 @@ class DeviceControllerImpl implements DeviceController {
         LOGGER.debug("Device: delete request proceed successfully for device with id {}", deviceId);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<DeviceEquipment> getDeviceEquipment(String deviceId) throws HiveException {
-        LOGGER.debug("Device: equipment requested for device with id {}", deviceId);
-
-        String path = String.format(DEVICE_EQUIPMENT_RESOURCE_PATH, deviceId);
-        Type type = new TypeToken<List<DeviceEquipment>>() {}.getType();
-
-        List<DeviceEquipment> result = restAgent.execute(path, HttpMethod.GET, null, null, null, type, null,
-            DEVICE_EQUIPMENT_SUBMITTED);
-
-        LOGGER.debug("Device: equipment request proceed successfully for device with id {}", deviceId);
-
-        return result;
-    }
 
     //
     // Device Classes operations

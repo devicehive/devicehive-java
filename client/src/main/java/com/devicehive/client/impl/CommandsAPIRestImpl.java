@@ -1,7 +1,9 @@
 package com.devicehive.client.impl;
 
 
-import com.devicehive.client.CommandsController;
+import com.google.common.reflect.TypeToken;
+
+import com.devicehive.client.CommandsAPI;
 import com.devicehive.client.HiveMessageHandler;
 import com.devicehive.client.impl.context.RestAgent;
 import com.devicehive.client.model.DeviceCommand;
@@ -12,8 +14,7 @@ import com.google.common.reflect.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.HttpMethod;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +25,8 @@ import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 /**
  * Implementation of {@link CommandsController} that uses REST transport.
  */
-class CommandsControllerRestImpl implements CommandsController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommandsControllerRestImpl.class);
+class CommandsAPIRestImpl implements CommandsAPI {
+    private static Logger LOGGER = LoggerFactory.getLogger(CommandsAPIRestImpl.class);
 
     private static final String DEVICE_COMMANDS_COLLECTION_PATH = "/device/%s/command";
     private static final String DEVICE_COMMAND_RESOURCE_PATH = "/device/%s/command/%s";
@@ -37,7 +38,7 @@ class CommandsControllerRestImpl implements CommandsController {
      *
      * @param restAgent an instance of {@link RestAgent}
      */
-    CommandsControllerRestImpl(RestAgent restAgent) {
+    CommandsAPIRestImpl(RestAgent restAgent) {
         this.restAgent = restAgent;
     }
 
@@ -45,7 +46,7 @@ class CommandsControllerRestImpl implements CommandsController {
      * {@inheritDoc}
      */
     @Override
-    public List<DeviceCommand> queryCommands(String deviceGuid, Timestamp start, Timestamp end, String commandName,
+    public List<DeviceCommand> queryCommands(String deviceGuid, Date start, Date end, String commandName,
                                              String status, String sortField, String sortOrder, Integer take,
                                              Integer skip, Integer gridInterval) throws HiveException {
         LOGGER.debug("DeviceCommand: query requested for device id {}, start timestamp {}, end timestamp {}, " +
@@ -87,7 +88,7 @@ class CommandsControllerRestImpl implements CommandsController {
 
         DeviceCommand result = restAgent.execute(path, HttpMethod.GET, null, DeviceCommand.class, COMMAND_TO_DEVICE);
 
-        LOGGER.debug("DeviceCommand: get request processed successfully for device id {} and command id {}. Timestamp {}, " +
+        LOGGER.debug("DeviceCommand: get request processed successfully for device id {} and command id {}. Date {}, " +
             "userId {}, command {}, parameters {}, lifetime {}, flags {}, status {}, result {}", guid, id,
             result.getTimestamp(), result.getUserId(), result.getCommand(), result.getParameters(), result.getLifetime(),
             result.getFlags(), result.getStatus(), result.getResult());

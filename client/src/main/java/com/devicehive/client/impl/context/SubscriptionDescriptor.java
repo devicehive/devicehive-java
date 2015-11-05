@@ -5,7 +5,8 @@ import com.devicehive.client.model.HiveMessage;
 import com.devicehive.client.model.SubscriptionFilter;
 import org.apache.commons.lang3.ObjectUtils;
 
-import java.sql.Timestamp;
+import java.util.Date;
+import java.util.Date;
 
 /**
  * Stores a subscription filter and an associated message handler.
@@ -47,7 +48,7 @@ public class SubscriptionDescriptor<T extends HiveMessage> {
         return filter;
     }
 
-    private void updateTimestamp(final Timestamp newTimestamp) {
+    private void updateTimestamp(final Date newTimestamp) {
         if (filter.getTimestamp() == null && newTimestamp != null) {
             filter.setTimestamp(newTimestamp);
         } else if (newTimestamp != null && newTimestamp.after(filter.getTimestamp())) {
