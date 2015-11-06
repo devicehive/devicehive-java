@@ -42,12 +42,4 @@ public class HiveFactory {
         return agent;
     }
 
-    public static void main(String... args) throws HiveException {
-        HiveClient hiveClient = createClient(URI.create("http://playground.devicehive.com/api/rest"), false);
-        for (int i = 0; i < 1000; i++) {
-            ApiInfo apiInfo = hiveClient.getInfo();
-            System.out.println(apiInfo.getServerTimestamp());
-        }
-
-    }
 }
