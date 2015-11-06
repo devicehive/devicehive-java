@@ -1,5 +1,8 @@
 package com.devicehive.client.impl.util;
 
+/**
+ * Device Hive RESTful API error messages.
+ */
 public final class Messages {
 
     public static final String ALREADY_AUTHENTICATED = "Already authenticated";

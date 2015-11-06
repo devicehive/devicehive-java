@@ -1,35 +1,26 @@
 package com.devicehive.client.impl.rest.providers;
 
 
-import com.devicehive.client.model.exceptions.InternalHiveClientException;
-import com.google.common.base.Charsets;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-
 import com.devicehive.client.impl.json.GsonFactory;
 import com.devicehive.client.impl.json.strategies.JsonPolicyApply;
 import com.devicehive.client.impl.json.strategies.JsonPolicyDef;
 import com.devicehive.client.impl.util.Messages;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.Writer;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
-import java.nio.charset.Charset;
+import com.devicehive.client.model.exceptions.InternalHiveClientException;
+import com.google.common.base.Charsets;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
+import java.io.*;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 
 /**
- * Provider that applies JSON exclusion strategy to the hive entity
+ * Provider that applies JSON exclusion strategy to the hive entity.
  *
  * @param <T> HiveEntity
  */
