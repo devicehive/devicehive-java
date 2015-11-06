@@ -8,14 +8,14 @@ import com.devicehive.client.model.exceptions.HiveException;
 import java.util.List;
 
 /**
- * Client side controller for user: <i>/user</i> See <a href="http://www.devicehive.com/restful/#Reference/User">DeviceHive
- * RESTful API: User</a> for details. Transport declared in the hive context will be used.
+ * The API for user: {@code /user}. Transport declared in the hive context will be used.
+ *
+ * @see <a href="http://www.devicehive.com/restful/#Reference/User">DeviceHive RESTful API: User</a>
  */
 public interface UserAPI {
 
     /**
-     * Queries list of users using following criteria: See: <a href="http://www.devicehive.com/restful#Reference/User/listt">DeviceHive
-     * RESTful API: User: list</a> for more details.
+     * Queries a list of users using following criteria.
      *
      * @param login        user login ignored, when loginPattern is specified
      * @param loginPattern login pattern (LIKE %VALUE%) user login will be ignored, if not null
@@ -26,85 +26,99 @@ public interface UserAPI {
      * @param sortOrder    either ASC or DESC
      * @param take         Number of records to take
      * @param skip         Number of records to skip
-     * @return List of users
+     * @return a list of {@link User} resources
+     * @throws HiveException if an error occurs during the request execution
+     * @see <a href="http://www.devicehive.com/restful#Reference/User/list">DeviceHive RESTful API: User: list</a>
      */
     List<User> listUsers(String login, String loginPattern, Integer role, Integer status, String sortField,
                          String sortOrder, Integer take, Integer skip) throws HiveException;
 
     /**
-     * Gets information about user. See: <a href="http://www.devicehive.com/restful#Reference/User/get">DeviceHive
-     * RESTful API: User: get</a> for more details.
+     * Retrieves information about a user.
      *
-     * @param id user identifier
-     * @return user associated with request identifier
+     * @param id a user identifier
+     * @return a {@link User} resource associated with the request identifier
+     * @throws HiveException if an error occurs during the request execution
+     * @see <a href="http://www.devicehive.com/restful#Reference/User/get">DeviceHive RESTful API: User: get</a>
      */
     User getUser(long id) throws HiveException;
 
     /**
-     * Gets information about current user. See: <a href="http://www.devicehive.com/restful#Reference/User/get">DeviceHive
-     * RESTful API: User: get</a> for more details.
+     * Retrieves information about the current user.
      *
-     * @return current user
+     * @return the current {@link User}
+     * @throws HiveException if an error occurs during the request execution
+     * @see <a href="http://www.devicehive.com/restful#Reference/User/get">DeviceHive RESTful API: User: get</a>
      */
     User getCurrent() throws HiveException;
 
     /**
-     * Creates new user. See: <a href="http://www.devicehive.com/restful#Reference/User/insert">DeviceHive RESTful API:
-     * User: insert</a> for more details.
+     * Creates a new user.
      *
-     * @param user user to be inserted
-     * @return User resource with id and last log in timestamp
+     * @param user a user to be inserted
+     * @return a {@link User} resource with id and the last login timestamp
+     * @throws HiveException if an error occurs during the request execution
+     * @see <a href="http://www.devicehive.com/restful#Reference/User/insert">DeviceHive RESTful API: User: insert</a>
      */
     User insertUser(User user) throws HiveException;
 
     /**
-     * Updates an existing user. See: <a href="http://www.devicehive.com/restful#Reference/User/update">DeviceHive
-     * RESTful API: User: update</a> for more details.
+     * Updates an existing user.
      *
-     * @param user user resource with update info
+     * @param user the {@link User} resource with the updated info
+     * @throws HiveException if an error occurs during the request execution
+     * @see <a href="http://www.devicehive.com/restful#Reference/User/update">DeviceHive RESTful API: User: update</a>
      */
     void updateUser(User user) throws HiveException;
 
     /**
-     * Updates current user. See: <a href="http://www.devicehive.com/restful#Reference/User/update">DeviceHive RESTful
-     * API: User: update</a> for more details.
+     * Updates the current user.
      *
-     * @param user user resource with update info
+     * @param user the {@link User} resource with the update info
+     * @throws HiveException if an error occurs during the request execution
+     * @see <a href="http://www.devicehive.com/restful#Reference/User/update">DeviceHive RESTful API: User: update</a>
      */
     void updateCurrent(User user) throws HiveException;
 
     /**
-     * Deletes an existing user. See: <a href="http://www.devicehive.com/restful#Reference/User/delete">DeviceHive
-     * RESTful API: User: delete</a> for more details.
+     * Removes an existing user.
      *
-     * @param id user identifier
+     * @param id a user identifier
+     * @throws HiveException if an error occurs during the request execution
+     * @see <a href="http://www.devicehive.com/restful#Reference/User/delete">DeviceHive RESTful API: User: delete</a>
      */
     void deleteUser(long id) throws HiveException;
 
     /**
-     * Gets information about user/network association. See: <a href="http://www.devicehive.com/restful#Reference/User/getNetwork">DeviceHive
-     * RESTful API: User: getNetwork</a> for more details.
+     * Retrieves information about a user/network association.
      *
-     * @param userId    user identifier
-     * @param networkId network identifier
-     * @return If successful, this method returns UserNetwork association.
+     * @param userId    a user identifier
+     * @param networkId a network identifier
+     * @return If successful, this method returns a {@link UserNetwork} association.
+     * @throws HiveException if an error occurs during the request execution
+     * @see <a href="http://www.devicehive.com/restful#Reference/User/getNetwork">DeviceHive RESTful API: User: getNetwork</a>
      */
     UserNetwork getNetwork(long userId, long networkId) throws HiveException;
 
     /**
-     * Associates network with the user. See: <a href="http://www.devicehive.com/restful#Reference/User/assignNetwork">DeviceHive
-     * RESTful API: User: assignNetwork</a> for more details.
+     * Associates a network with a user.
      *
-     * @param userId    user identifier
-     * @param networkId network identifier
+     * @param userId    a user identifier
+     * @param networkId a network identifier
+     * @throws HiveException if an error occurs during the request execution
+     * @see <a href="http://www.devicehive.com/restful#Reference/User/assignNetwork">DeviceHive RESTful API: User:
+     * assignNetwork</a>
      */
     void assignNetwork(long userId, long networkId) throws HiveException;
 
     /**
-     * Breaks association between network and user.
+     * Breaks association between a network and a user.
      *
-     * @param userId    user identifier
-     * @param networkId network identifier
+     * @param userId    a user identifier
+     * @param networkId a network identifier
+     * @throws HiveException if an error occurs during the request execution
+     * @see <a href="http://www.devicehive.com/restful#Reference/User/unassignNetwork">DeviceHive RESTful API: User:
+     * unassignNetwork</a>
      */
     void unassignNetwork(long userId, long networkId) throws HiveException;
 }

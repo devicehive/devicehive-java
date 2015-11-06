@@ -5,21 +5,22 @@ import com.devicehive.client.model.ApiInfo;
 import com.devicehive.client.model.exceptions.HiveException;
 
 /**
- * Hive client that represents the number of API getters methods. APIs are used only to delegate methods
- * with similar logic to some container. The separation of client APIs is equal or similar to the server's
- * API.
+ * A Device Hive client that provides access to a number of controllers each of which serves as a proxy between the
+ * client code and the corresponding Device Hive RESTful API resource. A client needs to be authenticated in order to use
+ * controllers methods. For more details on the controllers and methods they provide see the
+ * <a href="http://devicehive.com/restful/#Reference">Device Hive RESTful API Reference</a>.
  */
 public interface HiveClient extends AutoCloseable {
 
     /**
-     * Requests API information
+     * Requests API information.
      *
      * @return API info
      */
     ApiInfo getInfo() throws HiveException;
 
     /**
-     * Authenticates client as user (by login and password). Permissions will be determined by user's role.
+     * Authenticates a client as a user (by login and password). Permissions will be determined by user's role.
      *
      * @param login    login
      * @param password password
@@ -27,7 +28,7 @@ public interface HiveClient extends AutoCloseable {
     void authenticate(String login, String password) throws HiveException;
 
     /**
-     * Authenticates client by access key. Permissions will be determined by the access key permissions.
+     * Authenticates a client by an access key. Permissions will be determined by the access key permissions.
      *
      * @param key access key
      */
@@ -96,7 +97,9 @@ public interface HiveClient extends AutoCloseable {
      */
     OAuthTokenAPI getOAuthTokenAPI();
 
-
+    /**
+     * Disconnects the client from the server.
+     */
     void close();
 
 }

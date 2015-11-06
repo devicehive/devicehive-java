@@ -1,12 +1,7 @@
 package com.devicehive.client.impl.json;
 
 
-import com.devicehive.client.impl.json.adapters.AccessTypeAdapter;
-import com.devicehive.client.impl.json.adapters.JsonStringWrapperAdapterFactory;
-import com.devicehive.client.impl.json.adapters.OptionalAdapterFactory;
-import com.devicehive.client.impl.json.adapters.OAuthTypeAdapter;
-import com.devicehive.client.impl.json.adapters.UserRoleAdapter;
-import com.devicehive.client.impl.json.adapters.UserStatusAdapter;
+import com.devicehive.client.impl.json.adapters.*;
 import com.devicehive.client.impl.json.strategies.AnnotatedStrategy;
 import com.devicehive.client.model.AccessType;
 import com.devicehive.client.model.OAuthType;

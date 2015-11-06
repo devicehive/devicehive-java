@@ -7,7 +7,9 @@ import com.devicehive.client.model.exceptions.HiveException;
 import java.util.List;
 
 /**
- * Client side controller for OAuth clients. Transport declared in the hive context will be used.
+ * The API for OAuth clients. Transport declared in the hive context will be used.
+ *
+ * @see <a href="http://devicehive.com/restful/#Reference/OAuthClient">DeviceHive RESTful API: OAuth Client</a>
  */
 public interface OAuthClientAPI {
 
@@ -22,24 +24,31 @@ public interface OAuthClientAPI {
      * @param sortOrder   Result list sort order. Available values are ASC and DESC.
      * @param take        Number of records to take.
      * @param skip        Number of records to skip.
-     * @return list of OAuth clients
+     * @return a list of {@link OAuthClient} resources
+     * @throws HiveException if an error occurs during the request execution
+     * @see <a href="http://devicehive.com/restful/#Reference/OAuthClient/list">DeviceHive RESTful API: OAuth Client: list</a>
      */
     List<OAuthClient> list(String name, String namePattern, String domain, String oauthId, String sortField,
                            String sortOrder, Integer take, Integer skip) throws HiveException;
 
     /**
-     * Gets information about OAuth client.
+     * Retrieves information about an OAuth client.
      *
-     * @param id OAuth client identifier.
-     * @return OAuth client associated with requested id.
+     * @param id an OAuth client identifier.
+     * @return an {@link OAuthClient} resource associated with requested id.
+     * @throws HiveException if an error occurs during the request execution
+     * @see <a href="http://devicehive.com/restful/#Reference/OAuthClient/get">DeviceHive RESTful API: OAuth Client: get</a>
      */
     OAuthClient get(long id) throws HiveException;
 
     /**
-     * Creates new OAuth client.
+     * Creates a new OAuth client.
      *
-     * @param client client to be inserted
-     * @return OAuthClient resource with client identifier and client OAuth secret.
+     * @param client a client to be inserted
+     * @return an {@link OAuthClient} resource with a client identifier and a client OAuth secret.
+     * @throws HiveException if an error occurs during the request execution
+     * @see <a href="http://devicehive.com/restful/#Reference/OAuthClient/insert">DeviceHive RESTful API: OAuth Client:
+     * insert</a>
      */
     OAuthClient insert(OAuthClient client) throws HiveException;
 
@@ -47,13 +56,19 @@ public interface OAuthClientAPI {
      * Updates an existing OAuth client.
      *
      * @param client OAuth client resource update info.
+     * @throws HiveException if an error occurs during the request execution
+     * @see <a href="http://devicehive.com/restful/#Reference/OAuthClient/update">DeviceHive RESTful API: OAuth Client:
+     * update</a>
      */
     void update(OAuthClient client) throws HiveException;
 
     /**
-     * Deletes an existing OAuth client.
+     * Removes an existing OAuth client.
      *
      * @param id OAuth client identifier.
+     * @throws HiveException if an error occurs during the request execution
+     * @see <a href="http://devicehive.com/restful/#Reference/OAuthClient/delete">DeviceHive RESTful API: OAuth Client:
+     * delete</a>
      */
     void delete(long id) throws HiveException;
 }

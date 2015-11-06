@@ -5,7 +5,7 @@ import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 /**
- * Principal storage. Save credentials of authenticated device or client.
+ * A Device Hive principal. Stores credentials of authenticated device or client.
  */
 public class HivePrincipal {
 
@@ -23,49 +23,69 @@ public class HivePrincipal {
     }
 
     /**
-     * Create new hive principal with user credentials.
+     * Creates a new Hive principal with user credentials.
      *
      * @param login    login
      * @param password password
-     * @return new hive principal with user credentials
+     * @return a new {@link HivePrincipal} with the user credentials
      */
     public static HivePrincipal createUser(String login, String password) {
         return new HivePrincipal(ImmutablePair.of(login, password), Type.USER);
     }
 
     /**
-     * Create new hive principal with device credentials.
+     * Creates a new Hive principal with device credentials.
      *
-     * @param id  device identifier
-     * @param key device key
-     * @return new hive principal with device credentials.
+     * @param id  a device identifier
+     * @param key a device key
+     * @return a new {@link HivePrincipal} with the device credentials.
      */
     public static HivePrincipal createDevice(String id, String key) {
         return new HivePrincipal(ImmutablePair.of(id, key), Type.DEVICE);
     }
 
     /**
-     * Create new hive principal with access key credentials.
+     * Create a new Hive principal with access key credentials.
      *
-     * @param key access key
-     * @return new hive principal with access key credentials
+     * @param key an access key
+     * @return a new {@link HivePrincipal} with access key credentials
      */
     public static HivePrincipal createAccessKey(String key) {
         return new HivePrincipal(ImmutablePair.of((String) null, key), Type.ACCESS_KEY);
     }
 
+    /**
+     * Retrieves the current principal credentials.
+     *
+     * @return principal credentials
+     */
     public Pair<String, String> getPrincipal() {
         return principal;
     }
 
+    /**
+     * Checks if it's a user principal.
+     *
+     * @return {@code true} if it's a user principal; {@code false} otherwise
+     */
     public boolean isUser() {
         return Type.USER.equals(this.type);
     }
 
+    /**
+     * Checks if it's a device principal.
+     *
+     * @return {@code true} if it's a device principal; {@code false} otherwise
+     */
     public boolean isDevice() {
         return Type.DEVICE.equals(this.type);
     }
 
+    /**
+     * Checks if it's an access key principal.
+     *
+     * @return {@code true} if it's an access key principal; {@code false} otherwise
+     */
     public boolean isAccessKey() {
         return Type.ACCESS_KEY.equals(this.type);
     }
