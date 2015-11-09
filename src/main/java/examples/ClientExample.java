@@ -1,9 +1,9 @@
 package examples;
 
 import com.google.gson.JsonObject;
-import io.swagger.client.ApiClient;
-import io.swagger.client.model.DeviceCommandWrapper;
-import io.swagger.client.model.JsonStringWrapper;
+import com.devicehive.client.ApiClient;
+import com.devicehive.client.model.DeviceCommandWrapper;
+import com.devicehive.client.model.JsonStringWrapper;
 
 public class ClientExample {
 

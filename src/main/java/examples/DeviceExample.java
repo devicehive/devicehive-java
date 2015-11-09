@@ -1,11 +1,11 @@
 package examples;
 
+import com.devicehive.client.model.*;
 import com.google.common.base.Strings;
-import io.swagger.client.ApiClient;
-import io.swagger.client.api.ApiInfoApi;
-import io.swagger.client.api.DeviceApi;
-import io.swagger.client.api.DeviceCommandApi;
-import io.swagger.client.model.*;
+import com.devicehive.client.ApiClient;
+import com.devicehive.client.api.ApiInfoApi;
+import com.devicehive.client.api.DeviceApi;
+import com.devicehive.client.api.DeviceCommandApi;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -24,83 +24,53 @@ public class DeviceExample {
     private static final String DC_VERSION = "1.0";
     private static String TIMESTAMP = "";
 
-
     public static void main(String[] args) throws MalformedURLException {
         final ApiClient apiClient = new ApiClient(URL, ApiClient.AUTH_API_KEY, MY_API_KEY);
 
         if (Strings.isNullOrEmpty(TIMESTAMP)) {
             ApiInfoApi infoService = apiClient.createService(ApiInfoApi.class);
-            infoService.getApiInfo(new Callback<ApiInfoResponse>() {
-                @Override
-                public void success(ApiInfoResponse apiInfoResponse, Response response) {
+            ApiInfo apiInfo = infoService.getApiInfo();
+            TIMESTAMP = apiInfo.getServerTimestamp();
 
-                    if (!Strings.isNullOrEmpty(apiInfoResponse.getServerTimestamp())) {
-                        TIMESTAMP = apiInfoResponse.getServerTimestamp();
-                        System.out.println(TIMESTAMP);
-                        polling(apiClient);
-                    }
+            try {
+                polling(apiClient);
+            } catch (RetrofitError e) {
+                System.out.println(e.toString());
+            }
+        }
+    }
+
+    private static void polling(ApiClient apiClient) throws RetrofitError {
+        DeviceUpdate device = createDevice();
+        DeviceApi deviceService = apiClient.createService(DeviceApi.class);
+        deviceService.register(device, ID);
+        DeviceCommandApi commandService = apiClient.createService(DeviceCommandApi.class);
+
+        List<DeviceCommandItem> deviceCommandItems = commandService.poll(ID, "", TIMESTAMP, 30L);
+        System.out.println(deviceCommandItems);
+        if (deviceCommandItems.size() > 0) {
+            TIMESTAMP = deviceCommandItems.get(0).getTimestamp();
+            DeviceCommandItem dev = deviceCommandItems.get(0);
+            DeviceCommandWrapper deviceCommandWrapper = getWrapper(dev);
+            commandService.update(dev.getDeviceGuid(), dev.getId(), deviceCommandWrapper, new Callback<DeviceCommandItem>() {
+                @Override
+                public void success(DeviceCommandItem deviceCommandItem, Response response) {
+                    System.out.println(deviceCommandItem);
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
-
+                    System.out.println(error.toString());
                 }
             });
-        } else {
-
-
         }
     }
 
-    private static void polling(ApiClient apiClient) {
-        DeviceUpdate device = createDevice();
-        DeviceApi deviceService = apiClient.createService(DeviceApi.class);
-        deviceService.register(device, ID, new Callback<Void>() {
-
-            @Override
-            public void success(Void aVoid, Response response) {
-
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-            }
-        });
-
-        DeviceCommandApi commandService = apiClient.createService(DeviceCommandApi.class);
-        commandService.poll(ID, "", TIMESTAMP, 60L, new Callback<List<DeviceResponse>>() {
-            @Override
-            public void success(List<DeviceResponse> deviceResponses, Response response) {
-                if (deviceResponses.size() > 0) {
-                    System.out.println(deviceResponses.toString());
-                    if (!Strings.isNullOrEmpty(deviceResponses.get(0).getTimestamp()))
-                        TIMESTAMP = deviceResponses.get(0).getTimestamp();
-                    deviceResponses.get(0).getDeviceGuid();
-                    deviceResponses.get(0).getCommand();
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-
-            }
-        });
-
-
-//        DeviceCommandWrapper wrapper = new DeviceCommandWrapper();
-//        wrapper.setCommand("command");
-//        wrapper.setParameters("params");
-//        commandService.insert(ID, wrapper, new Callback<DeviceCommandResponse>() {
-//            @Override
-//            public void success(DeviceCommandResponse deviceCommandResponse, Response response) {
-//                System.out.println(deviceCommandResponse);
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError error) {
-//
-//            }
-//        });
+    private static DeviceCommandWrapper getWrapper(DeviceCommandItem deviceCommandItem) {
+        DeviceCommandWrapper deviceCommandWrapper = new DeviceCommandWrapper();
+        deviceCommandWrapper.setCommand(deviceCommandItem.getCommand());
+        deviceCommandWrapper.setParameters(deviceCommandItem.getParameters());
+        return deviceCommandWrapper;
     }
 
     private static DeviceUpdate createDevice() {
@@ -111,7 +81,6 @@ public class DeviceExample {
         deviceClass.setName(DC_NAME);
         deviceClass.setVersion(DC_VERSION);
         device.setDeviceClass(deviceClass);
-
 
         return device;
     }
