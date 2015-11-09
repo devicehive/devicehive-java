@@ -14,26 +14,26 @@ import io.swagger.annotations.*;
 public class NetworkUpdate   {
   
   @SerializedName("id")
-  private Long id = null;
+  private String id = null;
   
   @SerializedName("key")
-  private NullableWrapper key = null;
+  private String key = null;
   
   @SerializedName("name")
-  private NullableWrapper name = null;
+  private String name = null;
   
   @SerializedName("description")
-  private NullableWrapper description = null;
+  private String description = null;
   
 
   
   /**
    **/
   @ApiModelProperty(value = "")
-  public Long getId() {
+  public String getId() {
     return id;
   }
-  public void setId(Long id) {
+  public void setId(String id) {
     this.id = id;
   }
 
@@ -41,10 +41,10 @@ public class NetworkUpdate   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getKey() {
+  public String getKey() {
     return key;
   }
-  public void setKey(NullableWrapper key) {
+  public void setKey(String key) {
     this.key = key;
   }
 
@@ -52,10 +52,10 @@ public class NetworkUpdate   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getName() {
+  public String getName() {
     return name;
   }
-  public void setName(NullableWrapper name) {
+  public void setName(String name) {
     this.name = name;
   }
 
@@ -63,10 +63,10 @@ public class NetworkUpdate   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getDescription() {
+  public String getDescription() {
     return description;
   }
-  public void setDescription(NullableWrapper description) {
+  public void setDescription(String description) {
     this.description = description;
   }
 

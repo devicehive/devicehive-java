@@ -1,24 +1,15 @@
 package com.devicehive.client.model;
 
 import com.devicehive.client.StringUtil;
-
 import com.google.gson.annotations.SerializedName;
-
-
-import io.swagger.annotations.*;
-
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(description = "")
-public class Device {
+public class DeviceInfo {
 
     @SerializedName("id")
-    private Long id = null;
-
-    @SerializedName("guid")
-    private String guid = null;
-
-    @SerializedName("key")
-    private String key = null;
+    private String id = null;
 
     @SerializedName("name")
     private String name = null;
@@ -29,49 +20,25 @@ public class Device {
     @SerializedName("data")
     private JsonStringWrapper data = null;
 
+    @SerializedName("network")
+    private NetworkUpdate networkUpdate = null;
+
     @SerializedName("deviceClass")
-    private DeviceClass deviceClass = null;
+    private DeviceClassUpdate deviceClassUpdate = null;
 
-    @SerializedName("entityVersion")
-    private Long entityVersion = null;
-
-    @SerializedName("blocked")
+    @SerializedName("isBlocked")
     private Boolean blocked = false;
 
 
     /**
      **/
     @ApiModelProperty(value = "")
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-
-    /**
-     **/
-    @ApiModelProperty(required = true, value = "")
-    public String getGuid() {
-        return guid;
-    }
-
-    public void setGuid(String guid) {
-        this.guid = guid;
-    }
-
-
-    /**
-     **/
-    @ApiModelProperty(value = "")
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
     }
 
 
@@ -114,24 +81,12 @@ public class Device {
     /**
      **/
     @ApiModelProperty(required = true, value = "")
-    public DeviceClass getDeviceClass() {
-        return deviceClass;
+    public DeviceClassUpdate getDeviceClassUpdate() {
+        return deviceClassUpdate;
     }
 
-    public void setDeviceClass(DeviceClass deviceClass) {
-        this.deviceClass = deviceClass;
-    }
-
-
-    /**
-     **/
-    @ApiModelProperty(value = "")
-    public Long getEntityVersion() {
-        return entityVersion;
-    }
-
-    public void setEntityVersion(Long entityVersion) {
-        this.entityVersion = entityVersion;
+    public void setDeviceClassUpdate(DeviceClassUpdate deviceClassUpdate) {
+        this.deviceClassUpdate = deviceClassUpdate;
     }
 
 
@@ -150,16 +105,14 @@ public class Device {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("class Device {\n");
+        sb.append("class DeviceInfo {\n");
 
         sb.append("    id: ").append(StringUtil.toIndentedString(id)).append("\n");
-        sb.append("    guid: ").append(StringUtil.toIndentedString(guid)).append("\n");
-        sb.append("    key: ").append(StringUtil.toIndentedString(key)).append("\n");
         sb.append("    name: ").append(StringUtil.toIndentedString(name)).append("\n");
         sb.append("    status: ").append(StringUtil.toIndentedString(status)).append("\n");
         sb.append("    data: ").append(StringUtil.toIndentedString(data)).append("\n");
-        sb.append("    deviceClass: ").append(StringUtil.toIndentedString(deviceClass)).append("\n");
-        sb.append("    entityVersion: ").append(StringUtil.toIndentedString(entityVersion)).append("\n");
+        sb.append("    deviceClassUpdate: ").append(StringUtil.toIndentedString(deviceClassUpdate)).append("\n");
+        sb.append("    network: ").append(StringUtil.toIndentedString(networkUpdate)).append("\n");
         sb.append("    blocked: ").append(StringUtil.toIndentedString(blocked)).append("\n");
         sb.append("}");
         return sb.toString();
