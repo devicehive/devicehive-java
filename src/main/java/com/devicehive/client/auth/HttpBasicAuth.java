@@ -40,9 +40,12 @@ public class HttpBasicAuth implements Interceptor {
         // If the request already have an authorization (eg. Basic auth), do nothing
         if (request.header("Authorization") == null) {
             String credentials = Credentials.basic(username, password);
+
             request = request.newBuilder()
                     .addHeader("Authorization", credentials)
                     .build();
+            System.out.println(request.headers("Authorization"));
+            System.out.println(request.httpUrl());
 
         }
         return chain.proceed(request);

@@ -5,128 +5,133 @@ import com.devicehive.client.StringUtil;
 import com.google.gson.annotations.SerializedName;
 
 
-
 import io.swagger.annotations.*;
 
+import java.util.List;
 
 
 @ApiModel(description = "")
-public class DeviceClassUpdate   {
-  
-  @SerializedName("id")
-  private Long id = null;
-  
-  @SerializedName("name")
-  private String name = null;
-  
-  @SerializedName("version")
-  private String version = null;
-  
-  @SerializedName("offlineTimeout")
-  private Integer offlineTimeout = null;
-  
-  @SerializedName("data")
-  private JsonStringWrapper data = null;
-  
-  @SerializedName("equipment")
-  private NullableWrapper equipment = null;
-  
-  @SerializedName("permanent")
-  private NullableWrapper permanent = null;
-  
+public class DeviceClassUpdate {
 
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public Long getId() {
-    return id;
-  }
-  public void setId(Long id) {
-    this.id = id;
-  }
+    @SerializedName("id")
+    private Long id = null;
 
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public String getName() {
-    return name;
-  }
-  public void setName(String name) {
-    this.name = name;
-  }
+    @SerializedName("name")
+    private String name = null;
 
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public String getVersion() {
-    return version;
-  }
-  public void setVersion(String version) {
-    this.version = version;
-  }
+    @SerializedName("version")
+    private String version = null;
 
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public Integer getOfflineTimeout() {
-    return offlineTimeout;
-  }
-  public void setOfflineTimeout(Integer offlineTimeout) {
-    this.offlineTimeout = offlineTimeout;
-  }
+    @SerializedName("offlineTimeout")
+    private Integer offlineTimeout = null;
 
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public JsonStringWrapper getData() {
-    return data;
-  }
-  public void setData(JsonStringWrapper data) {
-    this.data = data;
-  }
+    @SerializedName("data")
+    private JsonStringWrapper data = null;
 
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public NullableWrapper getEquipment() {
-    return equipment;
-  }
-  public void setEquipment(NullableWrapper equipment) {
-    this.equipment = equipment;
-  }
+    @SerializedName("equipment")
+    private List<Equipment> equipments = null;
 
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public NullableWrapper getPermanent() {
-    return permanent;
-  }
-  public void setPermanent(NullableWrapper permanent) {
-    this.permanent = permanent;
-  }
+    @SerializedName("permanent")
+    private NullableWrapper permanent = null;
 
-  
 
-  @Override
-  public String toString()  {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class DeviceClassUpdate {\n");
-    
-    sb.append("    id: ").append(StringUtil.toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(StringUtil.toIndentedString(name)).append("\n");
-    sb.append("    version: ").append(StringUtil.toIndentedString(version)).append("\n");
-    sb.append("    offlineTimeout: ").append(StringUtil.toIndentedString(offlineTimeout)).append("\n");
-    sb.append("    data: ").append(StringUtil.toIndentedString(data)).append("\n");
-    sb.append("    equipment: ").append(StringUtil.toIndentedString(equipment)).append("\n");
-    sb.append("    permanent: ").append(StringUtil.toIndentedString(permanent)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+    /**
+     **/
+    @ApiModelProperty(value = "")
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
+    /**
+     **/
+    @ApiModelProperty(value = "")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    /**
+     **/
+    @ApiModelProperty(value = "")
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+
+    /**
+     **/
+    @ApiModelProperty(value = "")
+    public Integer getOfflineTimeout() {
+        return offlineTimeout;
+    }
+
+    public void setOfflineTimeout(Integer offlineTimeout) {
+        this.offlineTimeout = offlineTimeout;
+    }
+
+
+    /**
+     **/
+    @ApiModelProperty(value = "")
+    public JsonStringWrapper getData() {
+        return data;
+    }
+
+    public void setData(JsonStringWrapper data) {
+        this.data = data;
+    }
+
+
+    /**
+     **/
+    @ApiModelProperty(value = "")
+    public List<Equipment> getEquipments() {
+        return equipments;
+    }
+
+    public void setEquipments(List<Equipment> equipments) {
+        this.equipments = equipments;
+    }
+
+
+    /**
+     **/
+    @ApiModelProperty(value = "")
+    public NullableWrapper getPermanent() {
+        return permanent;
+    }
+
+    public void setPermanent(NullableWrapper permanent) {
+        this.permanent = permanent;
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class DeviceClassUpdate {\n");
+
+        sb.append("    id: ").append(StringUtil.toIndentedString(id)).append("\n");
+        sb.append("    name: ").append(StringUtil.toIndentedString(name)).append("\n");
+        sb.append("    version: ").append(StringUtil.toIndentedString(version)).append("\n");
+        sb.append("    offlineTimeout: ").append(StringUtil.toIndentedString(offlineTimeout)).append("\n");
+        sb.append("    data: ").append(StringUtil.toIndentedString(data)).append("\n");
+        sb.append("    equipment: ").append(StringUtil.toIndentedString(equipments)).append("\n");
+        sb.append("    permanent: ").append(StringUtil.toIndentedString(permanent)).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
 }

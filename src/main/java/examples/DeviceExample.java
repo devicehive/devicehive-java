@@ -1,11 +1,13 @@
 package examples;
 
-import com.devicehive.client.model.*;
-import com.google.common.base.Strings;
 import com.devicehive.client.ApiClient;
-import com.devicehive.client.api.ApiInfoApi;
 import com.devicehive.client.api.DeviceApi;
 import com.devicehive.client.api.DeviceCommandApi;
+import com.devicehive.client.model.DeviceClassUpdate;
+import com.devicehive.client.model.DeviceCommandItem;
+import com.devicehive.client.model.DeviceCommandWrapper;
+import com.devicehive.client.model.DeviceUpdate;
+import com.google.common.base.Strings;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -15,47 +17,55 @@ import java.util.List;
 
 public class DeviceExample {
 
-    public static final String URL = "http://playground.devicehive.com/api/rest/";
-    private static final String MY_API_KEY = "iD8Ktg1wCnAFpbdEmXvkYjN8e0Ku1sTuEnsOaGDDhxI=";
-    private static final String ID = "3d77f31c-bddd-443b-b11c-640946b0581z4123f";
-    private static final String NAME = "Graphical Example Device";
-    private static final String STATUS = "OFFLINE";
-    private static final String DC_NAME = "Graphical Device";
-    private static final String DC_VERSION = "1.0";
-    private static String TIMESTAMP = "";
 
     public static void main(String[] args) throws MalformedURLException {
-        final ApiClient apiClient = new ApiClient(URL, ApiClient.AUTH_API_KEY, MY_API_KEY);
+        ApiClient apiClient = new ApiClient(Const.URL, ApiClient.AUTH_API_KEY, Const.MY_API_KEY);
+        String timestamp = "";
 
-        if (Strings.isNullOrEmpty(TIMESTAMP)) {
-            ApiInfoApi infoService = apiClient.createService(ApiInfoApi.class);
-            ApiInfo apiInfo = infoService.getApiInfo();
-            TIMESTAMP = apiInfo.getServerTimestamp();
+        if (Strings.isNullOrEmpty(timestamp)) {
+
+            /**FIXME "2015-5-09T14:37:17.404" test data to get list of command
+             *ApiInfoApi infoService = apiClient.createService(ApiInfoApi.class);
+             *ApiInfo apiInfo = infoService.getApiInfo();
+             *TIMESTAMP = apiInfo.getServerTimestamp();
+             */
+
+            timestamp = "2015-5-09T14:37:17.404";
 
             try {
-                polling(apiClient);
+                System.out.println(timestamp);
+                timestamp = polling(apiClient, timestamp);
+                System.out.println(timestamp);
+
+                DeviceApi deviceService=apiClient.createService(DeviceApi.class);
+//                System.out.println("\n"+deviceService.get(Const.ID));
+                System.out.println("\n"+deviceService.list(null,null,null,null,null,null,null,null,null,null,20,0));
+
+
             } catch (RetrofitError e) {
-                System.out.println(e.toString());
+            e.printStackTrace();
             }
         }
     }
 
-    private static void polling(ApiClient apiClient) throws RetrofitError {
-        DeviceUpdate device = createDevice();
+    private static String polling(ApiClient apiClient, String timestamp)  throws RetrofitError{
+
         DeviceApi deviceService = apiClient.createService(DeviceApi.class);
-        deviceService.register(device, ID);
+        DeviceUpdate device = createDevice();
+        deviceService.register(device, Const.ID);
+
         DeviceCommandApi commandService = apiClient.createService(DeviceCommandApi.class);
 
-        List<DeviceCommandItem> deviceCommandItems = commandService.poll(ID, "", TIMESTAMP, 30L);
-        System.out.println(deviceCommandItems);
+        List<DeviceCommandItem> deviceCommandItems = commandService.poll(Const.ID, "", timestamp, 30L);
         if (deviceCommandItems.size() > 0) {
-            TIMESTAMP = deviceCommandItems.get(0).getTimestamp();
+            timestamp = deviceCommandItems.get(0).getTimestamp();
             DeviceCommandItem dev = deviceCommandItems.get(0);
             DeviceCommandWrapper deviceCommandWrapper = getWrapper(dev);
             commandService.update(dev.getDeviceGuid(), dev.getId(), deviceCommandWrapper, new Callback<DeviceCommandItem>() {
                 @Override
                 public void success(DeviceCommandItem deviceCommandItem, Response response) {
-                    System.out.println(deviceCommandItem);
+                    System.out.println(response.getStatus());
+
                 }
 
                 @Override
@@ -63,7 +73,11 @@ public class DeviceExample {
                     System.out.println(error.toString());
                 }
             });
+
+
+
         }
+        return timestamp;
     }
 
     private static DeviceCommandWrapper getWrapper(DeviceCommandItem deviceCommandItem) {
@@ -75,11 +89,11 @@ public class DeviceExample {
 
     private static DeviceUpdate createDevice() {
         DeviceUpdate device = new DeviceUpdate();
-        device.setName(NAME);
-        device.setStatus(STATUS);
+        device.setName(Const.NAME);
+        device.setStatus(Const.STATUS);
         DeviceClassUpdate deviceClass = new DeviceClassUpdate();
-        deviceClass.setName(DC_NAME);
-        deviceClass.setVersion(DC_VERSION);
+        deviceClass.setName(Const.DC_NAME);
+        deviceClass.setVersion(Const.DC_VERSION);
         device.setDeviceClass(deviceClass);
 
         return device;
