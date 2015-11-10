@@ -1,9 +1,9 @@
 package com.devicehive.client.model;
 
+import com.devicehive.client.StringUtil;
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import com.devicehive.client.StringUtil;
 
 @ApiModel(description = "")
 public class DeviceCommand {

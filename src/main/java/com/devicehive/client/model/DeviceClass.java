@@ -1,11 +1,9 @@
 package com.devicehive.client.model;
 
-import com.devicehive.client.model.Equipment;
-import com.devicehive.client.model.JsonStringWrapper;
+import com.devicehive.client.StringUtil;
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import com.devicehive.client.StringUtil;
 
 import java.util.HashSet;
 import java.util.Set;
