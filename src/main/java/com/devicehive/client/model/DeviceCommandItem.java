@@ -1,6 +1,7 @@
 package com.devicehive.client.model;
 
 
+import com.devicehive.client.model.NullableWrapper;
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
