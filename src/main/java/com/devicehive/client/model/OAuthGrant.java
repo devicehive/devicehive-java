@@ -1,15 +1,13 @@
 package com.devicehive.client.model;
 
 import com.devicehive.client.StringUtil;
-
-import java.util.Date;
-import java.util.*;
-
 import com.google.gson.annotations.SerializedName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
-
-
-import io.swagger.annotations.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 

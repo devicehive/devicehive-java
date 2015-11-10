@@ -1,12 +1,9 @@
 package com.devicehive.client.model;
 
 import com.devicehive.client.StringUtil;
-
 import com.google.gson.annotations.SerializedName;
-
-
-
-import io.swagger.annotations.*;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 
 
@@ -43,7 +40,7 @@ public class OAuthClientUpdate   {
     this.id = id;
   }
 
-  
+
   /**
    **/
   @ApiModelProperty(value = "")

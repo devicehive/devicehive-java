@@ -1,7 +1,7 @@
 package com.devicehive.client.model;
 
 
-import io.swagger.annotations.*;
+import io.swagger.annotations.ApiModel;
 
 
 
