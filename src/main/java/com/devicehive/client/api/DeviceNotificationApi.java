@@ -1,10 +1,12 @@
 package com.devicehive.client.api;
 
+import com.devicehive.client.model.DeviceNotification;
+import com.devicehive.client.model.DeviceNotificationWrapper;
+import com.devicehive.client.model.Notification;
 import retrofit.Callback;
 import retrofit.http.*;
 
-import com.devicehive.client.model.AsyncResponse;
-import com.devicehive.client.model.DeviceNotificationWrapper;
+import java.util.List;
 
 public interface DeviceNotificationApi {
 
@@ -17,17 +19,15 @@ public interface DeviceNotificationApi {
      * @param deviceGuids Device guids
      * @param names       Notification names
      * @param timestamp   Timestamp to start from
-     * @param body
      * @return Void
      */
 
     @GET("/device/notification/poll")
-    Void pollMany(
+    List<Notification> pollMany(
             @Query("waitTimeout") Long waitTimeout,
             @Query("deviceGuids") String deviceGuids,
             @Query("names") String names,
-            @Query("timestamp") String timestamp,
-            @Body AsyncResponse body
+            @Query("timestamp") String timestamp
     );
 
     /**
@@ -38,7 +38,6 @@ public interface DeviceNotificationApi {
      * @param deviceGuids Device guids
      * @param names       Notification names
      * @param timestamp   Timestamp to start from
-     * @param body
      * @param cb          callback method
      * @return void
      */
@@ -49,8 +48,7 @@ public interface DeviceNotificationApi {
             @Query("deviceGuids") String deviceGuids,
             @Query("names") String names,
             @Query("timestamp") String timestamp,
-            @Body AsyncResponse body,
-            Callback<Void> cb
+            Callback<List<Notification>> cb
     );
 
     /**
@@ -156,17 +154,15 @@ public interface DeviceNotificationApi {
      * @param names       Notification names
      * @param timestamp   Timestamp to start from
      * @param waitTimeout Wait timeout
-     * @param body
      * @return Void
      */
 
     @GET("/device/{deviceGuid}/notification/poll")
-    Void poll(
+    List<DeviceNotification> poll(
             @Path("deviceGuid") String deviceGuid,
             @Query("names") String names,
             @Query("timestamp") String timestamp,
-            @Query("waitTimeout") Long waitTimeout,
-            @Body AsyncResponse body
+            @Query("waitTimeout") Long waitTimeout
     );
 
     /**
@@ -177,7 +173,6 @@ public interface DeviceNotificationApi {
      * @param names       Notification names
      * @param timestamp   Timestamp to start from
      * @param waitTimeout Wait timeout
-     * @param body
      * @param cb          callback method
      * @return void
      */
@@ -188,8 +183,7 @@ public interface DeviceNotificationApi {
             @Query("names") String names,
             @Query("timestamp") String timestamp,
             @Query("waitTimeout") Long waitTimeout,
-            @Body AsyncResponse body,
-            Callback<Void> cb
+            Callback<List<DeviceNotification>> cb
     );
 
     /**
