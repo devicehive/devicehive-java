@@ -29,13 +29,13 @@ public class DeviceCommandItem {
 
 
     @SerializedName("lifetime")
-    private NullableWrapper lifetime = null;
+    private String lifetime = null;
 
     @SerializedName("status")
-    private NullableWrapper status = null;
+    private String status = null;
 
     @SerializedName("result")
-    private NullableWrapper result = null;
+    private String result = null;
 
     @ApiModelProperty(required = true, value = "")
     public Long getId() {
@@ -95,10 +95,10 @@ public class DeviceCommandItem {
     /**
      **/
     @ApiModelProperty(value = "")
-    public NullableWrapper getLifetime() {
+    public String getLifetime() {
         return lifetime;
     }
-    public void setLifetime(NullableWrapper lifetime) {
+    public void setLifetime(String lifetime) {
         this.lifetime = lifetime;
     }
 
@@ -106,10 +106,10 @@ public class DeviceCommandItem {
     /**
      **/
     @ApiModelProperty(value = "")
-    public NullableWrapper getStatus() {
+    public String getStatus() {
         return status;
     }
-    public void setStatus(NullableWrapper status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -117,12 +117,14 @@ public class DeviceCommandItem {
     /**
      **/
     @ApiModelProperty(value = "")
-    public NullableWrapper getResult() {
+    public String getResult() {
         return result;
     }
-    public void setResult(NullableWrapper result) {
+    public void setResult(String result) {
         this.result = result;
     }
+
+
     @Override
     public String toString()  {
         StringBuilder sb = new StringBuilder();
@@ -134,6 +136,9 @@ public class DeviceCommandItem {
         sb.append("    userId: ").append(StringUtil.toIndentedString(userId)).append("\n");
         sb.append("    deviceGuid: ").append(StringUtil.toIndentedString(deviceGuid)).append("\n");
         sb.append("    parameters: ").append(StringUtil.toIndentedString(parameters)).append("\n");
+        sb.append("    lifetime: ").append(StringUtil.toIndentedString(lifetime)).append("\n");
+        sb.append("    status: ").append(StringUtil.toIndentedString(status)).append("\n");
+        sb.append("    result: ").append(StringUtil.toIndentedString(result)).append("\n");
         sb.append("}");
         return sb.toString();
     }

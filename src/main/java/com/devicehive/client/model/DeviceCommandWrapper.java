@@ -17,13 +17,13 @@ public class DeviceCommandWrapper   {
   private String parameters = null;
   
   @SerializedName("lifetime")
-  private NullableWrapper lifetime = null;
+  private String lifetime = null;
   
   @SerializedName("status")
-  private NullableWrapper status = null;
+  private String status = null;
   
   @SerializedName("result")
-  private NullableWrapper result = null;
+  private String result = null;
   
 
   
@@ -52,10 +52,10 @@ public class DeviceCommandWrapper   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getLifetime() {
+  public String getLifetime() {
     return lifetime;
   }
-  public void setLifetime(NullableWrapper lifetime) {
+  public void setLifetime(String lifetime) {
     this.lifetime = lifetime;
   }
 
@@ -63,10 +63,10 @@ public class DeviceCommandWrapper   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getStatus() {
+  public String getStatus() {
     return status;
   }
-  public void setStatus(NullableWrapper status) {
+  public void setStatus(String status) {
     this.status = status;
   }
 
@@ -74,10 +74,10 @@ public class DeviceCommandWrapper   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getResult() {
+  public String getResult() {
     return result;
   }
-  public void setResult(NullableWrapper result) {
+  public void setResult(String result) {
     this.result = result;
   }
 

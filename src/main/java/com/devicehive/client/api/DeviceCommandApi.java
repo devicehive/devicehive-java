@@ -20,17 +20,15 @@ public interface DeviceCommandApi {
      * @param names       Command names
      * @param timestamp   Timestamp to start from
      * @param waitTimeout Wait timeout
-     * @param body
      * @return Void
      */
 
     @GET("/device/command/poll")
-    Void pollMany(
+    List<DeviceCommandItem> pollMany(
             @Query("deviceGuids") String deviceGuids,
             @Query("names") String names,
             @Query("timestamp") String timestamp,
-            @Query("waitTimeout") Long waitTimeout,
-            @Body AsyncResponse body
+            @Query("waitTimeout") Long waitTimeout
     );
 
     /**
@@ -41,7 +39,6 @@ public interface DeviceCommandApi {
      * @param names       Command names
      * @param timestamp   Timestamp to start from
      * @param waitTimeout Wait timeout
-     * @param body
      * @param cb          callback method
      * @return void
      */
@@ -52,8 +49,7 @@ public interface DeviceCommandApi {
             @Query("names") String names,
             @Query("timestamp") String timestamp,
             @Query("waitTimeout") Long waitTimeout,
-            @Body AsyncResponse body,
-            Callback<Void> cb
+            Callback<List<DeviceCommandItem>> cb
     );
 
     /**
