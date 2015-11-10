@@ -26,7 +26,11 @@ public interface DeviceCommandApi {
 
     @GET("/device/command/poll")
     Void pollMany(
-            @Query("deviceGuids") String deviceGuids, @Query("names") String names, @Query("timestamp") String timestamp, @Query("waitTimeout") Long waitTimeout, @Body AsyncResponse body
+            @Query("deviceGuids") String deviceGuids,
+            @Query("names") String names,
+            @Query("timestamp") String timestamp,
+            @Query("waitTimeout") Long waitTimeout,
+            @Body AsyncResponse body
     );
 
     /**
@@ -44,7 +48,12 @@ public interface DeviceCommandApi {
 
     @GET("/device/command/poll")
     void pollMany(
-            @Query("deviceGuids") String deviceGuids, @Query("names") String names, @Query("timestamp") String timestamp, @Query("waitTimeout") Long waitTimeout, @Body AsyncResponse body, Callback<Void> cb
+            @Query("deviceGuids") String deviceGuids,
+            @Query("names") String names,
+            @Query("timestamp") String timestamp,
+            @Query("waitTimeout") Long waitTimeout,
+            @Body AsyncResponse body,
+            Callback<Void> cb
     );
 
     /**
@@ -67,7 +76,16 @@ public interface DeviceCommandApi {
 
     @GET("/device/{deviceGuid}/command")
     Void query(
-            @Path("deviceGuid") String deviceGuid, @Query("start") String start, @Query("end") String end, @Query("command") String command, @Query("status") String status, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip, @Query("gridInterval") Integer gridInterval
+            @Path("deviceGuid") String deviceGuid,
+            @Query("start") String start,
+            @Query("end") String end,
+            @Query("command") String command,
+            @Query("status") String status,
+            @Query("sortField") String sortField,
+            @Query("sortOrder") String sortOrder,
+            @Query("take") Integer take,
+            @Query("skip") Integer skip,
+            @Query("gridInterval") Integer gridInterval
     );
 
     /**
@@ -90,7 +108,17 @@ public interface DeviceCommandApi {
 
     @GET("/device/{deviceGuid}/command")
     void query(
-            @Path("deviceGuid") String deviceGuid, @Query("start") String start, @Query("end") String end, @Query("command") String command, @Query("status") String status, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip, @Query("gridInterval") Integer gridInterval, Callback<Void> cb
+            @Path("deviceGuid") String deviceGuid,
+            @Query("start") String start,
+            @Query("end") String end,
+            @Query("command") String command,
+            @Query("status") String status,
+            @Query("sortField") String sortField,
+            @Query("sortOrder") String sortOrder,
+            @Query("take") Integer take,
+            @Query("skip") Integer skip,
+            @Query("gridInterval") Integer gridInterval,
+            Callback<Void> cb
     );
 
     /**
@@ -105,7 +133,8 @@ public interface DeviceCommandApi {
     @FormUrlEncoded
     @POST("/device/{deviceGuid}/command")
     DeviceCommand insert(
-            @Path("deviceGuid") String deviceGuid, @Body DeviceCommandWrapper body
+            @Path("deviceGuid") String deviceGuid,
+            @Body DeviceCommandWrapper body
     );
 
     /**
@@ -120,7 +149,9 @@ public interface DeviceCommandApi {
     @FormUrlEncoded
     @POST("/device/{deviceGuid}/command")
     void insert(
-            @Path("deviceGuid") String deviceGuid, @Body DeviceCommandWrapper body, Callback<DeviceCommand> cb
+            @Path("deviceGuid") String deviceGuid,
+            @Body DeviceCommandWrapper body,
+            Callback<DeviceCommand> cb
     );
 
     /**
@@ -137,7 +168,10 @@ public interface DeviceCommandApi {
 
     @GET("/device/{deviceGuid}/command/poll")
     List<DeviceCommandItem> poll(
-            @Path("deviceGuid") String deviceGuid, @Query("names") String names, @Query("timestamp") String timestamp, @Query("waitTimeout") Long waitTimeout
+            @Path("deviceGuid") String deviceGuid,
+            @Query("names") String names,
+            @Query("timestamp") String timestamp,
+            @Query("waitTimeout") Long waitTimeout
     );
 
     /**
@@ -154,7 +188,11 @@ public interface DeviceCommandApi {
 
     @GET("/device/{deviceGuid}/command/poll")
     void poll(
-            @Path("deviceGuid") String deviceGuid, @Query("names") String names, @Query("timestamp") String timestamp, @Query("waitTimeout") Long waitTimeout, Callback<List<DeviceCommandItem>> cb
+            @Path("deviceGuid") String deviceGuid,
+            @Query("names") String names,
+            @Query("timestamp") String timestamp,
+            @Query("waitTimeout") Long waitTimeout,
+            Callback<List<DeviceCommandItem>> cb
     );
 
     /**
@@ -169,7 +207,8 @@ public interface DeviceCommandApi {
 
     @GET("/device/{deviceGuid}/command/{commandId}")
     Void get(
-            @Path("deviceGuid") String deviceGuid, @Path("commandId") String commandId
+            @Path("deviceGuid") String deviceGuid,
+            @Path("commandId") String commandId
     );
 
     /**
@@ -184,7 +223,9 @@ public interface DeviceCommandApi {
 
     @GET("/device/{deviceGuid}/command/{commandId}")
     void get(
-            @Path("deviceGuid") String deviceGuid, @Path("commandId") String commandId, Callback<Void> cb
+            @Path("deviceGuid") String deviceGuid,
+            @Path("commandId") String commandId,
+            Callback<Void> cb
     );
 
     /**
@@ -200,7 +241,9 @@ public interface DeviceCommandApi {
 
     @PUT("/device/{deviceGuid}/command/{commandId}")
     Void update(
-            @Path("deviceGuid") String deviceGuid, @Path("commandId") Long commandId, @Body DeviceCommandWrapper body
+            @Path("deviceGuid") String deviceGuid,
+            @Path("commandId") Long commandId,
+            @Body DeviceCommandWrapper body
     );
 
     /**
@@ -216,7 +259,10 @@ public interface DeviceCommandApi {
 
     @PUT("/device/{deviceGuid}/command/{commandId}")
     void update(
-            @Path("deviceGuid") String deviceGuid, @Path("commandId") Long commandId, @Body DeviceCommandWrapper body, Callback<DeviceCommandItem> cb
+            @Path("deviceGuid") String deviceGuid,
+            @Path("commandId") Long commandId,
+            @Body DeviceCommandWrapper body,
+            Callback<DeviceCommandItem> cb
     );
 
     /**
@@ -233,7 +279,10 @@ public interface DeviceCommandApi {
 
     @GET("/device/{deviceGuid}/command/{commandId}/poll")
     Void wait(
-            @Path("deviceGuid") String deviceGuid, @Path("commandId") String commandId, @Query("waitTimeout") Long waitTimeout, @Body AsyncResponse body
+            @Path("deviceGuid") String deviceGuid,
+            @Path("commandId") String commandId,
+            @Query("waitTimeout") Long waitTimeout,
+            @Body AsyncResponse body
     );
 
     /**
@@ -250,7 +299,11 @@ public interface DeviceCommandApi {
 
     @GET("/device/{deviceGuid}/command/{commandId}/poll")
     void wait(
-            @Path("deviceGuid") String deviceGuid, @Path("commandId") String commandId, @Query("waitTimeout") Long waitTimeout, @Body AsyncResponse body, Callback<Void> cb
+            @Path("deviceGuid") String deviceGuid,
+            @Path("commandId") String commandId,
+            @Query("waitTimeout") Long waitTimeout,
+            @Body AsyncResponse body,
+            Callback<Void> cb
     );
 
 }
