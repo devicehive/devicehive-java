@@ -36,7 +36,7 @@ public class DeviceClass implements HiveEntity {
 
     @JsonPolicyDef({DEVICE_PUBLISHED, DEVICE_SUBMITTED, NETWORK_PUBLISHED, DEVICECLASS_LISTED, DEVICECLASS_PUBLISHED,
                     DEVICE_PUBLISHED_DEVICE_AUTH})
-    private Optional<JsonStringWrapper> data;
+    private Optional<String> data;
 
     public DeviceClass() {
     }
@@ -97,11 +97,11 @@ public class DeviceClass implements HiveEntity {
         this.offlineTimeout = null;
     }
 
-    public JsonStringWrapper getData() {
+    public String getData() {
         return NullableWrapper.value(data);
     }
 
-    public void setData(JsonStringWrapper data) {
+    public void setData(String data) {
         this.data = Optional.fromNullable(data);
     }
 

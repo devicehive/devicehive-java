@@ -24,16 +24,16 @@ public class DeviceNotification implements HiveMessage {
     private String notification;
 
     @JsonPolicyDef({NOTIFICATION_TO_CLIENT, NOTIFICATION_FROM_DEVICE})
-    private JsonStringWrapper parameters;
+    private String parameters;
 
     public DeviceNotification() {
     }
 
-    public JsonStringWrapper getParameters() {
+    public String getParameters() {
         return parameters;
     }
 
-    public void setParameters(JsonStringWrapper parameters) {
+    public void setParameters(String parameters) {
         this.parameters = parameters;
     }
 
