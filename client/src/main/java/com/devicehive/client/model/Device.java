@@ -26,7 +26,7 @@ public class Device implements HiveEntity {
     private Optional<String> status;
 
     @JsonPolicyDef({DEVICE_PUBLISHED, DEVICE_SUBMITTED, NETWORK_PUBLISHED, DEVICE_PUBLISHED_DEVICE_AUTH})
-    private Optional<JsonStringWrapper> data;
+    private Optional<String> data;
 
     @JsonPolicyDef({DEVICE_PUBLISHED, DEVICE_SUBMITTED, DEVICE_PUBLISHED_DEVICE_AUTH})
     private Optional<Network> network;
@@ -82,11 +82,11 @@ public class Device implements HiveEntity {
         this.status = null;
     }
 
-    public JsonStringWrapper getData() {
+    public String getData() {
         return NullableWrapper.value(data);
     }
 
-    public void setData(JsonStringWrapper data) {
+    public void setData(String data) {
         this.data = Optional.fromNullable(data);
     }
 

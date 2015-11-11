@@ -49,7 +49,7 @@ public class OAuthGrant implements HiveEntity {
     private Optional<String> scope;
 
     @JsonPolicyDef({OAUTH_GRANT_LISTED, OAUTH_GRANT_PUBLISHED})
-    private Optional<JsonStringWrapper> networkIds;
+    private Optional<String> networkIds;
 
     public Long getId() {
         return id;
@@ -123,11 +123,11 @@ public class OAuthGrant implements HiveEntity {
         this.scope = Optional.fromNullable(scope);
     }
 
-    public JsonStringWrapper getNetworkIds() {
+    public String getNetworkIds() {
         return NullableWrapper.value(networkIds);
     }
 
-    public void setNetworkIds(JsonStringWrapper networkIds) {
+    public void setNetworkIds(String networkIds) {
         this.networkIds = Optional.fromNullable(networkIds);
     }
 
@@ -136,7 +136,7 @@ public class OAuthGrant implements HiveEntity {
             return null;
         }
         JsonParser parser = new JsonParser();
-        JsonElement elem = parser.parse(networkIds.get().getJsonString());
+        JsonElement elem = parser.parse(networkIds.get());
         if (elem instanceof JsonNull) {
             return null;
         }

@@ -30,7 +30,7 @@ public class DeviceCommand implements HiveMessage {
     private String command;
 
     @JsonPolicyDef({COMMAND_FROM_CLIENT, COMMAND_TO_DEVICE, COMMAND_UPDATE_TO_CLIENT, POST_COMMAND_TO_DEVICE, COMMAND_LISTED})
-    private JsonStringWrapper parameters;
+    private String parameters;
 
     @JsonPolicyDef({COMMAND_FROM_CLIENT, COMMAND_UPDATE_TO_CLIENT, COMMAND_LISTED})
     private Integer lifetime;
@@ -44,7 +44,7 @@ public class DeviceCommand implements HiveMessage {
 
     @JsonPolicyDef({COMMAND_FROM_CLIENT, COMMAND_TO_DEVICE, COMMAND_UPDATE_TO_CLIENT, COMMAND_UPDATE_FROM_DEVICE,
         POST_COMMAND_TO_DEVICE, COMMAND_LISTED})
-    private Optional<JsonStringWrapper> result;
+    private Optional<String> result;
 
 
     public DeviceCommand() {
@@ -82,11 +82,11 @@ public class DeviceCommand implements HiveMessage {
         this.command = command;
     }
 
-    public JsonStringWrapper getParameters() {
+    public String getParameters() {
         return parameters;
     }
 
-    public void setParameters(JsonStringWrapper parameters) {
+    public void setParameters(String parameters) {
         this.parameters = parameters;
     }
 
@@ -122,11 +122,11 @@ public class DeviceCommand implements HiveMessage {
         this.status = null;
     }
 
-    public JsonStringWrapper getResult() {
+    public String getResult() {
         return NullableWrapper.value(result);
     }
 
-    public void setResult(JsonStringWrapper result) {
+    public void setResult(String result) {
         this.result = Optional.fromNullable(result);
     }
 
