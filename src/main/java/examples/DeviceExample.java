@@ -58,6 +58,7 @@ public class DeviceExample {
         deviceService.register(device, Const.ID);
 
         DeviceCommandApi commandService = apiClient.createService(DeviceCommandApi.class);
+
         return commandService.poll(Const.ID, null, timestamp, 30L);
     }
 
