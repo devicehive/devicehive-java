@@ -1,12 +1,11 @@
 package com.devicehive.client.api;
 
+import com.devicehive.client.model.AccessKey;
+import com.devicehive.client.model.AccessKeyUpdate;
 import retrofit.Callback;
 import retrofit.http.*;
 
-import com.devicehive.client.model.AccessKey;
-import com.devicehive.client.model.AccessKeyUpdate;
-
-import java.util.*;
+import java.util.List;
 
 public interface AccessKeyApi {
   
@@ -27,7 +26,7 @@ public interface AccessKeyApi {
   
   @GET("/user/{userId}/accesskey")
   List<AccessKey> list(
-    @Path("userId") String userId, @Query("label") String label, @Query("labelPattern") String labelPattern, @Query("type") Integer type, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip
+          @Path("userId") String userId, @Query("label") String label, @Query("labelPattern") String labelPattern, @Query("type") Integer type, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip
   );
 
   /**
@@ -47,7 +46,7 @@ public interface AccessKeyApi {
   
   @GET("/user/{userId}/accesskey")
   void list(
-    @Path("userId") String userId, @Query("label") String label, @Query("labelPattern") String labelPattern, @Query("type") Integer type, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip, Callback<List<AccessKey>> cb
+          @Path("userId") String userId, @Query("label") String label, @Query("labelPattern") String labelPattern, @Query("type") Integer type, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip, Callback<List<AccessKey>> cb
   );
   
   /**
@@ -61,7 +60,7 @@ public interface AccessKeyApi {
   
   @POST("/user/{userId}/accesskey")
   AccessKey insert(
-    @Path("userId") String userId, @Body AccessKey body
+          @Path("userId") String userId, @Body AccessKey body
   );
 
   /**
@@ -75,7 +74,7 @@ public interface AccessKeyApi {
   
   @POST("/user/{userId}/accesskey")
   void insert(
-    @Path("userId") String userId, @Body AccessKey body, Callback<AccessKey> cb
+          @Path("userId") String userId, @Body AccessKey body, Callback<AccessKey> cb
   );
   
   /**
@@ -89,7 +88,7 @@ public interface AccessKeyApi {
   
   @GET("/user/{userId}/accesskey/{id}")
   AccessKey get(
-    @Path("userId") String userId, @Path("id") Long id
+          @Path("userId") String userId, @Path("id") Long id
   );
 
   /**
@@ -103,7 +102,7 @@ public interface AccessKeyApi {
   
   @GET("/user/{userId}/accesskey/{id}")
   void get(
-    @Path("userId") String userId, @Path("id") Long id, Callback<AccessKey> cb
+          @Path("userId") String userId, @Path("id") Long id, Callback<AccessKey> cb
   );
   
   /**
@@ -118,7 +117,7 @@ public interface AccessKeyApi {
   
   @PUT("/user/{userId}/accesskey/{id}")
   Void update(
-    @Path("userId") String userId, @Path("id") Long id, @Body AccessKeyUpdate body
+          @Path("userId") String userId, @Path("id") Long id, @Body AccessKeyUpdate body
   );
 
   /**
@@ -133,7 +132,7 @@ public interface AccessKeyApi {
   
   @PUT("/user/{userId}/accesskey/{id}")
   void update(
-    @Path("userId") String userId, @Path("id") Long id, @Body AccessKeyUpdate body, Callback<Void> cb
+          @Path("userId") String userId, @Path("id") Long id, @Body AccessKeyUpdate body, Callback<Void> cb
   );
   
   /**
@@ -147,7 +146,7 @@ public interface AccessKeyApi {
   
   @DELETE("/user/{userId}/accesskey/{id}")
   Void delete(
-    @Path("userId") String userId, @Path("id") Long id
+          @Path("userId") String userId, @Path("id") Long id
   );
 
   /**
@@ -161,7 +160,7 @@ public interface AccessKeyApi {
   
   @DELETE("/user/{userId}/accesskey/{id}")
   void delete(
-    @Path("userId") String userId, @Path("id") Long id, Callback<Void> cb
+          @Path("userId") String userId, @Path("id") Long id, Callback<Void> cb
   );
   
 }

@@ -14,19 +14,19 @@ public class OAuthClientUpdate   {
   private Long id = null;
   
   @SerializedName("name")
-  private NullableWrapper name = null;
+  private String name = null;
   
   @SerializedName("domain")
-  private NullableWrapper domain = null;
+  private String domain = null;
   
   @SerializedName("subnet")
-  private NullableWrapper subnet = null;
+  private String subnet = null;
   
   @SerializedName("redirectUri")
-  private NullableWrapper redirectUri = null;
+  private String redirectUri = null;
   
   @SerializedName("oauthId")
-  private NullableWrapper oauthId = null;
+  private String oauthId = null;
   
 
   
@@ -40,14 +40,14 @@ public class OAuthClientUpdate   {
     this.id = id;
   }
 
-
+  
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getName() {
+  public String getName() {
     return name;
   }
-  public void setName(NullableWrapper name) {
+  public void setName(String name) {
     this.name = name;
   }
 
@@ -55,10 +55,10 @@ public class OAuthClientUpdate   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getDomain() {
+  public String getDomain() {
     return domain;
   }
-  public void setDomain(NullableWrapper domain) {
+  public void setDomain(String domain) {
     this.domain = domain;
   }
 
@@ -66,10 +66,10 @@ public class OAuthClientUpdate   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getSubnet() {
+  public String getSubnet() {
     return subnet;
   }
-  public void setSubnet(NullableWrapper subnet) {
+  public void setSubnet(String subnet) {
     this.subnet = subnet;
   }
 
@@ -77,10 +77,10 @@ public class OAuthClientUpdate   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getRedirectUri() {
+  public String getRedirectUri() {
     return redirectUri;
   }
-  public void setRedirectUri(NullableWrapper redirectUri) {
+  public void setRedirectUri(String redirectUri) {
     this.redirectUri = redirectUri;
   }
 
@@ -88,10 +88,10 @@ public class OAuthClientUpdate   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getOauthId() {
+  public String getOauthId() {
     return oauthId;
   }
-  public void setOauthId(NullableWrapper oauthId) {
+  public void setOauthId(String oauthId) {
     this.oauthId = oauthId;
   }
 

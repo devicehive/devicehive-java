@@ -14,16 +14,16 @@ public class EquipmentUpdate   {
   private Long id = null;
   
   @SerializedName("name")
-  private NullableWrapper name = null;
+  private String name = null;
   
   @SerializedName("code")
-  private NullableWrapper code = null;
+  private String code = null;
   
   @SerializedName("type")
-  private NullableWrapper type = null;
+  private String type = null;
   
   @SerializedName("data")
-  private NullableWrapper data = null;
+  private JsonStringWrapper data = null;
   
 
   
@@ -41,10 +41,10 @@ public class EquipmentUpdate   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getName() {
+  public String getName() {
     return name;
   }
-  public void setName(NullableWrapper name) {
+  public void setName(String name) {
     this.name = name;
   }
 
@@ -52,10 +52,10 @@ public class EquipmentUpdate   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getCode() {
+  public String getCode() {
     return code;
   }
-  public void setCode(NullableWrapper code) {
+  public void setCode(String code) {
     this.code = code;
   }
 
@@ -63,10 +63,10 @@ public class EquipmentUpdate   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getType() {
+  public String getType() {
     return type;
   }
-  public void setType(NullableWrapper type) {
+  public void setType(String type) {
     this.type = type;
   }
 
@@ -74,10 +74,10 @@ public class EquipmentUpdate   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getData() {
+  public JsonStringWrapper getData() {
     return data;
   }
-  public void setData(NullableWrapper data) {
+  public void setData(JsonStringWrapper data) {
     this.data = data;
   }
 

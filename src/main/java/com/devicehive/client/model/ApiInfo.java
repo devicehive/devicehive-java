@@ -5,56 +5,80 @@ import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+
+
 @ApiModel(description = "")
-public class ApiInfo {
+public class ApiInfo   {
+  
+  @SerializedName("apiVersion")
+  private String apiVersion = null;
+  
+  @SerializedName("serverTimestamp")
+  private String serverTimestamp = null;
+  
+  @SerializedName("webSocketServerUrl")
+  private String webSocketServerUrl = null;
+  
+  @SerializedName("restServerUrl")
+  private String restServerUrl = null;
+  
 
-    @SerializedName("apiVersion")
-    private String apiVersion=null;
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public String getApiVersion() {
+    return apiVersion;
+  }
+  public void setApiVersion(String apiVersion) {
+    this.apiVersion = apiVersion;
+  }
 
-    @SerializedName("serverTimestamp")
-    private String serverTimestamp=null;
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public String getServerTimestamp() {
+    return serverTimestamp;
+  }
+  public void setServerTimestamp(String serverTimestamp) {
+    this.serverTimestamp = serverTimestamp;
+  }
 
-    @SerializedName("webSocketServerUrl")
-    private String webSocketServerUrl =null;
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public String getWebSocketServerUrl() {
+    return webSocketServerUrl;
+  }
+  public void setWebSocketServerUrl(String webSocketServerUrl) {
+    this.webSocketServerUrl = webSocketServerUrl;
+  }
 
-    @ApiModelProperty(value = "")
-    public String getApiVersion() {
-        return apiVersion;
-    }
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public String getRestServerUrl() {
+    return restServerUrl;
+  }
+  public void setRestServerUrl(String restServerUrl) {
+    this.restServerUrl = restServerUrl;
+  }
 
-    public void setApiVersion(String apiVersion) {
-        this.apiVersion = apiVersion;
-    }
+  
 
-    @ApiModelProperty(required = true,value = "")
-    public String getServerTimestamp() {
-        return serverTimestamp;
-    }
-
-    public void setServerTimestamp(String serverTimestamp) {
-        this.serverTimestamp = serverTimestamp;
-    }
-
-    @ApiModelProperty(required = true,value = "")
-    public String getWebSocketServerUrl() {
-        return webSocketServerUrl;
-    }
-
-    public void setWebSocketServerUrl(String webSocketServerUrl) {
-        this.webSocketServerUrl = webSocketServerUrl;
-    }
-
-
-
-    @Override
-    public String toString()  {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class ApiInfo {\n");
-
-        sb.append("    apiVersion: ").append(StringUtil.toIndentedString(apiVersion)).append("\n");
-        sb.append("    serverTimestamp: ").append(StringUtil.toIndentedString(serverTimestamp)).append("\n");
-        sb.append("    webSocketServerUrl: ").append(StringUtil.toIndentedString(webSocketServerUrl)).append("\n");
-        sb.append("}");
-        return sb.toString();
-    }
+  @Override
+  public String toString()  {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class ApiInfo {\n");
+    
+    sb.append("    apiVersion: ").append(StringUtil.toIndentedString(apiVersion)).append("\n");
+    sb.append("    serverTimestamp: ").append(StringUtil.toIndentedString(serverTimestamp)).append("\n");
+    sb.append("    webSocketServerUrl: ").append(StringUtil.toIndentedString(webSocketServerUrl)).append("\n");
+    sb.append("    restServerUrl: ").append(StringUtil.toIndentedString(restServerUrl)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
 }

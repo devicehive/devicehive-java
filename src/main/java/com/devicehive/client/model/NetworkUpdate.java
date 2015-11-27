@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 public class NetworkUpdate   {
   
   @SerializedName("id")
-  private String id = null;
+  private Long id = null;
   
   @SerializedName("key")
   private String key = null;
@@ -27,10 +27,10 @@ public class NetworkUpdate   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public String getId() {
+  public Long getId() {
     return id;
   }
-  public void setId(String id) {
+  public void setId(Long id) {
     this.id = id;
   }
 

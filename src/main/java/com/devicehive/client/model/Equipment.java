@@ -25,6 +25,9 @@ public class Equipment   {
   @SerializedName("data")
   private JsonStringWrapper data = null;
   
+  @SerializedName("deviceClass")
+  private DeviceClass deviceClass = null;
+  
   @SerializedName("entityVersion")
   private Long entityVersion = null;
   
@@ -87,6 +90,17 @@ public class Equipment   {
   
   /**
    **/
+  @ApiModelProperty(required = true, value = "")
+  public DeviceClass getDeviceClass() {
+    return deviceClass;
+  }
+  public void setDeviceClass(DeviceClass deviceClass) {
+    this.deviceClass = deviceClass;
+  }
+
+  
+  /**
+   **/
   @ApiModelProperty(value = "")
   public Long getEntityVersion() {
     return entityVersion;
@@ -107,6 +121,7 @@ public class Equipment   {
     sb.append("    code: ").append(StringUtil.toIndentedString(code)).append("\n");
     sb.append("    type: ").append(StringUtil.toIndentedString(type)).append("\n");
     sb.append("    data: ").append(StringUtil.toIndentedString(data)).append("\n");
+    sb.append("    deviceClass: ").append(StringUtil.toIndentedString(deviceClass)).append("\n");
     sb.append("    entityVersion: ").append(StringUtil.toIndentedString(entityVersion)).append("\n");
     sb.append("}");
     return sb.toString();

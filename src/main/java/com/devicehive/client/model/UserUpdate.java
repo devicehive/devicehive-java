@@ -11,31 +11,31 @@ import io.swagger.annotations.ApiModelProperty;
 public class UserUpdate   {
   
   @SerializedName("login")
-  private NullableWrapper login = null;
+  private String login = null;
   
   @SerializedName("role")
-  private NullableWrapper role = null;
+  private Integer role = null;
   
   @SerializedName("status")
-  private NullableWrapper status = null;
+  private Integer status = null;
   
   @SerializedName("password")
-  private NullableWrapper password = null;
+  private String password = null;
   
   @SerializedName("oldPassword")
-  private NullableWrapper oldPassword = null;
+  private String oldPassword = null;
   
   @SerializedName("googleLogin")
-  private NullableWrapper googleLogin = null;
+  private String googleLogin = null;
   
   @SerializedName("facebookLogin")
-  private NullableWrapper facebookLogin = null;
+  private String facebookLogin = null;
   
   @SerializedName("githubLogin")
-  private NullableWrapper githubLogin = null;
+  private String githubLogin = null;
   
   @SerializedName("data")
-  private NullableWrapper data = null;
+  private JsonStringWrapper data = null;
   
 
 public enum RoleEnumEnum {
@@ -94,10 +94,10 @@ public enum StatusEnumEnum {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getLogin() {
+  public String getLogin() {
     return login;
   }
-  public void setLogin(NullableWrapper login) {
+  public void setLogin(String login) {
     this.login = login;
   }
 
@@ -105,10 +105,10 @@ public enum StatusEnumEnum {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getRole() {
+  public Integer getRole() {
     return role;
   }
-  public void setRole(NullableWrapper role) {
+  public void setRole(Integer role) {
     this.role = role;
   }
 
@@ -116,10 +116,10 @@ public enum StatusEnumEnum {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getStatus() {
+  public Integer getStatus() {
     return status;
   }
-  public void setStatus(NullableWrapper status) {
+  public void setStatus(Integer status) {
     this.status = status;
   }
 
@@ -127,10 +127,10 @@ public enum StatusEnumEnum {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getPassword() {
+  public String getPassword() {
     return password;
   }
-  public void setPassword(NullableWrapper password) {
+  public void setPassword(String password) {
     this.password = password;
   }
 
@@ -138,10 +138,10 @@ public enum StatusEnumEnum {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getOldPassword() {
+  public String getOldPassword() {
     return oldPassword;
   }
-  public void setOldPassword(NullableWrapper oldPassword) {
+  public void setOldPassword(String oldPassword) {
     this.oldPassword = oldPassword;
   }
 
@@ -149,10 +149,10 @@ public enum StatusEnumEnum {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getGoogleLogin() {
+  public String getGoogleLogin() {
     return googleLogin;
   }
-  public void setGoogleLogin(NullableWrapper googleLogin) {
+  public void setGoogleLogin(String googleLogin) {
     this.googleLogin = googleLogin;
   }
 
@@ -160,10 +160,10 @@ public enum StatusEnumEnum {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getFacebookLogin() {
+  public String getFacebookLogin() {
     return facebookLogin;
   }
-  public void setFacebookLogin(NullableWrapper facebookLogin) {
+  public void setFacebookLogin(String facebookLogin) {
     this.facebookLogin = facebookLogin;
   }
 
@@ -171,10 +171,10 @@ public enum StatusEnumEnum {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getGithubLogin() {
+  public String getGithubLogin() {
     return githubLogin;
   }
-  public void setGithubLogin(NullableWrapper githubLogin) {
+  public void setGithubLogin(String githubLogin) {
     this.githubLogin = githubLogin;
   }
 
@@ -182,10 +182,10 @@ public enum StatusEnumEnum {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getData() {
+  public JsonStringWrapper getData() {
     return data;
   }
-  public void setData(NullableWrapper data) {
+  public void setData(JsonStringWrapper data) {
     this.data = data;
   }
 

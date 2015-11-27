@@ -6,7 +6,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -18,7 +17,7 @@ public class OAuthGrant   {
   private Long id = null;
   
   @SerializedName("timestamp")
-  private Date timestamp = null;
+  private String timestamp = null;
   
   @SerializedName("authCode")
   private String authCode = null;
@@ -112,10 +111,10 @@ public enum AccessTypeEnum {
   /**
    **/
   @ApiModelProperty(value = "")
-  public Date getTimestamp() {
+  public String getTimestamp() {
     return timestamp;
   }
-  public void setTimestamp(Date timestamp) {
+  public void setTimestamp(String timestamp) {
     this.timestamp = timestamp;
   }
 
