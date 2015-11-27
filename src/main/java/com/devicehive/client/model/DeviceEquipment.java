@@ -5,9 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.Date;
-
-
 
 @ApiModel(description = "")
 public class DeviceEquipment   {
@@ -19,7 +16,7 @@ public class DeviceEquipment   {
   private String code = null;
   
   @SerializedName("timestamp")
-  private Date timestamp = null;
+  private String timestamp = null;
   
   @SerializedName("parameters")
   private JsonStringWrapper parameters = null;
@@ -57,10 +54,10 @@ public class DeviceEquipment   {
   /**
    **/
   @ApiModelProperty(required = true, value = "")
-  public Date getTimestamp() {
+  public String getTimestamp() {
     return timestamp;
   }
-  public void setTimestamp(Date timestamp) {
+  public void setTimestamp(String timestamp) {
     this.timestamp = timestamp;
   }
 

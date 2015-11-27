@@ -1,6 +1,5 @@
 package com.devicehive.client.model;
 
-
 import io.swagger.annotations.ApiModel;
 
 

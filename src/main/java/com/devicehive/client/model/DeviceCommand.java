@@ -5,54 +5,185 @@ import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+
+
 @ApiModel(description = "")
-public class DeviceCommand {
+public class DeviceCommand   {
+  
+  @SerializedName("id")
+  private Long id = null;
+  
+  @SerializedName("command")
+  private String command = null;
+  
+  @SerializedName("timestamp")
+  private String timestamp = null;
+  
+  @SerializedName("userId")
+  private Long userId = null;
+  
+  @SerializedName("deviceGuid")
+  private String deviceGuid = null;
+  
+  @SerializedName("parameters")
+  private String parameters = null;
+  
+  @SerializedName("lifetime")
+  private Integer lifetime = null;
+  
+  @SerializedName("status")
+  private String status = null;
+  
+  @SerializedName("result")
+  private JsonStringWrapper result = null;
+  
+  @SerializedName("isUpStringd")
+  private Boolean isUpStringd = false;
+  
+  @SerializedName("hazelcastKey")
+  private String hazelcastKey = null;
+  
 
-    @SerializedName("id")
-    private Long id = null;
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public Long getId() {
+    return id;
+  }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    @SerializedName("timestamp")
-    private String timestamp = null;
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public String getCommand() {
+    return command;
+  }
+  public void setCommand(String command) {
+    this.command = command;
+  }
 
-    @SerializedName("userId")
-    private Long userId = null;
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public String getTimestamp() {
+    return timestamp;
+  }
+  public void setTimestamp(String timestamp) {
+    this.timestamp = timestamp;
+  }
 
-    @ApiModelProperty(value = "")
-    public Long getId() {
-        return id;
-    }
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public Long getUserId() {
+    return userId;
+  }
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public String getDeviceGuid() {
+    return deviceGuid;
+  }
+  public void setDeviceGuid(String deviceGuid) {
+    this.deviceGuid = deviceGuid;
+  }
 
-    @ApiModelProperty(value = "")
-    public String getTimestamp() {
-        return timestamp;
-    }
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public String getParameters() {
+    return parameters;
+  }
+  public void setParameters(String parameters) {
+    this.parameters = parameters;
+  }
 
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public Integer getLifetime() {
+    return lifetime;
+  }
+  public void setLifetime(Integer lifetime) {
+    this.lifetime = lifetime;
+  }
 
-    @ApiModelProperty(value = "")
-    public Long getUserId() {
-        return userId;
-    }
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public String getStatus() {
+    return status;
+  }
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public JsonStringWrapper getResult() {
+    return result;
+  }
+  public void setResult(JsonStringWrapper result) {
+    this.result = result;
+  }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class DeviceCommand {\n");
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public Boolean getIsUpStringd() {
+    return isUpStringd;
+  }
+  public void setIsUpStringd(Boolean isUpStringd) {
+    this.isUpStringd = isUpStringd;
+  }
 
-        sb.append("    id: ").append(StringUtil.toIndentedString(id)).append("\n");
-        sb.append("    timestamp: ").append(StringUtil.toIndentedString(timestamp)).append("\n");
-        sb.append("    userId: ").append(StringUtil.toIndentedString(userId)).append("\n");
-        sb.append("}");
-        return sb.toString();
-    }
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public String getHazelcastKey() {
+    return hazelcastKey;
+  }
+  public void setHazelcastKey(String hazelcastKey) {
+    this.hazelcastKey = hazelcastKey;
+  }
+
+  
+
+  @Override
+  public String toString()  {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class DeviceCommand {\n");
+    
+    sb.append("    id: ").append(StringUtil.toIndentedString(id)).append("\n");
+    sb.append("    command: ").append(StringUtil.toIndentedString(command)).append("\n");
+    sb.append("    timestamp: ").append(StringUtil.toIndentedString(timestamp)).append("\n");
+    sb.append("    userId: ").append(StringUtil.toIndentedString(userId)).append("\n");
+    sb.append("    deviceGuid: ").append(StringUtil.toIndentedString(deviceGuid)).append("\n");
+    sb.append("    parameters: ").append(StringUtil.toIndentedString(parameters)).append("\n");
+    sb.append("    lifetime: ").append(StringUtil.toIndentedString(lifetime)).append("\n");
+    sb.append("    status: ").append(StringUtil.toIndentedString(status)).append("\n");
+    sb.append("    result: ").append(StringUtil.toIndentedString(result)).append("\n");
+    sb.append("    isUpStringd: ").append(StringUtil.toIndentedString(isUpStringd)).append("\n");
+    sb.append("    hazelcastKey: ").append(StringUtil.toIndentedString(hazelcastKey)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
 }

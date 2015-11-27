@@ -5,7 +5,7 @@ import com.devicehive.client.api.DeviceNotificationApi;
 import com.devicehive.client.model.DeviceClassUpdate;
 import com.devicehive.client.model.DeviceNotification;
 import com.devicehive.client.model.DeviceUpdate;
-import com.devicehive.client.model.Notification;
+import com.devicehive.client.model.NotificationPollManyResponse;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class DeviceNotificationsExample {
 
         DeviceNotificationApi notificationService = apiClient.createService(DeviceNotificationApi.class);
 
-        List<Notification> deviceNotifications = notificationService.pollMany(30L, null, null, timestamp);
+        List<NotificationPollManyResponse> deviceNotifications = notificationService.pollMany(30L, null, null, timestamp);
         List<DeviceNotification> notifications = notificationService.poll(Const.ID,null,timestamp,30L);
         System.out.println(notifications);
     }

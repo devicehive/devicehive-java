@@ -27,18 +27,20 @@ public class DeviceExample {
             /**FIXME "2015-5-09T14:37:17.404" test data to get list of command
              timestamp = "2015-5-09T14:37:17.404";
              */
-//             timestamp = "2015-5-09T14:37:17.404";
+            timestamp = "2015-5-09T14:37:17.404";
 
             try {
-                List<DeviceCommandItem> deviceCommandItems = polling(apiClient, timestamp);
+                List<DeviceCommand> deviceCommandItems = polling(apiClient, timestamp);
+
                 if (deviceCommandItems.size() > 0) {
-                System.out.println(deviceCommandItems);
-                    DeviceCommandItem newest = deviceCommandItems.get(0);
+                    DeviceCommand newest = deviceCommandItems.get(0);
                     timestamp = newest.getTimestamp();
+                    System.out.println(timestamp);
                     udpateCommand(apiClient, newest);
                 }
             } catch (RetrofitError e) {
                 e.printStackTrace();
+
             }
         }
     }
@@ -51,7 +53,7 @@ public class DeviceExample {
 
 
     //Data polling
-    private static List<DeviceCommandItem> polling(ApiClient apiClient, String timestamp) throws RetrofitError {
+    private static List<DeviceCommand> polling(ApiClient apiClient, String timestamp) throws RetrofitError {
 
         DeviceApi deviceService = apiClient.createService(DeviceApi.class);
         DeviceUpdate device = createDevice();
@@ -64,7 +66,7 @@ public class DeviceExample {
 
 
     //Command updating
-    private static void udpateCommand(ApiClient apiClient, DeviceCommandItem newest) throws RetrofitError {
+    private static void udpateCommand(ApiClient apiClient, DeviceCommand newest) throws RetrofitError {
 
         Long id = newest.getId();
         String guid = newest.getDeviceGuid();
@@ -74,7 +76,7 @@ public class DeviceExample {
     }
 
     //Command wrapping
-    private static DeviceCommandWrapper getWrapper(DeviceCommandItem deviceCommandItem) throws RetrofitError {
+    private static DeviceCommandWrapper getWrapper(DeviceCommand deviceCommandItem) throws RetrofitError {
         DeviceCommandWrapper deviceCommandWrapper = new DeviceCommandWrapper();
         deviceCommandWrapper.setCommand(deviceCommandItem.getCommand());
         deviceCommandWrapper.setParameters(deviceCommandItem.getParameters());

@@ -16,6 +16,9 @@ public class AccessKeyPermission   {
   @SerializedName("id")
   private Long id = null;
   
+  @SerializedName("accessKey")
+  private AccessKey accessKey = null;
+  
   @SerializedName("domains")
   private JsonStringWrapper domains = null;
   
@@ -34,9 +37,6 @@ public class AccessKeyPermission   {
   @SerializedName("entityVersion")
   private Long entityVersion = null;
   
-  @SerializedName("actionsAsSet")
-  private List<String> actionsAsSet = new ArrayList<String>();
-  
   @SerializedName("deviceGuidsAsSet")
   private List<String> deviceGuidsAsSet = new ArrayList<String>();
   
@@ -49,6 +49,9 @@ public class AccessKeyPermission   {
   @SerializedName("subnetsAsSet")
   private List<Subnet> subnetsAsSet = new ArrayList<Subnet>();
   
+  @SerializedName("actionsAsSet")
+  private List<String> actionsAsSet = new ArrayList<String>();
+  
 
   
   /**
@@ -59,6 +62,17 @@ public class AccessKeyPermission   {
   }
   public void setId(Long id) {
     this.id = id;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(required = true, value = "")
+  public AccessKey getAccessKey() {
+    return accessKey;
+  }
+  public void setAccessKey(AccessKey accessKey) {
+    this.accessKey = accessKey;
   }
 
   
@@ -131,17 +145,6 @@ public class AccessKeyPermission   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public List<String> getActionsAsSet() {
-    return actionsAsSet;
-  }
-  public void setActionsAsSet(List<String> actionsAsSet) {
-    this.actionsAsSet = actionsAsSet;
-  }
-
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
   public List<String> getDeviceGuidsAsSet() {
     return deviceGuidsAsSet;
   }
@@ -183,6 +186,17 @@ public class AccessKeyPermission   {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public List<String> getActionsAsSet() {
+    return actionsAsSet;
+  }
+  public void setActionsAsSet(List<String> actionsAsSet) {
+    this.actionsAsSet = actionsAsSet;
+  }
+
+  
 
   @Override
   public String toString()  {
@@ -190,17 +204,18 @@ public class AccessKeyPermission   {
     sb.append("class AccessKeyPermission {\n");
     
     sb.append("    id: ").append(StringUtil.toIndentedString(id)).append("\n");
+    sb.append("    accessKey: ").append(StringUtil.toIndentedString(accessKey)).append("\n");
     sb.append("    domains: ").append(StringUtil.toIndentedString(domains)).append("\n");
     sb.append("    subnets: ").append(StringUtil.toIndentedString(subnets)).append("\n");
     sb.append("    actions: ").append(StringUtil.toIndentedString(actions)).append("\n");
     sb.append("    networkIds: ").append(StringUtil.toIndentedString(networkIds)).append("\n");
     sb.append("    deviceGuids: ").append(StringUtil.toIndentedString(deviceGuids)).append("\n");
     sb.append("    entityVersion: ").append(StringUtil.toIndentedString(entityVersion)).append("\n");
-    sb.append("    actionsAsSet: ").append(StringUtil.toIndentedString(actionsAsSet)).append("\n");
     sb.append("    deviceGuidsAsSet: ").append(StringUtil.toIndentedString(deviceGuidsAsSet)).append("\n");
     sb.append("    networkIdsAsSet: ").append(StringUtil.toIndentedString(networkIdsAsSet)).append("\n");
     sb.append("    domainsAsSet: ").append(StringUtil.toIndentedString(domainsAsSet)).append("\n");
     sb.append("    subnetsAsSet: ").append(StringUtil.toIndentedString(subnetsAsSet)).append("\n");
+    sb.append("    actionsAsSet: ").append(StringUtil.toIndentedString(actionsAsSet)).append("\n");
     sb.append("}");
     return sb.toString();
   }

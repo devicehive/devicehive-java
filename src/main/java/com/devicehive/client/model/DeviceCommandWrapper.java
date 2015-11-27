@@ -17,19 +17,19 @@ public class DeviceCommandWrapper   {
   private String parameters = null;
   
   @SerializedName("lifetime")
-  private String lifetime = null;
+  private Integer lifetime = null;
   
   @SerializedName("status")
   private String status = null;
   
   @SerializedName("result")
-  private String result = null;
+  private JsonStringWrapper result = null;
   
 
   
   /**
    **/
-//  @ApiModelProperty(value = "")
+  @ApiModelProperty(value = "")
   public String getCommand() {
     return command;
   }
@@ -52,10 +52,10 @@ public class DeviceCommandWrapper   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public String getLifetime() {
+  public Integer getLifetime() {
     return lifetime;
   }
-  public void setLifetime(String lifetime) {
+  public void setLifetime(Integer lifetime) {
     this.lifetime = lifetime;
   }
 
@@ -74,10 +74,10 @@ public class DeviceCommandWrapper   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public String getResult() {
+  public JsonStringWrapper getResult() {
     return result;
   }
-  public void setResult(String result) {
+  public void setResult(JsonStringWrapper result) {
     this.result = result;
   }
 

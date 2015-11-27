@@ -13,9 +13,6 @@ public class DeviceUpdate   {
   @SerializedName("guid")
   private String guid = null;
   
-  @SerializedName("key")
-  private String key = null;
-  
   @SerializedName("name")
   private String name = null;
   
@@ -44,17 +41,6 @@ public class DeviceUpdate   {
   }
   public void setGuid(String guid) {
     this.guid = guid;
-  }
-
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public String getKey() {
-    return key;
-  }
-  public void setKey(String key) {
-    this.key = key;
   }
 
   
@@ -131,7 +117,6 @@ public class DeviceUpdate   {
     sb.append("class DeviceUpdate {\n");
     
     sb.append("    guid: ").append(StringUtil.toIndentedString(guid)).append("\n");
-    sb.append("    key: ").append(StringUtil.toIndentedString(key)).append("\n");
     sb.append("    name: ").append(StringUtil.toIndentedString(name)).append("\n");
     sb.append("    status: ").append(StringUtil.toIndentedString(status)).append("\n");
     sb.append("    data: ").append(StringUtil.toIndentedString(data)).append("\n");

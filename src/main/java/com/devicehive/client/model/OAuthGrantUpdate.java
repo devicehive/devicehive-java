@@ -14,22 +14,65 @@ public class OAuthGrantUpdate   {
   private Long id = null;
   
   @SerializedName("client")
-  private NullableWrapper client = null;
+  private OAuthClient client = null;
   
+
+public enum TypeEnum {
+  @SerializedName("CODE")
+  CODE("CODE"),
+
+  @SerializedName("TOKEN")
+  TOKEN("TOKEN"),
+
+  @SerializedName("PASSWORD")
+  PASSWORD("PASSWORD");
+
+  private String value;
+
+  TypeEnum(String value) {
+    this.value = value;
+  }
+
+  @Override
+  public String toString() {
+    return value;
+  }
+}
+
   @SerializedName("type")
-  private NullableWrapper type = null;
+  private TypeEnum type = null;
   
+
+public enum AccessTypeEnum {
+  @SerializedName("ONLINE")
+  ONLINE("ONLINE"),
+
+  @SerializedName("OFFLINE")
+  OFFLINE("OFFLINE");
+
+  private String value;
+
+  AccessTypeEnum(String value) {
+    this.value = value;
+  }
+
+  @Override
+  public String toString() {
+    return value;
+  }
+}
+
   @SerializedName("accessType")
-  private NullableWrapper accessType = null;
+  private AccessTypeEnum accessType = null;
   
   @SerializedName("redirectUri")
-  private NullableWrapper redirectUri = null;
+  private String redirectUri = null;
   
   @SerializedName("scope")
-  private NullableWrapper scope = null;
+  private String scope = null;
   
   @SerializedName("networkIds")
-  private NullableWrapper networkIds = null;
+  private JsonStringWrapper networkIds = null;
   
 
   
@@ -47,10 +90,10 @@ public class OAuthGrantUpdate   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getClient() {
+  public OAuthClient getClient() {
     return client;
   }
-  public void setClient(NullableWrapper client) {
+  public void setClient(OAuthClient client) {
     this.client = client;
   }
 
@@ -58,10 +101,10 @@ public class OAuthGrantUpdate   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getType() {
+  public TypeEnum getType() {
     return type;
   }
-  public void setType(NullableWrapper type) {
+  public void setType(TypeEnum type) {
     this.type = type;
   }
 
@@ -69,10 +112,10 @@ public class OAuthGrantUpdate   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getAccessType() {
+  public AccessTypeEnum getAccessType() {
     return accessType;
   }
-  public void setAccessType(NullableWrapper accessType) {
+  public void setAccessType(AccessTypeEnum accessType) {
     this.accessType = accessType;
   }
 
@@ -80,10 +123,10 @@ public class OAuthGrantUpdate   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getRedirectUri() {
+  public String getRedirectUri() {
     return redirectUri;
   }
-  public void setRedirectUri(NullableWrapper redirectUri) {
+  public void setRedirectUri(String redirectUri) {
     this.redirectUri = redirectUri;
   }
 
@@ -91,10 +134,10 @@ public class OAuthGrantUpdate   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getScope() {
+  public String getScope() {
     return scope;
   }
-  public void setScope(NullableWrapper scope) {
+  public void setScope(String scope) {
     this.scope = scope;
   }
 
@@ -102,10 +145,10 @@ public class OAuthGrantUpdate   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getNetworkIds() {
+  public JsonStringWrapper getNetworkIds() {
     return networkIds;
   }
-  public void setNetworkIds(NullableWrapper networkIds) {
+  public void setNetworkIds(JsonStringWrapper networkIds) {
     this.networkIds = networkIds;
   }
 

@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -32,7 +32,7 @@ public class DeviceClass   {
   private Long entityVersion = null;
   
   @SerializedName("equipment")
-  private Set<Equipment> equipment = new HashSet<Equipment>();
+  private List<Equipment> equipment = new ArrayList<Equipment>();
   
   @SerializedName("permanent")
   private Boolean permanent = false;
@@ -108,10 +108,10 @@ public class DeviceClass   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public Set<Equipment> getEquipment() {
+  public List<Equipment> getEquipment() {
     return equipment;
   }
-  public void setEquipment(Set<Equipment> equipment) {
+  public void setEquipment(List<Equipment> equipment) {
     this.equipment = equipment;
   }
 

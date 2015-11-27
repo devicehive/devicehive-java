@@ -1,10 +1,9 @@
 package com.devicehive.client.api;
 
-import retrofit.Callback;
-import retrofit.http.*;
-
 import com.devicehive.client.model.OAuthGrant;
 import com.devicehive.client.model.OAuthGrantUpdate;
+import retrofit.Callback;
+import retrofit.http.*;
 
 public interface OAuthGrantApi {
   
@@ -29,18 +28,7 @@ public interface OAuthGrantApi {
   
   @GET("/user/{userId}/oauth/grant")
   Void list(
-    @Path("userId") String userId,
-    @Query("start") String start,
-    @Query("end") String end,
-    @Query("clientOAuthId") String clientOAuthId,
-    @Query("type") String type,
-    @Query("scope") String scope,
-    @Query("redirectUri") String redirectUri,
-    @Query("accessType") String accessType,
-    @Query("sortField") String sortField,
-    @Query("sortOrder") String sortOrder,
-    @Query("take") Integer take,
-    @Query("skip") Integer skip
+          @Path("userId") String userId, @Query("start") String start, @Query("end") String end, @Query("clientOAuthId") String clientOAuthId, @Query("type") String type, @Query("scope") String scope, @Query("redirectUri") String redirectUri, @Query("accessType") String accessType, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip
   );
 
   /**
@@ -64,19 +52,7 @@ public interface OAuthGrantApi {
   
   @GET("/user/{userId}/oauth/grant")
   void list(
-    @Path("userId") String userId,
-    @Query("start") String start,
-    @Query("end") String end,
-    @Query("clientOAuthId") String clientOAuthId,
-    @Query("type") String type,
-    @Query("scope") String scope,
-    @Query("redirectUri") String redirectUri,
-    @Query("accessType") String accessType,
-    @Query("sortField") String sortField,
-    @Query("sortOrder") String sortOrder,
-    @Query("take") Integer take,
-    @Query("skip") Integer skip,
-    Callback<Void> cb
+          @Path("userId") String userId, @Query("start") String start, @Query("end") String end, @Query("clientOAuthId") String clientOAuthId, @Query("type") String type, @Query("scope") String scope, @Query("redirectUri") String redirectUri, @Query("accessType") String accessType, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip, Callback<Void> cb
   );
   
   /**
@@ -90,8 +66,7 @@ public interface OAuthGrantApi {
   
   @POST("/user/{userId}/oauth/grant")
   Void insert(
-    @Path("userId") String userId,
-    @Body OAuthGrant body
+          @Path("userId") String userId, @Body OAuthGrant body
   );
 
   /**
@@ -105,9 +80,7 @@ public interface OAuthGrantApi {
   
   @POST("/user/{userId}/oauth/grant")
   void insert(
-    @Path("userId") String userId,
-    @Body OAuthGrant body,
-    Callback<Void> cb
+          @Path("userId") String userId, @Body OAuthGrant body, Callback<Void> cb
   );
   
   /**
@@ -121,8 +94,7 @@ public interface OAuthGrantApi {
   
   @GET("/user/{userId}/oauth/grant/{id}")
   Void get(
-    @Path("userId") String userId,
-    @Path("id") Long id
+          @Path("userId") String userId, @Path("id") Long id
   );
 
   /**
@@ -136,8 +108,7 @@ public interface OAuthGrantApi {
   
   @GET("/user/{userId}/oauth/grant/{id}")
   void get(
-    @Path("userId") String userId,
-    @Path("id") Long id, Callback<Void> cb
+          @Path("userId") String userId, @Path("id") Long id, Callback<Void> cb
   );
   
   /**
@@ -152,9 +123,7 @@ public interface OAuthGrantApi {
   
   @PUT("/user/{userId}/oauth/grant/{id}")
   Void update(
-    @Path("userId") String userId,
-    @Path("id") Long id,
-    @Body OAuthGrantUpdate body
+          @Path("userId") String userId, @Path("id") Long id, @Body OAuthGrantUpdate body
   );
 
   /**
@@ -169,10 +138,7 @@ public interface OAuthGrantApi {
   
   @PUT("/user/{userId}/oauth/grant/{id}")
   void update(
-    @Path("userId") String userId,
-    @Path("id") Long id,
-    @Body OAuthGrantUpdate body,
-    Callback<Void> cb
+          @Path("userId") String userId, @Path("id") Long id, @Body OAuthGrantUpdate body, Callback<Void> cb
   );
   
   /**
@@ -186,8 +152,7 @@ public interface OAuthGrantApi {
   
   @DELETE("/user/{userId}/oauth/grant/{id}")
   Void delete(
-    @Path("userId") String userId,
-    @Path("id") Long id
+          @Path("userId") String userId, @Path("id") Long id
   );
 
   /**
@@ -201,9 +166,7 @@ public interface OAuthGrantApi {
   
   @DELETE("/user/{userId}/oauth/grant/{id}")
   void delete(
-    @Path("userId") String userId,
-    @Path("id") Long id,
-    Callback<Void> cb
+          @Path("userId") String userId, @Path("id") Long id, Callback<Void> cb
   );
   
 }

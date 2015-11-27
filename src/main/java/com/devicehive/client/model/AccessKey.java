@@ -6,29 +6,28 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
 
 @ApiModel(description = "")
 public class AccessKey   {
-  
+
   @SerializedName("id")
   private Long id = null;
-  
+
   @SerializedName("label")
   private String label = null;
-  
+
   @SerializedName("key")
   private String key = null;
-  
+
   @SerializedName("user")
   private User user = null;
-  
+
   @SerializedName("expirationDate")
-  private Date expirationDate = null;
-  
+  private String expirationDate = null;
+
 
 public enum TypeEnum {
   @SerializedName("DEFAULT")
@@ -54,15 +53,15 @@ public enum TypeEnum {
 
   @SerializedName("type")
   private TypeEnum type = null;
-  
+
   @SerializedName("permissions")
   private List<AccessKeyPermission> permissions = new ArrayList<AccessKeyPermission>();
-  
+
   @SerializedName("entityVersion")
   private Long entityVersion = null;
-  
 
-  
+
+
   /**
    **/
   @ApiModelProperty(value = "")
@@ -73,7 +72,7 @@ public enum TypeEnum {
     this.id = id;
   }
 
-  
+
   /**
    **/
   @ApiModelProperty(required = true, value = "")
@@ -84,7 +83,7 @@ public enum TypeEnum {
     this.label = label;
   }
 
-  
+
   /**
    **/
   @ApiModelProperty(required = true, value = "")
@@ -95,7 +94,7 @@ public enum TypeEnum {
     this.key = key;
   }
 
-  
+
   /**
    **/
   @ApiModelProperty(required = true, value = "")
@@ -106,18 +105,18 @@ public enum TypeEnum {
     this.user = user;
   }
 
-  
+
   /**
    **/
   @ApiModelProperty(value = "")
-  public Date getExpirationDate() {
+  public String getExpirationDate() {
     return expirationDate;
   }
-  public void setExpirationDate(Date expirationDate) {
+  public void setExpirationDate(String expirationDate) {
     this.expirationDate = expirationDate;
   }
 
-  
+
   /**
    **/
   @ApiModelProperty(value = "")
@@ -128,7 +127,7 @@ public enum TypeEnum {
     this.type = type;
   }
 
-  
+
   /**
    **/
   @ApiModelProperty(required = true, value = "")
@@ -139,7 +138,7 @@ public enum TypeEnum {
     this.permissions = permissions;
   }
 
-  
+
   /**
    **/
   @ApiModelProperty(value = "")
@@ -150,13 +149,13 @@ public enum TypeEnum {
     this.entityVersion = entityVersion;
   }
 
-  
+
 
   @Override
   public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class AccessKey {\n");
-    
+
     sb.append("    id: ").append(StringUtil.toIndentedString(id)).append("\n");
     sb.append("    label: ").append(StringUtil.toIndentedString(label)).append("\n");
     sb.append("    key: ").append(StringUtil.toIndentedString(key)).append("\n");

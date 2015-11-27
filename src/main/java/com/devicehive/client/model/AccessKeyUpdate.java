@@ -5,22 +5,25 @@ import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 
 @ApiModel(description = "")
 public class AccessKeyUpdate   {
   
   @SerializedName("label")
-  private NullableWrapper label = null;
+  private String label = null;
   
   @SerializedName("expirationDate")
-  private NullableWrapper expirationDate = null;
+  private String expirationDate = null;
   
   @SerializedName("permissions")
-  private NullableWrapper permissions = null;
+  private List<AccessKeyPermission> permissions = new ArrayList<AccessKeyPermission>();
   
   @SerializedName("type")
-  private NullableWrapper type = null;
+  private Integer type = null;
   
 
 public enum TypeEnumEnum {
@@ -53,10 +56,10 @@ public enum TypeEnumEnum {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getLabel() {
+  public String getLabel() {
     return label;
   }
-  public void setLabel(NullableWrapper label) {
+  public void setLabel(String label) {
     this.label = label;
   }
 
@@ -64,10 +67,10 @@ public enum TypeEnumEnum {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getExpirationDate() {
+  public String getExpirationDate() {
     return expirationDate;
   }
-  public void setExpirationDate(NullableWrapper expirationDate) {
+  public void setExpirationDate(String expirationDate) {
     this.expirationDate = expirationDate;
   }
 
@@ -75,10 +78,10 @@ public enum TypeEnumEnum {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getPermissions() {
+  public List<AccessKeyPermission> getPermissions() {
     return permissions;
   }
-  public void setPermissions(NullableWrapper permissions) {
+  public void setPermissions(List<AccessKeyPermission> permissions) {
     this.permissions = permissions;
   }
 
@@ -86,10 +89,10 @@ public enum TypeEnumEnum {
   /**
    **/
   @ApiModelProperty(value = "")
-  public NullableWrapper getType() {
+  public Integer getType() {
     return type;
   }
-  public void setType(NullableWrapper type) {
+  public void setType(Integer type) {
     this.type = type;
   }
 
