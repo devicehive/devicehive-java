@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.util.Date;
 
 
 @ApiModel(description = "")
@@ -14,7 +15,7 @@ public class ApiInfo   {
   private String apiVersion = null;
   
   @SerializedName("serverTimestamp")
-  private String serverTimestamp = null;
+  private Date serverTimestamp = null;
   
   @SerializedName("webSocketServerUrl")
   private String webSocketServerUrl = null;
@@ -38,10 +39,10 @@ public class ApiInfo   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public String getServerTimestamp() {
+  public Date getServerTimestamp() {
     return serverTimestamp;
   }
-  public void setServerTimestamp(String serverTimestamp) {
+  public void setServerTimestamp(Date serverTimestamp) {
     this.serverTimestamp = serverTimestamp;
   }
 

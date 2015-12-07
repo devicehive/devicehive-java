@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -17,7 +18,7 @@ public class AccessKeyUpdate   {
   private String label = null;
   
   @SerializedName("expirationDate")
-  private String expirationDate = null;
+  private Date expirationDate = null;
   
   @SerializedName("permissions")
   private List<AccessKeyPermission> permissions = new ArrayList<AccessKeyPermission>();
@@ -67,10 +68,10 @@ public enum TypeEnumEnum {
   /**
    **/
   @ApiModelProperty(value = "")
-  public String getExpirationDate() {
+  public Date getExpirationDate() {
     return expirationDate;
   }
-  public void setExpirationDate(String expirationDate) {
+  public void setExpirationDate(Date expirationDate) {
     this.expirationDate = expirationDate;
   }
 

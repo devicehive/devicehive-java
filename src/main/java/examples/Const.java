@@ -1,6 +1,8 @@
 package examples;
 
-import com.devicehive.client.model.DeviceCommandWrapper;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Const {
 
@@ -9,22 +11,25 @@ public class Const {
     public static final String URL = "http://playground.devicehive.com/api/rest/";
     //Auth
     public static final String MY_API_KEY = "iD8Ktg1wCnAFpbdEmXvkYjN8e0Ku1sTuEnsOaGDDhxI=";
-    public static final String LOGIN = "login1";
-    public static final String PASSWORD = "password";
+    public static final String LOGIN = "dhadmin";
+    public static final String PASSWORD = "dhadmin_#911";
 
     //Device
-    public static final String ID = "3d77f31c-bddd-443b-b11c-640946b0581z4123f";
-    public static final String NAME = "Graphical Example Device";
+    public static final String ID = "3d77f31c-bddd-443b-b11c-640946b0581z4123t";
+    public static final String NAME = "TIMER";
     public static final String STATUS = "OFFLINE";
-    public static final String DC_NAME = "Graphical Device";
+    public static final String DC_NAME = "TIMER";
     public static final String DC_VERSION = "1.0";
 
     //Command
     public static final String LED_COMMAND = "LED";
     public static final String LED_STATE = "state";
-    public static final DeviceCommandWrapper TURN_ON = new DeviceCommandWrapper();
-    public static final DeviceCommandWrapper TURN_OFF = new DeviceCommandWrapper();
+    public static final String TIMER_ON_COMMAND = "ON";
+    public static final String TIMER_OFF_COMMAND = "OFF";
 
+
+    public static final java.lang.String TIMESTAMP_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+    public static final java.lang.String TIMER_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 
     /**
      * Application name
@@ -37,23 +42,31 @@ public class Const {
     public static final String PARSE_EXCEPTION_MESSAGE = "Unknown command!";
 
     /**
-     * This command identifies that the websocket protocol should be preferred
+     * This command identifies that the impl protocol should be preferred
      */
     public static final String USE_SOCKETS = "useSockets";
 
     /**
      * Description of useSockets command
      */
-    public static final String USE_SOCKETS_DESCRIPTION = "If used then prefer the websocket protocol";
-
-    /**
-     * This command line parameter stands for server URL.
-     */
-//    public static final String URL = "http://playground.devicehive.com/api/rest";
+    public static final String USE_SOCKETS_DESCRIPTION = "If used then prefer the impl protocol";
 
     /**
      * Description of url option.
      */
     public static final String URL_DESCRIPTION = "REST service url";
+
+    /**
+     * This command line parameter stands for server URL.
+     */
+//    public static final String URL = "http://playground.devicehive.com/api/rest";
+    public static String formatTimestamp(Date timestamp,String format) {
+        return new SimpleDateFormat(format).format(timestamp);
+    }
+
+    public static Date getDateFromString(String timestamp) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat(TIMESTAMP_FORMAT);
+        return sdf.parse(timestamp);
+    }
 
 }
