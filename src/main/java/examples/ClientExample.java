@@ -7,8 +7,8 @@ public class ClientExample {
 
 
     static {
-        Const.TURN_ON.setCommand(Const.LED_COMMAND);
-        Const.TURN_OFF.setCommand(Const.LED_COMMAND);
+//        Const.TURN_ON.setCommand(Const.LED_COMMAND);
+//        Const.TURN_OFF.setCommand(Const.LED_COMMAND);
         JsonObject params = new JsonObject();
         params.addProperty(Const.LED_STATE, true);
 //        String wrapper_param = new JsonStringWrapper();

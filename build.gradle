@@ -85,7 +85,7 @@ ext {
 
 dependencies {
     compile "com.squareup.okhttp:okhttp-ws:$okhttp_version"
-    compile "javax.websocket:javax.websocket-api:${websocket_version}"
+    compile "javax.impl:javax.impl-api:${websocket_version}"
     compile "com.squareup.retrofit:retrofit:$retrofit_version"
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
     compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"

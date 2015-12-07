@@ -111,7 +111,7 @@ public class ApiClient {
 
     public void createDefaultAdapter(String url) {
         Gson gson = new GsonBuilder()
-                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
                 .create();
 
         okClient = new OkHttpClient();
