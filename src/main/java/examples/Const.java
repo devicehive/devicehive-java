@@ -10,12 +10,12 @@ public class Const {
     //    public static final String URL = "http://192.168.168.183/dh/rest";
     public static final String URL = "http://playground.devicehive.com/api/rest/";
     //Auth
-    public static final String MY_API_KEY = "iD8Ktg1wCnAFpbdEmXvkYjN8e0Ku1sTuEnsOaGDDhxI=";
+    public static final String API_KEY = "iD8Ktg1wCnAFpbdEmXvkYjN8e0Ku1sTuEnsOaGDDhxI=";
     public static final String LOGIN = "***REMOVED***";
     public static final String PASSWORD = "***REMOVED***";
 
     //Device
-    public static final String ID = "3d77f31c-bddd-443b-b11c-640946b0581z4123t";
+    public static final String DEVICE_ID = "3d77f31c-bddd-443b-b11c-640946b0581z4123t";
     public static final String NAME = "TIMER";
     public static final String STATUS = "OFFLINE";
     public static final String DC_NAME = "TIMER";
@@ -24,12 +24,14 @@ public class Const {
     //Command
     public static final String LED_COMMAND = "LED";
     public static final String LED_STATE = "state";
-    public static final String TIMER_ON_COMMAND = "ON";
-    public static final String TIMER_OFF_COMMAND = "OFF";
+
+    public static final String ALARM = "ALARM";
+    public static final String ON = "ON";
+    public static final String OFF = "OFF";
 
 
     public static final java.lang.String TIMESTAMP_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
-    public static final java.lang.String TIMER_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+    public static final java.lang.String ALARM_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
 
     /**
      * Application name
@@ -60,7 +62,7 @@ public class Const {
      * This command line parameter stands for server URL.
      */
 //    public static final String URL = "http://playground.devicehive.com/api/rest";
-    public static String formatTimestamp(Date timestamp,String format) {
+    public static String formatTimestamp(Date timestamp, String format) {
         return new SimpleDateFormat(format).format(timestamp);
     }
 
@@ -68,5 +70,6 @@ public class Const {
         SimpleDateFormat sdf = new SimpleDateFormat(TIMESTAMP_FORMAT);
         return sdf.parse(timestamp);
     }
+
 
 }
