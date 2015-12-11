@@ -1,24 +1,39 @@
 package examples;
 
-import com.devicehive.client.websocket.api.impl.HiveClientWebsocketImpl;
-import com.devicehive.client.websocket.context.WebsocketAgent;
+import com.devicehive.client.websocket.HiveFactory;
+import com.devicehive.client.websocket.api.HiveClient;
+import com.devicehive.client.websocket.model.Device;
 import com.devicehive.client.websocket.model.exceptions.HiveException;
 
 import java.net.URI;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class WebsocketExample {
 
 
     public static void main(String[] args) {
+        ExecutorService service = Executors.newFixedThreadPool(1);
+        service.submit(new Runnable() {
+            @Override
+            public void run() {
+                try {
+//                    HiveClient client = HiveFactory.createClient(URI.create("http://192.168.57.101:8080/dh/rest"), true);
 
-        try {
-            WebsocketAgent agent = new WebsocketAgent(URI.create("http://192.168.57.101:8080/dh/api"));
-            agent.connect();
-            HiveClientWebsocketImpl client = new HiveClientWebsocketImpl(agent);
-            client.authenticate("dhadmin","dhadmin_#911");
 
-        } catch (HiveException e) {
-            e.printStackTrace();
-        }
+                    HiveClient client = HiveFactory.createClient(URI.create("http://playground.devicehive.com/api/rest"), true);
+
+
+//            client.authenticate("1jwKgLYi/CdfBTI9KByfYxwyQ6HUIEfnGSgakdpFjgk=");
+                    client.authenticate(Const.API_KEY);
+                    List<Device> devices = client.getDeviceAPI().listDevices(null, null, null, null, null, null, null, null, null, null, null, null);
+                    System.out.println(devices);
+                } catch (HiveException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 }

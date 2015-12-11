@@ -193,7 +193,6 @@ public class WebsocketAgent extends RestAgent {
     @Override
     public void authenticate(final HivePrincipal principal) throws HiveException {
         super.authenticate(principal);
-
         final JsonObject request = new JsonObject();
         request.addProperty(ACTION_MEMBER, "authenticate");
         if (principal.isUser()) {
@@ -303,7 +302,6 @@ public class WebsocketAgent extends RestAgent {
     @Override
     protected void doConnect() throws HiveException {
         super.doConnect();
-
         final String basicUrl = super.getInfo().getWebSocketServerUrl();
         if (basicUrl == null) {
             throw new HiveException("Can not connect to websockets, endpoint URL is not provided by server");
@@ -313,6 +311,7 @@ public class WebsocketAgent extends RestAgent {
         try {
             final String hostname = InetAddress.getLocalHost().getHostName();
             Builder configBuilder = Builder.create();
+
             configBuilder.configurator(new Configurator() {
                 @Override
                 public void beforeRequest(Map<String, List<String>> headers) {
