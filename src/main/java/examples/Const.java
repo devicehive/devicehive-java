@@ -1,5 +1,7 @@
 package examples;
 
+import org.joda.time.DateTime;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -62,7 +64,7 @@ public class Const {
      * This command line parameter stands for server URL.
      */
 //    public static final String URL = "http://playground.devicehive.com/api/rest";
-    public static String formatTimestamp(Date timestamp, String format) {
+    public static String formatTimestamp(DateTime timestamp, String format) {
         return new SimpleDateFormat(format).format(timestamp);
     }
 

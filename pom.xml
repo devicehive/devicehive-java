@@ -187,6 +187,11 @@
             <artifactId>tyrus-standalone-client</artifactId>
             <version>1.12</version>
         </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>${joda-time-version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.cassandra</groupId>
@@ -218,5 +223,6 @@
         <guava-version>18.0</guava-version>
         <glassfish.tyrus>1.12</glassfish.tyrus>
         <slf4j-api>1.7.12</slf4j-api>
+        <joda-time-version>2.9.1</joda-time-version>
     </properties>
 </project>
