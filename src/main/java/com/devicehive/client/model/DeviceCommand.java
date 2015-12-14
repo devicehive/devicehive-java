@@ -1,12 +1,10 @@
 package com.devicehive.client.model;
 
 import com.devicehive.client.StringUtil;
-import com.devicehive.client.websocket.model.HiveMessage;
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
-import java.util.Date;
+import org.joda.time.DateTime;
 
 
 @ApiModel(description = "")
@@ -19,7 +17,7 @@ public class DeviceCommand implements HiveMessage, Comparable<DeviceCommand> {
     private String command = null;
 
     @SerializedName("timestamp")
-    private Date timestamp = null;
+    private DateTime timestamp = null;
 
     @SerializedName("userId")
     private Long userId = null;
@@ -73,11 +71,11 @@ public class DeviceCommand implements HiveMessage, Comparable<DeviceCommand> {
     /**
      **/
     @ApiModelProperty(value = "")
-    public Date getTimestamp() {
+    public DateTime getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(DateTime timestamp) {
         this.timestamp = timestamp;
     }
 

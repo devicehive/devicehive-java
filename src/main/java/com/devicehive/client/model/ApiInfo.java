@@ -4,8 +4,7 @@ import com.devicehive.client.StringUtil;
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-
-import java.util.Date;
+import org.joda.time.DateTime;
 
 
 @ApiModel(description = "")
@@ -15,7 +14,7 @@ public class ApiInfo   {
   private String apiVersion = null;
   
   @SerializedName("serverTimestamp")
-  private Date serverTimestamp = null;
+  private DateTime serverTimestamp = null;
   
   @SerializedName("webSocketServerUrl")
   private String webSocketServerUrl = null;
@@ -39,10 +38,10 @@ public class ApiInfo   {
   /**
    **/
   @ApiModelProperty(value = "")
-  public Date getServerTimestamp() {
+  public DateTime getServerTimestamp() {
     return serverTimestamp;
   }
-  public void setServerTimestamp(Date serverTimestamp) {
+  public void setServerTimestamp(DateTime serverTimestamp) {
     this.serverTimestamp = serverTimestamp;
   }
 

@@ -19,13 +19,8 @@ public class WebsocketExample {
             @Override
             public void run() {
                 try {
-//                    HiveClient client = HiveFactory.createClient(URI.create("http://192.168.57.101:8080/dh/rest"), true);
-
-
                     HiveClient client = HiveFactory.createClient(URI.create("http://playground.devicehive.com/api/rest"), true);
 
-
-//            client.authenticate("1jwKgLYi/CdfBTI9KByfYxwyQ6HUIEfnGSgakdpFjgk=");
                     client.authenticate(Const.API_KEY);
                     List<Device> devices = client.getDeviceAPI().listDevices(null, null, null, null, null, null, null, null, null, null, null, null);
                     System.out.println(devices);

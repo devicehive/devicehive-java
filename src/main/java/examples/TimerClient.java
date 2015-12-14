@@ -5,16 +5,12 @@ import com.devicehive.client.api.ApiInfoApi;
 import com.devicehive.client.api.DeviceApi;
 import com.devicehive.client.api.DeviceCommandApi;
 import com.devicehive.client.api.DeviceNotificationApi;
-import com.devicehive.client.model.Device;
-import com.devicehive.client.model.DeviceCommandWrapper;
-import com.devicehive.client.model.DeviceNotification;
-import com.devicehive.client.model.JsonStringWrapper;
+import com.devicehive.client.model.*;
 import com.sun.istack.internal.Nullable;
+import org.joda.time.DateTime;
 import retrofit.RetrofitError;
 
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -32,7 +28,7 @@ public class TimerClient {
     private DeviceApi deviceApi;
 
     private String deviceId = null;
-    private Date timestamp = null;
+    private DateTime timestamp = null;
 
     public TimerClient() {
         restClient = new ApiClient(Const.URL, ApiClient.AUTH_API_KEY, Const.API_KEY);
@@ -61,14 +57,14 @@ public class TimerClient {
             }
 
         }
-        timestamp = infoApi.getApiInfo().getServerTimestamp();
+
+        ApiInfo apiInfo = infoApi.getApiInfo();
+        timestamp = apiInfo.getServerTimestamp();
 
         ses.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                Calendar calendar = Calendar.getInstance();
-                calendar.add(Calendar.SECOND, 10);
-                setTimer(Const.DEVICE_ID, true, calendar.getTime());
+                setTimer(Const.DEVICE_ID, true, DateTime.now().plusSeconds(5));
             }
         }, 0, 5, TimeUnit.SECONDS);
 
@@ -76,7 +72,7 @@ public class TimerClient {
         ses.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                pollNotifications(Const.formatTimestamp(timestamp, Const.TIMESTAMP_FORMAT));
+                pollNotifications(timestamp.toString());
             }
         }, 0, 1, TimeUnit.SECONDS);
 
@@ -85,38 +81,39 @@ public class TimerClient {
 
     private void pollNotifications(String timestamp) {
         List<DeviceNotification> deviceNotifications = notificationApi.poll(Const.DEVICE_ID, null, timestamp, 30L);
+
+        if (deviceNotifications.size() != 0) {
+            Collections.sort(deviceNotifications);
+            DeviceNotification notification = deviceNotifications.get(deviceNotifications.size() - 1);
+            updateTimestamp(notification.getTimestamp());
+        }
+
         for (DeviceNotification item : deviceNotifications) {
             if (item.getNotification().equals(Const.ALARM)) {
                 System.out.println(item);
             }
         }
 
-        if (deviceNotifications.size() != 0) {
-            Collections.sort(deviceNotifications);
-            System.out.println(deviceNotifications.get(0).getTimestamp().toString());
-            System.out.println(deviceNotifications.get(deviceNotifications.size() - 1).getTimestamp());
-            updateTimestamp(deviceNotifications.get(deviceNotifications.size() - 1).getTimestamp());
-        }
 
     }
 
     //Command updating
-    private void setTimer(String guid, Boolean isOnTimer, @Nullable Date time) throws RetrofitError {
+    private void setTimer(String guid, Boolean isOnTimer, @Nullable DateTime time) throws RetrofitError {
         DeviceCommandWrapper deviceCommandWrapper = new DeviceCommandWrapper();
         if (isOnTimer) {
             deviceCommandWrapper.setCommand(Const.ON);
             JsonStringWrapper jsonStringWrapper = new JsonStringWrapper();
-            jsonStringWrapper.setJsonString(Const.formatTimestamp(time, Const.ALARM_FORMAT));
+            jsonStringWrapper.setJsonString(time.toString());
             deviceCommandWrapper.setParameters(jsonStringWrapper.getJsonString());
         }
         commandApi.insert(guid, deviceCommandWrapper);
     }
 
 
-    private void updateTimestamp(Date timestamp) {
+    private void updateTimestamp(DateTime timestamp) {
         if (this.timestamp == null) {
             this.timestamp = timestamp;
-        } else if (this.timestamp.before(timestamp)) {
+        } else if (this.timestamp.isBefore(timestamp)) {
             this.timestamp = timestamp;
         }
     }
