@@ -1,4 +1,4 @@
-package com.devicehive.client.websocket.model.exceptions;
+package com.devicehive.client.model.exceptions;
 
 /**
  * This kind of exceptions used when some server error occur: response with internal server error occured or on

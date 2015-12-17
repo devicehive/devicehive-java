@@ -1,13 +1,13 @@
 package com.devicehive.client.websocket.model;
 
-import com.devicehive.client.websocket.json.strategies.JsonPolicyDef;
+import com.devicehive.client.json.strategies.JsonPolicyDef;
 import com.google.common.base.Optional;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.Date;
 import java.util.Set;
 
-import static com.devicehive.client.websocket.json.strategies.JsonPolicyDef.Policy.*;
+import static com.devicehive.client.json.strategies.JsonPolicyDef.Policy.*;
 
 /**
  * Represents a user to this API. See <a href="http://www.devicehive.com/restful#Reference/User">User</a>

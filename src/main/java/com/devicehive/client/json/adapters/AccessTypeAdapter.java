@@ -1,7 +1,7 @@
-package com.devicehive.client.websocket.json.adapters;
+package com.devicehive.client.json.adapters;
 
 
-import com.devicehive.client.websocket.model.UserStatus;
+import com.devicehive.client.model.AccessType;
 import com.devicehive.client.websocket.util.Messages;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
@@ -10,10 +10,13 @@ import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 
-public class UserStatusAdapter extends TypeAdapter<UserStatus> {
+/**
+ * Converter from JSON into AccessType, and AccessType into JSON
+ */
+public class AccessTypeAdapter extends TypeAdapter<AccessType> {
 
     @Override
-    public void write(JsonWriter out, UserStatus value) throws IOException {
+    public void write(JsonWriter out, AccessType value) throws IOException {
         if (value == null) {
             out.nullValue();
         } else {
@@ -22,16 +25,16 @@ public class UserStatusAdapter extends TypeAdapter<UserStatus> {
     }
 
     @Override
-    public UserStatus read(JsonReader in) throws IOException {
+    public AccessType read(JsonReader in) throws IOException {
         JsonToken jsonToken = in.peek();
         if (jsonToken == JsonToken.NULL) {
             in.nextNull();
             return null;
         } else {
             try {
-                return UserStatus.values()[in.nextInt()];
+                return AccessType.forName(in.nextString());
             } catch (RuntimeException e) {
-                throw new IOException(Messages.INVALID_USER_STATUS, e);
+                throw new IOException(Messages.INCORRECT_ACCESS_TYPE, e);
             }
         }
     }

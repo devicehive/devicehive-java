@@ -1,4 +1,4 @@
-package com.devicehive.client.websocket.model.exceptions;
+package com.devicehive.client.model.exceptions;
 
 
 /**

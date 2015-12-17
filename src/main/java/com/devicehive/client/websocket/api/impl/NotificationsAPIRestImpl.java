@@ -6,8 +6,8 @@ import com.devicehive.client.websocket.context.RestAgent;
 import com.devicehive.client.websocket.context.SubscriptionFilter;
 import com.devicehive.client.websocket.model.DeviceNotification;
 import com.devicehive.client.websocket.model.HiveMessageHandler;
-import com.devicehive.client.websocket.model.exceptions.HiveClientException;
-import com.devicehive.client.websocket.model.exceptions.HiveException;
+import com.devicehive.client.model.exceptions.HiveClientException;
+import com.devicehive.client.model.exceptions.HiveException;
 import com.google.common.reflect.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.devicehive.client.websocket.json.strategies.JsonPolicyDef.Policy.*;
+import static com.devicehive.client.json.strategies.JsonPolicyDef.Policy.*;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
 /**

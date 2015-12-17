@@ -1,7 +1,6 @@
-package com.devicehive.client.websocket.json.adapters;
+package com.devicehive.client.json.adapters;
 
-
-import com.devicehive.client.websocket.model.AccessType;
+import com.devicehive.client.websocket.model.OAuthType;
 import com.devicehive.client.websocket.util.Messages;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
@@ -11,12 +10,12 @@ import com.google.gson.stream.JsonWriter;
 import java.io.IOException;
 
 /**
- * Converter from JSON into AccessType, and AccessType into JSON
+ * Adapter for conversion OAuthType into JSON and JSON into OAuthType
  */
-public class AccessTypeAdapter extends TypeAdapter<AccessType> {
+public class OAuthTypeAdapter extends TypeAdapter<OAuthType> {
 
     @Override
-    public void write(JsonWriter out, AccessType value) throws IOException {
+    public void write(JsonWriter out, OAuthType value) throws IOException {
         if (value == null) {
             out.nullValue();
         } else {
@@ -25,16 +24,16 @@ public class AccessTypeAdapter extends TypeAdapter<AccessType> {
     }
 
     @Override
-    public AccessType read(JsonReader in) throws IOException {
+    public OAuthType read(JsonReader in) throws IOException {
         JsonToken jsonToken = in.peek();
         if (jsonToken == JsonToken.NULL) {
             in.nextNull();
             return null;
         } else {
             try {
-                return AccessType.forName(in.nextString());
+                return OAuthType.forName(in.nextString());
             } catch (RuntimeException e) {
-                throw new IOException(Messages.INCORRECT_ACCESS_TYPE, e);
+                throw new IOException(Messages.INVALID_OAUTH_GRANT_TYPE, e);
             }
         }
     }

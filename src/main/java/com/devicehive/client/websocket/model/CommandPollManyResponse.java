@@ -1,10 +1,10 @@
 package com.devicehive.client.websocket.model;
 
 
-import com.devicehive.client.websocket.json.strategies.JsonPolicyDef;
+import com.devicehive.client.json.strategies.JsonPolicyDef;
 import com.google.gson.annotations.SerializedName;
 
-import static com.devicehive.client.websocket.json.strategies.JsonPolicyDef.Policy.COMMAND_TO_CLIENT;
+import static com.devicehive.client.json.strategies.JsonPolicyDef.Policy.COMMAND_TO_CLIENT;
 
 public class CommandPollManyResponse implements HiveEntity {
 

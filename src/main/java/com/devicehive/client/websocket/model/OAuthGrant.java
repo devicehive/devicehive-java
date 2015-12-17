@@ -1,7 +1,8 @@
 package com.devicehive.client.websocket.model;
 
-import com.devicehive.client.websocket.json.strategies.JsonPolicyDef;
+import com.devicehive.client.json.strategies.JsonPolicyDef;
 import com.devicehive.client.model.AccessKey;
+import com.devicehive.client.model.AccessType;
 import com.devicehive.client.model.OAuthClient;
 import com.google.common.base.Optional;
 import com.google.gson.JsonArray;
@@ -14,7 +15,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.devicehive.client.websocket.json.strategies.JsonPolicyDef.Policy.*;
+import static com.devicehive.client.json.strategies.JsonPolicyDef.Policy.*;
 
 /**
  * Represents an OAuth permission grant. See <a href="http://www.devicehive.com/restful#Reference/OAuthGrant">OAuthGrant</a>

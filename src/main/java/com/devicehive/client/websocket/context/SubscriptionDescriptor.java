@@ -1,11 +1,12 @@
 package com.devicehive.client.websocket.context;
 
-import com.devicehive.client.websocket.model.HiveMessage;
+import com.devicehive.client.model.HiveMessage;
+import com.devicehive.client.model.exceptions.HiveException;
 import com.devicehive.client.websocket.model.HiveMessageHandler;
 import org.apache.commons.lang3.ObjectUtils;
+import org.joda.time.DateTime;
 
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Stores a subscription filter and an associated message handler.
@@ -33,7 +34,7 @@ public class SubscriptionDescriptor<T extends HiveMessage> {
      *
      * @param message a message object
      */
-    public void handleMessage(final T message) {
+    public void handleMessage(final T message) throws HiveException {
         updateTimestamp(message.getTimestamp());
         handler.handle(message);
     }
@@ -47,7 +48,7 @@ public class SubscriptionDescriptor<T extends HiveMessage> {
         return filter;
     }
 
-    private void updateTimestamp(final Date newTimestamp) {
+    private void updateTimestamp(final DateTime newTimestamp) {
         Calendar calendar = Calendar.getInstance();
         if (filter.getTimestamp() == null && newTimestamp != null) {
             filter.setTimestamp(newTimestamp);

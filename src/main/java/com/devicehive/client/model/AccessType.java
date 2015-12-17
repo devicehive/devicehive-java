@@ -1,4 +1,4 @@
-package com.devicehive.client.websocket.model;
+package com.devicehive.client.model;
 
 
 /**

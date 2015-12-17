@@ -1,13 +1,13 @@
-package com.devicehive.client.websocket.json;
+package com.devicehive.client.json;
 
 
-import com.devicehive.client.websocket.json.adapters.*;
-import com.devicehive.client.websocket.json.strategies.AnnotatedStrategy;
-import com.devicehive.client.websocket.model.AccessType;
+import com.devicehive.client.json.adapters.*;
+import com.devicehive.client.json.strategies.AnnotatedStrategy;
+import com.devicehive.client.model.AccessType;
+import com.devicehive.client.model.exceptions.InternalHiveClientException;
 import com.devicehive.client.websocket.model.OAuthType;
 import com.devicehive.client.websocket.model.UserRole;
 import com.devicehive.client.websocket.model.UserStatus;
-import com.devicehive.client.websocket.model.exceptions.InternalHiveClientException;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -16,7 +16,7 @@ import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.ExecutionException;
 
-import static com.devicehive.client.websocket.json.strategies.JsonPolicyDef.Policy;
+import static com.devicehive.client.json.strategies.JsonPolicyDef.Policy;
 
 public class GsonFactory {
 

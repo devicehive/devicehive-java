@@ -1,4 +1,4 @@
-package com.devicehive.client.websocket.model.exceptions;
+package com.devicehive.client.model.exceptions;
 
 /**
  * Exception that occurred in case of user's mistake (for example, the field is null when it is required to be not

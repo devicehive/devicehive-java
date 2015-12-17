@@ -45,6 +45,9 @@ public class TimerDevice {
         deviceApiImpl = restClient.createService(DeviceApi.class);
     }
 
+    public ApiInfo getApiInfo(){
+        return infoApiImpl.getApiInfo();
+    }
 
     public void run() {
 

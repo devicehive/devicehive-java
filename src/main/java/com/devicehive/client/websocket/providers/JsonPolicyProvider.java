@@ -1,11 +1,11 @@
 package com.devicehive.client.websocket.providers;
 
 
-import com.devicehive.client.websocket.json.GsonFactory;
-import com.devicehive.client.websocket.json.strategies.JsonPolicyApply;
-import com.devicehive.client.websocket.json.strategies.JsonPolicyDef;
+import com.devicehive.client.json.GsonFactory;
+import com.devicehive.client.json.strategies.JsonPolicyApply;
+import com.devicehive.client.json.strategies.JsonPolicyDef;
 import com.devicehive.client.websocket.util.Messages;
-import com.devicehive.client.websocket.model.exceptions.InternalHiveClientException;
+import com.devicehive.client.model.exceptions.InternalHiveClientException;
 import com.google.common.base.Charsets;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;

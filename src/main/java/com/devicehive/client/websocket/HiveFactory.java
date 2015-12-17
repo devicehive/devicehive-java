@@ -1,11 +1,11 @@
 package com.devicehive.client.websocket;
 
-import com.devicehive.client.websocket.api.HiveClient;
+import com.devicehive.client.api.HiveClient;
 import com.devicehive.client.websocket.api.impl.HiveClientRestImpl;
 import com.devicehive.client.websocket.api.impl.HiveClientWebsocketImpl;
 import com.devicehive.client.websocket.context.RestAgent;
 import com.devicehive.client.websocket.context.WebsocketAgent;
-import com.devicehive.client.websocket.model.exceptions.HiveException;
+import com.devicehive.client.model.exceptions.HiveException;
 
 import java.net.URI;
 

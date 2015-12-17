@@ -1,8 +1,8 @@
-package com.devicehive.client.websocket.api;
+package com.devicehive.client.api;
 
 
-import com.devicehive.client.websocket.model.ApiInfo;
-import com.devicehive.client.websocket.model.exceptions.HiveException;
+import com.devicehive.client.model.ApiInfo;
+import com.devicehive.client.model.exceptions.HiveException;
 
 /**
  * A Device Hive client that provides access to a number of controllers each of which serves as a proxy between the
@@ -39,63 +39,56 @@ public interface HiveClient extends AutoCloseable {
      *
      * @return access key API
      */
-    AccessKeyAPI getAccessKeyAPI();
+    AccessKeyApi getAccessKeyAPI();
 
     /**
      * Return new instance of command API
      *
      * @return command API
      */
-    CommandsAPI getCommandsAPI();
+    DeviceCommandApi getCommandsAPI();
 
     /**
      * Return new instance of device API
      *
      * @return device API
      */
-    DeviceAPI getDeviceAPI();
+    DeviceApi getDeviceAPI();
 
     /**
      * Return new instance of network API
      *
      * @return network API
      */
-    NetworkAPI getNetworkAPI();
+    NetworkApi getNetworkAPI();
 
     /**
      * Return new instance of notification API
      *
      * @return notification API
      */
-    NotificationsAPI getNotificationsAPI();
+    DeviceNotificationApi getNotificationsAPI();
 
     /**
      * Return new instance of user API.
      *
      * @return user API
      */
-    UserAPI getUserAPI();
+    UserApi getUserAPI();
 
     /**
      * Return new instance of OAuth API.
      *
      * @return user API
      */
-    OAuthClientAPI getOAuthClientAPI();
+    OAuthClientApi getOAuthClientAPI();
 
     /**
      * Return new instance of OAuth client API.
      *
      * @return user API
      */
-    OAuthGrantAPI getOAuthGrantAPI();
-
-    /**
-     * Return new instance of OAuth token API.
-     *
-     * @return user API
-     */
-    OAuthTokenAPI getOAuthTokenAPI();
+    OAuthGrantApi getOAuthGrantAPI();
 
     /**
      * Disconnects the client from the server.

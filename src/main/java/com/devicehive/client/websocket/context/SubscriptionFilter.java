@@ -2,8 +2,8 @@ package com.devicehive.client.websocket.context;
 
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.joda.time.DateTime;
 
-import java.util.Date;
 import java.util.Set;
 
 /**
@@ -13,9 +13,9 @@ public class SubscriptionFilter implements Cloneable {
 
     private final Set<String> uuids;
     private final Set<String> names;
-    private volatile Date timestamp;
+    private volatile DateTime timestamp;
 
-    public SubscriptionFilter(Set<String> uuids, Set<String> names, Date timestamp) {
+    public SubscriptionFilter(Set<String> uuids, Set<String> names, DateTime timestamp) {
         this.uuids = ObjectUtils.cloneIfPossible(uuids);
         this.names = ObjectUtils.cloneIfPossible(names);
         this.timestamp = ObjectUtils.cloneIfPossible(timestamp);
@@ -29,11 +29,11 @@ public class SubscriptionFilter implements Cloneable {
         return ObjectUtils.cloneIfPossible(names);
     }
 
-    public Date getTimestamp() {
+    public DateTime getTimestamp() {
         return ObjectUtils.cloneIfPossible(timestamp);
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(DateTime timestamp) {
         this.timestamp = ObjectUtils.cloneIfPossible(timestamp);
     }
 }

@@ -1,13 +1,18 @@
 package com.devicehive.client.websocket.context;
 
-import com.devicehive.client.websocket.json.GsonFactory;
-import com.devicehive.client.websocket.json.strategies.JsonPolicyApply;
-import com.devicehive.client.websocket.json.strategies.JsonPolicyDef;
+import com.devicehive.client.ApiClient;
+import com.devicehive.client.api.ApiInfoApi;
+import com.devicehive.client.model.ApiInfo;
+import com.devicehive.client.json.GsonFactory;
+import com.devicehive.client.json.strategies.JsonPolicyApply;
+import com.devicehive.client.json.strategies.JsonPolicyDef;
 import com.devicehive.client.websocket.model.*;
-import com.devicehive.client.websocket.model.exceptions.HiveClientException;
-import com.devicehive.client.websocket.model.exceptions.HiveException;
-import com.devicehive.client.websocket.model.exceptions.HiveServerException;
-import com.devicehive.client.websocket.model.exceptions.InternalHiveClientException;
+import com.devicehive.client.websocket.model.HiveEntity;
+import com.devicehive.client.websocket.model.HiveMessageHandler;
+import com.devicehive.client.model.exceptions.HiveClientException;
+import com.devicehive.client.model.exceptions.HiveException;
+import com.devicehive.client.model.exceptions.HiveServerException;
+import com.devicehive.client.model.exceptions.InternalHiveClientException;
 import com.devicehive.client.websocket.providers.CollectionProvider;
 import com.devicehive.client.websocket.providers.HiveEntityProvider;
 import com.devicehive.client.websocket.providers.JsonRawProvider;
@@ -20,6 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.glassfish.jersey.internal.Errors;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,6 +48,9 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import static javax.ws.rs.core.Response.Status.METHOD_NOT_ALLOWED;
 
 public class RestAgent {
+
+
+    ApiClient apiClient;
 
     private static final String USER_AUTH_SCHEMA = "Basic";
     private static final String KEY_AUTH_SCHEMA = "Bearer";
@@ -182,6 +191,12 @@ public class RestAgent {
             return false;
         }
     }
+
+
+    public <S> S createService(Class<S> serviceClass) {
+        return apiClient.createService(serviceClass);
+    }
+
 
     /**
      * Executes a request to the specified RESTful API resource.
@@ -439,7 +454,9 @@ public class RestAgent {
      * @throws HiveException if an error occurs during the request execution
      */
     public ApiInfo getInfo() throws HiveException {
-        return execute("/info", HttpMethod.GET, null, ApiInfo.class, null);
+        ApiInfoApi infoApi = apiClient.createService(ApiInfoApi.class);
+
+        return infoApi.getApiInfo();
     }
 
     /**
@@ -449,7 +466,7 @@ public class RestAgent {
      * @throws HiveException if an error occurs during the request execution
      */
     @SuppressWarnings("unused")
-    public String getServerTimestamp() throws HiveException {
+    public DateTime getServerTimestamp() throws HiveException {
         return getInfo().getServerTimestamp();
     }
 
@@ -705,7 +722,7 @@ public class RestAgent {
                 }
 
                 if (!responses.isEmpty()) {
-                    final Date newTimestamp = responses.get(responses.size() - 1).getCommand().getTimestamp();
+                    final DateTime newTimestamp = responses.get(responses.size() - 1).getCommand().getTimestamp();
                     params.put(TIMESTAMP, newTimestamp);
                 }
             }
@@ -746,7 +763,7 @@ public class RestAgent {
                 }
 
                 if (!responses.isEmpty()) {
-                    final Date newTimestamp = responses.get(responses.size() - 1).getTimestamp();
+                    final DateTime newTimestamp = responses.get(responses.size() - 1).getTimestamp();
                     params.put(TIMESTAMP, newTimestamp);
                 }
             }
@@ -819,7 +836,7 @@ public class RestAgent {
                 }
 
                 if (!responses.isEmpty()) {
-                    final Date newTimestamp = responses.get(responses.size() - 1).getNotification().getTimestamp();
+                    final DateTime newTimestamp = responses.get(responses.size() - 1).getNotification().getTimestamp();
                     params.put(TIMESTAMP, newTimestamp);
                 }
             }

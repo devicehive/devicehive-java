@@ -1,13 +1,13 @@
 package com.devicehive.client.websocket.model;
 
 
-import com.devicehive.client.websocket.json.strategies.JsonPolicyDef;
+import com.devicehive.client.json.strategies.JsonPolicyDef;
+import com.devicehive.client.model.HiveMessage;
 import com.google.common.base.Optional;
 import org.apache.commons.lang3.ObjectUtils;
+import org.joda.time.DateTime;
 
-import java.util.Date;
-
-import static com.devicehive.client.websocket.json.strategies.JsonPolicyDef.Policy.*;
+import static com.devicehive.client.json.strategies.JsonPolicyDef.Policy.*;
 
 /**
  * Represents a device command, a unit of information sent to devices. For more details see <a
@@ -21,7 +21,7 @@ public class DeviceCommand implements HiveMessage {
     private Long id;
 
     @JsonPolicyDef({COMMAND_TO_CLIENT, COMMAND_TO_DEVICE, COMMAND_UPDATE_TO_CLIENT, POST_COMMAND_TO_DEVICE, COMMAND_LISTED})
-    private Date timestamp;
+    private DateTime timestamp;
 
     @JsonPolicyDef({COMMAND_TO_CLIENT, COMMAND_TO_DEVICE, COMMAND_UPDATE_TO_CLIENT, COMMAND_LISTED})
     private Long userId;
@@ -58,11 +58,11 @@ public class DeviceCommand implements HiveMessage {
         this.id = id;
     }
 
-    public Date getTimestamp() {
+    public DateTime getTimestamp() {
         return ObjectUtils.cloneIfPossible(timestamp);
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(DateTime timestamp) {
         this.timestamp = ObjectUtils.cloneIfPossible(timestamp);
     }
 
