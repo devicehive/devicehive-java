@@ -12,9 +12,10 @@ public class JsonStringWrapper   {
   
   @SerializedName("jsonString")
   private String jsonString = null;
-  
 
-  
+
+
+
   /**
    **/
   @ApiModelProperty(value = "")

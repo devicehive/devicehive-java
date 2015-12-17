@@ -2,7 +2,7 @@ package com.devicehive.client.websocket.context;
 
 import com.devicehive.client.model.HiveMessage;
 import com.devicehive.client.model.exceptions.HiveException;
-import com.devicehive.client.websocket.model.HiveMessageHandler;
+import com.devicehive.client.model.HiveMessageHandler;
 import org.apache.commons.lang3.ObjectUtils;
 import org.joda.time.DateTime;
 

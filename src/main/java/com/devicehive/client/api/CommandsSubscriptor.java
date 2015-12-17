@@ -1,9 +1,9 @@
 package com.devicehive.client.api;
 
-import com.devicehive.client.websocket.context.SubscriptionFilter;
-import com.devicehive.client.websocket.model.DeviceCommand;
-import com.devicehive.client.websocket.model.HiveMessageHandler;
+import com.devicehive.client.model.DeviceCommand;
 import com.devicehive.client.model.exceptions.HiveException;
+import com.devicehive.client.websocket.context.SubscriptionFilter;
+import com.devicehive.client.model.HiveMessageHandler;
 
 public interface CommandsSubscriptor {
 

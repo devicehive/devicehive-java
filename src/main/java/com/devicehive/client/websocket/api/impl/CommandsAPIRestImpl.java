@@ -1,13 +1,13 @@
 package com.devicehive.client.websocket.api.impl;
 
 
+import com.devicehive.client.model.DeviceCommand;
+import com.devicehive.client.model.exceptions.HiveClientException;
+import com.devicehive.client.model.exceptions.HiveException;
 import com.devicehive.client.websocket.api.CommandsAPI;
 import com.devicehive.client.websocket.context.RestAgent;
 import com.devicehive.client.websocket.context.SubscriptionFilter;
-import com.devicehive.client.websocket.model.DeviceCommand;
-import com.devicehive.client.websocket.model.HiveMessageHandler;
-import com.devicehive.client.model.exceptions.HiveClientException;
-import com.devicehive.client.model.exceptions.HiveException;
+import com.devicehive.client.model.HiveMessageHandler;
 import com.google.common.reflect.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,9 +91,9 @@ class CommandsAPIRestImpl implements CommandsAPI {
         DeviceCommand result = restAgent.execute(path, HttpMethod.GET, null, DeviceCommand.class, COMMAND_TO_DEVICE);
 
         LOGGER.debug("DeviceCommand: get request processed successfully for device id {} and command id {}. Date {}, " +
-                        "userId {}, command {}, parameters {}, lifetime {}, flags {}, status {}, result {}", guid, id,
+                        "userId {}, command {}, parameters {}, lifetime {}, status {}, result {}", guid, id,
                 result.getTimestamp(), result.getUserId(), result.getCommand(), result.getParameters(), result.getLifetime(),
-                result.getFlags(), result.getStatus(), result.getResult());
+                result.getStatus(), result.getResult());
 
         return result;
     }
@@ -109,8 +109,7 @@ class CommandsAPIRestImpl implements CommandsAPI {
         }
 
         LOGGER.debug("DeviceCommand: insert requested for device id {} and command: command {}, parameters {}, " +
-                        "lifetime {}, flags {}", guid, command.getCommand(), command.getParameters(), command.getLifetime(),
-                command.getFlags());
+                "lifetime {}", guid, command.getCommand(), command.getParameters(), command.getLifetime());
 
         String path = String.format(DEVICE_COMMANDS_COLLECTION_PATH, guid);
         DeviceCommand result = restAgent.execute(path, HttpMethod.POST, null, null, command, DeviceCommand.class,
@@ -121,8 +120,8 @@ class CommandsAPIRestImpl implements CommandsAPI {
         }
 
         LOGGER.debug("DeviceCommand: insert request processed successfully for device id {} and command: command {}, " +
-                        "parameters {}, lifetime {}, flags {}. Result command id {}, timestamp {}, userId {}", guid,
-                command.getCommand(), command.getParameters(), command.getLifetime(), command.getFlags(), result.getId(),
+                        "parameters {}, lifetime {}. Result command id {}, timestamp {}, userId {}", guid,
+                command.getCommand(), command.getParameters(), command.getLifetime(), result.getId(),
                 result.getTimestamp(), result.getUserId());
 
         return result;
@@ -140,14 +139,14 @@ class CommandsAPIRestImpl implements CommandsAPI {
             throw new HiveClientException("Command id cannot be null!", BAD_REQUEST.getStatusCode());
         }
 
-        LOGGER.debug("DeviceCommand: update requested for device id {} and command: id {},  flags {}, status {}, result {}",
-                deviceId, command.getId(), command.getFlags(), command.getStatus(), command.getResult());
+        LOGGER.debug("DeviceCommand: update requested for device id {} and command: id {}, status {}, result {}",
+                deviceId, command.getId(), command.getStatus(), command.getResult());
 
         String path = String.format(DEVICE_COMMAND_RESOURCE_PATH, deviceId, command.getId());
         restAgent.execute(path, HttpMethod.PUT, null, command, REST_COMMAND_UPDATE_FROM_DEVICE);
 
-        LOGGER.debug("DeviceCommand: update request processed successfully for device id {} and command: id {}, flags {}, " +
-                "status {}, result {}", deviceId, command.getId(), command.getFlags(), command.getStatus(), command.getResult());
+        LOGGER.debug("DeviceCommand: update request processed successfully for device id {} and command: id {}," +
+                "status {}, result {}", deviceId, command.getId(), command.getStatus(), command.getResult());
     }
 
     /**

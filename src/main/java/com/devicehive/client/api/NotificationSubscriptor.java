@@ -2,7 +2,7 @@ package com.devicehive.client.api;
 
 import com.devicehive.client.websocket.context.SubscriptionFilter;
 import com.devicehive.client.websocket.model.DeviceNotification;
-import com.devicehive.client.websocket.model.HiveMessageHandler;
+import com.devicehive.client.model.HiveMessageHandler;
 import com.devicehive.client.model.exceptions.HiveException;
 
 public interface NotificationSubscriptor {

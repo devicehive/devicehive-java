@@ -4,13 +4,13 @@ package com.devicehive.client.websocket.api.impl;
 import com.devicehive.client.api.CommandsSubscriptor;
 import com.devicehive.client.api.DeviceCommandApi;
 import com.devicehive.client.json.GsonFactory;
+import com.devicehive.client.model.DeviceCommand;
 import com.devicehive.client.model.DeviceCommandWrapper;
 import com.devicehive.client.model.exceptions.HiveClientException;
 import com.devicehive.client.model.exceptions.HiveException;
 import com.devicehive.client.websocket.context.SubscriptionFilter;
 import com.devicehive.client.websocket.context.WebsocketAgent;
-import com.devicehive.client.websocket.model.DeviceCommand;
-import com.devicehive.client.websocket.model.HiveMessageHandler;
+import com.devicehive.client.model.HiveMessageHandler;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.slf4j.Logger;
@@ -73,8 +73,7 @@ class CommandsAPIWebsocketImpl extends CommandsAPIRestImpl implements DeviceComm
         }
 
         LOGGER.debug("DeviceCommand: insert requested for device id {} and command: command {}, parameters {}, " +
-                        "lifetime {}, flags {}", guid, command.getCommand(), command.getParameters(), command.getLifetime(),
-                command.getFlags());
+                "lifetime {}", guid, command.getCommand(), command.getParameters(), command.getLifetime());
 
         Gson gson = GsonFactory.createGson(COMMAND_FROM_CLIENT);
 
@@ -91,7 +90,7 @@ class CommandsAPIWebsocketImpl extends CommandsAPIRestImpl implements DeviceComm
 
         LOGGER.debug("DeviceCommand: insert request proceed successfully for device id {] and command: command {}, " +
                         "parameters {}, lifetime {}, flags {}. Result command id {}, timestamp {}, userId {}", guid,
-                command.getCommand(), command.getParameters(), command.getLifetime(), command.getFlags(), result.getId(),
+                command.getCommand(), command.getParameters(), command.getLifetime(), result.getId(),
                 result.getTimestamp(), result.getUserId());
 
         return result;
@@ -109,8 +108,8 @@ class CommandsAPIWebsocketImpl extends CommandsAPIRestImpl implements DeviceComm
             throw new HiveClientException("Command id cannot be null!", BAD_REQUEST.getStatusCode());
         }
 
-        LOGGER.debug("DeviceCommand: update requested for device id {} and command: id {},  flags {}, status {}, result {}",
-                deviceId, command.getId(), command.getFlags(), command.getStatus(), command.getResult());
+        LOGGER.debug("DeviceCommand: update requested for device id {} and command: id {},  status {}, result {}",
+                deviceId, command.getId(), command.getStatus(), command.getResult());
 
         Gson gson = GsonFactory.createGson(COMMAND_UPDATE_FROM_DEVICE);
 
@@ -122,19 +121,16 @@ class CommandsAPIWebsocketImpl extends CommandsAPIRestImpl implements DeviceComm
 
         websocketAgent.sendMessage(request);
 
-        LOGGER.debug("DeviceCommand: update request proceed successfully for device id {] and command: id {}, flags {}, " +
-                "status {}, result {}", deviceId, command.getId(), command.getFlags(), command.getStatus(), command.getResult());
+        LOGGER.debug("DeviceCommand: update request proceed successfully for device id {] and command: id {}," +
+                "status {}, result {}", deviceId, command.getId(), command.getStatus(), command.getResult());
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String subscribeForCommands(SubscriptionFilter filter,
-                                       HiveMessageHandler<DeviceCommand> commandMessageHandler) throws HiveException {
-        LOGGER.debug("Client: notification/subscribe requested for filter {},", filter);
-
-        return websocketAgent.subscribeForCommands(filter, commandMessageHandler);
+    public String subscribeForCommands(SubscriptionFilter filter, HiveMessageHandler<com.devicehive.client.model.DeviceCommand> commandMessageHandler) throws HiveException {
+        return null;
     }
 
     /**
