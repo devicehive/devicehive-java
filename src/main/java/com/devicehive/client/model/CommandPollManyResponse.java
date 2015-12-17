@@ -1,7 +1,8 @@
-package com.devicehive.client.websocket.model;
+package com.devicehive.client.model;
 
 
 import com.devicehive.client.json.strategies.JsonPolicyDef;
+import com.devicehive.client.websocket.model.HiveEntity;
 import com.google.gson.annotations.SerializedName;
 
 import static com.devicehive.client.json.strategies.JsonPolicyDef.Policy.COMMAND_TO_CLIENT;

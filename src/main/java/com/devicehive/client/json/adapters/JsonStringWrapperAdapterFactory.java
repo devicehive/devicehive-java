@@ -1,7 +1,7 @@
 package com.devicehive.client.json.adapters;
 
 
-import com.devicehive.client.websocket.model.JsonStringWrapper;
+import com.devicehive.client.model.JsonStringWrapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 import com.google.gson.TypeAdapter;
@@ -46,7 +46,9 @@ public class JsonStringWrapperAdapterFactory implements TypeAdapterFactory {
 
         @Override
         public JsonStringWrapper read(JsonReader in) throws IOException {
-            return new JsonStringWrapper(Streams.parse(in).toString());
+            JsonStringWrapper wrapper = new JsonStringWrapper();
+            wrapper.setJsonString(Streams.parse(in).getAsString());
+            return wrapper;
         }
     }
 }

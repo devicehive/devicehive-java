@@ -3,6 +3,7 @@ package com.devicehive.client.websocket.model;
 
 import com.devicehive.client.json.strategies.JsonPolicyDef;
 import com.devicehive.client.model.HiveMessage;
+import com.devicehive.client.model.NullableWrapper;
 import com.google.common.base.Optional;
 import org.apache.commons.lang3.ObjectUtils;
 import org.joda.time.DateTime;

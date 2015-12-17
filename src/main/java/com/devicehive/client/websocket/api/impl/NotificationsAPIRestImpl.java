@@ -1,13 +1,13 @@
 package com.devicehive.client.websocket.api.impl;
 
 
+import com.devicehive.client.model.HiveMessageHandler;
+import com.devicehive.client.model.exceptions.HiveClientException;
+import com.devicehive.client.model.exceptions.HiveException;
 import com.devicehive.client.websocket.api.NotificationsAPI;
 import com.devicehive.client.websocket.context.RestAgent;
 import com.devicehive.client.websocket.context.SubscriptionFilter;
-import com.devicehive.client.websocket.model.DeviceNotification;
-import com.devicehive.client.websocket.model.HiveMessageHandler;
-import com.devicehive.client.model.exceptions.HiveClientException;
-import com.devicehive.client.model.exceptions.HiveException;
+import com.devicehive.client.model.DeviceNotification;
 import com.google.common.reflect.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
