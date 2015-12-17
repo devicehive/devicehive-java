@@ -4,7 +4,7 @@ package com.devicehive.client.websocket.api;
 import com.devicehive.client.websocket.model.DeviceNotification;
 import com.devicehive.client.websocket.context.SubscriptionFilter;
 import com.devicehive.client.websocket.model.HiveMessageHandler;
-import com.devicehive.client.websocket.model.exceptions.HiveException;
+import com.devicehive.client.model.exceptions.HiveException;
 
 import java.util.Date;
 import java.util.List;

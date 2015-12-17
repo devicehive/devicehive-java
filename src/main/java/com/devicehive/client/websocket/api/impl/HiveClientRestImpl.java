@@ -1,16 +1,18 @@
 package com.devicehive.client.websocket.api.impl;
 
 
-import com.devicehive.client.websocket.api.*;
+import com.devicehive.client.api.*;
+import com.devicehive.client.model.ApiInfo;
+import com.devicehive.client.model.HiveMessage;
+import com.devicehive.client.model.exceptions.HiveException;
 import com.devicehive.client.websocket.context.HivePrincipal;
 import com.devicehive.client.websocket.context.RestAgent;
-import com.devicehive.client.websocket.model.ApiInfo;
-import com.devicehive.client.websocket.model.exceptions.HiveException;
+import org.joda.time.DateTime;
 
 /**
  * Implementation of {@link HiveClient} that uses REST transport.
  */
-public class HiveClientRestImpl implements HiveClient {
+public class HiveClientRestImpl implements HiveClient, HiveMessage {
 
     private final RestAgent restAgent;
 
@@ -51,73 +53,70 @@ public class HiveClientRestImpl implements HiveClient {
      * {@inheritDoc}
      */
     @Override
-    public AccessKeyAPI getAccessKeyAPI() {
-        return new AccessKeyAPIImpl(restAgent);
+    public AccessKeyApi getAccessKeyAPI() {
+        return restAgent.createService(AccessKeyApi.class);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public CommandsAPI getCommandsAPI() {
-        return new CommandsAPIRestImpl(restAgent);
+    public DeviceCommandApi getCommandsAPI() {
+        return restAgent.createService(DeviceCommandApi.class);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public DeviceAPI getDeviceAPI() {
-        return new DeviceAPIImpl(restAgent);
+    public DeviceApi getDeviceAPI() {
+        return restAgent.createService(DeviceApi.class);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public NetworkAPI getNetworkAPI() {
-        return new NetworkAPIImpl(restAgent);
+    public NetworkApi getNetworkAPI() {
+        return restAgent.createService(NetworkApi.class);
     }
+
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public NotificationsAPI getNotificationsAPI() {
-        return new NotificationsAPIRestImpl(restAgent);
+    public DeviceNotificationApi getNotificationsAPI() {
+        return restAgent.createService(DeviceNotificationApi.class);
     }
+
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public UserAPI getUserAPI() {
-        return new UserAPIImpl(restAgent);
+    public UserApi getUserAPI() {
+        return restAgent.createService(UserApi.class);
     }
+
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public OAuthClientAPI getOAuthClientAPI() {
-        return new OAuthClientAPIImpl(restAgent);
+    public OAuthClientApi getOAuthClientAPI() {
+        return restAgent.createService(OAuthClientApi.class);
     }
+
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public OAuthGrantAPI getOAuthGrantAPI() {
-        return new OAuthGrantAPIImpl(restAgent);
+    public OAuthGrantApi getOAuthGrantAPI() {
+        return restAgent.createService(OAuthGrantApi.class);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public OAuthTokenAPI getOAuthTokenAPI() {
-        return new OAuthTokenAPIImpl(restAgent);
-    }
 
     /**
      * {@inheritDoc}
@@ -128,4 +127,8 @@ public class HiveClientRestImpl implements HiveClient {
     }
 
 
+    @Override
+    public DateTime getTimestamp() throws HiveException {
+        return restAgent.getServerTimestamp();
+    }
 }

@@ -1,11 +1,11 @@
 package com.devicehive.client.websocket.model;
 
-import com.devicehive.client.websocket.json.strategies.JsonPolicyDef;
+import com.devicehive.client.json.strategies.JsonPolicyDef;
+import com.devicehive.client.model.HiveMessage;
 import org.apache.commons.lang3.ObjectUtils;
+import org.joda.time.DateTime;
 
-import java.util.Date;
-
-import static com.devicehive.client.websocket.json.strategies.JsonPolicyDef.Policy.*;
+import static com.devicehive.client.json.strategies.JsonPolicyDef.Policy.*;
 
 /**
  * Represents a device notification, a unit of information dispatched from devices. For more details see <a
@@ -18,7 +18,7 @@ public class DeviceNotification implements HiveMessage {
     private Long id;
 
     @JsonPolicyDef({NOTIFICATION_TO_CLIENT, NOTIFICATION_TO_DEVICE})
-    private Date timestamp;
+    private DateTime timestamp;
 
     @JsonPolicyDef({NOTIFICATION_TO_CLIENT, NOTIFICATION_FROM_DEVICE})
     private String notification;
@@ -45,11 +45,11 @@ public class DeviceNotification implements HiveMessage {
         this.notification = notification;
     }
 
-    public Date getTimestamp() {
+    public DateTime getTimestamp() {
         return ObjectUtils.cloneIfPossible(timestamp);
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(DateTime timestamp) {
         this.timestamp = ObjectUtils.cloneIfPossible(timestamp);
     }
 

@@ -1,5 +1,6 @@
 package com.devicehive.client.model;
 
+import com.devicehive.client.model.exceptions.HiveException;
 import com.devicehive.client.websocket.model.HiveEntity;
 import org.joda.time.DateTime;
 
@@ -8,5 +9,5 @@ import org.joda.time.DateTime;
  */
 public interface HiveMessage extends HiveEntity {
 
-    DateTime getTimestamp();
+    DateTime getTimestamp() throws HiveException;
 }

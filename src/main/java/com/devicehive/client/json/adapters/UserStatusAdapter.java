@@ -1,6 +1,7 @@
-package com.devicehive.client.websocket.json.adapters;
+package com.devicehive.client.json.adapters;
 
-import com.devicehive.client.websocket.model.OAuthType;
+
+import com.devicehive.client.websocket.model.UserStatus;
 import com.devicehive.client.websocket.util.Messages;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
@@ -9,13 +10,10 @@ import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 
-/**
- * Adapter for conversion OAuthType into JSON and JSON into OAuthType
- */
-public class OAuthTypeAdapter extends TypeAdapter<OAuthType> {
+public class UserStatusAdapter extends TypeAdapter<UserStatus> {
 
     @Override
-    public void write(JsonWriter out, OAuthType value) throws IOException {
+    public void write(JsonWriter out, UserStatus value) throws IOException {
         if (value == null) {
             out.nullValue();
         } else {
@@ -24,16 +22,16 @@ public class OAuthTypeAdapter extends TypeAdapter<OAuthType> {
     }
 
     @Override
-    public OAuthType read(JsonReader in) throws IOException {
+    public UserStatus read(JsonReader in) throws IOException {
         JsonToken jsonToken = in.peek();
         if (jsonToken == JsonToken.NULL) {
             in.nextNull();
             return null;
         } else {
             try {
-                return OAuthType.forName(in.nextString());
+                return UserStatus.values()[in.nextInt()];
             } catch (RuntimeException e) {
-                throw new IOException(Messages.INVALID_OAUTH_GRANT_TYPE, e);
+                throw new IOException(Messages.INVALID_USER_STATUS, e);
             }
         }
     }

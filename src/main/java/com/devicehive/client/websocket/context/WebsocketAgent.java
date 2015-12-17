@@ -1,15 +1,19 @@
 package com.devicehive.client.websocket.context;
 
+import com.devicehive.client.json.GsonFactory;
+import com.devicehive.client.json.strategies.JsonPolicyDef;
+import com.devicehive.client.model.ApiInfo;
+import com.devicehive.client.model.exceptions.HiveClientException;
+import com.devicehive.client.model.exceptions.HiveException;
+import com.devicehive.client.model.exceptions.HiveServerException;
+import com.devicehive.client.model.exceptions.InternalHiveClientException;
 import com.devicehive.client.websocket.impl.HiveWebsocketHandler;
 import com.devicehive.client.websocket.impl.SessionMonitor;
 import com.devicehive.client.websocket.impl.SimpleWebsocketResponse;
-import com.devicehive.client.websocket.json.GsonFactory;
-import com.devicehive.client.websocket.json.strategies.JsonPolicyDef;
-import com.devicehive.client.websocket.model.*;
-import com.devicehive.client.websocket.model.exceptions.HiveClientException;
-import com.devicehive.client.websocket.model.exceptions.HiveException;
-import com.devicehive.client.websocket.model.exceptions.HiveServerException;
-import com.devicehive.client.websocket.model.exceptions.InternalHiveClientException;
+import com.devicehive.client.websocket.model.DeviceCommand;
+import com.devicehive.client.websocket.model.DeviceNotification;
+import com.devicehive.client.websocket.model.HiveEntity;
+import com.devicehive.client.websocket.model.HiveMessageHandler;
 import com.devicehive.client.websocket.util.Messages;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.gson.Gson;
@@ -34,14 +38,15 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.*;
 
+import static com.devicehive.client.json.strategies.JsonPolicyDef.Policy.*;
 import static com.devicehive.client.websocket.impl.JsonEncoder.*;
-import static com.devicehive.client.websocket.json.strategies.JsonPolicyDef.Policy.*;
 import static javax.ws.rs.core.Response.Status.SERVICE_UNAVAILABLE;
 
 /**
  * A specification of the {@link RestAgent} that uses WebSockets as a transport.
  */
 public class WebsocketAgent extends RestAgent {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(WebsocketAgent.class);
     private static final ClientManager CLIENT_MANAGER = ClientManager.createClient();
 
@@ -272,6 +277,8 @@ public class WebsocketAgent extends RestAgent {
                     }
                 } catch (InternalHiveClientException e) {
                     LOGGER.error("Cannot retrieve gson from a factory {}", e.getMessage());
+                } catch (HiveException e) {
+                    e.printStackTrace();
                 } finally {
                     subscriptionsLock.readLock().unlock();
                 }

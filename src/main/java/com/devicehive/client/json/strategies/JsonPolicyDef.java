@@ -1,4 +1,4 @@
-package com.devicehive.client.websocket.json.strategies;
+package com.devicehive.client.json.strategies;
 
 
 import java.lang.annotation.Retention;

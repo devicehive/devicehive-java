@@ -1,4 +1,4 @@
-package com.devicehive.client.websocket.json.adapters;
+package com.devicehive.client.json.adapters;
 
 
 import com.devicehive.client.websocket.model.JsonStringWrapper;

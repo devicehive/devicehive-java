@@ -1,9 +1,9 @@
 package com.devicehive.client.websocket.model;
 
-import com.devicehive.client.websocket.json.strategies.JsonPolicyDef;
+import com.devicehive.client.json.strategies.JsonPolicyDef;
 import com.google.common.base.Optional;
 
-import static com.devicehive.client.websocket.json.strategies.JsonPolicyDef.Policy.*;
+import static com.devicehive.client.json.strategies.JsonPolicyDef.Policy.*;
 
 /**
  * Represents a client with the access to the DeviceHive OAuth API. For more details see <a

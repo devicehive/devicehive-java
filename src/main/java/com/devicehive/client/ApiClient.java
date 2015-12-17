@@ -3,14 +3,15 @@ package com.devicehive.client;
 import com.devicehive.client.auth.ApiKeyAuth;
 import com.devicehive.client.auth.HttpBasicAuth;
 import com.devicehive.client.auth.OAuth;
-import com.google.gson.*;
+import com.devicehive.client.json.adapters.DateTimeTypeAdapter;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParseException;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import retrofit.converter.ConversionException;
@@ -112,27 +113,12 @@ public class ApiClient {
     }
 
     public void createDefaultAdapter(String url) {
+        DateTimeTypeAdapter typeAdapter = new DateTimeTypeAdapter(ISO_PATTERN);
         Gson gson = new GsonBuilder()
-                .registerTypeAdapter(DateTime.class, new JsonSerializer<DateTime>() {
-                    @Override
-                    public JsonElement serialize(DateTime json,
-                                                 Type typeOfSrc,
-                                                 JsonSerializationContext context) {
-                        final DateTimeFormatter formatter = DateTimeFormat.forPattern(ISO_PATTERN).withZoneUTC();
-                        return new JsonPrimitive(formatter.print(json));
-                    }
-                })
                 .registerTypeAdapter(DateTime.class,
-                        new JsonDeserializer<DateTime>() {
-                            @Override
-                            public DateTime deserialize(JsonElement json,
-                                                             Type typeOfT,
-                                                             JsonDeserializationContext context)
-                                    throws JsonParseException {
-                                final DateTimeFormatter formatter = DateTimeFormat.forPattern(ISO_PATTERN).withZoneUTC();
-                                return formatter.parseDateTime(json.getAsString());
-                            }
-                        })
+                        typeAdapter)
+                .registerTypeAdapter(DateTime.class,
+                        typeAdapter)
                 .create();
 
         okClient = new OkHttpClient();

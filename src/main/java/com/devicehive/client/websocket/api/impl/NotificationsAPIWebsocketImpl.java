@@ -3,11 +3,11 @@ package com.devicehive.client.websocket.api.impl;
 
 import com.devicehive.client.websocket.context.SubscriptionFilter;
 import com.devicehive.client.websocket.context.WebsocketAgent;
-import com.devicehive.client.websocket.json.GsonFactory;
+import com.devicehive.client.json.GsonFactory;
 import com.devicehive.client.websocket.model.DeviceNotification;
 import com.devicehive.client.websocket.model.HiveMessageHandler;
-import com.devicehive.client.websocket.model.exceptions.HiveClientException;
-import com.devicehive.client.websocket.model.exceptions.HiveException;
+import com.devicehive.client.model.exceptions.HiveClientException;
+import com.devicehive.client.model.exceptions.HiveException;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.slf4j.Logger;
@@ -15,8 +15,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
-import static com.devicehive.client.websocket.json.strategies.JsonPolicyDef.Policy.NOTIFICATION_FROM_DEVICE;
-import static com.devicehive.client.websocket.json.strategies.JsonPolicyDef.Policy.NOTIFICATION_TO_DEVICE;
+import static com.devicehive.client.json.strategies.JsonPolicyDef.Policy.NOTIFICATION_FROM_DEVICE;
+import static com.devicehive.client.json.strategies.JsonPolicyDef.Policy.NOTIFICATION_TO_DEVICE;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
 /**

@@ -1,7 +1,7 @@
 package com.devicehive.client.websocket.impl;
 
 
-import com.devicehive.client.websocket.json.GsonFactory;
+import com.devicehive.client.json.GsonFactory;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 

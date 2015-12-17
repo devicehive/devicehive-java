@@ -1,11 +1,11 @@
 package com.devicehive.client.websocket.api.impl;
 
 
-import com.devicehive.client.websocket.api.CommandsAPI;
-import com.devicehive.client.websocket.api.NotificationsAPI;
+import com.devicehive.client.api.DeviceCommandApi;
+import com.devicehive.client.api.DeviceNotificationApi;
 import com.devicehive.client.websocket.context.HivePrincipal;
 import com.devicehive.client.websocket.context.WebsocketAgent;
-import com.devicehive.client.websocket.model.exceptions.HiveException;
+import com.devicehive.client.model.exceptions.HiveException;
 
 /**
  * Specialization of {@link HiveClientRestImpl} that uses WebSocket transport for requests.
@@ -45,15 +45,18 @@ public class HiveClientWebsocketImpl extends HiveClientRestImpl {
      * {@inheritDoc}
      */
     @Override
-    public CommandsAPI getCommandsAPI() {
+    public DeviceCommandApi getCommandsAPI() {
         return new CommandsAPIWebsocketImpl(websocketAgent);
     }
+
+
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public NotificationsAPI getNotificationsAPI() {
-        return new NotificationsAPIWebsocketImpl(websocketAgent);
+    public DeviceNotificationApi getNotificationsAPI() {
+//        return new NotificationsAPIWebsocketImpl(websocketAgent);
+        return null;
     }
 }
