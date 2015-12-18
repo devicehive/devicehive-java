@@ -91,6 +91,6 @@ dependencies {
     compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:$oltu_version"
     compile "commons-cli:commons-cli:$commons_cli_version"
     compile "com.google.guava:guava:18.0"
-    compile "io.swagger:devicehive-java:1.0.0"
+    compile "'io.swagger:swagger-annotations:1.5.4"
     testCompile "junit:junit:$junit_version"
 }
