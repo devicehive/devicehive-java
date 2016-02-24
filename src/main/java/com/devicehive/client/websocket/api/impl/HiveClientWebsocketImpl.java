@@ -1,62 +1,53 @@
 package com.devicehive.client.websocket.api.impl;
 
 
-import com.devicehive.client.api.DeviceCommandApi;
-import com.devicehive.client.api.DeviceNotificationApi;
-import com.devicehive.client.websocket.context.HivePrincipal;
-import com.devicehive.client.websocket.context.WebsocketAgent;
 import com.devicehive.client.model.exceptions.HiveException;
+import com.devicehive.client.websocket.context.HivePrincipal;
+import com.devicehive.client.websocket.context.WebSocketClient;
 
 /**
  * Specialization of {@link HiveClientRestImpl} that uses WebSocket transport for requests.
  */
-public class HiveClientWebsocketImpl extends HiveClientRestImpl {
+public class HiveClientWebSocketImpl {
 
-    private final WebsocketAgent websocketAgent;
+    private final WebSocketClient WebSocketClient;
 
     /**
-     * Initializes the client with {@link WebsocketAgent} to use for requests.
+     * Initializes the client with {@link WebSocketClient} to use for requests.
      *
-     * @param websocketAgent a WebsocketAgent to use for requests
+     * @param WebSocketClient a WebSocketClient to use for requests
      */
-    public HiveClientWebsocketImpl(WebsocketAgent websocketAgent) {
-        super(websocketAgent);
-        this.websocketAgent = websocketAgent;
+    public HiveClientWebSocketImpl(WebSocketClient WebSocketClient) {
+        this.WebSocketClient = WebSocketClient;
     }
 
     /**
      * {@inheritDoc}
      */
-    @Override
     public void authenticate(String login, String password) throws HiveException {
-        websocketAgent.authenticate(HivePrincipal.createUser(login, password));
+        WebSocketClient.authenticate(HivePrincipal.createUser(login, password));
     }
 
     /**
      * {@inheritDoc}
      */
-    @Override
     public void authenticate(String accessKey) throws HiveException {
-        super.authenticate(accessKey);
-        websocketAgent.authenticate(HivePrincipal.createAccessKey(accessKey));
+        WebSocketClient.authenticate(HivePrincipal.createAccessKey(accessKey));
     }
 
     /**
      * {@inheritDoc}
      */
-    @Override
-    public DeviceCommandApi getCommandsAPI() {
-        return new CommandsAPIWebsocketImpl(websocketAgent);
-    }
 
+    public CommandsAPIWebSocketImpl getCommandsWSAPI() {
+        return new CommandsAPIWebSocketImpl(WebSocketClient);
+    }
 
 
     /**
      * {@inheritDoc}
      */
-    @Override
-    public DeviceNotificationApi getNotificationsAPI() {
-//        return new NotificationsAPIWebsocketImpl(websocketAgent);
-        return null;
+    public NotificationsAPIWebsocketImpl getNotificationsWSAPI() {
+        return new NotificationsAPIWebsocketImpl(WebSocketClient);
     }
 }

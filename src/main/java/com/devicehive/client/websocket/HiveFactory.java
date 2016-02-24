@@ -2,10 +2,11 @@ package com.devicehive.client.websocket;
 
 import com.devicehive.client.api.HiveClient;
 import com.devicehive.client.websocket.api.impl.HiveClientRestImpl;
-import com.devicehive.client.websocket.api.impl.HiveClientWebsocketImpl;
-import com.devicehive.client.websocket.context.RestAgent;
-import com.devicehive.client.websocket.context.WebsocketAgent;
+import com.devicehive.client.websocket.api.impl.HiveClientWebSocketImpl;
+import com.devicehive.client.websocket.context.RestClientWIP;
+import com.devicehive.client.websocket.context.WebSocketClient;
 import com.devicehive.client.model.exceptions.HiveException;
+import com.sun.webpane.sg.WebPageClientImpl;
 
 import java.net.URI;
 
@@ -24,22 +25,25 @@ public final class HiveFactory {
      * @return an instance of {@link HiveClient}
      * @throws HiveException if a connection error occurs
      */
-    public static HiveClient createClient(URI restUri, boolean preferWebsockets) throws HiveException {
-        if (preferWebsockets) {
-            return new HiveClientWebsocketImpl(createWebsocketClientAgent(restUri));
-        } else {
-            return new HiveClientRestImpl(createRestAgent(restUri));
-        }
-    }
-
-    private static RestAgent createRestAgent(URI restUri) throws HiveException {
-        RestAgent agent = new RestAgent(restUri);
+//    public static HiveClient createClient(URI restUri, boolean preferWebsockets) throws HiveException {
+//        if (preferWebsockets) {
+//            return new HiveClientWebSocketImpl(createWebsocketClientAgent(restUri));
+//        } else {
+//            return new HiveClientRestImpl(createRestAgent(restUri));
+//        }
+//    }
+    private static RestClientWIP createRestAgent(URI restUri) throws HiveException {
+        RestClientWIP agent = new RestClientWIP(restUri);
         agent.connect();
         return agent;
     }
 
-    private static WebsocketAgent createWebsocketClientAgent(URI restUri) throws HiveException {
-        WebsocketAgent agent = new WebsocketAgent(restUri);
+    public static HiveClientWebSocketImpl createWSclient(URI restUri) throws HiveException {
+        return new HiveClientWebSocketImpl(createWebsocketClientAgent(restUri));
+    }
+
+    private static WebSocketClient createWebsocketClientAgent(URI restUri) throws HiveException {
+        WebSocketClient agent = new WebSocketClient(restUri);
         agent.connect();
         return agent;
     }

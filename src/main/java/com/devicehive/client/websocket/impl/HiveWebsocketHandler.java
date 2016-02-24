@@ -1,7 +1,7 @@
 package com.devicehive.client.websocket.impl;
 
 
-import com.devicehive.client.websocket.context.WebsocketAgent;
+import com.devicehive.client.websocket.context.WebSocketClient;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
@@ -20,7 +20,7 @@ import static com.devicehive.client.websocket.impl.JsonEncoder.REQUEST_ID_MEMBER
 public class HiveWebsocketHandler implements MessageHandler.Whole<String> {
     private static final Logger LOGGER = LoggerFactory.getLogger(HiveWebsocketHandler.class);
 
-    private final WebsocketAgent websocketAgent;
+    private final WebSocketClient WebSocketClient;
     private final ConcurrentMap<String, SettableFuture<JsonObject>> websocketResponsesMap;
 
     /**
@@ -28,9 +28,9 @@ public class HiveWebsocketHandler implements MessageHandler.Whole<String> {
      *
      * @param responsesMap map that contains request id and response association.
      */
-    public HiveWebsocketHandler(WebsocketAgent websocketAgent,
+    public HiveWebsocketHandler(WebSocketClient WebSocketClient,
                                 ConcurrentMap<String, SettableFuture<JsonObject>> responsesMap) {
-        this.websocketAgent = websocketAgent;
+        this.WebSocketClient = WebSocketClient;
         this.websocketResponsesMap = responsesMap;
     }
 
@@ -53,7 +53,7 @@ public class HiveWebsocketHandler implements MessageHandler.Whole<String> {
                     future.set(jsonMessage);
                 }
             } else {
-                websocketAgent.handleServerMessage(jsonMessage);
+                WebSocketClient.handleServerMessage(jsonMessage);
             }
         } catch (JsonParseException | IllegalStateException ex) {
             LOGGER.error("Server sent incorrect message {}", message);

@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @see <a href="http://www.devicehive.com/restful#Reference/DeviceNotification">DeviceHive RESTful API: DeviceNotification</a>
  */
-public interface NotificationsAPI {
+public interface NotificationsAPIWebsocket {
 
     /**
      * Queries device notifications.

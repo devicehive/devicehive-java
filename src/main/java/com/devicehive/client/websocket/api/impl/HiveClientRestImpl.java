@@ -6,7 +6,7 @@ import com.devicehive.client.model.ApiInfo;
 import com.devicehive.client.model.HiveMessage;
 import com.devicehive.client.model.exceptions.HiveException;
 import com.devicehive.client.websocket.context.HivePrincipal;
-import com.devicehive.client.websocket.context.RestAgent;
+import com.devicehive.client.websocket.context.RestClientWIP;
 import org.joda.time.DateTime;
 
 /**
@@ -14,15 +14,15 @@ import org.joda.time.DateTime;
  */
 public class HiveClientRestImpl implements HiveClient, HiveMessage {
 
-    private final RestAgent restAgent;
+    private final RestClientWIP restClient;
 
     /**
-     * Initializes a client with {@link RestAgent} to use for requests.
+     * Initializes a client with {@link RestClientWIP} to use for requests.
      *
-     * @param restAgent a RestAgent to use for requests
+     * @param restClient a RestClientWIP to use for requests
      */
-    public HiveClientRestImpl(RestAgent restAgent) {
-        this.restAgent = restAgent;
+    public HiveClientRestImpl(RestClientWIP restClient) {
+        this.restClient = restClient;
     }
 
     /**
@@ -30,7 +30,7 @@ public class HiveClientRestImpl implements HiveClient, HiveMessage {
      */
     @Override
     public ApiInfo getInfo() throws HiveException {
-        return restAgent.getInfo();
+        return restClient.getInfo();
     }
 
     /**
@@ -38,7 +38,7 @@ public class HiveClientRestImpl implements HiveClient, HiveMessage {
      */
     @Override
     public void authenticate(String login, String password) throws HiveException {
-        restAgent.authenticate(HivePrincipal.createUser(login, password));
+        restClient.authenticate(HivePrincipal.createUser(login, password));
     }
 
     /**
@@ -46,7 +46,7 @@ public class HiveClientRestImpl implements HiveClient, HiveMessage {
      */
     @Override
     public void authenticate(String accessKey) throws HiveException {
-        restAgent.authenticate(HivePrincipal.createAccessKey(accessKey));
+        restClient.authenticate(HivePrincipal.createAccessKey(accessKey));
     }
 
     /**
@@ -54,7 +54,7 @@ public class HiveClientRestImpl implements HiveClient, HiveMessage {
      */
     @Override
     public AccessKeyApi getAccessKeyAPI() {
-        return restAgent.createService(AccessKeyApi.class);
+        return restClient.createService(AccessKeyApi.class);
     }
 
     /**
@@ -62,7 +62,7 @@ public class HiveClientRestImpl implements HiveClient, HiveMessage {
      */
     @Override
     public DeviceCommandApi getCommandsAPI() {
-        return restAgent.createService(DeviceCommandApi.class);
+        return restClient.createService(DeviceCommandApi.class);
     }
 
     /**
@@ -70,7 +70,7 @@ public class HiveClientRestImpl implements HiveClient, HiveMessage {
      */
     @Override
     public DeviceApi getDeviceAPI() {
-        return restAgent.createService(DeviceApi.class);
+        return restClient.createService(DeviceApi.class);
     }
 
     /**
@@ -78,7 +78,7 @@ public class HiveClientRestImpl implements HiveClient, HiveMessage {
      */
     @Override
     public NetworkApi getNetworkAPI() {
-        return restAgent.createService(NetworkApi.class);
+        return restClient.createService(NetworkApi.class);
     }
 
 
@@ -87,7 +87,7 @@ public class HiveClientRestImpl implements HiveClient, HiveMessage {
      */
     @Override
     public DeviceNotificationApi getNotificationsAPI() {
-        return restAgent.createService(DeviceNotificationApi.class);
+        return restClient.createService(DeviceNotificationApi.class);
     }
 
 
@@ -96,7 +96,7 @@ public class HiveClientRestImpl implements HiveClient, HiveMessage {
      */
     @Override
     public UserApi getUserAPI() {
-        return restAgent.createService(UserApi.class);
+        return restClient.createService(UserApi.class);
     }
 
 
@@ -105,7 +105,7 @@ public class HiveClientRestImpl implements HiveClient, HiveMessage {
      */
     @Override
     public OAuthClientApi getOAuthClientAPI() {
-        return restAgent.createService(OAuthClientApi.class);
+        return restClient.createService(OAuthClientApi.class);
     }
 
 
@@ -114,7 +114,7 @@ public class HiveClientRestImpl implements HiveClient, HiveMessage {
      */
     @Override
     public OAuthGrantApi getOAuthGrantAPI() {
-        return restAgent.createService(OAuthGrantApi.class);
+        return restClient.createService(OAuthGrantApi.class);
     }
 
 
@@ -123,12 +123,12 @@ public class HiveClientRestImpl implements HiveClient, HiveMessage {
      */
     @Override
     public void close() {
-        restAgent.close();
+        restClient.close();
     }
 
 
     @Override
     public DateTime getTimestamp() throws HiveException {
-        return restAgent.getServerTimestamp();
+        return restClient.getServerTimestamp();
     }
 }
