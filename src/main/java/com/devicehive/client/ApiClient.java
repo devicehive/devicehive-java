@@ -31,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 
 
 public class ApiClient {
+
     public static final String AUTH_API_KEY = "api_key";
     private static final String AUTH_NAME = "Authorization";
     public static final String AUTH_BASIC = "basic";

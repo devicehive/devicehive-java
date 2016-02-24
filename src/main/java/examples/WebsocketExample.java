@@ -1,12 +1,11 @@
 package examples;
 
-import com.devicehive.client.api.HiveClient;
-import com.devicehive.client.model.Device;
 import com.devicehive.client.model.exceptions.HiveException;
 import com.devicehive.client.websocket.HiveFactory;
+import com.devicehive.client.websocket.api.impl.CommandsAPIWebSocketImpl;
+import com.devicehive.client.websocket.api.impl.HiveClientWebSocketImpl;
 
 import java.net.URI;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -19,16 +18,18 @@ public class WebsocketExample {
             @Override
             public void run() {
                 try {
-                    HiveClient client = HiveFactory.createClient(URI.create("http://playground.devicehive.com/api/rest"), true);
+                    HiveClientWebSocketImpl client = HiveFactory.createWSclient(URI.create("http://playground.devicehive.com/api/rest"));
 
                     client.authenticate(Const.API_KEY);
-                    List<Device> devices = client.getDeviceAPI().list(null, null, null, null, null, null, null, null, null, null, null, null);
-                    System.out.println(devices);
+                    CommandsAPIWebSocketImpl cmd=client.getCommandsWSAPI();
+
+
+
+
                 } catch (HiveException e) {
                     e.printStackTrace();
                 }
             }
         });
-
     }
 }

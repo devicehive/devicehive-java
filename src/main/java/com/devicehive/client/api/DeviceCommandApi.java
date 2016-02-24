@@ -101,7 +101,7 @@ public interface DeviceCommandApi {
 
   /**
    * Creates new device command.
-   * Async method
+   * Async metho
    * @param deviceGuid Device GUID
    * @param body Command body
    * @param cb callback method

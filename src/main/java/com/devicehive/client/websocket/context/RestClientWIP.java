@@ -46,7 +46,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import static javax.ws.rs.core.Response.Status.METHOD_NOT_ALLOWED;
 
-public class RestAgent {
+public class RestClientWIP {
 
 
     ApiClient apiClient;
@@ -93,12 +93,13 @@ public class RestAgent {
     private HivePrincipal hivePrincipal;
 
     /**
-     * Creates an instance of a {@link RestAgent} for the specified Device Hive RESTful API URI.
+     * Creates an instance of a {@link RestClientWIP} for the specified Device Hive RESTful API URI.
      *
      * @param restUri A Device Hive RESTful API endpoint URI
      */
-    public RestAgent(URI restUri) {
+    public RestClientWIP(URI restUri) {
         this.restUri = restUri;
+        apiClient = new ApiClient(restUri.toString());
     }
 
     /**
@@ -713,7 +714,7 @@ public class RestAgent {
             }.getType();
 
             while (!Thread.currentThread().isInterrupted()) {
-                final List<CommandPollManyResponse> responses = RestAgent.this.execute("/device/command/poll",
+                final List<CommandPollManyResponse> responses = RestClientWIP.this.execute("/device/command/poll",
                         HttpMethod.GET, null, params, responseType, JsonPolicyDef.Policy.COMMAND_LISTED);
 
                 for (final CommandPollManyResponse response : responses) {
@@ -754,7 +755,7 @@ public class RestAgent {
             final String uri = String.format("/device/%s/command/poll", getHivePrincipal().getPrincipal().getLeft());
 
             while (!Thread.currentThread().isInterrupted()) {
-                final List<DeviceCommand> responses = RestAgent.this.execute(uri, HttpMethod.GET, null, params,
+                final List<DeviceCommand> responses = RestClientWIP.this.execute(uri, HttpMethod.GET, null, params,
                         responseType, JsonPolicyDef.Policy.COMMAND_LISTED);
 
                 for (final DeviceCommand response : responses) {
@@ -793,7 +794,7 @@ public class RestAgent {
 
             DeviceCommand result = null;
             while (result == null && !Thread.currentThread().isInterrupted()) {
-                result = RestAgent.this.execute(String.format("/device/%s/command/%s/poll", guid, commandId),
+                result = RestClientWIP.this.execute(String.format("/device/%s/command/%s/poll", guid, commandId),
                         HttpMethod.GET, null, params, responseType, JsonPolicyDef.Policy.COMMAND_TO_DEVICE);
             }
 
@@ -827,7 +828,7 @@ public class RestAgent {
             }.getType();
 
             while (!Thread.currentThread().isInterrupted()) {
-                final List<NotificationPollManyResponse> responses = RestAgent.this.execute("/device/notification/poll",
+                final List<NotificationPollManyResponse> responses = RestClientWIP.this.execute("/device/notification/poll",
                         HttpMethod.GET, null, params, responseType, JsonPolicyDef.Policy.NOTIFICATION_TO_CLIENT);
 
                 for (final NotificationPollManyResponse response : responses) {

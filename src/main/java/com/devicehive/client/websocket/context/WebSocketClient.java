@@ -1,6 +1,9 @@
 package com.devicehive.client.websocket.context;
 
+import com.devicehive.client.ApiClient;
+import com.devicehive.client.api.ApiInfoApi;
 import com.devicehive.client.json.GsonFactory;
+import com.devicehive.client.json.strategies.JsonPolicyApply;
 import com.devicehive.client.json.strategies.JsonPolicyDef;
 import com.devicehive.client.model.ApiInfo;
 import com.devicehive.client.model.DeviceCommand;
@@ -14,12 +17,21 @@ import com.devicehive.client.websocket.impl.SessionMonitor;
 import com.devicehive.client.websocket.impl.SimpleWebsocketResponse;
 import com.devicehive.client.websocket.model.HiveEntity;
 import com.devicehive.client.model.HiveMessageHandler;
+import com.devicehive.client.websocket.providers.CollectionProvider;
+import com.devicehive.client.websocket.providers.HiveEntityProvider;
+import com.devicehive.client.websocket.providers.JsonRawProvider;
 import com.devicehive.client.websocket.util.Messages;
+import com.google.common.base.Charsets;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSyntaxException;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.tuple.Pair;
+import org.glassfish.jersey.client.JerseyClientBuilder;
+import org.glassfish.jersey.internal.Errors;
 import org.glassfish.tyrus.client.ClientManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,27 +39,37 @@ import org.slf4j.LoggerFactory;
 import javax.websocket.ClientEndpointConfig.Builder;
 import javax.websocket.ClientEndpointConfig.Configurator;
 import javax.websocket.*;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.HttpMethod;
+import javax.ws.rs.ProcessingException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.*;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.net.InetAddress;
 import java.net.URI;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.concurrent.*;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import static com.devicehive.client.json.strategies.JsonPolicyDef.Policy.*;
 import static com.devicehive.client.websocket.impl.JsonEncoder.*;
+import static javax.ws.rs.core.Response.Status.METHOD_NOT_ALLOWED;
 import static javax.ws.rs.core.Response.Status.SERVICE_UNAVAILABLE;
 
 /**
- * A specification of the {@link RestAgent} that uses WebSockets as a transport.
+ * A specification of the {@link RestClientWIP} that uses WebSockets as a transport.
  */
-public class WebsocketAgent extends RestAgent {
+public class WebSocketClient {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(WebsocketAgent.class);
+    ApiClient apiClient;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebSocketClient.class);
     private static final ClientManager CLIENT_MANAGER = ClientManager.createClient();
 
     private static final String REQUEST_ID_MEMBER = "requestId";
@@ -57,6 +79,46 @@ public class WebsocketAgent extends RestAgent {
     private static final String CODE = "code";
     private static final String ERROR = "error";
 
+
+    private static final String USER_AUTH_SCHEMA = "Basic";
+    private static final String KEY_AUTH_SCHEMA = "Bearer";
+    private static final String DEVICE_ID_HEADER = "Auth-DeviceID";
+    private static final String DEVICE_KEY_HEADER = "Auth-DeviceKey";
+    private static final String WAIT_TIMEOUT_PARAM = "waitTimeout";
+    private static final String DEVICE_GUIDS = "deviceGuids";
+    private static final String NAMES = "names";
+    private static final String TIMESTAMP = "timestamp";
+    private static final String SEPARATOR = ",";
+
+    /**
+     * A lock for connection operations changing the state of the agent.
+     */
+    protected final ReadWriteLock connectionLock = new ReentrantReadWriteLock(true);
+    /**
+     * A lock for subscription operations changing the state of the agent.
+     */
+    protected final ReadWriteLock subscriptionsLock = new ReentrantReadWriteLock(true);
+    /**
+     * An executor for subscriptions polling.
+     */
+    protected final ExecutorService subscriptionExecutor = Executors.newFixedThreadPool(50);
+    /**
+     * A storage for command subscriptions. The key is a subscription identifier, the value is the subscription descriptor.
+     */
+    protected final ConcurrentMap<String, SubscriptionDescriptor<DeviceCommand>> commandSubscriptionsStorage =
+            new ConcurrentHashMap<>();
+    /**
+     * A storage for notification subscriptions. The key is a subscription identifier, the value is the subscription descriptor.
+     */
+    protected final ConcurrentMap<String, SubscriptionDescriptor<DeviceNotification>> notificationSubscriptionsStorage =
+            new ConcurrentHashMap<>();
+
+    private final URI restUri;
+    private final ConcurrentMap<String, Future<?>> commandSubscriptionsResults = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, Future<?>> notificationSubscriptionResults = new ConcurrentHashMap<>();
+
+    private Client restClient;
+    private HivePrincipal hivePrincipal;
     /**
      * A storage for mappings of server subscription identifiers to local ones.
      */
@@ -80,13 +142,76 @@ public class WebsocketAgent extends RestAgent {
     private Session currentSession;
 
     /**
-     * Creates an instance of {@link WebsocketAgent} for the specified RESTful API endpoint.
+     * Creates an instance of {@link WebSocketClient} for the specified RESTful API endpoint.
      *
      * @param restUri a RESTful API endpoint URI
      */
-    public WebsocketAgent(final URI restUri) {
-        super(restUri);
+    public WebSocketClient(final URI restUri) {
+        this.restUri = restUri;
+        apiClient = new ApiClient(restUri.toString());
         this.endpoint = new EndpointFactory().createEndpoint();
+    }
+
+    /**
+     * Configures and initializes a connection to the URI specified on agent creation.
+     *
+     * @throws HiveException if a connection error occurs
+     */
+    public final void connect() throws HiveException {
+        connectionLock.writeLock().lock();
+        try {
+            beforeConnect();
+            doConnect();
+            afterConnect();
+        } finally {
+            connectionLock.writeLock().unlock();
+        }
+    }
+
+    /**
+     * Executed right before a connection to the server is established.
+     *
+     * @throws HiveException if something goes wrong
+     */
+    protected void beforeConnect() throws HiveException {
+    }
+
+    /**
+     * Executed right after a connection to the server is established.
+     *
+     * @throws HiveException is something goes wrong
+     */
+    protected void afterConnect() throws HiveException {
+    }
+
+    /**
+     * Shuts down the connection and cleans up resources.
+     */
+    public final void disconnect() {
+        connectionLock.writeLock().lock();
+        try {
+            beforeDisconnect();
+            doDisconnect();
+            afterDisconnect();
+        } finally {
+            connectionLock.writeLock().unlock();
+        }
+    }
+
+    /**
+     * Executed right before a connection to the server is closed.
+     */
+    protected void beforeDisconnect() {
+        MoreExecutors.shutdownAndAwaitTermination(subscriptionExecutor, 1, TimeUnit.MINUTES);
+        commandSubscriptionsResults.clear();
+        notificationSubscriptionResults.clear();
+    }
+
+
+    /**
+     * Executed right after a connection to the server is closed.
+     */
+    protected void afterDisconnect() {
     }
 
     /**
@@ -126,25 +251,27 @@ public class WebsocketAgent extends RestAgent {
     /**
      * {@inheritDoc}
      */
-    @Override
     public ApiInfo getInfo() throws HiveException {
-        final String requestId = UUID.randomUUID().toString();
+//        final String requestId = UUID.randomUUID().toString();
+//
+//        final JsonObject request = new JsonObject();
+//        request.addProperty(ACTION_MEMBER, "server/info");
+//        request.addProperty(REQUEST_ID_MEMBER, requestId);
+//
+//        ApiInfo apiInfo = sendMessage(request, "info", ApiInfo.class, null);
+//
+//        final String restUrl = apiInfo.getRestServerUrl();
+//        apiInfo = apiClient.getInfo();
+//        apiInfo.setRestServerUrl(restUrl);
 
-        final JsonObject request = new JsonObject();
-        request.addProperty(ACTION_MEMBER, "server/info");
-        request.addProperty(REQUEST_ID_MEMBER, requestId);
-
-        ApiInfo apiInfo = sendMessage(request, "info", ApiInfo.class, null);
-        final String restUrl = apiInfo.getRestServerUrl();
-        apiInfo = super.getInfo();
-        apiInfo.setRestServerUrl(restUrl);
-        return apiInfo;
+        ApiInfoApi infoApi = apiClient.createService(ApiInfoApi.class);
+        ApiInfo info = infoApi.getApiInfo();
+        return info;
     }
 
     /**
      * {@inheritDoc}
      */
-    @Override
     public String subscribeForCommands(final SubscriptionFilter filter,
                                        final HiveMessageHandler<DeviceCommand> handler) throws HiveException {
         subscriptionsLock.writeLock().lock();
@@ -161,7 +288,6 @@ public class WebsocketAgent extends RestAgent {
     /**
      * {@inheritDoc}
      */
-    @Override
     public void unsubscribeFromCommands(final String subId) throws HiveException {
         subscriptionsLock.writeLock().lock();
         try {
@@ -178,7 +304,6 @@ public class WebsocketAgent extends RestAgent {
     /**
      * {@inheritDoc}
      */
-    @Override
     public void unsubscribeFromNotifications(final String subId) throws HiveException {
         subscriptionsLock.writeLock().lock();
         try {
@@ -195,9 +320,25 @@ public class WebsocketAgent extends RestAgent {
     /**
      * {@inheritDoc}
      */
-    @Override
+
+    /**
+     * Authenticates a client with provided Hive credentials.
+     *
+     * @param principal a Hive principal with client credentials
+     * @throws HiveException if an error occurs during authentication
+     */
+
     public void authenticate(final HivePrincipal principal) throws HiveException {
-        super.authenticate(principal);
+        connectionLock.writeLock().lock();
+        try {
+            if (this.hivePrincipal != null && !this.hivePrincipal.equals(hivePrincipal)) {
+                throw new IllegalStateException(Messages.ALREADY_AUTHENTICATED);
+            }
+            this.hivePrincipal = hivePrincipal;
+        } finally {
+            connectionLock.writeLock().unlock();
+        }
+
         final JsonObject request = new JsonObject();
         request.addProperty(ACTION_MEMBER, "authenticate");
         if (principal.isUser()) {
@@ -221,7 +362,6 @@ public class WebsocketAgent extends RestAgent {
     /**
      * {@inheritDoc}
      */
-    @Override
     public void subscribeForCommandUpdates(final Long commandId, final String guid,
                                            final HiveMessageHandler<DeviceCommand> handler) {
         subscriptionsLock.writeLock().lock();
@@ -289,7 +429,6 @@ public class WebsocketAgent extends RestAgent {
     /**
      * {@inheritDoc}
      */
-    @Override
     public String subscribeForNotifications(final SubscriptionFilter filter,
                                             final HiveMessageHandler<DeviceNotification> handler) throws HiveException {
         subscriptionsLock.writeLock().lock();
@@ -304,12 +443,17 @@ public class WebsocketAgent extends RestAgent {
     }
 
     /**
-     * {@inheritDoc}
+     * Performs an actual connection to the server.
+     *
+     * @throws HiveException if an error occurs during connection
      */
-    @Override
+
     protected void doConnect() throws HiveException {
-        super.doConnect();
-        final String basicUrl = super.getInfo().getWebSocketServerUrl();
+        this.restClient = JerseyClientBuilder.createClient();
+        this.restClient.register(JsonRawProvider.class)
+                .register(HiveEntityProvider.class)
+                .register(CollectionProvider.class);
+        final String basicUrl = getInfo().getWebSocketServerUrl();
         if (basicUrl == null) {
             throw new HiveException("Can not connect to websockets, endpoint URL is not provided by server");
         }
@@ -332,9 +476,8 @@ public class WebsocketAgent extends RestAgent {
     }
 
     /**
-     * {@inheritDoc}
+     * Performs an actual connection shutdown.
      */
-    @Override
     protected void doDisconnect() {
         try {
             if (currentSession != null) {
@@ -343,7 +486,8 @@ public class WebsocketAgent extends RestAgent {
         } catch (IOException e) {
             LOGGER.error("Error closing impl session", e);
         }
-        super.doDisconnect();
+        this.restClient.close();
+
     }
 
     private void resubscribe() throws HiveException {
@@ -363,6 +507,15 @@ public class WebsocketAgent extends RestAgent {
             }
         } finally {
             subscriptionsLock.readLock().unlock();
+        }
+    }
+
+    public HivePrincipal getHivePrincipal() {
+        connectionLock.readLock().lock();
+        try {
+            return hivePrincipal;
+        } finally {
+            connectionLock.readLock().unlock();
         }
     }
 
@@ -517,7 +670,7 @@ public class WebsocketAgent extends RestAgent {
 
                     final SessionMonitor sessionMonitor = new SessionMonitor(session);
                     session.getUserProperties().put(SessionMonitor.SESSION_MONITOR_KEY, sessionMonitor);
-                    session.addMessageHandler(new HiveWebsocketHandler(WebsocketAgent.this, websocketResponsesMap));
+                    session.addMessageHandler(new HiveWebsocketHandler(WebSocketClient.this, websocketResponsesMap));
 
                     final boolean reconnect = currentSession != null;
                     currentSession = session;
@@ -561,5 +714,263 @@ public class WebsocketAgent extends RestAgent {
                 }
             };
         }
+    }
+
+    /**
+     * Executes a request to the specified RESTful API resource.
+     *
+     * @param path         a REST resource path
+     * @param method       an http method name
+     * @param headers      custom headers (authorization headers are added during the request build)
+     * @param objectToSend an object to send in the request body (for http methods POST and PUT only)
+     * @param sendPolicy   a policy that declares field serialization exclusion strategy for the object being sent
+     * @param <S>          the request object type
+     * @throws HiveException if an error occurs during the request execution
+     */
+    public <S> void execute(final String path, final String method, final Map<String, String> headers,
+                            final S objectToSend, final JsonPolicyDef.Policy sendPolicy) throws HiveException {
+        execute(path, method, headers, null, objectToSend, null, sendPolicy, null);
+    }
+
+    /**
+     * Executes a request to the specified RESTful API resource.
+     *
+     * @param path        a REST resource path
+     * @param method      an http method name
+     * @param headers     custom headers (authorization headers are added during the request build)
+     * @param queryParams query params that should be added to the url. Null-valued params are ignored.
+     * @throws HiveException if an error occurs during the request execution
+     */
+    public void execute(final String path, final String method, final Map<String, String> headers,
+                        final Map<String, Object> queryParams) throws HiveException {
+        execute(path, method, headers, queryParams, null, null, null, null);
+    }
+
+    /**
+     * Executes a request to the specified RESTful API resource.
+     *
+     * @param path   a REST resource path
+     * @param method an http method name
+     * @throws HiveException if an error occurs during the request execution
+     */
+    public void execute(final String path, final String method) throws HiveException {
+        execute(path, method, null, null, null, null, null, null);
+    }
+
+    /**
+     * Executes a request to the specified RESTful API resource.
+     *
+     * @param path          a REST resource path
+     * @param method        an http method name
+     * @param headers       custom headers (authorization headers are added during the request build)
+     * @param queryParams   query params that should be added to the url. Null-valued params are ignored.
+     * @param responseType  a type of a response object. Should be a class that implements {@link HiveEntity} or a
+     *                      collection of such classes
+     * @param receivePolicy a policy that declares a field exclusion strategy for a received object
+     * @param <R>           a type of a response object
+     * @return an instance of a {@code responseType} that represents a server's response
+     * @throws HiveException if an error occurs during the request execution
+     */
+    public <R> R execute(final String path, final String method, final Map<String, String> headers,
+                         final Map<String, Object> queryParams,
+                         final Type responseType, final JsonPolicyDef.Policy receivePolicy) throws HiveException {
+        return execute(path, method, headers, queryParams, null, responseType, null, receivePolicy);
+    }
+
+    /**
+     * Executes a request to the specified RESTful API resource.
+     *
+     * @param path          a REST resource path
+     * @param method        an http method name
+     * @param headers       custom headers (authorization headers are added during the request build)
+     * @param responseType  a type of a response object. Should be a class that implements {@link HiveEntity} or a
+     *                      collection of such classes
+     * @param receivePolicy a policy that declares a field exclusion strategy for a received object
+     * @param <R>           a type of a response object
+     * @return an instance of {@code responseType} that represents a server's response
+     * @throws HiveException if an error occurs during the request execution
+     */
+    public <R> R execute(final String path, final String method, final Map<String, String> headers,
+                         final Type responseType, final JsonPolicyDef.Policy receivePolicy) throws HiveException {
+        return execute(path, method, headers, null, null, responseType, null, receivePolicy);
+    }
+
+    /**
+     * Executes a request to the specified RESTful API resource.
+     *
+     * @param path          a REST resource path
+     * @param method        an http method name
+     * @param headers       custom headers (authorization headers are added during the request build)
+     * @param queryParams   query params that should be added to the url. Null-valued params are ignored.
+     * @param objectToSend  an object to send in the request body (for http methods POST and PUT only)
+     * @param responseType  a type of a response object. Should be a class that implements {@link HiveEntity} or a
+     *                      collection of such classes
+     * @param sendPolicy    a policy that declares a field exclusion strategy for an object being sent
+     * @param receivePolicy a policy that declares a field exclusion strategy for a received object
+     * @param <S>           the request object type
+     * @param <R>           a type of a response object
+     * @return an instance of {@code responseType} that represents a server's response
+     * @throws HiveException if an error occurs during the request execution
+     */
+    public <S, R> R execute(final String path, final String method, final Map<String, String> headers,
+                            final Map<String, Object> queryParams, final S objectToSend, final Type responseType,
+                            final JsonPolicyDef.Policy sendPolicy, final JsonPolicyDef.Policy receivePolicy)
+            throws HiveException {
+        connectionLock.readLock().lock();
+        try {
+            final Response response = buildInvocation(path, method, headers, queryParams, objectToSend, sendPolicy).invoke();
+            return getEntity(response, responseType, receivePolicy);
+        } catch (ProcessingException e) {
+            throw new HiveException(Messages.INVOKE_TARGET_ERROR, e.getCause());
+        } finally {
+            connectionLock.readLock().unlock();
+        }
+    }
+
+    /**
+     * Executes a request to the specified RESTful API resource with {@code Content-Type: x-www-form-urlencoded}.
+     *
+     * @param path          a REST resource path
+     * @param formParams    form parameters
+     * @param responseType  a type of a response object. Should be a class that implements {@link HiveEntity} or a
+     *                      collection of such classes
+     * @param receivePolicy a policy that declares a field exclusion strategy for a received object
+     * @param <R>           a type of a response object
+     * @return an instance of {@code responseType} that represents server's response
+     * @throws HiveException if an error occurs during the request execution
+     */
+    public <R> R executeForm(final String path, final Map<String, String> formParams, final Type responseType,
+                             final JsonPolicyDef.Policy receivePolicy) throws HiveException {
+        connectionLock.readLock().lock();
+        try {
+            final Response response = buildFormInvocation(path, formParams).invoke();
+            return getEntity(response, responseType, receivePolicy);
+        } catch (ProcessingException e) {
+            throw new HiveException(Messages.INVOKE_TARGET_ERROR, e.getCause());
+        } finally {
+            connectionLock.readLock().unlock();
+        }
+    }
+
+    private <R> R getEntity(final Response response, final Type responseType,
+                            final JsonPolicyDef.Policy receivePolicy) throws HiveException {
+        final Response.Status.Family statusFamily = response.getStatusInfo().getFamily();
+        switch (statusFamily) {
+            case SERVER_ERROR:
+                throw new HiveServerException(response.getStatus());
+
+            case CLIENT_ERROR:
+                if (response.getStatus() == METHOD_NOT_ALLOWED.getStatusCode()) {
+                    throw new InternalHiveClientException(METHOD_NOT_ALLOWED.getReasonPhrase(),
+                            response.getStatus());
+                }
+                final Errors.ErrorMessage errorMessage = response.readEntity(Errors.ErrorMessage.class);
+                throw new HiveClientException(errorMessage.getMessage(), response.getStatus());
+
+            case SUCCESSFUL:
+                if (responseType == null) {
+                    return null;
+                }
+                if (receivePolicy == null) {
+                    return response.readEntity(new GenericType<R>(responseType));
+                } else {
+                    final Annotation[] readAnnotations = {new JsonPolicyApply.JsonPolicyApplyLiteral(receivePolicy)};
+                    return response.readEntity(new GenericType<R>(responseType), readAnnotations);
+                }
+
+            default:
+                throw new HiveException(Messages.UNKNOWN_RESPONSE);
+        }
+    }
+
+    private <S> Invocation buildInvocation(final String path, final String method, final Map<String, String> headers,
+                                           final Map<String, Object> queryParams, final S objectToSend,
+                                           final JsonPolicyDef.Policy sendPolicy) {
+        final Invocation.Builder invocationBuilder = createTarget(path, queryParams)
+                .request()
+                .accept(MediaType.APPLICATION_JSON_TYPE)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_TYPE);
+
+        for (final Map.Entry<String, String> entry : getAuthHeaders().entrySet()) {
+            invocationBuilder.header(entry.getKey(), entry.getValue());
+        }
+
+        if (headers != null) {
+            for (final Map.Entry<String, String> customHeader : headers.entrySet()) {
+                invocationBuilder.header(customHeader.getKey(), customHeader.getValue());
+            }
+        }
+
+        if (objectToSend != null) {
+            final Entity<S> entity;
+            if (sendPolicy != null) {
+                entity = Entity.entity(objectToSend, MediaType.APPLICATION_JSON_TYPE,
+                        new Annotation[]{new JsonPolicyApply.JsonPolicyApplyLiteral(sendPolicy)});
+            } else {
+                entity = Entity.entity(objectToSend, MediaType.APPLICATION_JSON_TYPE);
+            }
+            return invocationBuilder.build(method, entity);
+        } else {
+            return invocationBuilder.build(method);
+        }
+    }
+
+    private Invocation buildFormInvocation(final String path, final Map<String, String> formParams) throws HiveException {
+        final Invocation.Builder invocationBuilder = createTarget(path, null)
+                .request()
+                .accept(MediaType.APPLICATION_JSON_TYPE)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_TYPE);
+
+        for (final Map.Entry<String, String> entry : getAuthHeaders().entrySet()) {
+            invocationBuilder.header(entry.getKey(), entry.getValue());
+        }
+
+        final Entity<Form> entity;
+        if (formParams != null) {
+            final Form f = new Form();
+            for (final Map.Entry<String, String> entry : formParams.entrySet()) {
+                f.param(entry.getKey(), entry.getValue());
+            }
+            entity = Entity.entity(f, MediaType.APPLICATION_FORM_URLENCODED_TYPE);
+            return invocationBuilder.build(HttpMethod.POST, entity);
+        }
+        throw new InternalHiveClientException(Messages.FORM_PARAMS_ARE_NULL);
+    }
+
+    private Map<String, String> getAuthHeaders() {
+        final Map<String, String> headers = new HashMap<>();
+
+        final HivePrincipal hivePrincipal = getHivePrincipal();
+        if (hivePrincipal != null) {
+            final Pair<String, String> principal = hivePrincipal.getPrincipal();
+            if (hivePrincipal.isUser()) {
+                final String decodedAuth = principal.getLeft() + ":" + principal.getRight();
+
+                final String encodedAuth = Base64.encodeBase64String(decodedAuth.getBytes(Charsets.UTF_8));
+                headers.put(HttpHeaders.AUTHORIZATION, USER_AUTH_SCHEMA + " " + encodedAuth);
+
+            } else if (hivePrincipal.isDevice()) {
+                headers.put(DEVICE_ID_HEADER, principal.getLeft());
+                headers.put(DEVICE_KEY_HEADER, principal.getRight());
+
+            } else if (hivePrincipal.isAccessKey()) {
+                headers.put(HttpHeaders.AUTHORIZATION, KEY_AUTH_SCHEMA + " " + principal.getValue());
+            }
+        }
+
+        return headers;
+    }
+
+    private WebTarget createTarget(final String path, final Map<String, Object> queryParams) {
+        WebTarget target = restClient.target(restUri).path(path);
+        if (queryParams != null) {
+            for (final Map.Entry<String, Object> entry : queryParams.entrySet()) {
+                final Object value = entry.getValue() instanceof Date
+                        ? new SimpleDateFormat(GsonFactory.TIMESTAMP_FORMAT)
+                        : entry.getValue();
+                target = target.queryParam(entry.getKey(), value);
+            }
+        }
+        return target;
     }
 }
