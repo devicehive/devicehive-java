@@ -9,7 +9,7 @@ import java.util.Set;
 /**
  * A container for subscription filtering parameters.
  */
-public class SubscriptionFilter implements Cloneable {
+public class SubscriptionFilter {
 
     private final Set<String> uuids;
     private final Set<String> names;
@@ -35,5 +35,12 @@ public class SubscriptionFilter implements Cloneable {
 
     public void setTimestamp(DateTime timestamp) {
         this.timestamp = ObjectUtils.cloneIfPossible(timestamp);
+    }
+
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        super.clone();
+        return new SubscriptionFilter(uuids,names,timestamp);
     }
 }
