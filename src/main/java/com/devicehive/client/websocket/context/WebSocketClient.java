@@ -3,11 +3,13 @@ package com.devicehive.client.websocket.context;
 import com.devicehive.client.ApiClient;
 import com.devicehive.client.api.ApiInfoApi;
 import com.devicehive.client.json.GsonFactory;
+import com.devicehive.client.json.adapters.DateTimeTypeAdapter;
 import com.devicehive.client.json.strategies.JsonPolicyApply;
 import com.devicehive.client.json.strategies.JsonPolicyDef;
 import com.devicehive.client.model.ApiInfo;
 import com.devicehive.client.model.DeviceCommand;
 import com.devicehive.client.model.DeviceNotification;
+import com.devicehive.client.model.HiveMessageHandler;
 import com.devicehive.client.model.exceptions.HiveClientException;
 import com.devicehive.client.model.exceptions.HiveException;
 import com.devicehive.client.model.exceptions.HiveServerException;
@@ -16,7 +18,6 @@ import com.devicehive.client.websocket.impl.HiveWebsocketHandler;
 import com.devicehive.client.websocket.impl.SessionMonitor;
 import com.devicehive.client.websocket.impl.SimpleWebsocketResponse;
 import com.devicehive.client.websocket.model.HiveEntity;
-import com.devicehive.client.model.HiveMessageHandler;
 import com.devicehive.client.websocket.providers.CollectionProvider;
 import com.devicehive.client.websocket.providers.HiveEntityProvider;
 import com.devicehive.client.websocket.providers.JsonRawProvider;
@@ -24,15 +25,13 @@ import com.devicehive.client.websocket.util.Messages;
 import com.google.common.base.Charsets;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.SettableFuture;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.tuple.Pair;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.glassfish.jersey.internal.Errors;
 import org.glassfish.tyrus.client.ClientManager;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +56,6 @@ import java.util.concurrent.*;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import static com.devicehive.client.json.strategies.JsonPolicyDef.Policy.*;
 import static com.devicehive.client.websocket.impl.JsonEncoder.*;
 import static javax.ws.rs.core.Response.Status.METHOD_NOT_ALLOWED;
 import static javax.ws.rs.core.Response.Status.SERVICE_UNAVAILABLE;
@@ -265,8 +263,7 @@ public class WebSocketClient {
 //        apiInfo.setRestServerUrl(restUrl);
 
         ApiInfoApi infoApi = apiClient.createService(ApiInfoApi.class);
-        ApiInfo info = infoApi.getApiInfo();
-        return info;
+        return infoApi.getApiInfo();
     }
 
     /**
@@ -385,7 +382,7 @@ public class WebSocketClient {
                 try {
                     switch (jsonMessage.get(ACTION_MEMBER).getAsString()) {
                         case COMMAND_INSERT:
-                            final Gson commandInsertGson = GsonFactory.createGson(COMMAND_LISTED);
+                            final Gson commandInsertGson = registerTypeAdapter();
                             final DeviceCommand commandInsert = commandInsertGson.fromJson(
                                     jsonMessage.getAsJsonObject(COMMAND_MEMBER), DeviceCommand.class);
                             final String localCommandSubId = serverToLocalSubIdMap.get(
@@ -394,7 +391,7 @@ public class WebSocketClient {
                             break;
 
                         case COMMAND_UPDATE:
-                            final Gson commandUpdateGson = GsonFactory.createGson(COMMAND_UPDATE_TO_CLIENT);
+                            final Gson commandUpdateGson = registerTypeAdapter();
                             final DeviceCommand commandUpdated = commandUpdateGson.fromJson(
                                     jsonMessage.getAsJsonObject(COMMAND_MEMBER), DeviceCommand.class);
                             if (commandUpdatesHandlerStorage.containsKey(commandUpdated.getId())) {
@@ -403,9 +400,9 @@ public class WebSocketClient {
                             break;
 
                         case NOTIFICATION_INSERT:
-                            final Gson notificationsGson = GsonFactory.createGson(NOTIFICATION_TO_CLIENT);
-                            final DeviceNotification notification = notificationsGson.fromJson(
-                                    jsonMessage.getAsJsonObject(NOTIFICATION_MEMBER), DeviceNotification.class);
+                            final Gson notificationsGson = registerTypeAdapter();
+                            DeviceNotification notification=notificationsGson.fromJson(jsonMessage.getAsJsonObject(NOTIFICATION_MEMBER),DeviceNotification.class);
+                            System.out.println(notification);
                             final String localNotifSubId = serverToLocalSubIdMap.get(
                                     jsonMessage.get(SUBSCRIPTION_ID).getAsString());
                             notificationSubscriptionsStorage.get(localNotifSubId).handleMessage(notification);
@@ -424,6 +421,16 @@ public class WebSocketClient {
                 }
             }
         });
+    }
+
+    private Gson registerTypeAdapter(){
+        DateTimeTypeAdapter typeAdapter = new DateTimeTypeAdapter(ApiClient.ISO_PATTERN);
+        return new GsonBuilder()
+                .registerTypeAdapter(DateTime.class,
+                        typeAdapter)
+                .registerTypeAdapter(DateTime.class,
+                        typeAdapter)
+                .create();
     }
 
     /**

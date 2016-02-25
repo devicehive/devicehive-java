@@ -40,7 +40,7 @@ public class ApiClient {
     private Map<String, Interceptor> apiAuthorizations;
     private OkHttpClient okClient;
     private RestAdapter.Builder adapterBuilder;
-    final String ISO_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+    public final static String ISO_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
 
     public ApiClient(String url) {
         apiAuthorizations = new LinkedHashMap<String, Interceptor>();

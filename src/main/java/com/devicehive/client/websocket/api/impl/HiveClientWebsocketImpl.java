@@ -4,6 +4,7 @@ package com.devicehive.client.websocket.api.impl;
 import com.devicehive.client.model.exceptions.HiveException;
 import com.devicehive.client.websocket.context.HivePrincipal;
 import com.devicehive.client.websocket.context.WebSocketClient;
+import org.joda.time.DateTime;
 
 /**
  * Specialization of {@link HiveClientRestImpl} that uses WebSocket transport for requests.
@@ -49,5 +50,9 @@ public class HiveClientWebSocketImpl {
      */
     public NotificationsAPIWebsocketImpl getNotificationsWSAPI() {
         return new NotificationsAPIWebsocketImpl(WebSocketClient);
+    }
+
+    public DateTime getTimestamp() throws HiveException{
+        return WebSocketClient.getInfo().getServerTimestamp();
     }
 }
