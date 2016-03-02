@@ -402,7 +402,6 @@ public class WebSocketClient {
                         case NOTIFICATION_INSERT:
                             final Gson notificationsGson = registerTypeAdapter();
                             DeviceNotification notification=notificationsGson.fromJson(jsonMessage.getAsJsonObject(NOTIFICATION_MEMBER),DeviceNotification.class);
-                            System.out.println(notification);
                             final String localNotifSubId = serverToLocalSubIdMap.get(
                                     jsonMessage.get(SUBSCRIPTION_ID).getAsString());
                             notificationSubscriptionsStorage.get(localNotifSubId).handleMessage(notification);
