@@ -44,7 +44,6 @@ public class CommandsAPIWebSocketImpl implements CommandsAPIWebsocket {
      */
     CommandsAPIWebSocketImpl(WebSocketClient WebSocketClient) {
         this.WebSocketClient = WebSocketClient;
-//        commandApi = this.WebSocketClient.createService(DeviceCommandApi.class);
     }
 
     /**
