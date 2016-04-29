@@ -7,7 +7,6 @@ import com.devicehive.client.api.DeviceCommandApi;
 import com.devicehive.client.api.DeviceNotificationApi;
 import com.devicehive.client.model.*;
 import org.joda.time.DateTime;
-import retrofit.RetrofitError;
 
 import java.util.Collections;
 import java.util.List;
@@ -100,6 +99,7 @@ public class TimerDevice {
     private void registerDevice() {
         DeviceUpdate device = createDevice();
         deviceApiImpl.register(device, Const.DEVICE_ID);
+        R
 
     }
 
