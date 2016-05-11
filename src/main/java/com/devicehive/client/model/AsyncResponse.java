@@ -1,13 +1,10 @@
-package com.devicehive.client2.model;
+package com.devicehive.client.model;
+
+import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
 
 import io.swagger.annotations.ApiModelProperty;
-
-import com.google.gson.annotations.SerializedName;
-
-
-
 
 
 public class AsyncResponse   {

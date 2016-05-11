@@ -1,292 +1,149 @@
 package com.devicehive.client.api;
 
-import com.devicehive.client.model.Network;
-import com.devicehive.client.model.User;
-import com.devicehive.client.model.UserUpdate;
-import retrofit.Callback;
-import retrofit.http.*;
+
+import com.devicehive.client2.model.Network;
+import com.devicehive.client2.model.User;
+import com.devicehive.client2.model.UserUpdate;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
+
 public interface UserApi {
-  
   /**
-   * List users
-   * Sync method
-   * Gets list of users.
-   * @param login Filter by user login.
-   * @param loginPattern Filter by user login pattern.
-   * @param role Filter by user role. 0 is Administrator, 1 is Client.
-   * @param status Filter by user status. 0 is Active, 1 is Locked Out, 2 is Disabled.
-   * @param sortField Result list sort field.
-   * @param sortOrder Result list sort order. Available values are ASC and DESC.
-   * @param take Number of records to take from the result list.
-   * @param skip Number of records to skip from the result list.
-   * @return List<User>
+   * Assign network
+   * Associates network with the user.
+   * @param id User identifier. (required)
+   * @param networkId Network identifier. (required)
+   * @return Call<Void>
    */
   
-  @GET("/user")
-  List<User> list(
+  @PUT("user/{id}/network/{networkId}")
+  Call<Void> assignNetwork(
+          @Path("id") Long id, @Path("networkId") Long networkId
+  );
+
+  /**
+   * Delete user
+   * Deletes an existing user.
+   * @param id User identifier. (required)
+   * @return Call<Void>
+   */
+  
+  @DELETE("user/{id}")
+  Call<Void> deleteUser(
+          @Path("id") Long id
+  );
+
+  /**
+   * Get current user
+   * Get information about the current user.
+   * @return Call<User>
+   */
+  
+  @GET("user/current")
+  Call<User> getCurrent();
+    
+
+  /**
+   * Get user&#39;s network
+   * Gets information about user/network association.
+   * @param id User identifier. (required)
+   * @param networkId Network identifier. (required)
+   * @return Call<Network>
+   */
+  
+  @GET("user/{id}/network/{networkId}")
+  Call<Network> getNetwork(
+          @Path("id") Long id, @Path("networkId") Long networkId
+  );
+
+  /**
+   * Get user
+   * Gets information about user and its assigned networks.\nOnly administrators are allowed to get information about any user. User-level accounts can only retrieve information about themselves.
+   * @param id User identifier. (required)
+   * @return Call<User>
+   */
+  
+  @GET("user/{id}")
+  Call<User> getUser(
+          @Path("id") Long id
+  );
+
+  /**
+   * Create user
+   * Creates new user.
+   * @param body User body (required)
+   * @return Call<User>
+   */
+  
+  @POST("user")
+  Call<User> insertUser(
+          @Body UserUpdate body
+  );
+
+  /**
+   * List users
+   * Gets list of users.
+   * @param login Filter by user login. (optional)
+   * @param loginPattern Filter by user login pattern. (optional)
+   * @param role Filter by user role. 0 is Administrator, 1 is Client. (optional)
+   * @param status Filter by user status. 0 is Active, 1 is Locked Out, 2 is Disabled. (optional)
+   * @param sortField Result list sort field. (optional)
+   * @param sortOrder Result list sort order. Available values are ASC and DESC. (optional)
+   * @param take Number of records to take from the result list. (optional, default to 20)
+   * @param skip Number of records to skip from the result list. (optional, default to 0)
+   * @return Call<List<User>>
+   */
+  
+  @GET("user")
+  Call<List<User>> list(
           @Query("login") String login, @Query("loginPattern") String loginPattern, @Query("role") Integer role, @Query("status") Integer status, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip
   );
 
   /**
-   * List users
-   * Async method
-   * @param login Filter by user login.
-   * @param loginPattern Filter by user login pattern.
-   * @param role Filter by user role. 0 is Administrator, 1 is Client.
-   * @param status Filter by user status. 0 is Active, 1 is Locked Out, 2 is Disabled.
-   * @param sortField Result list sort field.
-   * @param sortOrder Result list sort order. Available values are ASC and DESC.
-   * @param take Number of records to take from the result list.
-   * @param skip Number of records to skip from the result list.
-   * @param cb callback method
-   * @return void
+   * Unassign network
+   * Removes association between network and user.
+   * @param id User identifier. (required)
+   * @param networkId Network identifier. (required)
+   * @return Call<Void>
    */
   
-  @GET("/user")
-  void list(
-          @Query("login") String login, @Query("loginPattern") String loginPattern, @Query("role") Integer role, @Query("status") Integer status, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip, Callback<List<User>> cb
-  );
-  
-  /**
-   * Create user
-   * Sync method
-   * Creates new user.
-   * @param body User body
-   * @return User
-   */
-  
-  @POST("/user")
-  User insertUser(
-          @Body UserUpdate body
+  @DELETE("user/{id}/network/{networkId}")
+  Call<Void> unassignNetwork(
+          @Path("id") Long id, @Path("networkId") Long networkId
   );
 
-  /**
-   * Create user
-   * Async method
-   * @param body User body
-   * @param cb callback method
-   * @return void
-   */
-  
-  @POST("/user")
-  void insertUser(
-          @Body UserUpdate body, Callback<User> cb
-  );
-  
-  /**
-   * Get current user
-   * Sync method
-   * Get information about the current user.
-   * @return User
-   */
-  
-  @GET("/user/current")
-  User getCurrent();
-    
-
-  /**
-   * Get current user
-   * Async method
-   * @param cb callback method
-   * @return void
-   */
-  
-  @GET("/user/current")
-  void getCurrent(
-          Callback<User> cb
-  );
-  
   /**
    * Update current user
-   * Sync method
    * Updates an existing user. \nOnly administrators are allowed to update any property of any user. User-level accounts can only change their own password in case:\n1. They already have a password.\n2. They provide a valid current password in the &#39;oldPassword&#39; property.
-   * @param body User body
-   * @return Void
+   * @param body User body (required)
+   * @return Call<Void>
    */
   
-  @PUT("/user/current")
-  Void updateCurrentUser(
+  @PUT("user/current")
+  Call<Void> updateCurrentUser(
           @Body UserUpdate body
   );
 
-  /**
-   * Update current user
-   * Async method
-   * @param body User body
-   * @param cb callback method
-   * @return void
-   */
-  
-  @PUT("/user/current")
-  void updateCurrentUser(
-          @Body UserUpdate body, Callback<Void> cb
-  );
-  
-  /**
-   * Get user
-   * Sync method
-   * Gets information about user and its assigned networks.\nOnly administrators are allowed to get information about any user. User-level accounts can only retrieve information about themselves.
-   * @param id User identifier.
-   * @return User
-   */
-  
-  @GET("/user/{id}")
-  User getUser(
-          @Path("id") Long id
-  );
-
-  /**
-   * Get user
-   * Async method
-   * @param id User identifier.
-   * @param cb callback method
-   * @return void
-   */
-  
-  @GET("/user/{id}")
-  void getUser(
-          @Path("id") Long id, Callback<User> cb
-  );
-  
   /**
    * Update user
-   * Sync method
    * 
-   * @param body User body
-   * @param id User identifier.
-   * @return Void
+   * @param body User body (required)
+   * @param id User identifier. (required)
+   * @return Call<Void>
    */
   
-  @PUT("/user/{id}")
-  Void updateUser(
+  @PUT("user/{id}")
+  Call<Void> updateUser(
           @Body UserUpdate body, @Path("id") Long id
   );
 
-  /**
-   * Update user
-   * Async method
-   * @param body User body
-   * @param id User identifier.
-   * @param cb callback method
-   * @return void
-   */
-  
-  @PUT("/user/{id}")
-  void updateUser(
-          @Body UserUpdate body, @Path("id") Long id, Callback<Void> cb
-  );
-  
-  /**
-   * Delete user
-   * Sync method
-   * Deletes an existing user.
-   * @param id User identifier.
-   * @return Void
-   */
-  
-  @DELETE("/user/{id}")
-  Void deleteUser(
-          @Path("id") Long id
-  );
-
-  /**
-   * Delete user
-   * Async method
-   * @param id User identifier.
-   * @param cb callback method
-   * @return void
-   */
-  
-  @DELETE("/user/{id}")
-  void deleteUser(
-          @Path("id") Long id, Callback<Void> cb
-  );
-  
-  /**
-   * Get user&#39;s network
-   * Sync method
-   * Gets information about user/network association.
-   * @param id User identifier.
-   * @param networkId Network identifier.
-   * @return Network
-   */
-  
-  @GET("/user/{id}/network/{networkId}")
-  Network getNetwork(
-          @Path("id") Long id, @Path("networkId") Long networkId
-  );
-
-  /**
-   * Get user&#39;s network
-   * Async method
-   * @param id User identifier.
-   * @param networkId Network identifier.
-   * @param cb callback method
-   * @return void
-   */
-  
-  @GET("/user/{id}/network/{networkId}")
-  void getNetwork(
-          @Path("id") Long id, @Path("networkId") Long networkId, Callback<Network> cb
-  );
-  
-  /**
-   * Assign network
-   * Sync method
-   * Associates network with the user.
-   * @param id User identifier.
-   * @param networkId Network identifier.
-   * @return Void
-   */
-  
-  @PUT("/user/{id}/network/{networkId}")
-  Void assignNetwork(
-          @Path("id") Long id, @Path("networkId") Long networkId
-  );
-
-  /**
-   * Assign network
-   * Async method
-   * @param id User identifier.
-   * @param networkId Network identifier.
-   * @param cb callback method
-   * @return void
-   */
-  
-  @PUT("/user/{id}/network/{networkId}")
-  void assignNetwork(
-          @Path("id") Long id, @Path("networkId") Long networkId, Callback<Void> cb
-  );
-  
-  /**
-   * Unassign network
-   * Sync method
-   * Removes association between network and user.
-   * @param id User identifier.
-   * @param networkId Network identifier.
-   * @return Void
-   */
-  
-  @DELETE("/user/{id}/network/{networkId}")
-  Void unassignNetwork(
-          @Path("id") Long id, @Path("networkId") Long networkId
-  );
-
-  /**
-   * Unassign network
-   * Async method
-   * @param id User identifier.
-   * @param networkId Network identifier.
-   * @param cb callback method
-   * @return void
-   */
-  
-  @DELETE("/user/{id}/network/{networkId}")
-  void unassignNetwork(
-          @Path("id") Long id, @Path("networkId") Long networkId, Callback<Void> cb
-  );
-  
 }

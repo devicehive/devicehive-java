@@ -1,81 +1,35 @@
 package com.devicehive.client.model;
 
-import com.devicehive.client.StringUtil;
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModel;
+
+import java.util.Objects;
+
 import io.swagger.annotations.ApiModelProperty;
 
 
-
-@ApiModel(description = "")
 public class OAuthGrantUpdate   {
   
   @SerializedName("id")
   private Long id = null;
-  
+
   @SerializedName("client")
-  private OAuthClient client = null;
-  
-
-public enum TypeEnum {
-  @SerializedName("CODE")
-  CODE("CODE"),
-
-  @SerializedName("TOKEN")
-  TOKEN("TOKEN"),
-
-  @SerializedName("PASSWORD")
-  PASSWORD("PASSWORD");
-
-  private String value;
-
-  TypeEnum(String value) {
-    this.value = value;
-  }
-
-  @Override
-  public String toString() {
-    return value;
-  }
-}
+  private NullableWrapper client = null;
 
   @SerializedName("type")
-  private TypeEnum type = null;
-  
-
-public enum AccessTypeEnum {
-  @SerializedName("ONLINE")
-  ONLINE("ONLINE"),
-
-  @SerializedName("OFFLINE")
-  OFFLINE("OFFLINE");
-
-  private String value;
-
-  AccessTypeEnum(String value) {
-    this.value = value;
-  }
-
-  @Override
-  public String toString() {
-    return value;
-  }
-}
+  private NullableWrapper type = null;
 
   @SerializedName("accessType")
-  private AccessTypeEnum accessType = null;
-  
-  @SerializedName("redirectUri")
-  private String redirectUri = null;
-  
-  @SerializedName("scope")
-  private String scope = null;
-  
-  @SerializedName("networkIds")
-  private JsonStringWrapper networkIds = null;
-  
+  private NullableWrapper accessType = null;
 
-  
+  @SerializedName("redirectUri")
+  private NullableWrapper redirectUri = null;
+
+  @SerializedName("scope")
+  private NullableWrapper scope = null;
+
+  @SerializedName("networkIds")
+  private NullableWrapper networkIds = null;
+
   /**
    **/
   @ApiModelProperty(value = "")
@@ -86,87 +40,114 @@ public enum AccessTypeEnum {
     this.id = id;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
-  public OAuthClient getClient() {
+  public NullableWrapper getClient() {
     return client;
   }
-  public void setClient(OAuthClient client) {
+  public void setClient(NullableWrapper client) {
     this.client = client;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
-  public TypeEnum getType() {
+  public NullableWrapper getType() {
     return type;
   }
-  public void setType(TypeEnum type) {
+  public void setType(NullableWrapper type) {
     this.type = type;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
-  public AccessTypeEnum getAccessType() {
+  public NullableWrapper getAccessType() {
     return accessType;
   }
-  public void setAccessType(AccessTypeEnum accessType) {
+  public void setAccessType(NullableWrapper accessType) {
     this.accessType = accessType;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
-  public String getRedirectUri() {
+  public NullableWrapper getRedirectUri() {
     return redirectUri;
   }
-  public void setRedirectUri(String redirectUri) {
+  public void setRedirectUri(NullableWrapper redirectUri) {
     this.redirectUri = redirectUri;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
-  public String getScope() {
+  public NullableWrapper getScope() {
     return scope;
   }
-  public void setScope(String scope) {
+  public void setScope(NullableWrapper scope) {
     this.scope = scope;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
-  public JsonStringWrapper getNetworkIds() {
+  public NullableWrapper getNetworkIds() {
     return networkIds;
   }
-  public void setNetworkIds(JsonStringWrapper networkIds) {
+  public void setNetworkIds(NullableWrapper networkIds) {
     this.networkIds = networkIds;
   }
 
-  
 
   @Override
-  public String toString()  {
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    OAuthGrantUpdate oAuthGrantUpdate = (OAuthGrantUpdate) o;
+    return Objects.equals(id, oAuthGrantUpdate.id) &&
+        Objects.equals(client, oAuthGrantUpdate.client) &&
+        Objects.equals(type, oAuthGrantUpdate.type) &&
+        Objects.equals(accessType, oAuthGrantUpdate.accessType) &&
+        Objects.equals(redirectUri, oAuthGrantUpdate.redirectUri) &&
+        Objects.equals(scope, oAuthGrantUpdate.scope) &&
+        Objects.equals(networkIds, oAuthGrantUpdate.networkIds);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, client, type, accessType, redirectUri, scope, networkIds);
+  }
+
+  @Override
+  public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class OAuthGrantUpdate {\n");
     
-    sb.append("    id: ").append(StringUtil.toIndentedString(id)).append("\n");
-    sb.append("    client: ").append(StringUtil.toIndentedString(client)).append("\n");
-    sb.append("    type: ").append(StringUtil.toIndentedString(type)).append("\n");
-    sb.append("    accessType: ").append(StringUtil.toIndentedString(accessType)).append("\n");
-    sb.append("    redirectUri: ").append(StringUtil.toIndentedString(redirectUri)).append("\n");
-    sb.append("    scope: ").append(StringUtil.toIndentedString(scope)).append("\n");
-    sb.append("    networkIds: ").append(StringUtil.toIndentedString(networkIds)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    client: ").append(toIndentedString(client)).append("\n");
+    sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    accessType: ").append(toIndentedString(accessType)).append("\n");
+    sb.append("    redirectUri: ").append(toIndentedString(redirectUri)).append("\n");
+    sb.append("    scope: ").append(toIndentedString(scope)).append("\n");
+    sb.append("    networkIds: ").append(toIndentedString(networkIds)).append("\n");
     sb.append("}");
     return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
   }
 }

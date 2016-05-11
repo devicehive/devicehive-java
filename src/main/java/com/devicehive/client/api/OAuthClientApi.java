@@ -1,156 +1,84 @@
 package com.devicehive.client.api;
 
-import com.devicehive.client.model.OAuthClient;
-import com.devicehive.client.model.OAuthClientUpdate;
-import retrofit.Callback;
-import retrofit.http.*;
+import com.devicehive.client2.model.OAuthClient;
+import com.devicehive.client2.model.OAuthClientUpdate;
+
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface OAuthClientApi {
-  
   /**
-   * List oAuth clients
-   * Sync method
+   * Delete oAuth client
    * 
-   * @param name oAuth client name
-   * @param namePattern Name pattern
-   * @param domain oAuth client domain
-   * @param oauthId oAuth client id
-   * @param sortField Sort field
-   * @param sortOrder Sort order
-   * @param take Limit param
-   * @param skip Skip param
-   * @return Void
+   * @param id oAuth client id (required)
+   * @return Call<Void>
    */
   
-  @GET("/oauth/client")
-  Void list(
-          @Query("name") String name, @Query("namePattern") String namePattern, @Query("domain") String domain, @Query("oauthId") String oauthId, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip
+  @DELETE("oauth/client/{id}")
+  Call<Void> delete(
+          @Path("id") Long id
   );
 
   /**
-   * List oAuth clients
-   * Async method
-   * @param name oAuth client name
-   * @param namePattern Name pattern
-   * @param domain oAuth client domain
-   * @param oauthId oAuth client id
-   * @param sortField Sort field
-   * @param sortOrder Sort order
-   * @param take Limit param
-   * @param skip Skip param
-   * @param cb callback method
-   * @return void
+   * Get oAuth client
+   * Returns oAuth client by id
+   * @param id oAuth client id (required)
+   * @return Call<Void>
    */
   
-  @GET("/oauth/client")
-  void list(
-          @Query("name") String name, @Query("namePattern") String namePattern, @Query("domain") String domain, @Query("oauthId") String oauthId, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip, Callback<Void> cb
+  @GET("oauth/client/{id}")
+  Call<Void> get(
+          @Path("id") Long id
   );
-  
+
   /**
    * Create oAuth client
-   * Sync method
    * 
-   * @param body oAuth client body
-   * @return Void
+   * @param body oAuth client body (optional)
+   * @return Call<Void>
    */
   
-  @POST("/oauth/client")
-  Void insert(
+  @POST("oauth/client")
+  Call<Void> insert(
           @Body OAuthClient body
   );
 
   /**
-   * Create oAuth client
-   * Async method
-   * @param body oAuth client body
-   * @param cb callback method
-   * @return void
+   * List oAuth clients
+   * 
+   * @param name oAuth client name (optional)
+   * @param namePattern Name pattern (optional)
+   * @param domain oAuth client domain (optional)
+   * @param oauthId oAuth client id (optional)
+   * @param sortField Sort field (optional)
+   * @param sortOrder Sort order (optional)
+   * @param take Limit param (optional)
+   * @param skip Skip param (optional)
+   * @return Call<Void>
    */
   
-  @POST("/oauth/client")
-  void insert(
-          @Body OAuthClient body, Callback<Void> cb
-  );
-  
-  /**
-   * Get oAuth client
-   * Sync method
-   * Returns oAuth client by id
-   * @param id oAuth client id
-   * @return Void
-   */
-  
-  @GET("/oauth/client/{id}")
-  Void get(
-          @Path("id") Long id
+  @GET("oauth/client")
+  Call<Void> list(
+          @Query("name") String name, @Query("namePattern") String namePattern, @Query("domain") String domain, @Query("oauthId") String oauthId, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip
   );
 
   /**
-   * Get oAuth client
-   * Async method
-   * @param id oAuth client id
-   * @param cb callback method
-   * @return void
-   */
-  
-  @GET("/oauth/client/{id}")
-  void get(
-          @Path("id") Long id, Callback<Void> cb
-  );
-  
-  /**
    * Update oAuth client
-   * Sync method
    * 
-   * @param id oAuth client id
-   * @param body oAuth client body
-   * @return Void
+   * @param id oAuth client id (required)
+   * @param body oAuth client body (optional)
+   * @return Call<Void>
    */
   
-  @PUT("/oauth/client/{id}")
-  Void update(
+  @PUT("oauth/client/{id}")
+  Call<Void> update(
           @Path("id") Long id, @Body OAuthClientUpdate body
   );
 
-  /**
-   * Update oAuth client
-   * Async method
-   * @param id oAuth client id
-   * @param body oAuth client body
-   * @param cb callback method
-   * @return void
-   */
-  
-  @PUT("/oauth/client/{id}")
-  void update(
-          @Path("id") Long id, @Body OAuthClientUpdate body, Callback<Void> cb
-  );
-  
-  /**
-   * Delete oAuth client
-   * Sync method
-   * 
-   * @param id oAuth client id
-   * @return Void
-   */
-  
-  @DELETE("/oauth/client/{id}")
-  Void delete(
-          @Path("id") Long id
-  );
-
-  /**
-   * Delete oAuth client
-   * Async method
-   * @param id oAuth client id
-   * @param cb callback method
-   * @return void
-   */
-  
-  @DELETE("/oauth/client/{id}")
-  void delete(
-          @Path("id") Long id, Callback<Void> cb
-  );
-  
 }

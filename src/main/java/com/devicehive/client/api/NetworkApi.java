@@ -1,154 +1,84 @@
 package com.devicehive.client.api;
 
-import com.devicehive.client.model.Network;
-import com.devicehive.client.model.NetworkUpdate;
-import retrofit.Callback;
-import retrofit.http.*;
+import com.devicehive.client2.model.Network;
+import com.devicehive.client2.model.NetworkUpdate;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
+
 public interface NetworkApi {
-  
   /**
-   * List networks
-   * Sync method
-   * Gets list of device networks the client has access to.
-   * @param name Filter by network name.
-   * @param namePattern Filter by network name pattern.
-   * @param sortField Result list sort field.
-   * @param sortOrder Result list sort order.
-   * @param take Number of records to take from the result list.
-   * @param skip Number of records to skip from the result list.
-   * @return List<Network>
+   * Delete network
+   * Deletes an existing device network.
+   * @param id Network identifier. (required)
+   * @return Call<Void>
    */
   
-  @GET("/network")
-  List<Network> list(
-          @Query("name") String name, @Query("namePattern") String namePattern, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip
+  @DELETE("network/{id}")
+  Call<Void> delete(
+          @Path("id") Long id
   );
 
   /**
-   * List networks
-   * Async method
-   * @param name Filter by network name.
-   * @param namePattern Filter by network name pattern.
-   * @param sortField Result list sort field.
-   * @param sortOrder Result list sort order.
-   * @param take Number of records to take from the result list.
-   * @param skip Number of records to skip from the result list.
-   * @param cb callback method
-   * @return void
+   * Get network
+   * Gets information about device network and its devices.
+   * @param id Network identifier. (required)
+   * @return Call<Network>
    */
   
-  @GET("/network")
-  void list(
-          @Query("name") String name, @Query("namePattern") String namePattern, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip, Callback<List<Network>> cb
+  @GET("network/{id}")
+  Call<Network> get(
+          @Path("id") Long id
   );
-  
+
   /**
    * Create network
-   * Sync method
    * Creates new device network.
-   * @param body Network body
-   * @return Network
+   * @param body Network body (required)
+   * @return Call<Network>
    */
   
-  @POST("/network")
-  Network insert(
+  @POST("network")
+  Call<Network> insert(
           @Body Network body
   );
 
   /**
-   * Create network
-   * Async method
-   * @param body Network body
-   * @param cb callback method
-   * @return void
+   * List networks
+   * Gets list of device networks the client has access to.
+   * @param name Filter by network name. (optional)
+   * @param namePattern Filter by network name pattern. (optional)
+   * @param sortField Result list sort field. (optional)
+   * @param sortOrder Result list sort order. (optional)
+   * @param take Number of records to take from the result list. (optional, default to 20)
+   * @param skip Number of records to skip from the result list. (optional, default to 0)
+   * @return Call<List<Network>>
    */
   
-  @POST("/network")
-  void insert(
-          @Body Network body, Callback<Network> cb
-  );
-  
-  /**
-   * Get network
-   * Sync method
-   * Gets information about device network and its devices.
-   * @param id Network identifier.
-   * @return Network
-   */
-  
-  @GET("/network/{id}")
-  Network get(
-          @Path("id") Long id
+  @GET("network")
+  Call<List<Network>> list(
+          @Query("name") String name, @Query("namePattern") String namePattern, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip
   );
 
   /**
-   * Get network
-   * Async method
-   * @param id Network identifier.
-   * @param cb callback method
-   * @return void
-   */
-  
-  @GET("/network/{id}")
-  void get(
-          @Path("id") Long id, Callback<Network> cb
-  );
-  
-  /**
    * Update network
-   * Sync method
    * Updates an existing device network.
-   * @param body Network body
-   * @param id Network identifier.
-   * @return Void
+   * @param body Network body (required)
+   * @param id Network identifier. (required)
+   * @return Call<Void>
    */
   
-  @PUT("/network/{id}")
-  Void update(
+  @PUT("network/{id}")
+  Call<Void> update(
           @Body NetworkUpdate body, @Path("id") Long id
   );
 
-  /**
-   * Update network
-   * Async method
-   * @param body Network body
-   * @param id Network identifier.
-   * @param cb callback method
-   * @return void
-   */
-  
-  @PUT("/network/{id}")
-  void update(
-          @Body NetworkUpdate body, @Path("id") Long id, Callback<Void> cb
-  );
-  
-  /**
-   * Delete network
-   * Sync method
-   * Deletes an existing device network.
-   * @param id Network identifier.
-   * @return Void
-   */
-  
-  @DELETE("/network/{id}")
-  Void delete(
-          @Path("id") Long id
-  );
-
-  /**
-   * Delete network
-   * Async method
-   * @param id Network identifier.
-   * @param cb callback method
-   * @return void
-   */
-  
-  @DELETE("/network/{id}")
-  void delete(
-          @Path("id") Long id, Callback<Void> cb
-  );
-  
 }

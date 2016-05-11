@@ -5,16 +5,25 @@ import com.devicehive.client.api.ApiInfoApi;
 import com.devicehive.client.api.DeviceApi;
 import com.devicehive.client.api.DeviceCommandApi;
 import com.devicehive.client.api.DeviceNotificationApi;
-import com.devicehive.client.model.*;
+import com.devicehive.client.model.ApiInfo;
+import com.devicehive.client.model.Device;
+import com.devicehive.client.model.DeviceCommandWrapper;
+import com.devicehive.client.model.DeviceNotification;
+import com.devicehive.client.model.JsonStringWrapper;
 import com.sun.istack.internal.Nullable;
+
 import org.joda.time.DateTime;
-import retrofit.RetrofitError;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import retrofit.RetrofitError;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TimerClient {
 
@@ -29,6 +38,8 @@ public class TimerClient {
 
     private String deviceId = null;
     private DateTime timestamp = null;
+    Call<List<Device>> devicesCall = deviceApi.list(Const.NAME, null, null, null, null, null, null, null, null, null, null, null);
+    Call<ApiInfo> apiInfoCall = infoApi.getApiInfo();
 
     public TimerClient() {
         restClient = new ApiClient(Const.URL, ApiClient.AUTH_API_KEY, Const.API_KEY);
@@ -47,19 +58,44 @@ public class TimerClient {
     public void run() {
 
         if (deviceId == null) {
-            List<Device> devices = deviceApi.list(Const.NAME, null, null, null, null, null, null, null, null, null, null, null);
-            if (devices.size() == 0) {
-                System.out.println("No devices was found");
-                return;
-            } else {
-                deviceId = devices.get(0).getGuid();
 
-            }
+
+            devicesCall.enqueue(new Callback<List<Device>>() {
+                @Override
+                public void onResponse(Call<List<Device>> call, Response<List<Device>> response) {
+                    List<Device> devices = response.body();
+
+                    if (devices.size() == 0) {
+                        System.out.println("No devices was found");
+                    } else {
+                        deviceId = devices.get(0).getGuid();
+
+
+                        apiInfoCall.enqueue(new Callback<ApiInfo>() {
+                            @Override
+                            public void onResponse(Call<ApiInfo> call, Response<ApiInfo> response) {
+                                ApiInfo apiInfo = response.body();
+                                timestamp = apiInfo.getServerTimestamp();
+                            }
+
+                            @Override
+                            public void onFailure(Call<ApiInfo> call, Throwable throwable) {
+
+                            }
+                        });
+
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<Device>> call, Throwable throwable) {
+
+                }
+            });
 
         }
 
-        ApiInfo apiInfo = infoApi.getApiInfo();
-        timestamp = apiInfo.getServerTimestamp();
 
         ses.scheduleAtFixedRate(new Runnable() {
             @Override
@@ -80,7 +116,7 @@ public class TimerClient {
 
 
     private void pollNotifications(String timestamp) {
-        List<DeviceNotification> deviceNotifications = notificationApi.poll(Const.DEVICE_ID, null, timestamp, 30L);
+        Call<List<DeviceNotification>> deviceNotifications = notificationApi.poll(Const.DEVICE_ID, null, timestamp, 30L);
 
         if (deviceNotifications.size() != 0) {
             Collections.sort(deviceNotifications);

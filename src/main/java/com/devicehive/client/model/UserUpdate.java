@@ -1,42 +1,41 @@
 package com.devicehive.client.model;
 
-import com.devicehive.client.StringUtil;
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModel;
+
+import java.util.Objects;
+
 import io.swagger.annotations.ApiModelProperty;
 
 
-
-@ApiModel(description = "")
 public class UserUpdate   {
   
   @SerializedName("login")
-  private String login = null;
-  
+  private NullableWrapper login = null;
+
   @SerializedName("role")
-  private Integer role = null;
-  
+  private NullableWrapper role = null;
+
   @SerializedName("status")
-  private Integer status = null;
-  
+  private NullableWrapper status = null;
+
   @SerializedName("password")
-  private String password = null;
-  
+  private NullableWrapper password = null;
+
   @SerializedName("oldPassword")
-  private String oldPassword = null;
-  
+  private NullableWrapper oldPassword = null;
+
   @SerializedName("googleLogin")
-  private String googleLogin = null;
-  
+  private NullableWrapper googleLogin = null;
+
   @SerializedName("facebookLogin")
-  private String facebookLogin = null;
-  
+  private NullableWrapper facebookLogin = null;
+
   @SerializedName("githubLogin")
-  private String githubLogin = null;
-  
+  private NullableWrapper githubLogin = null;
+
   @SerializedName("data")
-  private JsonStringWrapper data = null;
-  
+  private NullableWrapper data = null;
+
 
 public enum RoleEnumEnum {
   @SerializedName("ADMIN")
@@ -59,7 +58,7 @@ public enum RoleEnumEnum {
 
   @SerializedName("roleEnum")
   private RoleEnumEnum roleEnum = null;
-  
+
 
 public enum StatusEnumEnum {
   @SerializedName("ACTIVE")
@@ -88,108 +87,97 @@ public enum StatusEnumEnum {
 
   @SerializedName("statusEnum")
   private StatusEnumEnum statusEnum = null;
-  
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
-  public String getLogin() {
+  public NullableWrapper getLogin() {
     return login;
   }
-  public void setLogin(String login) {
+  public void setLogin(NullableWrapper login) {
     this.login = login;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
-  public Integer getRole() {
+  public NullableWrapper getRole() {
     return role;
   }
-  public void setRole(Integer role) {
+  public void setRole(NullableWrapper role) {
     this.role = role;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
-  public Integer getStatus() {
+  public NullableWrapper getStatus() {
     return status;
   }
-  public void setStatus(Integer status) {
+  public void setStatus(NullableWrapper status) {
     this.status = status;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
-  public String getPassword() {
+  public NullableWrapper getPassword() {
     return password;
   }
-  public void setPassword(String password) {
+  public void setPassword(NullableWrapper password) {
     this.password = password;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
-  public String getOldPassword() {
+  public NullableWrapper getOldPassword() {
     return oldPassword;
   }
-  public void setOldPassword(String oldPassword) {
+  public void setOldPassword(NullableWrapper oldPassword) {
     this.oldPassword = oldPassword;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
-  public String getGoogleLogin() {
+  public NullableWrapper getGoogleLogin() {
     return googleLogin;
   }
-  public void setGoogleLogin(String googleLogin) {
+  public void setGoogleLogin(NullableWrapper googleLogin) {
     this.googleLogin = googleLogin;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
-  public String getFacebookLogin() {
+  public NullableWrapper getFacebookLogin() {
     return facebookLogin;
   }
-  public void setFacebookLogin(String facebookLogin) {
+  public void setFacebookLogin(NullableWrapper facebookLogin) {
     this.facebookLogin = facebookLogin;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
-  public String getGithubLogin() {
+  public NullableWrapper getGithubLogin() {
     return githubLogin;
   }
-  public void setGithubLogin(String githubLogin) {
+  public void setGithubLogin(NullableWrapper githubLogin) {
     this.githubLogin = githubLogin;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
-  public JsonStringWrapper getData() {
+  public NullableWrapper getData() {
     return data;
   }
-  public void setData(JsonStringWrapper data) {
+  public void setData(NullableWrapper data) {
     this.data = data;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -200,7 +188,6 @@ public enum StatusEnumEnum {
     this.roleEnum = roleEnum;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -211,25 +198,62 @@ public enum StatusEnumEnum {
     this.statusEnum = statusEnum;
   }
 
-  
 
   @Override
-  public String toString()  {
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    UserUpdate userUpdate = (UserUpdate) o;
+    return Objects.equals(login, userUpdate.login) &&
+        Objects.equals(role, userUpdate.role) &&
+        Objects.equals(status, userUpdate.status) &&
+        Objects.equals(password, userUpdate.password) &&
+        Objects.equals(oldPassword, userUpdate.oldPassword) &&
+        Objects.equals(googleLogin, userUpdate.googleLogin) &&
+        Objects.equals(facebookLogin, userUpdate.facebookLogin) &&
+        Objects.equals(githubLogin, userUpdate.githubLogin) &&
+        Objects.equals(data, userUpdate.data) &&
+        Objects.equals(roleEnum, userUpdate.roleEnum) &&
+        Objects.equals(statusEnum, userUpdate.statusEnum);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(login, role, status, password, oldPassword, googleLogin, facebookLogin, githubLogin, data, roleEnum, statusEnum);
+  }
+
+  @Override
+  public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class UserUpdate {\n");
     
-    sb.append("    login: ").append(StringUtil.toIndentedString(login)).append("\n");
-    sb.append("    role: ").append(StringUtil.toIndentedString(role)).append("\n");
-    sb.append("    status: ").append(StringUtil.toIndentedString(status)).append("\n");
-    sb.append("    password: ").append(StringUtil.toIndentedString(password)).append("\n");
-    sb.append("    oldPassword: ").append(StringUtil.toIndentedString(oldPassword)).append("\n");
-    sb.append("    googleLogin: ").append(StringUtil.toIndentedString(googleLogin)).append("\n");
-    sb.append("    facebookLogin: ").append(StringUtil.toIndentedString(facebookLogin)).append("\n");
-    sb.append("    githubLogin: ").append(StringUtil.toIndentedString(githubLogin)).append("\n");
-    sb.append("    data: ").append(StringUtil.toIndentedString(data)).append("\n");
-    sb.append("    roleEnum: ").append(StringUtil.toIndentedString(roleEnum)).append("\n");
-    sb.append("    statusEnum: ").append(StringUtil.toIndentedString(statusEnum)).append("\n");
+    sb.append("    login: ").append(toIndentedString(login)).append("\n");
+    sb.append("    role: ").append(toIndentedString(role)).append("\n");
+    sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    password: ").append(toIndentedString(password)).append("\n");
+    sb.append("    oldPassword: ").append(toIndentedString(oldPassword)).append("\n");
+    sb.append("    googleLogin: ").append(toIndentedString(googleLogin)).append("\n");
+    sb.append("    facebookLogin: ").append(toIndentedString(facebookLogin)).append("\n");
+    sb.append("    githubLogin: ").append(toIndentedString(githubLogin)).append("\n");
+    sb.append("    data: ").append(toIndentedString(data)).append("\n");
+    sb.append("    roleEnum: ").append(toIndentedString(roleEnum)).append("\n");
+    sb.append("    statusEnum: ").append(toIndentedString(statusEnum)).append("\n");
     sb.append("}");
     return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
   }
 }

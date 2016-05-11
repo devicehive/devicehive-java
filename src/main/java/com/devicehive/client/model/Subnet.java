@@ -1,26 +1,23 @@
 package com.devicehive.client.model;
 
-import com.devicehive.client.StringUtil;
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModel;
+
+import java.util.Objects;
+
 import io.swagger.annotations.ApiModelProperty;
 
 
-
-@ApiModel(description = "")
 public class Subnet   {
   
   @SerializedName("inetAddress")
   private InetAddress inetAddress = null;
-  
+
   @SerializedName("mask")
   private Integer mask = null;
-  
+
   @SerializedName("subnet")
   private String subnet = null;
-  
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -31,7 +28,6 @@ public class Subnet   {
     this.inetAddress = inetAddress;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -42,7 +38,6 @@ public class Subnet   {
     this.mask = mask;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -53,17 +48,46 @@ public class Subnet   {
     this.subnet = subnet;
   }
 
-  
 
   @Override
-  public String toString()  {
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    Subnet subnet = (Subnet) o;
+    return Objects.equals(inetAddress, subnet.inetAddress) &&
+        Objects.equals(mask, subnet.mask) &&
+        Objects.equals(subnet, subnet.subnet);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(inetAddress, mask, subnet);
+  }
+
+  @Override
+  public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Subnet {\n");
     
-    sb.append("    inetAddress: ").append(StringUtil.toIndentedString(inetAddress)).append("\n");
-    sb.append("    mask: ").append(StringUtil.toIndentedString(mask)).append("\n");
-    sb.append("    subnet: ").append(StringUtil.toIndentedString(subnet)).append("\n");
+    sb.append("    inetAddress: ").append(toIndentedString(inetAddress)).append("\n");
+    sb.append("    mask: ").append(toIndentedString(mask)).append("\n");
+    sb.append("    subnet: ").append(toIndentedString(subnet)).append("\n");
     sb.append("}");
     return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
   }
 }

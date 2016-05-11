@@ -1,36 +1,32 @@
 package com.devicehive.client.model;
 
-
-import com.devicehive.client.StringUtil;
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModel;
+
+import java.util.Objects;
+
 import io.swagger.annotations.ApiModelProperty;
 
 
-
-@ApiModel(description = "")
 public class AccessKeyRequest   {
   
   @SerializedName("providerName")
   private String providerName = null;
-  
+
   @SerializedName("code")
   private String code = null;
-  
+
   @SerializedName("redirectUri")
   private String redirectUri = null;
-  
+
   @SerializedName("accessToken")
   private String accessToken = null;
-  
+
   @SerializedName("login")
   private String login = null;
-  
+
   @SerializedName("password")
   private String password = null;
-  
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -41,7 +37,6 @@ public class AccessKeyRequest   {
     this.providerName = providerName;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -52,7 +47,6 @@ public class AccessKeyRequest   {
     this.code = code;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -63,7 +57,6 @@ public class AccessKeyRequest   {
     this.redirectUri = redirectUri;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -74,7 +67,6 @@ public class AccessKeyRequest   {
     this.accessToken = accessToken;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -85,7 +77,6 @@ public class AccessKeyRequest   {
     this.login = login;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -96,20 +87,52 @@ public class AccessKeyRequest   {
     this.password = password;
   }
 
-  
 
   @Override
-  public String toString()  {
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    AccessKeyRequest accessKeyRequest = (AccessKeyRequest) o;
+    return Objects.equals(providerName, accessKeyRequest.providerName) &&
+        Objects.equals(code, accessKeyRequest.code) &&
+        Objects.equals(redirectUri, accessKeyRequest.redirectUri) &&
+        Objects.equals(accessToken, accessKeyRequest.accessToken) &&
+        Objects.equals(login, accessKeyRequest.login) &&
+        Objects.equals(password, accessKeyRequest.password);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(providerName, code, redirectUri, accessToken, login, password);
+  }
+
+  @Override
+  public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AccessKeyRequest {\n");
     
-    sb.append("    providerName: ").append(StringUtil.toIndentedString(providerName)).append("\n");
-    sb.append("    code: ").append(StringUtil.toIndentedString(code)).append("\n");
-    sb.append("    redirectUri: ").append(StringUtil.toIndentedString(redirectUri)).append("\n");
-    sb.append("    accessToken: ").append(StringUtil.toIndentedString(accessToken)).append("\n");
-    sb.append("    login: ").append(StringUtil.toIndentedString(login)).append("\n");
-    sb.append("    password: ").append(StringUtil.toIndentedString(password)).append("\n");
+    sb.append("    providerName: ").append(toIndentedString(providerName)).append("\n");
+    sb.append("    code: ").append(toIndentedString(code)).append("\n");
+    sb.append("    redirectUri: ").append(toIndentedString(redirectUri)).append("\n");
+    sb.append("    accessToken: ").append(toIndentedString(accessToken)).append("\n");
+    sb.append("    login: ").append(toIndentedString(login)).append("\n");
+    sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("}");
     return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
   }
 }
