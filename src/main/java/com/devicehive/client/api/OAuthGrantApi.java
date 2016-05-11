@@ -1,7 +1,8 @@
 package com.devicehive.client.api;
 
-import com.devicehive.client2.model.OAuthGrant;
-import com.devicehive.client2.model.OAuthGrantUpdate;
+
+import com.devicehive.client.model.OAuthGrant;
+import com.devicehive.client.model.OAuthGrantUpdate;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

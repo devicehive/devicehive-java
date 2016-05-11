@@ -1,7 +1,8 @@
 package com.devicehive.client.api;
 
-import com.devicehive.client2.model.Network;
-import com.devicehive.client2.model.NetworkUpdate;
+
+import com.devicehive.client.model.Network;
+import com.devicehive.client.model.NetworkUpdate;
 
 import java.util.List;
 
