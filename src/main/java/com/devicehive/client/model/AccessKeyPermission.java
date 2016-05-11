@@ -1,59 +1,52 @@
 package com.devicehive.client.model;
 
-import com.devicehive.client.StringUtil;
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import io.swagger.annotations.ApiModelProperty;
 
 
-
-@ApiModel(description = "")
 public class AccessKeyPermission   {
   
   @SerializedName("id")
   private Long id = null;
-  
-  @SerializedName("accessKey")
-  private AccessKey accessKey = null;
-  
+
   @SerializedName("domains")
   private JsonStringWrapper domains = null;
-  
+
   @SerializedName("subnets")
   private JsonStringWrapper subnets = null;
-  
+
   @SerializedName("actions")
   private JsonStringWrapper actions = null;
-  
+
   @SerializedName("networkIds")
   private JsonStringWrapper networkIds = null;
-  
+
   @SerializedName("deviceGuids")
   private JsonStringWrapper deviceGuids = null;
-  
+
   @SerializedName("entityVersion")
   private Long entityVersion = null;
-  
-  @SerializedName("deviceGuidsAsSet")
-  private List<String> deviceGuidsAsSet = new ArrayList<String>();
-  
-  @SerializedName("networkIdsAsSet")
-  private List<Long> networkIdsAsSet = new ArrayList<Long>();
-  
-  @SerializedName("domainsAsSet")
-  private List<String> domainsAsSet = new ArrayList<String>();
-  
-  @SerializedName("subnetsAsSet")
-  private List<Subnet> subnetsAsSet = new ArrayList<Subnet>();
-  
+
   @SerializedName("actionsAsSet")
   private List<String> actionsAsSet = new ArrayList<String>();
-  
 
-  
+  @SerializedName("deviceGuidsAsSet")
+  private List<String> deviceGuidsAsSet = new ArrayList<String>();
+
+  @SerializedName("networkIdsAsSet")
+  private List<Long> networkIdsAsSet = new ArrayList<Long>();
+
+  @SerializedName("domainsAsSet")
+  private List<String> domainsAsSet = new ArrayList<String>();
+
+  @SerializedName("subnetsAsSet")
+  private List<Subnet> subnetsAsSet = new ArrayList<Subnet>();
+
   /**
    **/
   @ApiModelProperty(value = "")
@@ -64,18 +57,6 @@ public class AccessKeyPermission   {
     this.id = id;
   }
 
-  
-  /**
-   **/
-  @ApiModelProperty(required = true, value = "")
-  public AccessKey getAccessKey() {
-    return accessKey;
-  }
-  public void setAccessKey(AccessKey accessKey) {
-    this.accessKey = accessKey;
-  }
-
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -86,7 +67,6 @@ public class AccessKeyPermission   {
     this.domains = domains;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -97,7 +77,6 @@ public class AccessKeyPermission   {
     this.subnets = subnets;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -108,7 +87,6 @@ public class AccessKeyPermission   {
     this.actions = actions;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -119,7 +97,6 @@ public class AccessKeyPermission   {
     this.networkIds = networkIds;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -130,7 +107,6 @@ public class AccessKeyPermission   {
     this.deviceGuids = deviceGuids;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -141,51 +117,6 @@ public class AccessKeyPermission   {
     this.entityVersion = entityVersion;
   }
 
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public List<String> getDeviceGuidsAsSet() {
-    return deviceGuidsAsSet;
-  }
-  public void setDeviceGuidsAsSet(List<String> deviceGuidsAsSet) {
-    this.deviceGuidsAsSet = deviceGuidsAsSet;
-  }
-
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public List<Long> getNetworkIdsAsSet() {
-    return networkIdsAsSet;
-  }
-  public void setNetworkIdsAsSet(List<Long> networkIdsAsSet) {
-    this.networkIdsAsSet = networkIdsAsSet;
-  }
-
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public List<String> getDomainsAsSet() {
-    return domainsAsSet;
-  }
-  public void setDomainsAsSet(List<String> domainsAsSet) {
-    this.domainsAsSet = domainsAsSet;
-  }
-
-  
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public List<Subnet> getSubnetsAsSet() {
-    return subnetsAsSet;
-  }
-  public void setSubnetsAsSet(List<Subnet> subnetsAsSet) {
-    this.subnetsAsSet = subnetsAsSet;
-  }
-
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -196,27 +127,104 @@ public class AccessKeyPermission   {
     this.actionsAsSet = actionsAsSet;
   }
 
-  
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public List<String> getDeviceGuidsAsSet() {
+    return deviceGuidsAsSet;
+  }
+  public void setDeviceGuidsAsSet(List<String> deviceGuidsAsSet) {
+    this.deviceGuidsAsSet = deviceGuidsAsSet;
+  }
+
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public List<Long> getNetworkIdsAsSet() {
+    return networkIdsAsSet;
+  }
+  public void setNetworkIdsAsSet(List<Long> networkIdsAsSet) {
+    this.networkIdsAsSet = networkIdsAsSet;
+  }
+
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public List<String> getDomainsAsSet() {
+    return domainsAsSet;
+  }
+  public void setDomainsAsSet(List<String> domainsAsSet) {
+    this.domainsAsSet = domainsAsSet;
+  }
+
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  public List<Subnet> getSubnetsAsSet() {
+    return subnetsAsSet;
+  }
+  public void setSubnetsAsSet(List<Subnet> subnetsAsSet) {
+    this.subnetsAsSet = subnetsAsSet;
+  }
+
 
   @Override
-  public String toString()  {
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    AccessKeyPermission accessKeyPermission = (AccessKeyPermission) o;
+    return Objects.equals(id, accessKeyPermission.id) &&
+        Objects.equals(domains, accessKeyPermission.domains) &&
+        Objects.equals(subnets, accessKeyPermission.subnets) &&
+        Objects.equals(actions, accessKeyPermission.actions) &&
+        Objects.equals(networkIds, accessKeyPermission.networkIds) &&
+        Objects.equals(deviceGuids, accessKeyPermission.deviceGuids) &&
+        Objects.equals(entityVersion, accessKeyPermission.entityVersion) &&
+        Objects.equals(actionsAsSet, accessKeyPermission.actionsAsSet) &&
+        Objects.equals(deviceGuidsAsSet, accessKeyPermission.deviceGuidsAsSet) &&
+        Objects.equals(networkIdsAsSet, accessKeyPermission.networkIdsAsSet) &&
+        Objects.equals(domainsAsSet, accessKeyPermission.domainsAsSet) &&
+        Objects.equals(subnetsAsSet, accessKeyPermission.subnetsAsSet);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, domains, subnets, actions, networkIds, deviceGuids, entityVersion, actionsAsSet, deviceGuidsAsSet, networkIdsAsSet, domainsAsSet, subnetsAsSet);
+  }
+
+  @Override
+  public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AccessKeyPermission {\n");
     
-    sb.append("    id: ").append(StringUtil.toIndentedString(id)).append("\n");
-    sb.append("    accessKey: ").append(StringUtil.toIndentedString(accessKey)).append("\n");
-    sb.append("    domains: ").append(StringUtil.toIndentedString(domains)).append("\n");
-    sb.append("    subnets: ").append(StringUtil.toIndentedString(subnets)).append("\n");
-    sb.append("    actions: ").append(StringUtil.toIndentedString(actions)).append("\n");
-    sb.append("    networkIds: ").append(StringUtil.toIndentedString(networkIds)).append("\n");
-    sb.append("    deviceGuids: ").append(StringUtil.toIndentedString(deviceGuids)).append("\n");
-    sb.append("    entityVersion: ").append(StringUtil.toIndentedString(entityVersion)).append("\n");
-    sb.append("    deviceGuidsAsSet: ").append(StringUtil.toIndentedString(deviceGuidsAsSet)).append("\n");
-    sb.append("    networkIdsAsSet: ").append(StringUtil.toIndentedString(networkIdsAsSet)).append("\n");
-    sb.append("    domainsAsSet: ").append(StringUtil.toIndentedString(domainsAsSet)).append("\n");
-    sb.append("    subnetsAsSet: ").append(StringUtil.toIndentedString(subnetsAsSet)).append("\n");
-    sb.append("    actionsAsSet: ").append(StringUtil.toIndentedString(actionsAsSet)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    domains: ").append(toIndentedString(domains)).append("\n");
+    sb.append("    subnets: ").append(toIndentedString(subnets)).append("\n");
+    sb.append("    actions: ").append(toIndentedString(actions)).append("\n");
+    sb.append("    networkIds: ").append(toIndentedString(networkIds)).append("\n");
+    sb.append("    deviceGuids: ").append(toIndentedString(deviceGuids)).append("\n");
+    sb.append("    entityVersion: ").append(toIndentedString(entityVersion)).append("\n");
+    sb.append("    actionsAsSet: ").append(toIndentedString(actionsAsSet)).append("\n");
+    sb.append("    deviceGuidsAsSet: ").append(toIndentedString(deviceGuidsAsSet)).append("\n");
+    sb.append("    networkIdsAsSet: ").append(toIndentedString(networkIdsAsSet)).append("\n");
+    sb.append("    domainsAsSet: ").append(toIndentedString(domainsAsSet)).append("\n");
+    sb.append("    subnetsAsSet: ").append(toIndentedString(subnetsAsSet)).append("\n");
     sb.append("}");
     return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
   }
 }

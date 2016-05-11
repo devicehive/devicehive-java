@@ -1,80 +1,41 @@
 package com.devicehive.client.api;
 
+
 import com.devicehive.client.model.ApiConfig;
 import com.devicehive.client.model.ApiInfo;
-import com.devicehive.client.model.ClusterConfig;
-import retrofit.Callback;
-import retrofit.http.GET;
+
+import retrofit2.Call;
+import retrofit2.http.GET;
 
 public interface ApiInfoApi {
-  
   /**
    * Get API info
-   * Sync method
    * Returns version of API, server timestamp and WebSocket base uri
-   * @return ApiInfo
+   * @return Call<ApiInfo>
    */
   
-  @GET("/info")
-  ApiInfo getApiInfo();
+  @GET("info")
+  Call<ApiInfo> getApiInfo();
     
 
-  /**
-   * Get API info
-   * Async method
-   * @param cb callback method
-   * @return void
-   */
-  
-  @GET("/info")
-  void getApiInfo(
-          Callback<ApiInfo> cb
-  );
-  
-  /**
-   * Get oAuth configuration
-   * Sync method
-   * Gets information about supported authentication providers.
-   * @return ApiConfig
-   */
-  
-  @GET("/info/config/auth")
-  ApiConfig getOauth2Config();
-    
-
-  /**
-   * Get oAuth configuration
-   * Async method
-   * @param cb callback method
-   * @return void
-   */
-  
-  @GET("/info/config/auth")
-  void getOauth2Config(
-          Callback<ApiConfig> cb
-  );
-  
   /**
    * Get cluster configuration
-   * Sync method
    * Returns information about cluster (Kafka, Zookeeper etc.)
-   * @return ClusterConfig
+   * @return Call<Void>
    */
   
-  @GET("/info/config/cluster")
-  ClusterConfig getClusterConfig();
+  @GET("info/config/cluster")
+  Call<ApiConfig> getClusterConfig();
     
 
   /**
-   * Get cluster configuration
-   * Async method
-   * @param cb callback method
-   * @return void
+   * Get oAuth configuration
+   * Returns configured identity providers
+   * @return Call<Void>
    */
   
-  @GET("/info/config/cluster")
-  void getClusterConfig(
-          Callback<ClusterConfig> cb
-  );
-  
+  @GET("info/config/auth")
+  Call<Void> getOauth2Config();
+    
+
 }

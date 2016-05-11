@@ -1,23 +1,20 @@
 package com.devicehive.client.model;
 
-import com.devicehive.client.StringUtil;
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModel;
+
+import java.util.Objects;
+
 import io.swagger.annotations.ApiModelProperty;
 
 
-
-@ApiModel(description = "")
 public class DeviceNotificationWrapper   {
   
   @SerializedName("notification")
   private String notification = null;
-  
+
   @SerializedName("parameters")
   private JsonStringWrapper parameters = null;
-  
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -28,7 +25,6 @@ public class DeviceNotificationWrapper   {
     this.notification = notification;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -39,16 +35,44 @@ public class DeviceNotificationWrapper   {
     this.parameters = parameters;
   }
 
-  
 
   @Override
-  public String toString()  {
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    DeviceNotificationWrapper deviceNotificationWrapper = (DeviceNotificationWrapper) o;
+    return Objects.equals(notification, deviceNotificationWrapper.notification) &&
+        Objects.equals(parameters, deviceNotificationWrapper.parameters);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(notification, parameters);
+  }
+
+  @Override
+  public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class DeviceNotificationWrapper {\n");
     
-    sb.append("    notification: ").append(StringUtil.toIndentedString(notification)).append("\n");
-    sb.append("    parameters: ").append(StringUtil.toIndentedString(parameters)).append("\n");
+    sb.append("    notification: ").append(toIndentedString(notification)).append("\n");
+    sb.append("    parameters: ").append(toIndentedString(parameters)).append("\n");
     sb.append("}");
     return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
   }
 }

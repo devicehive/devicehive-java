@@ -139,9 +139,14 @@
             <version>${oltu-version}</version>
         </dependency>
         <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
+            <groupId>com.squareup.okhttp</groupId>
             <artifactId>okhttp-ws</artifactId>
             <version>${okhttp-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp-ws</artifactId>
+            <version>${okhttp3-version}</version>
         </dependency>
         <dependency>
             <groupId>commons-cli</groupId>
@@ -231,7 +236,8 @@
         <swagger-annotations-version>1.5.4</swagger-annotations-version>
         <retrofit-version>1.9.0</retrofit-version>
         <retrofit2-version>2.0.2</retrofit2-version>
-        <okhttp-version>3.2.0</okhttp-version>
+        <okhttp-version>2.7.0</okhttp-version>
+        <okhttp3-version>3.2.0</okhttp3-version>
         <oltu-version>1.0.0</oltu-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <junit-version>4.12</junit-version>

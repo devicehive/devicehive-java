@@ -1,34 +1,32 @@
 package com.devicehive.client.model;
 
-import com.devicehive.client.StringUtil;
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+
+import io.swagger.annotations.ApiModelProperty;
 
 
-
-@ApiModel(description = "")
 public class User   {
   
   @SerializedName("id")
   private Long id = null;
-  
+
   @SerializedName("login")
   private String login = null;
-  
+
   @SerializedName("passwordHash")
   private String passwordHash = null;
-  
+
   @SerializedName("passwordSalt")
   private String passwordSalt = null;
-  
+
   @SerializedName("loginAttempts")
   private Integer loginAttempts = null;
-  
+
 
 public enum RoleEnum {
   @SerializedName("ADMIN")
@@ -51,7 +49,7 @@ public enum RoleEnum {
 
   @SerializedName("role")
   private RoleEnum role = null;
-  
+
 
 public enum StatusEnum {
   @SerializedName("ACTIVE")
@@ -80,33 +78,31 @@ public enum StatusEnum {
 
   @SerializedName("status")
   private StatusEnum status = null;
-  
+
   @SerializedName("networks")
   private List<Network> networks = new ArrayList<Network>();
-  
+
   @SerializedName("lastLogin")
   private Date lastLogin = null;
-  
+
   @SerializedName("googleLogin")
   private String googleLogin = null;
-  
+
   @SerializedName("facebookLogin")
   private String facebookLogin = null;
-  
+
   @SerializedName("githubLogin")
   private String githubLogin = null;
-  
+
   @SerializedName("entityVersion")
   private Long entityVersion = null;
-  
+
   @SerializedName("data")
   private JsonStringWrapper data = null;
-  
+
   @SerializedName("admin")
   private Boolean admin = false;
-  
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -117,7 +113,6 @@ public enum StatusEnum {
     this.id = id;
   }
 
-  
   /**
    **/
   @ApiModelProperty(required = true, value = "")
@@ -128,7 +123,6 @@ public enum StatusEnum {
     this.login = login;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -139,7 +133,6 @@ public enum StatusEnum {
     this.passwordHash = passwordHash;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -150,7 +143,6 @@ public enum StatusEnum {
     this.passwordSalt = passwordSalt;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -161,7 +153,6 @@ public enum StatusEnum {
     this.loginAttempts = loginAttempts;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -172,7 +163,6 @@ public enum StatusEnum {
     this.role = role;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -183,7 +173,6 @@ public enum StatusEnum {
     this.status = status;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -194,7 +183,6 @@ public enum StatusEnum {
     this.networks = networks;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -205,7 +193,6 @@ public enum StatusEnum {
     this.lastLogin = lastLogin;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -216,7 +203,6 @@ public enum StatusEnum {
     this.googleLogin = googleLogin;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -227,7 +213,6 @@ public enum StatusEnum {
     this.facebookLogin = facebookLogin;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -238,7 +223,6 @@ public enum StatusEnum {
     this.githubLogin = githubLogin;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -249,7 +233,6 @@ public enum StatusEnum {
     this.entityVersion = entityVersion;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -260,7 +243,6 @@ public enum StatusEnum {
     this.data = data;
   }
 
-  
   /**
    **/
   @ApiModelProperty(value = "")
@@ -271,29 +253,70 @@ public enum StatusEnum {
     this.admin = admin;
   }
 
-  
 
   @Override
-  public String toString()  {
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    User user = (User) o;
+    return Objects.equals(id, user.id) &&
+        Objects.equals(login, user.login) &&
+        Objects.equals(passwordHash, user.passwordHash) &&
+        Objects.equals(passwordSalt, user.passwordSalt) &&
+        Objects.equals(loginAttempts, user.loginAttempts) &&
+        Objects.equals(role, user.role) &&
+        Objects.equals(status, user.status) &&
+        Objects.equals(networks, user.networks) &&
+        Objects.equals(lastLogin, user.lastLogin) &&
+        Objects.equals(googleLogin, user.googleLogin) &&
+        Objects.equals(facebookLogin, user.facebookLogin) &&
+        Objects.equals(githubLogin, user.githubLogin) &&
+        Objects.equals(entityVersion, user.entityVersion) &&
+        Objects.equals(data, user.data) &&
+        Objects.equals(admin, user.admin);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, login, passwordHash, passwordSalt, loginAttempts, role, status, networks, lastLogin, googleLogin, facebookLogin, githubLogin, entityVersion, data, admin);
+  }
+
+  @Override
+  public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class User {\n");
     
-    sb.append("    id: ").append(StringUtil.toIndentedString(id)).append("\n");
-    sb.append("    login: ").append(StringUtil.toIndentedString(login)).append("\n");
-    sb.append("    passwordHash: ").append(StringUtil.toIndentedString(passwordHash)).append("\n");
-    sb.append("    passwordSalt: ").append(StringUtil.toIndentedString(passwordSalt)).append("\n");
-    sb.append("    loginAttempts: ").append(StringUtil.toIndentedString(loginAttempts)).append("\n");
-    sb.append("    role: ").append(StringUtil.toIndentedString(role)).append("\n");
-    sb.append("    status: ").append(StringUtil.toIndentedString(status)).append("\n");
-    sb.append("    networks: ").append(StringUtil.toIndentedString(networks)).append("\n");
-    sb.append("    lastLogin: ").append(StringUtil.toIndentedString(lastLogin)).append("\n");
-    sb.append("    googleLogin: ").append(StringUtil.toIndentedString(googleLogin)).append("\n");
-    sb.append("    facebookLogin: ").append(StringUtil.toIndentedString(facebookLogin)).append("\n");
-    sb.append("    githubLogin: ").append(StringUtil.toIndentedString(githubLogin)).append("\n");
-    sb.append("    entityVersion: ").append(StringUtil.toIndentedString(entityVersion)).append("\n");
-    sb.append("    data: ").append(StringUtil.toIndentedString(data)).append("\n");
-    sb.append("    admin: ").append(StringUtil.toIndentedString(admin)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    login: ").append(toIndentedString(login)).append("\n");
+    sb.append("    passwordHash: ").append(toIndentedString(passwordHash)).append("\n");
+    sb.append("    passwordSalt: ").append(toIndentedString(passwordSalt)).append("\n");
+    sb.append("    loginAttempts: ").append(toIndentedString(loginAttempts)).append("\n");
+    sb.append("    role: ").append(toIndentedString(role)).append("\n");
+    sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    networks: ").append(toIndentedString(networks)).append("\n");
+    sb.append("    lastLogin: ").append(toIndentedString(lastLogin)).append("\n");
+    sb.append("    googleLogin: ").append(toIndentedString(googleLogin)).append("\n");
+    sb.append("    facebookLogin: ").append(toIndentedString(facebookLogin)).append("\n");
+    sb.append("    githubLogin: ").append(toIndentedString(githubLogin)).append("\n");
+    sb.append("    entityVersion: ").append(toIndentedString(entityVersion)).append("\n");
+    sb.append("    data: ").append(toIndentedString(data)).append("\n");
+    sb.append("    admin: ").append(toIndentedString(admin)).append("\n");
     sb.append("}");
     return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
   }
 }

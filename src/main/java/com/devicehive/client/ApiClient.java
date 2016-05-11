@@ -1,46 +1,45 @@
 package com.devicehive.client;
 
-import com.devicehive.client.auth.ApiKeyAuth;
-import com.devicehive.client.auth.HttpBasicAuth;
-import com.devicehive.client.auth.OAuth;
 import com.devicehive.client.json.adapters.DateTimeTypeAdapter;
+import com.devicehive.client2.auth.ApiKeyAuth;
+import com.devicehive.client2.auth.HttpBasicAuth;
+import com.devicehive.client2.auth.OAuth;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.OkHttpClient;
+
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
 import org.joda.time.DateTime;
-import retrofit.RestAdapter;
-import retrofit.client.OkClient;
-import retrofit.converter.ConversionException;
-import retrofit.converter.Converter;
-import retrofit.converter.GsonConverter;
-import retrofit.mime.TypedByteArray;
-import retrofit.mime.TypedInput;
-import retrofit.mime.TypedOutput;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Converter;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 
 public class ApiClient {
+
+    private Map<String, Interceptor> apiAuthorizations;
+    private OkHttpClient okClient;
+
 
     public static final String AUTH_API_KEY = "api_key";
     private static final String AUTH_NAME = "Authorization";
     public static final String AUTH_BASIC = "basic";
 
-
-    private Map<String, Interceptor> apiAuthorizations;
-    private OkHttpClient okClient;
-    private RestAdapter.Builder adapterBuilder;
     public final static String ISO_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+    private Retrofit.Builder adapterBuilder;
 
     public ApiClient(String url) {
         apiAuthorizations = new LinkedHashMap<String, Interceptor>();
@@ -113,7 +112,8 @@ public class ApiClient {
                 .setPassword(password);
     }
 
-    public void createDefaultAdapter(String url) {
+
+    private void createDefaultAdapter(String url) {
         DateTimeTypeAdapter typeAdapter = new DateTimeTypeAdapter(ISO_PATTERN);
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(DateTime.class,
@@ -123,15 +123,36 @@ public class ApiClient {
                 .create();
 
         okClient = new OkHttpClient();
-        okClient.setReadTimeout(35, TimeUnit.SECONDS);
-        okClient.setConnectTimeout(35, TimeUnit.SECONDS);
 
-        adapterBuilder = new RestAdapter
+        adapterBuilder = new Retrofit
                 .Builder()
-                .setEndpoint(url)
-                .setClient(new OkClient(okClient))
-                .setConverter(new GsonConverterWrapper(gson));
+                .baseUrl(url)
+                .client(okClient)
+
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonCustomConverterFactory.create(gson));
     }
+
+
+//    public void createDefaultAdapter() {
+//        Gson gson = new GsonBuilder()
+//                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+//                .create();
+//
+//        okClient = new OkHttpClient();
+//
+//        String baseUrl = "https://localhost/api/rest";
+//        if (!baseUrl.endsWith("/"))
+//            baseUrl = baseUrl + "/";
+//
+//        adapterBuilder = new Retrofit
+//                .Builder()
+//                .baseUrl(baseUrl)
+//                .client(okClient)
+//
+//                .addConverterFactory(ScalarsConverterFactory.create())
+//                .addConverterFactory(GsonCustomConverterFactory.create(gson));
+//    }
 
     public <S> S createService(Class<S> serviceClass) {
         return adapterBuilder.build().create(serviceClass);
@@ -279,11 +300,11 @@ public class ApiClient {
         this.apiAuthorizations = apiAuthorizations;
     }
 
-    public RestAdapter.Builder getAdapterBuilder() {
+    public Retrofit.Builder getAdapterBuilder() {
         return adapterBuilder;
     }
 
-    public void setAdapterBuilder(RestAdapter.Builder adapterBuilder) {
+    public void setAdapterBuilder(Retrofit.Builder adapterBuilder) {
         this.adapterBuilder = adapterBuilder;
     }
 
@@ -298,14 +319,14 @@ public class ApiClient {
     }
 
     /**
-     * Clones the okClient given in parameter, adds the auth interceptors and uses it to configure the RestAdapter
+     * Clones the okClient given in parameter, adds the auth interceptors and uses it to configure the Retrofit
      *
      * @param okClient
      */
     public void configureFromOkclient(OkHttpClient okClient) {
-        OkHttpClient clone = okClient.clone();
+        OkHttpClient clone = okClient.newBuilder().build();
         addAuthsToOkClient(clone);
-        adapterBuilder.setClient(new OkClient(clone));
+        adapterBuilder.client(clone);
     }
 }
 
@@ -314,53 +335,52 @@ public class ApiClient {
  * when the deserialization fails due to JsonParseException and the
  * expected type is String, then just return the body string.
  */
-class GsonConverterWrapper implements Converter {
-    private GsonConverter converter;
+class GsonResponseBodyConverterToString<T> implements Converter<ResponseBody, T> {
+    private final Gson gson;
+    private final Type type;
 
-    public GsonConverterWrapper(Gson gson) {
-        converter = new GsonConverter(gson);
+    GsonResponseBodyConverterToString(Gson gson, Type type) {
+        this.gson = gson;
+        this.type = type;
     }
 
     @Override
-    public Object fromBody(TypedInput body, Type type) throws ConversionException {
-        byte[] bodyBytes = readInBytes(body);
-        TypedByteArray newBody = new TypedByteArray(body.mimeType(), bodyBytes);
+    public T convert(ResponseBody value) throws IOException {
+        String returned = value.string();
         try {
-            return converter.fromBody(newBody, type);
-        } catch (ConversionException e) {
-            if (e.getCause() instanceof JsonParseException && type.equals(String.class)) {
-                return new String(bodyBytes);
-            } else {
-                throw e;
-            }
+            return gson.fromJson(returned, type);
+        } catch (JsonParseException e) {
+            return (T) returned;
         }
-    }
-
-    @Override
-    public TypedOutput toBody(Object object) {
-        return converter.toBody(object);
-    }
-
-    private byte[] readInBytes(TypedInput body) throws ConversionException {
-        InputStream in = null;
-        try {
-            in = body.in();
-            ByteArrayOutputStream os = new ByteArrayOutputStream();
-            byte[] buffer = new byte[0xFFFF];
-            for (int len; (len = in.read(buffer)) != -1; )
-                os.write(buffer, 0, len);
-            os.flush();
-            return os.toByteArray();
-        } catch (IOException e) {
-            throw new ConversionException(e);
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException ignored) {
-                }
-            }
-        }
-
     }
 }
+
+class GsonCustomConverterFactory extends Converter.Factory {
+
+    public static GsonCustomConverterFactory create(Gson gson) {
+        return new GsonCustomConverterFactory(gson);
+    }
+
+    private final Gson gson;
+    private final GsonConverterFactory gsonConverterFactory;
+
+    private GsonCustomConverterFactory(Gson gson) {
+        if (gson == null) throw new NullPointerException("gson == null");
+        this.gson = gson;
+        this.gsonConverterFactory = GsonConverterFactory.create(gson);
+    }
+
+    @Override
+    public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
+        if (type.equals(String.class))
+            return new GsonResponseBodyConverterToString<Object>(gson, type);
+        else
+            return gsonConverterFactory.responseBodyConverter(type, annotations, retrofit);
+    }
+
+    @Override
+    public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
+        return gsonConverterFactory.requestBodyConverter(type, parameterAnnotations, methodAnnotations, retrofit);
+    }
+}
+

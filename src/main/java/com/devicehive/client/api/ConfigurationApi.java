@@ -1,116 +1,63 @@
 package com.devicehive.client.api;
 
-import retrofit.Callback;
-import retrofit.http.*;
+
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ConfigurationApi {
-  
-  /**
-   * Get property
-   * Sync method
-   * Returns requested property value
-   * @param name Property name
-   * @return Void
-   */
-  
-  @GET("/configuration/{name}")
-  Void get(
-          @Path("name") String name
-  );
-
-  /**
-   * Get property
-   * Async method
-   * @param name Property name
-   * @param cb callback method
-   * @return void
-   */
-  
-  @GET("/configuration/{name}")
-  void get(
-          @Path("name") String name, Callback<Void> cb
-  );
-  
-  /**
-   * Create or update property
-   * Sync method
-   * Creates new or updates existing property
-   * @param name Property name
-   * @param body Property value
-   * @return Void
-   */
-  
-  @PUT("/configuration/{name}")
-  Void setProperty(
-          @Path("name") String name, @Body Body body
-  );
-
-  /**
-   * Create or update property
-   * Async method
-   * @param name Property name
-   * @param body Property value
-   * @param cb callback method
-   * @return void
-   */
-  
-  @PUT("/configuration/{name}")
-  void setProperty(
-          @Path("name") String name, @Body Body body, Callback<Void> cb
-  );
-  
   /**
    * Delete property
-   * Sync method
    * Deletes property
-   * @param name Property name
-   * @return Void
+   * @param name Property name (required)
+   * @return Call<Void>
    */
   
-  @DELETE("/configuration/{name}")
-  Void deleteProperty(
+  @DELETE("configuration/{name}")
+  Call<Void> deleteProperty(
           @Path("name") String name
   );
 
   /**
-   * Delete property
-   * Async method
-   * @param name Property name
-   * @param cb callback method
-   * @return void
+   * Get property
+   * Returns requested property value
+   * @param name Property name (required)
+   * @return Call<Void>
    */
   
-  @DELETE("/configuration/{name}")
-  void deleteProperty(
-          @Path("name") String name, Callback<Void> cb
+  @GET("configuration/{name}")
+  Call<Void> get(
+          @Path("name") String name
   );
-  
+
   /**
    * Create or update property
-   * Sync method
    * Creates new or updates existing property
-   * @param name Property name
-   * @param value Property value
-   * @return Void
+   * @param name Property name (required)
+   * @param body Property value (required)
+   * @return Call<Void>
    */
   
-  @GET("/configuration/{name}/set")
-  Void setPropertyGet(
+  @PUT("configuration/{name}")
+  Call<Void> setProperty(
+          @Path("name") String name, @Body String body
+  );
+
+  /**
+   * Create or update property
+   * Creates new or updates existing property
+   * @param name Property name (required)
+   * @param value Property value (required)
+   * @return Call<Void>
+   */
+  
+  @GET("configuration/{name}/set")
+  Call<Void> setPropertyGet(
           @Path("name") String name, @Query("value") String value
   );
 
-  /**
-   * Create or update property
-   * Async method
-   * @param name Property name
-   * @param value Property value
-   * @param cb callback method
-   * @return void
-   */
-  
-  @GET("/configuration/{name}/set")
-  void setPropertyGet(
-          @Path("name") String name, @Query("value") String value, Callback<Void> cb
-  );
-  
 }
