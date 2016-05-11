@@ -3,6 +3,7 @@ package com.devicehive.client.api;
 import com.devicehive.client.model.AsyncResponse;
 import com.devicehive.client.model.DeviceNotification;
 import com.devicehive.client.model.DeviceNotificationWrapper;
+import com.devicehive.client.model.NotificationPollManyResponse;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public interface DeviceNotificationApi {
    */
   
   @GET("device/{deviceGuid}/notification/{id}")
-  Call<Void> get(
+  Call<DeviceNotification> get(
           @Path("deviceGuid") String deviceGuid, @Path("id") Long id
   );
 
@@ -36,7 +37,7 @@ public interface DeviceNotificationApi {
    */
   
   @POST("device/{deviceGuid}/notification")
-  Call<Void> insert(
+  Call<DeviceNotification> insert(
           @Path("deviceGuid") String deviceGuid, @Body DeviceNotificationWrapper body
   );
 
@@ -68,7 +69,7 @@ public interface DeviceNotificationApi {
    */
   
   @GET("device/notification/poll")
-  Call<Void> pollMany(
+  Call<NotificationPollManyResponse> pollMany(
           @Query("waitTimeout") Long waitTimeout, @Query("deviceGuids") String deviceGuids, @Query("names") String names, @Query("timestamp") String timestamp, @Body AsyncResponse body
   );
 
@@ -88,7 +89,7 @@ public interface DeviceNotificationApi {
    */
   
   @GET("device/{deviceGuid}/notification")
-  Call<Void> query(
+  Call<DeviceNotification> query(
           @Path("deviceGuid") String deviceGuid, @Query("start") String start, @Query("end") String end, @Query("notification") String notification, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip, @Query("gridInterval") Integer gridInterval
   );
 

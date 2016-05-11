@@ -1,7 +1,9 @@
 package com.devicehive.client.api;
 
-import com.devicehive.client2.model.OAuthClient;
-import com.devicehive.client2.model.OAuthClientUpdate;
+
+import com.devicehive.client.model.OAuthClient;
+import com.devicehive.client.model.OAuthClientUpdate;
+import com.devicehive.client.model.User;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -64,7 +66,7 @@ public interface OAuthClientApi {
    */
   
   @GET("oauth/client")
-  Call<Void> list(
+  Call<User> list(
           @Query("name") String name, @Query("namePattern") String namePattern, @Query("domain") String domain, @Query("oauthId") String oauthId, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip
   );
 
