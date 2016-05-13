@@ -2,9 +2,11 @@ package com.devicehive.client.model;
 
 import com.devicehive.client.StringUtil;
 import com.google.gson.annotations.SerializedName;
+
+import org.joda.time.DateTime;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.joda.time.DateTime;
 
 
 @ApiModel(description = "")

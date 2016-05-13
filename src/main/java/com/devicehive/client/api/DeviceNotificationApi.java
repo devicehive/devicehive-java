@@ -1,6 +1,5 @@
 package com.devicehive.client.api;
 
-import com.devicehive.client.model.AsyncResponse;
 import com.devicehive.client.model.DeviceNotification;
 import com.devicehive.client.model.DeviceNotificationWrapper;
 import com.devicehive.client.model.NotificationPollManyResponse;
@@ -48,13 +47,12 @@ public interface DeviceNotificationApi {
    * @param names Notification names (optional)
    * @param timestamp Timestamp to start from (optional)
    * @param waitTimeout Wait timeout (optional, default to 30)
-   * @param body  (optional)
    * @return Call<Void>
    */
   
   @GET("device/{deviceGuid}/notification/poll")
   Call<List<DeviceNotification>> poll(
-          @Path("deviceGuid") String deviceGuid, @Query("names") String names, @Query("timestamp") String timestamp, @Query("waitTimeout") Long waitTimeout, @Body AsyncResponse body
+          @Path("deviceGuid") String deviceGuid, @Query("names") String names, @Query("timestamp") String timestamp, @Query("waitTimeout") Long waitTimeout
   );
 
   /**
@@ -64,13 +62,12 @@ public interface DeviceNotificationApi {
    * @param deviceGuids Device guids (optional)
    * @param names Notification names (optional)
    * @param timestamp Timestamp to start from (optional)
-   * @param body  (optional)
    * @return Call<Void>
    */
   
   @GET("device/notification/poll")
   Call<NotificationPollManyResponse> pollMany(
-          @Query("waitTimeout") Long waitTimeout, @Query("deviceGuids") String deviceGuids, @Query("names") String names, @Query("timestamp") String timestamp, @Body AsyncResponse body
+          @Query("waitTimeout") Long waitTimeout, @Query("deviceGuids") String deviceGuids, @Query("names") String names, @Query("timestamp") String timestamp
   );
 
   /**

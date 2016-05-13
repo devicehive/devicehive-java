@@ -1,123 +1,102 @@
 package com.devicehive.client.model;
 
+import com.devicehive.client.StringUtil;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Objects;
-
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 
-public class EquipmentUpdate   {
-  
-  @SerializedName("id")
-  private Long id = null;
+@ApiModel(description = "")
+public class EquipmentUpdate {
 
-  @SerializedName("name")
-  private NullableWrapper name = null;
+    @SerializedName("id")
+    private Long id = null;
 
-  @SerializedName("code")
-  private NullableWrapper code = null;
+    @SerializedName("name")
+    private String name = null;
 
-  @SerializedName("type")
-  private NullableWrapper type = null;
+    @SerializedName("code")
+    private String code = null;
 
-  @SerializedName("data")
-  private NullableWrapper data = null;
+    @SerializedName("type")
+    private String type = null;
 
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public Long getId() {
-    return id;
-  }
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public NullableWrapper getName() {
-    return name;
-  }
-  public void setName(NullableWrapper name) {
-    this.name = name;
-  }
-
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public NullableWrapper getCode() {
-    return code;
-  }
-  public void setCode(NullableWrapper code) {
-    this.code = code;
-  }
-
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public NullableWrapper getType() {
-    return type;
-  }
-  public void setType(NullableWrapper type) {
-    this.type = type;
-  }
-
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public NullableWrapper getData() {
-    return data;
-  }
-  public void setData(NullableWrapper data) {
-    this.data = data;
-  }
+    @SerializedName("data")
+    private JsonStringWrapper data = null;
 
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
+    /**
+     **/
+    @ApiModelProperty(value = "")
+    public Long getId() {
+        return id;
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+
+    public void setId(Long id) {
+        this.id = id;
     }
-    EquipmentUpdate equipmentUpdate = (EquipmentUpdate) o;
-    return Objects.equals(id, equipmentUpdate.id) &&
-        Objects.equals(name, equipmentUpdate.name) &&
-        Objects.equals(code, equipmentUpdate.code) &&
-        Objects.equals(type, equipmentUpdate.type) &&
-        Objects.equals(data, equipmentUpdate.data);
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, name, code, type, data);
-  }
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class EquipmentUpdate {\n");
-    
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    code: ").append(toIndentedString(code)).append("\n");
-    sb.append("    type: ").append(toIndentedString(type)).append("\n");
-    sb.append("    data: ").append(toIndentedString(data)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
+    /**
+     **/
+    @ApiModelProperty(value = "")
+    public String getName() {
+        return name;
     }
-    return o.toString().replace("\n", "\n    ");
-  }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    /**
+     **/
+    @ApiModelProperty(value = "")
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+
+    /**
+     **/
+    @ApiModelProperty(value = "")
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+
+    /**
+     **/
+    @ApiModelProperty(value = "")
+    public JsonStringWrapper getData() {
+        return data;
+    }
+
+    public void setData(JsonStringWrapper data) {
+        this.data = data;
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class EquipmentUpdate {\n");
+
+        sb.append("    id: ").append(StringUtil.toIndentedString(id)).append("\n");
+        sb.append("    name: ").append(StringUtil.toIndentedString(name)).append("\n");
+        sb.append("    code: ").append(StringUtil.toIndentedString(code)).append("\n");
+        sb.append("    type: ").append(StringUtil.toIndentedString(type)).append("\n");
+        sb.append("    data: ").append(StringUtil.toIndentedString(data)).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
 }
