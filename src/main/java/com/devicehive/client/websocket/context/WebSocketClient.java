@@ -25,7 +25,12 @@ import com.devicehive.client.websocket.util.Messages;
 import com.google.common.base.Charsets;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.common.util.concurrent.SettableFuture;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSyntaxException;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.tuple.Pair;
 import org.glassfish.jersey.client.JerseyClientBuilder;
@@ -35,28 +40,55 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.websocket.ClientEndpointConfig.Builder;
-import javax.websocket.ClientEndpointConfig.Configurator;
-import javax.websocket.*;
-import javax.ws.rs.HttpMethod;
-import javax.ws.rs.ProcessingException;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.*;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.net.InetAddress;
 import java.net.URI;
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import static com.devicehive.client.websocket.impl.JsonEncoder.*;
+import javax.websocket.ClientEndpointConfig.Builder;
+import javax.websocket.ClientEndpointConfig.Configurator;
+import javax.websocket.CloseReason;
+import javax.websocket.DeploymentException;
+import javax.websocket.Endpoint;
+import javax.websocket.EndpointConfig;
+import javax.websocket.Session;
+import javax.ws.rs.HttpMethod;
+import javax.ws.rs.ProcessingException;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Form;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import static com.devicehive.client.websocket.impl.JsonEncoder.ACTION_MEMBER;
+import static com.devicehive.client.websocket.impl.JsonEncoder.COMMAND_INSERT;
+import static com.devicehive.client.websocket.impl.JsonEncoder.COMMAND_MEMBER;
+import static com.devicehive.client.websocket.impl.JsonEncoder.COMMAND_UPDATE;
+import static com.devicehive.client.websocket.impl.JsonEncoder.NOTIFICATION_INSERT;
+import static com.devicehive.client.websocket.impl.JsonEncoder.NOTIFICATION_MEMBER;
+import static com.devicehive.client.websocket.impl.JsonEncoder.SUBSCRIPTION_ID;
 import static javax.ws.rs.core.Response.Status.METHOD_NOT_ALLOWED;
 import static javax.ws.rs.core.Response.Status.SERVICE_UNAVAILABLE;
 
@@ -263,7 +295,11 @@ public class WebSocketClient {
 //        apiInfo.setRestServerUrl(restUrl);
 
         ApiInfoApi infoApi = apiClient.createService(ApiInfoApi.class);
-        return infoApi.getApiInfo();
+        try {
+            return infoApi.getApiInfo().execute().body();
+        } catch (IOException e) {
+            throw new HiveException(e.getMessage());
+        }
     }
 
     /**
@@ -401,7 +437,7 @@ public class WebSocketClient {
 
                         case NOTIFICATION_INSERT:
                             final Gson notificationsGson = registerTypeAdapter();
-                            DeviceNotification notification=notificationsGson.fromJson(jsonMessage.getAsJsonObject(NOTIFICATION_MEMBER),DeviceNotification.class);
+                            DeviceNotification notification = notificationsGson.fromJson(jsonMessage.getAsJsonObject(NOTIFICATION_MEMBER), DeviceNotification.class);
                             final String localNotifSubId = serverToLocalSubIdMap.get(
                                     jsonMessage.get(SUBSCRIPTION_ID).getAsString());
                             notificationSubscriptionsStorage.get(localNotifSubId).handleMessage(notification);
@@ -422,7 +458,7 @@ public class WebSocketClient {
         });
     }
 
-    private Gson registerTypeAdapter(){
+    private Gson registerTypeAdapter() {
         DateTimeTypeAdapter typeAdapter = new DateTimeTypeAdapter(ApiClient.ISO_PATTERN);
         return new GsonBuilder()
                 .registerTypeAdapter(DateTime.class,

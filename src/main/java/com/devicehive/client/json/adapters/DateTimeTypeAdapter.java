@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
 
 public class DateTimeTypeAdapter implements JsonSerializer<DateTime>, JsonDeserializer<DateTime> {
 
-    final String iso_pattern;
+    private final String iso_pattern;
 
     public DateTimeTypeAdapter(String iso_pattern) {
         this.iso_pattern = iso_pattern;

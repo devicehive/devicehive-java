@@ -17,7 +17,7 @@ public class Const {
     public static final String PASSWORD = "***REMOVED***";
 
     //Device
-    public static final String DEVICE_ID = "3d77f31c-bddd-443b-b11c-640946b0581z4123t";
+    public static final String DEVICE_ID = "3d77f31c-bddd-443b-b11c-640946b0581z4123tzxc3";
     public static final String NAME = "TIMER";
     public static final String STATUS = "OFFLINE";
     public static final String DC_NAME = "TIMER";

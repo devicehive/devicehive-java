@@ -1,7 +1,6 @@
 package com.devicehive.client.api;
 
 
-import com.devicehive.client.model.AsyncResponse;
 import com.devicehive.client.model.DeviceCommand;
 import com.devicehive.client.model.DeviceCommandWrapper;
 
@@ -40,7 +39,7 @@ public interface DeviceCommandApi {
      */
 
     @POST("device/{deviceGuid}/command")
-    Call<List<DeviceCommand>> insert(
+    Call<DeviceCommand> insert(
             @Path("deviceGuid") String deviceGuid, @Body DeviceCommandWrapper body
     );
 
@@ -52,13 +51,12 @@ public interface DeviceCommandApi {
      * @param names       Command names (optional)
      * @param timestamp   Timestamp to start from (optional)
      * @param waitTimeout Wait timeout (optional, default to 30)
-     * @param body        (optional)
      * @return Call<Void>
      */
 
     @GET("device/{deviceGuid}/command/poll")
-    Call<DeviceCommand> poll(
-            @Path("deviceGuid") String deviceGuid, @Query("names") String names, @Query("timestamp") String timestamp, @Query("waitTimeout") Long waitTimeout, @Body AsyncResponse body
+    Call<List<DeviceCommand>> poll(
+            @Path("deviceGuid") String deviceGuid, @Query("names") String names, @Query("timestamp") String timestamp, @Query("waitTimeout") Long waitTimeout
     );
 
     /**
@@ -69,13 +67,12 @@ public interface DeviceCommandApi {
      * @param names       Command names (optional)
      * @param timestamp   Timestamp to start from (optional)
      * @param waitTimeout Wait timeout (optional, default to 30)
-     * @param body        (optional)
      * @return Call<Void>
      */
 
     @GET("device/command/poll")
     Call<List<DeviceCommand>> pollMany(
-            @Query("deviceGuids") String deviceGuids, @Query("names") String names, @Query("timestamp") String timestamp, @Query("waitTimeout") Long waitTimeout, @Body AsyncResponse body
+            @Query("deviceGuids") String deviceGuids, @Query("names") String names, @Query("timestamp") String timestamp, @Query("waitTimeout") Long waitTimeout
     );
 
     /**
@@ -122,13 +119,12 @@ public interface DeviceCommandApi {
      * @param deviceGuid  Device GUID (required)
      * @param commandId   Command Id (required)
      * @param waitTimeout Wait timeout (optional, default to 30)
-     * @param body        (optional)
      * @return Call<Void>
      */
 
     @GET("device/{deviceGuid}/command/{commandId}/poll")
     Call<List<DeviceCommand>> wait(
-            @Path("deviceGuid") String deviceGuid, @Path("commandId") String commandId, @Query("waitTimeout") Long waitTimeout, @Body AsyncResponse body
+            @Path("deviceGuid") String deviceGuid, @Path("commandId") String commandId, @Query("waitTimeout") Long waitTimeout
     );
 
 }

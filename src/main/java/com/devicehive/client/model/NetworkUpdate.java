@@ -1,108 +1,86 @@
 package com.devicehive.client.model;
 
+import com.devicehive.client.StringUtil;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Objects;
-
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 
-public class NetworkUpdate   {
-  
-  @SerializedName("id")
-  private Long id = null;
+@ApiModel(description = "")
+public class NetworkUpdate {
 
-  @SerializedName("key")
-  private NullableWrapper key = null;
+    @SerializedName("id")
+    private Long id = null;
 
-  @SerializedName("name")
-  private NullableWrapper name = null;
+    @SerializedName("key")
+    private String key = null;
 
-  @SerializedName("description")
-  private NullableWrapper description = null;
+    @SerializedName("name")
+    private String name = null;
 
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public Long getId() {
-    return id;
-  }
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public NullableWrapper getKey() {
-    return key;
-  }
-  public void setKey(NullableWrapper key) {
-    this.key = key;
-  }
-
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public NullableWrapper getName() {
-    return name;
-  }
-  public void setName(NullableWrapper name) {
-    this.name = name;
-  }
-
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  public NullableWrapper getDescription() {
-    return description;
-  }
-  public void setDescription(NullableWrapper description) {
-    this.description = description;
-  }
+    @SerializedName("description")
+    private String description = null;
 
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
+    /**
+     **/
+    @ApiModelProperty(value = "")
+    public Long getId() {
+        return id;
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+
+    public void setId(Long id) {
+        this.id = id;
     }
-    NetworkUpdate networkUpdate = (NetworkUpdate) o;
-    return Objects.equals(id, networkUpdate.id) &&
-        Objects.equals(key, networkUpdate.key) &&
-        Objects.equals(name, networkUpdate.name) &&
-        Objects.equals(description, networkUpdate.description);
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, key, name, description);
-  }
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class NetworkUpdate {\n");
-    
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    key: ").append(toIndentedString(key)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    description: ").append(toIndentedString(description)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
+    /**
+     **/
+    @ApiModelProperty(value = "")
+    public String getKey() {
+        return key;
     }
-    return o.toString().replace("\n", "\n    ");
-  }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+
+    /**
+     **/
+    @ApiModelProperty(value = "")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    /**
+     **/
+    @ApiModelProperty(value = "")
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class NetworkUpdate {\n");
+
+        sb.append("    id: ").append(StringUtil.toIndentedString(id)).append("\n");
+        sb.append("    key: ").append(StringUtil.toIndentedString(key)).append("\n");
+        sb.append("    name: ").append(StringUtil.toIndentedString(name)).append("\n");
+        sb.append("    description: ").append(StringUtil.toIndentedString(description)).append("\n");
+        sb.append("}");
+        return sb.toString();
+    }
 }

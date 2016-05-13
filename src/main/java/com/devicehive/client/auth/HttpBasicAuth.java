@@ -1,11 +1,12 @@
 package com.devicehive.client.auth;
 
-import com.squareup.okhttp.Credentials;
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+
+import okhttp3.Credentials;
+import okhttp3.Interceptor;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class HttpBasicAuth implements Interceptor {
 
@@ -45,7 +46,7 @@ public class HttpBasicAuth implements Interceptor {
                     .addHeader("Authorization", credentials)
                     .build();
             System.out.println(request.headers("Authorization"));
-            System.out.println(request.httpUrl());
+            System.out.println(request.url());
 
         }
         return chain.proceed(request);

@@ -5,16 +5,24 @@ import com.devicehive.client.api.ApiInfoApi;
 import com.devicehive.client.api.DeviceApi;
 import com.devicehive.client.api.DeviceCommandApi;
 import com.devicehive.client.api.DeviceNotificationApi;
-import com.devicehive.client.model.*;
+import com.devicehive.client.model.ApiInfo;
+import com.devicehive.client.model.DeviceClassUpdate;
+import com.devicehive.client.model.DeviceCommand;
+import com.devicehive.client.model.DeviceNotificationWrapper;
+import com.devicehive.client.model.DeviceUpdate;
+import com.devicehive.client.model.JsonStringWrapper;
+
 import org.joda.time.DateTime;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class TimerDevice {
+
+class TimerDevice {
 
 
     private DateTime alarmTime = null;
@@ -37,30 +45,32 @@ public class TimerDevice {
         inflateApi();
     }
 
-    public void inflateApi() {
+    private void inflateApi() {
         notificationApiImpl = restClient.createService(DeviceNotificationApi.class);
         commandApiImpl = restClient.createService(DeviceCommandApi.class);
         infoApiImpl = restClient.createService(ApiInfoApi.class);
         deviceApiImpl = restClient.createService(DeviceApi.class);
     }
 
-    public ApiInfo getApiInfo(){
-        return infoApiImpl.getApiInfo();
-    }
 
-    public void run() {
+    void run() throws IOException {
 
         registerDevice();
 
-        ApiInfo apiInfo = infoApiImpl.getApiInfo();
-        timestamp = apiInfo.getServerTimestamp();
+        ApiInfo apiInfo = infoApiImpl.getApiInfo().execute().body();
 
+        timestamp = apiInfo.getServerTimestamp();
         //Send current timestamp notification
         ses.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
                 DeviceNotificationWrapper myDevice = getTimestampNotificationWrapper();
-                notificationApiImpl.insert(Const.DEVICE_ID, myDevice);
+                try {
+                    notificationApiImpl.insert(Const.DEVICE_ID, myDevice).execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
         }, 0, 2, TimeUnit.SECONDS);
 
@@ -68,11 +78,21 @@ public class TimerDevice {
         ses.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                List<DeviceCommand> commands = commandApiImpl.poll(Const.DEVICE_ID,
-                        "ON",
-                        timestamp.toString(),
-                        30L);
-                if (commands.size() != 0) {
+                List<DeviceCommand> commands = null;
+                try {
+                    commands =
+                            commandApiImpl.poll(Const.DEVICE_ID,
+                                    "ON",
+                                    timestamp.toString(),
+                                    30L)
+                                    .execute()
+                                    .body();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (commands != null && commands.size() != 0) {
                     Collections.sort(commands);
                     DeviceCommand command = commands.get(commands.size() - 1);
                     updateTimestamp(command.getTimestamp());
@@ -80,6 +100,7 @@ public class TimerDevice {
                     alarmTime = DateTime.parse(deviceParams).withMillisOfSecond(0);
                 }
             }
+
         }, 0, 1, TimeUnit.SECONDS);
 
         //Send Alarm Notification
@@ -88,19 +109,28 @@ public class TimerDevice {
             public void run() {
                 currentTime = DateTime.now().withMillisOfSecond(0);
                 DeviceNotificationWrapper alarmNotification = createAlarmNotificationWrapper();
-                if (isAlarmTime()) notificationApiImpl.insert(Const.DEVICE_ID, alarmNotification);
+                if (isAlarmTime()) {
+                    try {
+                        notificationApiImpl.insert(Const.DEVICE_ID, alarmNotification).execute().body();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }, 0, 1, TimeUnit.SECONDS);
 
+
     }
 
-
     //Adds new device or updates current device
+
     private void registerDevice() {
         DeviceUpdate device = createDevice();
-        deviceApiImpl.register(device, Const.DEVICE_ID);
-        R
-
+        try {
+            deviceApiImpl.register(device, Const.DEVICE_ID).execute().raw().toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private DeviceUpdate createDevice() {
@@ -121,7 +151,7 @@ public class TimerDevice {
         return alarmTime != null && alarmTime.isEqual(currentTime);
     }
 
-    private DeviceNotificationWrapper getTimestampNotificationWrapper() throws RetrofitError {
+    private DeviceNotificationWrapper getTimestampNotificationWrapper() {
         DeviceNotificationWrapper wrapper = new DeviceNotificationWrapper();
         JsonStringWrapper jsonStringWrapper = new JsonStringWrapper();
         DateTime currentTimestamp = DateTime.now();

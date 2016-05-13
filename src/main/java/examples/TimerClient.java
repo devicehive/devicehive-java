@@ -5,7 +5,6 @@ import com.devicehive.client.api.ApiInfoApi;
 import com.devicehive.client.api.DeviceApi;
 import com.devicehive.client.api.DeviceCommandApi;
 import com.devicehive.client.api.DeviceNotificationApi;
-import com.devicehive.client.model.ApiInfo;
 import com.devicehive.client.model.Device;
 import com.devicehive.client.model.DeviceCommandWrapper;
 import com.devicehive.client.model.DeviceNotification;
@@ -14,18 +13,14 @@ import com.sun.istack.internal.Nullable;
 
 import org.joda.time.DateTime;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import retrofit.RetrofitError;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class TimerClient {
+class TimerClient {
 
     private ScheduledExecutorService ses;
     private ApiClient restClient;
@@ -38,8 +33,7 @@ public class TimerClient {
 
     private String deviceId = null;
     private DateTime timestamp = null;
-    Call<List<Device>> devicesCall = deviceApi.list(Const.NAME, null, null, null, null, null, null, null, null, null, null, null);
-    Call<ApiInfo> apiInfoCall = infoApi.getApiInfo();
+
 
     public TimerClient() {
         restClient = new ApiClient(Const.URL, ApiClient.AUTH_API_KEY, Const.API_KEY);
@@ -48,59 +42,45 @@ public class TimerClient {
     }
 
 
-    public void inflateApi() {
+    private void inflateApi() {
         notificationApi = restClient.createService(DeviceNotificationApi.class);
         commandApi = restClient.createService(DeviceCommandApi.class);
         infoApi = restClient.createService(ApiInfoApi.class);
         deviceApi = restClient.createService(DeviceApi.class);
     }
 
-    public void run() {
-
+    void run() {
         if (deviceId == null) {
+            try {
+                List<Device> devices = deviceApi.list(Const.NAME, null, null, null, null, null,
+                        null, null, null, null, null, null).
+                        execute().body();
 
-
-            devicesCall.enqueue(new Callback<List<Device>>() {
-                @Override
-                public void onResponse(Call<List<Device>> call, Response<List<Device>> response) {
-                    List<Device> devices = response.body();
-
-                    if (devices.size() == 0) {
-                        System.out.println("No devices was found");
-                    } else {
-                        deviceId = devices.get(0).getGuid();
-
-
-                        apiInfoCall.enqueue(new Callback<ApiInfo>() {
-                            @Override
-                            public void onResponse(Call<ApiInfo> call, Response<ApiInfo> response) {
-                                ApiInfo apiInfo = response.body();
-                                timestamp = apiInfo.getServerTimestamp();
-                            }
-
-                            @Override
-                            public void onFailure(Call<ApiInfo> call, Throwable throwable) {
-
-                            }
-                        });
-
-
+                if (devices.size() == 0) {
+                    System.out.println("No devices was found");
+                } else {
+                    deviceId = devices.get(0).getGuid();
+                    try {
+                        timestamp = infoApi.getApiInfo().execute()
+                                .body()
+                                .getServerTimestamp();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                 }
-
-                @Override
-                public void onFailure(Call<List<Device>> call, Throwable throwable) {
-
-                }
-            });
-
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
 
         ses.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                setTimer(Const.DEVICE_ID, true, DateTime.now().plusSeconds(5));
+                try {
+                    setTimer(Const.DEVICE_ID, true, DateTime.now().plusSeconds(5));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }, 0, 5, TimeUnit.SECONDS);
 
@@ -108,33 +88,36 @@ public class TimerClient {
         ses.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                pollNotifications(timestamp.toString());
+                try {
+                    pollNotifications(timestamp.toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }, 0, 1, TimeUnit.SECONDS);
 
     }
 
 
-    private void pollNotifications(String timestamp) {
-        Call<List<DeviceNotification>> deviceNotifications = notificationApi.poll(Const.DEVICE_ID, null, timestamp, 30L);
-
+    private void pollNotifications(String timestamp) throws IOException {
+        List<DeviceNotification> deviceNotifications = notificationApi.poll(Const.DEVICE_ID, null, timestamp, 30L)
+                .execute()
+                .body();
         if (deviceNotifications.size() != 0) {
             Collections.sort(deviceNotifications);
             DeviceNotification notification = deviceNotifications.get(deviceNotifications.size() - 1);
             updateTimestamp(notification.getTimestamp());
         }
-
         for (DeviceNotification item : deviceNotifications) {
             if (item.getNotification().equals(Const.ALARM)) {
                 System.out.println(item);
             }
         }
-
-
     }
 
+
     //Command updating
-    private void setTimer(String guid, Boolean isOnTimer, @Nullable DateTime time) throws RetrofitError {
+    private void setTimer(String guid, Boolean isOnTimer, @Nullable DateTime time) throws IOException {
         DeviceCommandWrapper deviceCommandWrapper = new DeviceCommandWrapper();
         if (isOnTimer) {
             deviceCommandWrapper.setCommand(Const.ON);
@@ -142,7 +125,7 @@ public class TimerClient {
             jsonStringWrapper.setJsonString(time.toString());
             deviceCommandWrapper.setParameters(jsonStringWrapper.getJsonString());
         }
-        commandApi.insert(guid, deviceCommandWrapper);
+        commandApi.insert(guid, deviceCommandWrapper).execute().body();
     }
 
 
@@ -153,5 +136,6 @@ public class TimerClient {
             this.timestamp = timestamp;
         }
     }
+
 }
 

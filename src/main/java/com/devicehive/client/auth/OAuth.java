@@ -1,10 +1,5 @@
 package com.devicehive.client.auth;
 
-import static java.net.HttpURLConnection.HTTP_UNAUTHORIZED;
-
-import java.io.IOException;
-import java.util.Map;
-
 import org.apache.oltu.oauth2.client.OAuthClient;
 import org.apache.oltu.oauth2.client.request.OAuthBearerClientRequest;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
@@ -16,11 +11,16 @@ import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.types.GrantType;
 import org.apache.oltu.oauth2.common.token.BasicOAuthToken;
 
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Request.Builder;
-import com.squareup.okhttp.Response;
+import java.io.IOException;
+import java.util.Map;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+import static java.net.HttpURLConnection.HTTP_UNAUTHORIZED;
+
 
 public class OAuth implements Interceptor {
 
@@ -36,7 +36,7 @@ public class OAuth implements Interceptor {
 
     private AccessTokenListener accessTokenListener;
 
-    public OAuth( OkHttpClient client, TokenRequestBuilder requestBuilder ) {
+    public OAuth(OkHttpClient client, TokenRequestBuilder requestBuilder ) {
         this.oauthClient = new OAuthClient(new OAuthOkHttpClient(client));
         this.tokenRequestBuilder = requestBuilder;
     }
@@ -86,11 +86,11 @@ public class OAuth implements Interceptor {
         }
 
         // Build the request
-        Builder rb = request.newBuilder();
+        Request.Builder rb = request.newBuilder();
 
         String requestAccessToken = new String(getAccessToken());
         try {
-            oAuthRequest = new OAuthBearerClientRequest(request.urlString())
+            oAuthRequest = new OAuthBearerClientRequest(request.url().toString())
             .setAccessToken(requestAccessToken)
             .buildHeaderMessage();
         } catch (OAuthSystemException e) {

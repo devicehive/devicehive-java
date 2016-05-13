@@ -1,9 +1,9 @@
 package com.devicehive.client;
 
+import com.devicehive.client.auth.ApiKeyAuth;
+import com.devicehive.client.auth.HttpBasicAuth;
+import com.devicehive.client.auth.OAuth;
 import com.devicehive.client.json.adapters.DateTimeTypeAdapter;
-import com.devicehive.client2.auth.ApiKeyAuth;
-import com.devicehive.client2.auth.HttpBasicAuth;
-import com.devicehive.client2.auth.OAuth;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
@@ -17,6 +17,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -42,7 +43,7 @@ public class ApiClient {
     private Retrofit.Builder adapterBuilder;
 
     public ApiClient(String url) {
-        apiAuthorizations = new LinkedHashMap<String, Interceptor>();
+        apiAuthorizations = new LinkedHashMap<>();
         createDefaultAdapter(url);
     }
 
@@ -50,14 +51,16 @@ public class ApiClient {
         this(url);
         for (String authName : authNames) {
             Interceptor auth;
-            if (authName.equals(AUTH_API_KEY)) {
-                auth = new ApiKeyAuth("header", AUTH_NAME);
-            } else if (authName.equals(AUTH_BASIC)) {
-                auth = new HttpBasicAuth();
-            } else {
-                throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
+            switch (authName) {
+                case AUTH_API_KEY:
+                    auth = new ApiKeyAuth("header", AUTH_NAME);
+                    break;
+                case AUTH_BASIC:
+                    auth = new HttpBasicAuth();
+                    break;
+                default:
+                    throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
             }
-
             addAuthorization(authName, auth);
         }
     }
@@ -118,11 +121,17 @@ public class ApiClient {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(DateTime.class,
                         typeAdapter)
-                .registerTypeAdapter(DateTime.class,
-                        typeAdapter)
+//                .registerTypeAdapter(DateTime.class,
+//                        typeAdapter)
                 .create();
 
-        okClient = new OkHttpClient();
+
+        okClient = new OkHttpClient().newBuilder()
+                .readTimeout(35, TimeUnit.SECONDS)
+                .connectTimeout(35, TimeUnit.SECONDS)
+                .build();
+
+        if (!url.endsWith("/")) url = url + "/";
 
         adapterBuilder = new Retrofit
                 .Builder()
@@ -131,28 +140,8 @@ public class ApiClient {
 
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonCustomConverterFactory.create(gson));
+
     }
-
-
-//    public void createDefaultAdapter() {
-//        Gson gson = new GsonBuilder()
-//                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
-//                .create();
-//
-//        okClient = new OkHttpClient();
-//
-//        String baseUrl = "https://localhost/api/rest";
-//        if (!baseUrl.endsWith("/"))
-//            baseUrl = baseUrl + "/";
-//
-//        adapterBuilder = new Retrofit
-//                .Builder()
-//                .baseUrl(baseUrl)
-//                .client(okClient)
-//
-//                .addConverterFactory(ScalarsConverterFactory.create())
-//                .addConverterFactory(GsonCustomConverterFactory.create(gson));
-//    }
 
     public <S> S createService(Class<S> serviceClass) {
         return adapterBuilder.build().create(serviceClass);
@@ -289,7 +278,11 @@ public class ApiClient {
             throw new RuntimeException("auth name \"" + authName + "\" already in api authorizations");
         }
         apiAuthorizations.put(authName, authorization);
-        okClient.interceptors().add(authorization);
+        okClient = okClient.newBuilder()
+                .addInterceptor(authorization)
+                .build();
+
+        adapterBuilder.client(okClient);
     }
 
     public Map<String, Interceptor> getApiAuthorizations() {
@@ -382,5 +375,8 @@ class GsonCustomConverterFactory extends Converter.Factory {
     public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
         return gsonConverterFactory.requestBodyConverter(type, parameterAnnotations, methodAnnotations, retrofit);
     }
+
 }
+
+
 
