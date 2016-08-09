@@ -7,10 +7,18 @@ import com.devicehive.client.json.adapters.DateTimeTypeAdapter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
-
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
 import org.joda.time.DateTime;
+import retrofit2.Converter;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -18,15 +26,6 @@ import java.lang.reflect.Type;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.Converter;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 
 public class ApiClient {
@@ -124,9 +123,12 @@ public class ApiClient {
 //                .registerTypeAdapter(DateTime.class,
 //                        typeAdapter)
                 .create();
-
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        // set your desired log level
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         okClient = new OkHttpClient().newBuilder()
+                .addInterceptor(logging)
                 .readTimeout(35, TimeUnit.SECONDS)
                 .connectTimeout(35, TimeUnit.SECONDS)
                 .build();
