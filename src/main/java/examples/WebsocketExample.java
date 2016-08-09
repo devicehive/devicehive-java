@@ -3,8 +3,8 @@ package examples;
 import com.devicehive.client.model.*;
 import com.devicehive.client.model.exceptions.HiveException;
 import com.devicehive.client.websocket.HiveFactory;
-import com.devicehive.client.websocket.api.impl.CommandsAPIWebSocketImpl;
-import com.devicehive.client.websocket.api.impl.HiveClientWebSocketImpl;
+import com.devicehive.client.websocket.api.impl.CommandsApiWebSocketImpl;
+import com.devicehive.client.websocket.api.impl.HiveClientWebSocketImplementation;
 import com.devicehive.client.websocket.api.impl.NotificationsAPIWebsocketImpl;
 import com.devicehive.client.websocket.context.SubscriptionFilter;
 import org.joda.time.DateTime;
@@ -19,7 +19,7 @@ public class WebsocketExample {
     public static void main(String[] args) {
 
         try {
-            final HiveClientWebSocketImpl client = HiveFactory.createWSclient(URI.create("http://playground.devicehive.com/api/rest"));
+            final HiveClientWebSocketImplementation client = HiveFactory.createWSclient(URI.create("http://playground.devicehive.com/api/rest"));
             client.authenticate(Const.API_KEY);
 
             DateTime timestamp = client.getTimestamp();
@@ -37,7 +37,7 @@ public class WebsocketExample {
                 }
             });
 
-            CommandsAPIWebSocketImpl commandsAPIWebSocket = client.getCommandsWSAPI();
+            CommandsApiWebSocketImpl commandsAPIWebSocket = client.getCommandsWSAPI();
             String idCom = commandsAPIWebSocket.subscribeForCommands(filter, new HiveMessageHandler<DeviceCommand>() {
                 @Override
                 public void handle(DeviceCommand message) {

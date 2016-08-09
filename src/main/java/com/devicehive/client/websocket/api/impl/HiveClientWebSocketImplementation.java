@@ -9,7 +9,7 @@ import org.joda.time.DateTime;
 /**
  * Specialization of {@link HiveClientRestImpl} that uses WebSocket transport for requests.
  */
-public class HiveClientWebSocketImpl {
+public class HiveClientWebSocketImplementation {
 
     private final WebSocketClient WebSocketClient;
 
@@ -18,7 +18,7 @@ public class HiveClientWebSocketImpl {
      *
      * @param WebSocketClient a WebSocketClient to use for requests
      */
-    public HiveClientWebSocketImpl(WebSocketClient WebSocketClient) {
+    public HiveClientWebSocketImplementation(WebSocketClient WebSocketClient) {
         this.WebSocketClient = WebSocketClient;
     }
 
@@ -40,8 +40,8 @@ public class HiveClientWebSocketImpl {
      * {@inheritDoc}
      */
 
-    public CommandsAPIWebSocketImpl getCommandsWSAPI() {
-        return new CommandsAPIWebSocketImpl(WebSocketClient);
+    public CommandsApiWebSocketImpl getCommandsWSAPI() {
+        return new CommandsApiWebSocketImpl(WebSocketClient);
     }
 
 

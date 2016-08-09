@@ -2,7 +2,7 @@ package com.devicehive.client.websocket;
 
 import com.devicehive.client.api.HiveClient;
 import com.devicehive.client.model.exceptions.HiveException;
-import com.devicehive.client.websocket.api.impl.HiveClientWebSocketImpl;
+import com.devicehive.client.websocket.api.impl.HiveClientWebSocketImplementation;
 import com.devicehive.client.websocket.context.RestClientWIP;
 import com.devicehive.client.websocket.context.WebSocketClient;
 
@@ -24,7 +24,7 @@ public final class HiveFactory {
      */
 //    public static HiveClient createClient(URI restUri, boolean preferWebsockets) throws HiveException {
 //        if (preferWebsockets) {
-//            return new HiveClientWebSocketImpl(createWebsocketClientAgent(restUri));
+//            return new HiveClientWebSocketImplementation(createWebsocketClientAgent(restUri));
 //        } else {
 //            return new HiveClientRestImpl(createRestAgent(restUri));
 //        }
@@ -35,8 +35,8 @@ public final class HiveFactory {
         return agent;
     }
 
-    public static HiveClientWebSocketImpl createWSclient(URI restUri) throws HiveException {
-        return new HiveClientWebSocketImpl(createWebsocketClientAgent(restUri));
+    public static HiveClientWebSocketImplementation createWSclient(URI restUri) throws HiveException {
+        return new HiveClientWebSocketImplementation(createWebsocketClientAgent(restUri));
     }
 
     private static WebSocketClient createWebsocketClientAgent(URI restUri) throws HiveException {
