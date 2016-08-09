@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @see <a href="http://www.devicehive.com/restful#Reference/DeviceCommand">DeviceHive RESTful API: DeviceCommand</a>
  */
-public interface CommandsAPIWebsocket {
+public interface CommandsApiWebsocket {
 
     /**
      * Queries commands with the following parameters.

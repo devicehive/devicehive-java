@@ -48,8 +48,8 @@ public class HiveClientWebSocketImplementation {
     /**
      * {@inheritDoc}
      */
-    public NotificationsAPIWebsocketImpl getNotificationsWSAPI() {
-        return new NotificationsAPIWebsocketImpl(WebSocketClient);
+    public NotificationsApiWebsocketImpl getNotificationsWSAPI() {
+        return new NotificationsApiWebsocketImpl(WebSocketClient);
     }
 
     public DateTime getTimestamp() throws HiveException{

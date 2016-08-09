@@ -6,7 +6,7 @@ import com.devicehive.client.model.DeviceNotification;
 import com.devicehive.client.model.HiveMessageHandler;
 import com.devicehive.client.model.exceptions.HiveClientException;
 import com.devicehive.client.model.exceptions.HiveException;
-import com.devicehive.client.websocket.api.NotificationsAPIWebsocket;
+import com.devicehive.client.websocket.api.NotificationsApiWebsocket;
 import com.devicehive.client.websocket.context.RestClientWIP;
 import com.devicehive.client.websocket.context.SubscriptionFilter;
 import com.devicehive.client.websocket.context.WebSocketClient;
@@ -25,9 +25,9 @@ import static com.devicehive.client.json.strategies.JsonPolicyDef.Policy.NOTIFIC
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
 
-public class NotificationsAPIWebsocketImpl implements NotificationsAPIWebsocket {
+public class NotificationsApiWebsocketImpl implements NotificationsApiWebsocket {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NotificationsAPIWebsocketImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(NotificationsApiWebsocketImpl.class);
     protected static final String DEVICE_NOTIFICATIONS_COLLECTION_PATH = "/device/%s/notification";
     protected static final String DEVICE_NOTIFICATION_RESOURCE_PATH = "/device/%s/notification/%s";
 
@@ -38,7 +38,7 @@ public class NotificationsAPIWebsocketImpl implements NotificationsAPIWebsocket 
      *
      * @param WebSocketClient a WebsoketAgent to use for requests
      */
-    NotificationsAPIWebsocketImpl(WebSocketClient WebSocketClient) {
+    NotificationsApiWebsocketImpl(WebSocketClient WebSocketClient) {
         this.WebSocketClient = WebSocketClient;
     }
 
