@@ -24,9 +24,9 @@ import java.util.Map;
 import static com.devicehive.client.json.strategies.JsonPolicyDef.Policy.*;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
-public class CommandsAPIWebSocketImpl implements CommandsAPIWebsocket {
+public class CommandsApiWebSocketImpl implements CommandsAPIWebsocket {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(CommandsAPIWebSocketImpl.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(CommandsApiWebSocketImpl.class);
 
     private static final String WS_COMMAND_INSERT = "command/insert";
     private static final String WS_COMMAND_UPDATE = "command/update";
@@ -42,7 +42,7 @@ public class CommandsAPIWebSocketImpl implements CommandsAPIWebsocket {
      *
      * @param WebSocketClient a websocket agent instance
      */
-    public CommandsAPIWebSocketImpl(WebSocketClient WebSocketClient) {
+    public CommandsApiWebSocketImpl(WebSocketClient WebSocketClient) {
         this.WebSocketClient = WebSocketClient;
     }
 
