@@ -69,6 +69,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
+                <version>${mojo-maven-plugin}</version>
                 <executions>
                     <execution>
                         <id>add_sources</id>
@@ -240,5 +241,6 @@
         <glassfish.tyrus>1.12</glassfish.tyrus>
         <slf4j-api>1.7.12</slf4j-api>
         <joda-time-version>2.9.3</joda-time-version>
+        <mojo-maven-plugin>1.12</mojo-maven-plugin>
     </properties>
 </project>
