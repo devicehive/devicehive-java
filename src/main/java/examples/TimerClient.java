@@ -9,10 +9,9 @@ import com.devicehive.client.model.Device;
 import com.devicehive.client.model.DeviceCommandWrapper;
 import com.devicehive.client.model.DeviceNotification;
 import com.devicehive.client.model.JsonStringWrapper;
-import com.sun.istack.internal.Nullable;
-
 import org.joda.time.DateTime;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;

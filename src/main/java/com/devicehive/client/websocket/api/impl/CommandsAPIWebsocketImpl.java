@@ -12,22 +12,16 @@ import com.devicehive.client.websocket.context.WebSocketClient;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ws.rs.HttpMethod;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.HttpMethod;
-
-import static com.devicehive.client.json.strategies.JsonPolicyDef.Policy.COMMAND_FROM_CLIENT;
-import static com.devicehive.client.json.strategies.JsonPolicyDef.Policy.COMMAND_LISTED;
-import static com.devicehive.client.json.strategies.JsonPolicyDef.Policy.COMMAND_TO_CLIENT;
-import static com.devicehive.client.json.strategies.JsonPolicyDef.Policy.COMMAND_TO_DEVICE;
-import static com.devicehive.client.json.strategies.JsonPolicyDef.Policy.COMMAND_UPDATE_FROM_DEVICE;
+import static com.devicehive.client.json.strategies.JsonPolicyDef.Policy.*;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
 public class CommandsAPIWebSocketImpl implements CommandsAPIWebsocket {
@@ -48,7 +42,7 @@ public class CommandsAPIWebSocketImpl implements CommandsAPIWebsocket {
      *
      * @param WebSocketClient a websocket agent instance
      */
-    CommandsAPIWebSocketImpl(WebSocketClient WebSocketClient) {
+    public CommandsAPIWebSocketImpl(WebSocketClient WebSocketClient) {
         this.WebSocketClient = WebSocketClient;
     }
 
