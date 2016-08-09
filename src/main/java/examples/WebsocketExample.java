@@ -5,7 +5,7 @@ import com.devicehive.client.model.exceptions.HiveException;
 import com.devicehive.client.websocket.HiveFactory;
 import com.devicehive.client.websocket.api.impl.CommandsApiWebSocketImpl;
 import com.devicehive.client.websocket.api.impl.HiveClientWebSocketImplementation;
-import com.devicehive.client.websocket.api.impl.NotificationsAPIWebsocketImpl;
+import com.devicehive.client.websocket.api.impl.NotificationsApiWebsocketImpl;
 import com.devicehive.client.websocket.context.SubscriptionFilter;
 import org.joda.time.DateTime;
 
@@ -29,7 +29,7 @@ public class WebsocketExample {
             SubscriptionFilter filter = new SubscriptionFilter(uuid, null, timestamp);
             System.out.println(timestamp);
 
-            NotificationsAPIWebsocketImpl notificationsAPIWebsocket = client.getNotificationsWSAPI();
+            NotificationsApiWebsocketImpl notificationsAPIWebsocket = client.getNotificationsWSAPI();
             String id = notificationsAPIWebsocket.subscribeForNotifications(filter, new HiveMessageHandler<DeviceNotification>() {
                 @Override
                 public void handle(DeviceNotification message) {

@@ -6,7 +6,7 @@ import com.devicehive.client.model.DeviceCommand;
 import com.devicehive.client.model.HiveMessageHandler;
 import com.devicehive.client.model.exceptions.HiveClientException;
 import com.devicehive.client.model.exceptions.HiveException;
-import com.devicehive.client.websocket.api.CommandsAPIWebsocket;
+import com.devicehive.client.websocket.api.CommandsApiWebsocket;
 import com.devicehive.client.websocket.context.SubscriptionFilter;
 import com.devicehive.client.websocket.context.WebSocketClient;
 import com.google.common.reflect.TypeToken;
@@ -24,7 +24,7 @@ import java.util.Map;
 import static com.devicehive.client.json.strategies.JsonPolicyDef.Policy.*;
 import static javax.ws.rs.core.Response.Status.BAD_REQUEST;
 
-public class CommandsApiWebSocketImpl implements CommandsAPIWebsocket {
+public class CommandsApiWebSocketImpl implements CommandsApiWebsocket {
 
     private static Logger LOGGER = LoggerFactory.getLogger(CommandsApiWebSocketImpl.class);
 
