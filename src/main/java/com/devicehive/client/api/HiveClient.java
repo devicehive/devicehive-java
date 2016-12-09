@@ -75,21 +75,6 @@ public interface HiveClient extends AutoCloseable {
      * @return user API
      */
     UserApi getUserAPI();
-
-    /**
-     * Return new instance of OAuth API.
-     *
-     * @return user API
-     */
-    OAuthClientApi getOAuthClientAPI();
-
-    /**
-     * Return new instance of OAuth client API.
-     *
-     * @return user API
-     */
-    OAuthGrantApi getOAuthGrantAPI();
-
     /**
      * Disconnects the client from the server.
      */
