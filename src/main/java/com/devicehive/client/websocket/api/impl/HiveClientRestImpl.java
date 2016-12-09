@@ -1,8 +1,13 @@
 package com.devicehive.client.websocket.api.impl;
 
-
-import com.devicehive.client.api.*;
-import com.devicehive.client.model.ApiInfo;
+import com.devicehive.client.api.AccessKeyApi;
+import com.devicehive.client.api.DeviceApi;
+import com.devicehive.client.api.DeviceCommandApi;
+import com.devicehive.client.api.DeviceNotificationApi;
+import com.devicehive.client.api.HiveClient;
+import com.devicehive.client.api.NetworkApi;
+import com.devicehive.client.api.UserApi;
+import com.devicehive.client.model.ApiInfoVO;
 import com.devicehive.client.model.HiveMessage;
 import com.devicehive.client.model.exceptions.HiveException;
 import com.devicehive.client.websocket.context.HivePrincipal;
@@ -29,7 +34,7 @@ public class HiveClientRestImpl implements HiveClient, HiveMessage {
      * {@inheritDoc}
      */
     @Override
-    public ApiInfo getInfo() throws HiveException {
+    public ApiInfoVO getInfo() throws HiveException {
         return restClient.getInfo();
     }
 

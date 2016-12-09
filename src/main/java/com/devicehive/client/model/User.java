@@ -1,13 +1,12 @@
 package com.devicehive.client.model;
 
 import com.google.gson.annotations.SerializedName;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-
-import io.swagger.annotations.ApiModelProperty;
 
 
 public class User   {
@@ -80,7 +79,7 @@ public enum StatusEnum {
   private StatusEnum status = null;
 
   @SerializedName("networks")
-  private List<Network> networks = new ArrayList<Network>();
+  private List<NetworkVO> networks = new ArrayList<NetworkVO>();
 
   @SerializedName("lastLogin")
   private Date lastLogin = null;
@@ -176,10 +175,10 @@ public enum StatusEnum {
   /**
    **/
   @ApiModelProperty(value = "")
-  public List<Network> getNetworks() {
+  public List<NetworkVO> getNetworks() {
     return networks;
   }
-  public void setNetworks(List<Network> networks) {
+  public void setNetworks(List<NetworkVO> networks) {
     this.networks = networks;
   }
 

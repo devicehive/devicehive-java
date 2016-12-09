@@ -1,11 +1,11 @@
 package com.devicehive.client.websocket.context;
 
 import com.devicehive.client.ApiClient;
-import com.devicehive.client.api.ApiInfoApi;
+import com.devicehive.client.api.ApiInfoVOApi;
 import com.devicehive.client.json.GsonFactory;
 import com.devicehive.client.json.strategies.JsonPolicyApply;
 import com.devicehive.client.json.strategies.JsonPolicyDef;
-import com.devicehive.client.model.ApiInfo;
+import com.devicehive.client.model.ApiInfoVO;
 import com.devicehive.client.model.CommandPollManyResponse;
 import com.devicehive.client.model.DeviceCommand;
 import com.devicehive.client.model.DeviceNotification;
@@ -23,16 +23,6 @@ import com.devicehive.client.websocket.util.Messages;
 import com.google.common.base.Charsets;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gson.reflect.TypeToken;
-
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.Pair;
-import org.glassfish.jersey.client.JerseyClientBuilder;
-import org.glassfish.jersey.internal.Errors;
-import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
@@ -51,7 +41,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
@@ -63,6 +52,14 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
+import org.glassfish.jersey.client.JerseyClientBuilder;
+import org.glassfish.jersey.internal.Errors;
+import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static javax.ws.rs.core.Response.Status.METHOD_NOT_ALLOWED;
 
@@ -205,7 +202,7 @@ public class RestClientWIP {
     public boolean checkConnection() {
         try {
             final Response response = buildInvocation("/info", HttpMethod.GET, null, null, null, null).invoke();
-            getEntity(response, ApiInfo.class, null);
+            getEntity(response, ApiInfoVO.class, null);
             return true;
         } catch (HiveException e) {
             return false;
@@ -473,8 +470,8 @@ public class RestClientWIP {
      * @return API info
      * @throws HiveException if an error occurs during the request execution
      */
-    public ApiInfo getInfo() throws HiveException {
-        ApiInfoApi infoApi = apiClient.createService(ApiInfoApi.class);
+    public ApiInfoVO getInfo() throws HiveException {
+        ApiInfoVOApi infoApi = apiClient.createService(ApiInfoVOApi.class);
 
         try {
             return infoApi.getApiInfo().execute().body();

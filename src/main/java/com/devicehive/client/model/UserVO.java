@@ -27,44 +27,33 @@ package com.devicehive.client.model;
 
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModelProperty;
+import org.joda.time.DateTime;
 
 
 /**
- * UserUpdate
+ * UserVO
  */
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-12-09T14:31:42.381+02:00")
-public class UserUpdate   {
+public class UserVO   {
+  @SerializedName("id")
+  private Long id = null;
+
   @SerializedName("login")
   private String login = null;
 
-  @SerializedName("role")
-  private Integer role = null;
+  @SerializedName("passwordHash")
+  private String passwordHash = null;
 
-  @SerializedName("status")
-  private Integer status = null;
+  @SerializedName("passwordSalt")
+  private String passwordSalt = null;
 
-  @SerializedName("password")
-  private String password = null;
-
-  @SerializedName("oldPassword")
-  private String oldPassword = null;
-
-  @SerializedName("googleLogin")
-  private String googleLogin = null;
-
-  @SerializedName("facebookLogin")
-  private String facebookLogin = null;
-
-  @SerializedName("githubLogin")
-  private String githubLogin = null;
-
-  @SerializedName("data")
-  private JsonStringWrapper data = null;
+  @SerializedName("loginAttempts")
+  private Integer loginAttempts = null;
 
   /**
-   * Gets or Sets roleEnum
+   * Gets or Sets role
    */
-  public enum RoleEnumEnum {
+  public enum RoleEnum {
     @SerializedName("ADMIN")
     ADMIN("ADMIN"),
     
@@ -73,7 +62,7 @@ public class UserUpdate   {
 
     private String value;
 
-    RoleEnumEnum(String value) {
+    RoleEnum(String value) {
       this.value = value;
     }
 
@@ -83,13 +72,13 @@ public class UserUpdate   {
     }
   }
 
-  @SerializedName("roleEnum")
-  private RoleEnumEnum roleEnum = null;
+  @SerializedName("role")
+  private RoleEnum role = null;
 
   /**
-   * Gets or Sets statusEnum
+   * Gets or Sets status
    */
-  public enum StatusEnumEnum {
+  public enum StatusEnum {
     @SerializedName("ACTIVE")
     ACTIVE("ACTIVE"),
     
@@ -104,7 +93,7 @@ public class UserUpdate   {
 
     private String value;
 
-    StatusEnumEnum(String value) {
+    StatusEnum(String value) {
       this.value = value;
     }
 
@@ -114,10 +103,46 @@ public class UserUpdate   {
     }
   }
 
-  @SerializedName("statusEnum")
-  private StatusEnumEnum statusEnum = null;
+  @SerializedName("status")
+  private StatusEnum status = null;
 
-  public UserUpdate login(String login) {
+  @SerializedName("lastLogin")
+  private DateTime lastLogin = null;
+
+  @SerializedName("googleLogin")
+  private String googleLogin = null;
+
+  @SerializedName("facebookLogin")
+  private String facebookLogin = null;
+
+  @SerializedName("githubLogin")
+  private String githubLogin = null;
+
+  @SerializedName("data")
+  private JsonStringWrapper data = null;
+
+  @SerializedName("admin")
+  private Boolean admin = false;
+
+  public UserVO id(Long id) {
+    this.id = id;
+    return this;
+  }
+
+   /**
+   * Get id
+   * @return id
+  **/
+  @ApiModelProperty(example = "null", value = "")
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public UserVO login(String login) {
     this.login = login;
     return this;
   }
@@ -126,7 +151,7 @@ public class UserUpdate   {
    * Get login
    * @return login
   **/
-  @ApiModelProperty(example = "null", value = "")
+  @ApiModelProperty(example = "null", required = true, value = "")
   public String getLogin() {
     return login;
   }
@@ -135,7 +160,61 @@ public class UserUpdate   {
     this.login = login;
   }
 
-  public UserUpdate role(Integer role) {
+  public UserVO passwordHash(String passwordHash) {
+    this.passwordHash = passwordHash;
+    return this;
+  }
+
+   /**
+   * Get passwordHash
+   * @return passwordHash
+  **/
+  @ApiModelProperty(example = "null", value = "")
+  public String getPasswordHash() {
+    return passwordHash;
+  }
+
+  public void setPasswordHash(String passwordHash) {
+    this.passwordHash = passwordHash;
+  }
+
+  public UserVO passwordSalt(String passwordSalt) {
+    this.passwordSalt = passwordSalt;
+    return this;
+  }
+
+   /**
+   * Get passwordSalt
+   * @return passwordSalt
+  **/
+  @ApiModelProperty(example = "null", value = "")
+  public String getPasswordSalt() {
+    return passwordSalt;
+  }
+
+  public void setPasswordSalt(String passwordSalt) {
+    this.passwordSalt = passwordSalt;
+  }
+
+  public UserVO loginAttempts(Integer loginAttempts) {
+    this.loginAttempts = loginAttempts;
+    return this;
+  }
+
+   /**
+   * Get loginAttempts
+   * @return loginAttempts
+  **/
+  @ApiModelProperty(example = "null", value = "")
+  public Integer getLoginAttempts() {
+    return loginAttempts;
+  }
+
+  public void setLoginAttempts(Integer loginAttempts) {
+    this.loginAttempts = loginAttempts;
+  }
+
+  public UserVO role(RoleEnum role) {
     this.role = role;
     return this;
   }
@@ -145,15 +224,15 @@ public class UserUpdate   {
    * @return role
   **/
   @ApiModelProperty(example = "null", value = "")
-  public Integer getRole() {
+  public RoleEnum getRole() {
     return role;
   }
 
-  public void setRole(Integer role) {
+  public void setRole(RoleEnum role) {
     this.role = role;
   }
 
-  public UserUpdate status(Integer status) {
+  public UserVO status(StatusEnum status) {
     this.status = status;
     return this;
   }
@@ -163,51 +242,33 @@ public class UserUpdate   {
    * @return status
   **/
   @ApiModelProperty(example = "null", value = "")
-  public Integer getStatus() {
+  public StatusEnum getStatus() {
     return status;
   }
 
-  public void setStatus(Integer status) {
+  public void setStatus(StatusEnum status) {
     this.status = status;
   }
 
-  public UserUpdate password(String password) {
-    this.password = password;
+  public UserVO lastLogin(DateTime lastLogin) {
+    this.lastLogin = lastLogin;
     return this;
   }
 
    /**
-   * Get password
-   * @return password
+   * Get lastLogin
+   * @return lastLogin
   **/
   @ApiModelProperty(example = "null", value = "")
-  public String getPassword() {
-    return password;
+  public DateTime getLastLogin() {
+    return lastLogin;
   }
 
-  public void setPassword(String password) {
-    this.password = password;
+  public void setLastLogin(DateTime lastLogin) {
+    this.lastLogin = lastLogin;
   }
 
-  public UserUpdate oldPassword(String oldPassword) {
-    this.oldPassword = oldPassword;
-    return this;
-  }
-
-   /**
-   * Get oldPassword
-   * @return oldPassword
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public String getOldPassword() {
-    return oldPassword;
-  }
-
-  public void setOldPassword(String oldPassword) {
-    this.oldPassword = oldPassword;
-  }
-
-  public UserUpdate googleLogin(String googleLogin) {
+  public UserVO googleLogin(String googleLogin) {
     this.googleLogin = googleLogin;
     return this;
   }
@@ -225,7 +286,7 @@ public class UserUpdate   {
     this.googleLogin = googleLogin;
   }
 
-  public UserUpdate facebookLogin(String facebookLogin) {
+  public UserVO facebookLogin(String facebookLogin) {
     this.facebookLogin = facebookLogin;
     return this;
   }
@@ -243,7 +304,7 @@ public class UserUpdate   {
     this.facebookLogin = facebookLogin;
   }
 
-  public UserUpdate githubLogin(String githubLogin) {
+  public UserVO githubLogin(String githubLogin) {
     this.githubLogin = githubLogin;
     return this;
   }
@@ -261,7 +322,7 @@ public class UserUpdate   {
     this.githubLogin = githubLogin;
   }
 
-  public UserUpdate data(JsonStringWrapper data) {
+  public UserVO data(JsonStringWrapper data) {
     this.data = data;
     return this;
   }
@@ -279,58 +340,43 @@ public class UserUpdate   {
     this.data = data;
   }
 
-  public UserUpdate roleEnum(RoleEnumEnum roleEnum) {
-    this.roleEnum = roleEnum;
+  public UserVO admin(Boolean admin) {
+    this.admin = admin;
     return this;
   }
 
    /**
-   * Get roleEnum
-   * @return roleEnum
+   * Get admin
+   * @return admin
   **/
   @ApiModelProperty(example = "null", value = "")
-  public RoleEnumEnum getRoleEnum() {
-    return roleEnum;
+  public Boolean getAdmin() {
+    return admin;
   }
 
-  public void setRoleEnum(RoleEnumEnum roleEnum) {
-    this.roleEnum = roleEnum;
+  public void setAdmin(Boolean admin) {
+    this.admin = admin;
   }
 
-  public UserUpdate statusEnum(StatusEnumEnum statusEnum) {
-    this.statusEnum = statusEnum;
-    return this;
-  }
-
-   /**
-   * Get statusEnum
-   * @return statusEnum
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public StatusEnumEnum getStatusEnum() {
-    return statusEnum;
-  }
-
-  public void setStatusEnum(StatusEnumEnum statusEnum) {
-    this.statusEnum = statusEnum;
-  }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class UserUpdate {\n");
+    sb.append("class UserVO {\n");
     
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    login: ").append(toIndentedString(login)).append("\n");
+    sb.append("    passwordHash: ").append(toIndentedString(passwordHash)).append("\n");
+    sb.append("    passwordSalt: ").append(toIndentedString(passwordSalt)).append("\n");
+    sb.append("    loginAttempts: ").append(toIndentedString(loginAttempts)).append("\n");
     sb.append("    role: ").append(toIndentedString(role)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
-    sb.append("    oldPassword: ").append(toIndentedString(oldPassword)).append("\n");
+    sb.append("    lastLogin: ").append(toIndentedString(lastLogin)).append("\n");
     sb.append("    googleLogin: ").append(toIndentedString(googleLogin)).append("\n");
     sb.append("    facebookLogin: ").append(toIndentedString(facebookLogin)).append("\n");
     sb.append("    githubLogin: ").append(toIndentedString(githubLogin)).append("\n");
     sb.append("    data: ").append(toIndentedString(data)).append("\n");
-    sb.append("    roleEnum: ").append(toIndentedString(roleEnum)).append("\n");
-    sb.append("    statusEnum: ").append(toIndentedString(statusEnum)).append("\n");
+    sb.append("    admin: ").append(toIndentedString(admin)).append("\n");
     sb.append("}");
     return sb.toString();
   }

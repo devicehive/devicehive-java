@@ -1,20 +1,12 @@
 package com.devicehive.client.api;
 
-
-import com.devicehive.client.model.Network;
-import com.devicehive.client.model.User;
+import com.devicehive.client.model.NetworkVO;
 import com.devicehive.client.model.UserUpdate;
+import com.devicehive.client.model.UserVO;
+import retrofit2.Call;
+import retrofit2.http.*;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.DELETE;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.PUT;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface UserApi {
   /**
@@ -22,9 +14,9 @@ public interface UserApi {
    * Associates network with the user.
    * @param id User identifier. (required)
    * @param networkId Network identifier. (required)
-   * @return Call<Void>
+   * @return Call&lt;Void&gt;
    */
-  
+
   @PUT("user/{id}/network/{networkId}")
   Call<Void> assignNetwork(
           @Path("id") Long id, @Path("networkId") Long networkId
@@ -34,9 +26,9 @@ public interface UserApi {
    * Delete user
    * Deletes an existing user.
    * @param id User identifier. (required)
-   * @return Call<Void>
+   * @return Call&lt;Void&gt;
    */
-  
+
   @DELETE("user/{id}")
   Call<Void> deleteUser(
           @Path("id") Long id
@@ -45,35 +37,35 @@ public interface UserApi {
   /**
    * Get current user
    * Get information about the current user.
-   * @return Call<User>
+   * @return Call&lt;UserVO&gt;
    */
-  
+
   @GET("user/current")
-  Call<User> getCurrent();
-    
+  Call<UserVO> getCurrent();
+
 
   /**
    * Get user&#39;s network
    * Gets information about user/network association.
    * @param id User identifier. (required)
    * @param networkId Network identifier. (required)
-   * @return Call<Network>
+   * @return Call&lt;NetworkVO&gt;
    */
-  
+
   @GET("user/{id}/network/{networkId}")
-  Call<Network> getNetwork(
+  Call<NetworkVO> getNetwork(
           @Path("id") Long id, @Path("networkId") Long networkId
   );
 
   /**
    * Get user
-   * Gets information about user and its assigned networks.\nOnly administrators are allowed to get information about any user. User-level accounts can only retrieve information about themselves.
+   * Gets information about user and its assigned networks. Only administrators are allowed to get information about any user. User-level accounts can only retrieve information about themselves.
    * @param id User identifier. (required)
-   * @return Call<User>
+   * @return Call&lt;UserVO&gt;
    */
-  
+
   @GET("user/{id}")
-  Call<User> getUser(
+  Call<UserVO> getUser(
           @Path("id") Long id
   );
 
@@ -81,11 +73,11 @@ public interface UserApi {
    * Create user
    * Creates new user.
    * @param body User body (required)
-   * @return Call<User>
+   * @return Call&lt;UserVO&gt;
    */
-  
+
   @POST("user")
-  Call<User> insertUser(
+  Call<UserVO> insertUser(
           @Body UserUpdate body
   );
 
@@ -100,11 +92,11 @@ public interface UserApi {
    * @param sortOrder Result list sort order. Available values are ASC and DESC. (optional)
    * @param take Number of records to take from the result list. (optional, default to 20)
    * @param skip Number of records to skip from the result list. (optional, default to 0)
-   * @return Call<List<User>>
+   * @return Call&lt;List<UserVO>&gt;
    */
-  
+
   @GET("user")
-  Call<List<User>> list(
+  Call<List<UserVO>> list(
           @Query("login") String login, @Query("loginPattern") String loginPattern, @Query("role") Integer role, @Query("status") Integer status, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip
   );
 
@@ -113,9 +105,9 @@ public interface UserApi {
    * Removes association between network and user.
    * @param id User identifier. (required)
    * @param networkId Network identifier. (required)
-   * @return Call<Void>
+   * @return Call&lt;Void&gt;
    */
-  
+
   @DELETE("user/{id}/network/{networkId}")
   Call<Void> unassignNetwork(
           @Path("id") Long id, @Path("networkId") Long networkId
@@ -123,11 +115,11 @@ public interface UserApi {
 
   /**
    * Update current user
-   * Updates an existing user. \nOnly administrators are allowed to update any property of any user. User-level accounts can only change their own password in case:\n1. They already have a password.\n2. They provide a valid current password in the &#39;oldPassword&#39; property.
+   * Updates an existing user.  Only administrators are allowed to update any property of any user. User-level accounts can only change their own password in case: 1. They already have a password. 2. They provide a valid current password in the &#39;oldPassword&#39; property.
    * @param body User body (required)
-   * @return Call<Void>
+   * @return Call&lt;Void&gt;
    */
-  
+
   @PUT("user/current")
   Call<Void> updateCurrentUser(
           @Body UserUpdate body
@@ -135,12 +127,12 @@ public interface UserApi {
 
   /**
    * Update user
-   * 
+   *
    * @param body User body (required)
    * @param id User identifier. (required)
-   * @return Call<Void>
+   * @return Call&lt;Void&gt;
    */
-  
+
   @PUT("user/{id}")
   Call<Void> updateUser(
           @Body UserUpdate body, @Path("id") Long id

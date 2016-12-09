@@ -19,9 +19,9 @@ public interface CommandsSubscriptor {
      * poll</a>
      * @see <a href="http://devicehive.com/restful/#Reference/DeviceCommand/pollMany">DeviceHive RESTful API: DeviceCommand:
      * pollMany</a>
-     * @see <a href="http://devicehive.com/restful/#WsReference/Device/commandsubscribe">DeviceHive WebSocket API: Device:
+     * @see <a href="http://devicehive.com/restful/#WsReference/Device/commandsubscribe">DeviceHive WebSocket API: DeviceVO:
      * command/subscribe</a>
-     * @see <a href="http://devicehive.com/restful/#WsReference/Device/commandupdate">DeviceHive WebSocket API: Device:
+     * @see <a href="http://devicehive.com/restful/#WsReference/Device/commandupdate">DeviceHive WebSocket API: DeviceVO:
      * command/update</a>
      */
     String subscribeForCommands(SubscriptionFilter filter, HiveMessageHandler<DeviceCommand> commandMessageHandler)
@@ -32,7 +32,7 @@ public interface CommandsSubscriptor {
      *
      * @param subscriptionId a subscription identifier
      * @throws HiveException if an error occurs during the request execution
-     * @see <a href="http://devicehive.com/restful/#WsReference/Device/commandunsubscribe">DeviceHive WebSocket API: Device:
+     * @see <a href="http://devicehive.com/restful/#WsReference/Device/commandunsubscribe">DeviceHive WebSocket API: DeviceVo:
      * command/unsubscribe</a>
      */
     void unsubscribeFromCommands(String subscriptionId) throws HiveException;

@@ -30,10 +30,13 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 /**
- * DeviceUpdate
+ * DeviceVO
  */
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-12-09T14:31:42.381+02:00")
-public class DeviceUpdate {
+public class DeviceVO {
+    @SerializedName("id")
+    private String id = null;
+
     @SerializedName("guid")
     private String guid = null;
 
@@ -50,12 +53,30 @@ public class DeviceUpdate {
     private NetworkVO network = null;
 
     @SerializedName("deviceClass")
-    private DeviceClassUpdate deviceClass = null;
+    private DeviceClassVO deviceClass = null;
 
-    @SerializedName("blocked")
-    private Boolean blocked = false;
+    @SerializedName("isBlocked")
+    private Boolean isBlocked = false;
 
-    public DeviceUpdate guid(String guid) {
+    public DeviceVO id(String id) {
+        this.id = id;
+        return this;
+    }
+
+    /**
+     * Get id
+     * @return id
+     **/
+    @ApiModelProperty(example = "null", value = "")
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public DeviceVO guid(String guid) {
         this.guid = guid;
         return this;
     }
@@ -73,7 +94,7 @@ public class DeviceUpdate {
         this.guid = guid;
     }
 
-    public DeviceUpdate name(String name) {
+    public DeviceVO name(String name) {
         this.name = name;
         return this;
     }
@@ -91,7 +112,7 @@ public class DeviceUpdate {
         this.name = name;
     }
 
-    public DeviceUpdate status(String status) {
+    public DeviceVO status(String status) {
         this.status = status;
         return this;
     }
@@ -109,7 +130,7 @@ public class DeviceUpdate {
         this.status = status;
     }
 
-    public DeviceUpdate data(JsonStringWrapper data) {
+    public DeviceVO data(JsonStringWrapper data) {
         this.data = data;
         return this;
     }
@@ -127,7 +148,7 @@ public class DeviceUpdate {
         this.data = data;
     }
 
-    public DeviceUpdate network(NetworkVO network) {
+    public DeviceVO network(NetworkVO network) {
         this.network = network;
         return this;
     }
@@ -145,7 +166,7 @@ public class DeviceUpdate {
         this.network = network;
     }
 
-    public DeviceUpdate deviceClass(DeviceClassUpdate deviceClass) {
+    public DeviceVO deviceClass(DeviceClassVO deviceClass) {
         this.deviceClass = deviceClass;
         return this;
     }
@@ -155,45 +176,46 @@ public class DeviceUpdate {
      * @return deviceClass
      **/
     @ApiModelProperty(example = "null", value = "")
-    public DeviceClassUpdate getDeviceClass() {
+    public DeviceClassVO getDeviceClass() {
         return deviceClass;
     }
 
-    public void setDeviceClass(DeviceClassUpdate deviceClass) {
+    public void setDeviceClass(DeviceClassVO deviceClass) {
         this.deviceClass = deviceClass;
     }
 
-    public DeviceUpdate blocked(Boolean blocked) {
-        this.blocked = blocked;
+    public DeviceVO isBlocked(Boolean isBlocked) {
+        this.isBlocked = isBlocked;
         return this;
     }
 
     /**
-     * Get blocked
-     * @return blocked
+     * Get isBlocked
+     * @return isBlocked
      **/
     @ApiModelProperty(example = "null", value = "")
-    public Boolean getBlocked() {
-        return blocked;
+    public Boolean getIsBlocked() {
+        return isBlocked;
     }
 
-    public void setBlocked(Boolean blocked) {
-        this.blocked = blocked;
+    public void setIsBlocked(Boolean isBlocked) {
+        this.isBlocked = isBlocked;
     }
 
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("class DeviceUpdate {\n");
+        sb.append("class DeviceVO {\n");
 
+        sb.append("    id: ").append(toIndentedString(id)).append("\n");
         sb.append("    guid: ").append(toIndentedString(guid)).append("\n");
         sb.append("    name: ").append(toIndentedString(name)).append("\n");
         sb.append("    status: ").append(toIndentedString(status)).append("\n");
         sb.append("    data: ").append(toIndentedString(data)).append("\n");
         sb.append("    network: ").append(toIndentedString(network)).append("\n");
         sb.append("    deviceClass: ").append(toIndentedString(deviceClass)).append("\n");
-        sb.append("    blocked: ").append(toIndentedString(blocked)).append("\n");
+        sb.append("    isBlocked: ").append(toIndentedString(isBlocked)).append("\n");
         sb.append("}");
         return sb.toString();
     }
