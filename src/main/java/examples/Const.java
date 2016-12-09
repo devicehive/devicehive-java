@@ -10,9 +10,9 @@ public class Const {
 
 
     //    public static final String URL = "http://192.168.168.183/dh/rest";
-    public static final String URL = "http://playground.devicehive.com/api/rest/";
+    public static final String URL = "http://localhost/api/rest/";
     //Auth
-    public static final String API_KEY = "iD8Ktg1wCnAFpbdEmXvkYjN8e0Ku1sTuEnsOaGDDhxI=";
+    public static final String API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6IDEsICJhY3Rpb25zIjogWyIqIl0sICJuZXR3b3JrSWRzIjogWyIqIl0sICJkZXZpY2VHdWlkcyI6IFsiKiJdLCAiZXhwaXJhdGlvbiI6IDE0OTM4MTk1NjI5NjMsICJ0b2tlblR5cGUiOiAiQUNDRVNTIn19.JRbvZrImGADruDEWRbgHbUt1BAgYmekdiNgTo-YJwBo";
     public static final String LOGIN = "***REMOVED***";
     public static final String PASSWORD = "***REMOVED***";
 

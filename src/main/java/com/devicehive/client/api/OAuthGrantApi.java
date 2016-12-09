@@ -1,14 +1,11 @@
 package com.devicehive.client.api;
 
 
-import com.devicehive.client.model.OAuthGrant;
 import com.devicehive.client.model.OAuthGrantUpdate;
-
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -40,18 +37,6 @@ public interface OAuthGrantApi {
           @Path("userId") String userId, @Path("id") Long id
   );
 
-  /**
-   * Create oAuth grant
-   * 
-   * @param userId User Id (required)
-   * @param body Grant body (required)
-   * @return Call<Void>
-   */
-  
-  @POST("user/{userId}/oauth/grant")
-  Call<Void> insert(
-          @Path("userId") String userId, @Body OAuthGrant body
-  );
 
   /**
    * List oAuth grants

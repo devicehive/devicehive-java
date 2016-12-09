@@ -1,15 +1,12 @@
 package com.devicehive.client.api;
 
 
-import com.devicehive.client.model.OAuthClient;
 import com.devicehive.client.model.OAuthClientUpdate;
 import com.devicehive.client.model.User;
-
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -37,18 +34,6 @@ public interface OAuthClientApi {
   @GET("oauth/client/{id}")
   Call<Void> get(
           @Path("id") Long id
-  );
-
-  /**
-   * Create oAuth client
-   * 
-   * @param body oAuth client body (optional)
-   * @return Call<Void>
-   */
-  
-  @POST("oauth/client")
-  Call<Void> insert(
-          @Body OAuthClient body
   );
 
   /**
