@@ -100,23 +100,6 @@ public class HiveClientRestImpl implements HiveClient, HiveMessage {
     }
 
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public OAuthClientApi getOAuthClientAPI() {
-        return restClient.createService(OAuthClientApi.class);
-    }
-
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public OAuthGrantApi getOAuthGrantAPI() {
-        return restClient.createService(OAuthGrantApi.class);
-    }
-
 
     /**
      * {@inheritDoc}
