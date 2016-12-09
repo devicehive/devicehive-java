@@ -1,12 +1,12 @@
 package com.devicehive.client.websocket.context;
 
 import com.devicehive.client.ApiClient;
-import com.devicehive.client.api.ApiInfoApi;
+import com.devicehive.client.api.ApiInfoVOApi;
 import com.devicehive.client.json.GsonFactory;
 import com.devicehive.client.json.adapters.DateTimeTypeAdapter;
 import com.devicehive.client.json.strategies.JsonPolicyApply;
 import com.devicehive.client.json.strategies.JsonPolicyDef;
-import com.devicehive.client.model.ApiInfo;
+import com.devicehive.client.model.ApiInfoVO;
 import com.devicehive.client.model.DeviceCommand;
 import com.devicehive.client.model.DeviceNotification;
 import com.devicehive.client.model.HiveMessageHandler;
@@ -30,16 +30,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSyntaxException;
-
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.lang3.tuple.Pair;
-import org.glassfish.jersey.client.JerseyClientBuilder;
-import org.glassfish.jersey.internal.Errors;
-import org.glassfish.tyrus.client.ClientManager;
-import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
@@ -62,7 +52,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-
 import javax.websocket.ClientEndpointConfig.Builder;
 import javax.websocket.ClientEndpointConfig.Configurator;
 import javax.websocket.CloseReason;
@@ -81,6 +70,14 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.tuple.Pair;
+import org.glassfish.jersey.client.JerseyClientBuilder;
+import org.glassfish.jersey.internal.Errors;
+import org.glassfish.tyrus.client.ClientManager;
+import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static com.devicehive.client.websocket.impl.JsonEncoder.ACTION_MEMBER;
 import static com.devicehive.client.websocket.impl.JsonEncoder.COMMAND_INSERT;
@@ -281,7 +278,7 @@ public class WebSocketClient {
     /**
      * {@inheritDoc}
      */
-    public ApiInfo getInfo() throws HiveException {
+    public ApiInfoVO getInfo() throws HiveException {
 //        final String requestId = UUID.randomUUID().toString();
 //
 //        final JsonObject request = new JsonObject();
@@ -294,7 +291,7 @@ public class WebSocketClient {
 //        apiInfo = apiClient.getInfo();
 //        apiInfo.setRestServerUrl(restUrl);
 
-        ApiInfoApi infoApi = apiClient.createService(ApiInfoApi.class);
+        ApiInfoVOApi infoApi = apiClient.createService(ApiInfoVOApi.class);
         try {
             return infoApi.getApiInfo().execute().body();
         } catch (IOException e) {

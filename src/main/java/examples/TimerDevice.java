@@ -1,25 +1,19 @@
 package examples;
 
 import com.devicehive.client.ApiClient;
-import com.devicehive.client.api.ApiInfoApi;
-import com.devicehive.client.api.DeviceApi;
-import com.devicehive.client.api.DeviceCommandApi;
-import com.devicehive.client.api.DeviceNotificationApi;
-import com.devicehive.client.api.NetworkApi;
-import com.devicehive.client.model.ApiInfo;
-import com.devicehive.client.model.DeviceClassUpdate;
-import com.devicehive.client.model.DeviceCommand;
-import com.devicehive.client.model.DeviceNotificationWrapper;
-import com.devicehive.client.model.DeviceUpdate;
-import com.devicehive.client.model.JsonStringWrapper;
-import com.devicehive.client.model.Network;
+import com.devicehive.client.api.*;
+import com.devicehive.client.model.*;
+import org.joda.time.DateTime;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import org.joda.time.DateTime;
 
 class TimerDevice {
 
@@ -31,7 +25,7 @@ class TimerDevice {
   private ScheduledExecutorService ses;
   private DeviceNotificationApi notificationApiImpl;
   private DeviceApi deviceApiImpl;
-  private ApiInfoApi infoApiImpl;
+  private ApiInfoVOApi infoApiImpl;
   private DeviceCommandApi commandApiImpl;
   private NetworkApi networkApiImpl;
 
@@ -46,7 +40,7 @@ class TimerDevice {
   private void inflateApi() {
     notificationApiImpl = restClient.createService(DeviceNotificationApi.class);
     commandApiImpl = restClient.createService(DeviceCommandApi.class);
-    infoApiImpl = restClient.createService(ApiInfoApi.class);
+    infoApiImpl = restClient.createService(ApiInfoVOApi.class);
     deviceApiImpl = restClient.createService(DeviceApi.class);
     networkApiImpl = restClient.createService(NetworkApi.class);
   }
@@ -55,7 +49,7 @@ class TimerDevice {
 
     registerDevice();
 
-    ApiInfo apiInfo = infoApiImpl.getApiInfo().execute().body();
+    ApiInfoVO apiInfo = infoApiImpl.getApiInfo().execute().body();
 
     timestamp = apiInfo.getServerTimestamp();
     //Send current timestamp notification
@@ -75,6 +69,18 @@ class TimerDevice {
       @Override public void run() {
         List<DeviceCommand> commands = null;
         try {
+          commandApiImpl.poll(Const.DEVICE_ID, "ON", timestamp.toString(), 30L)
+                  .enqueue(new Callback<List<DeviceCommand>>() {
+                    @Override
+                    public void onResponse(Call<List<DeviceCommand>> call, Response<List<DeviceCommand>> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<DeviceCommand>> call, Throwable throwable) {
+                      System.out.println(throwable.getMessage());
+                    }
+                  });
           commands = commandApiImpl.poll(Const.DEVICE_ID, "ON", timestamp.toString(), 30L)
               .execute()
               .body();
@@ -86,8 +92,8 @@ class TimerDevice {
           Collections.sort(commands);
           DeviceCommand command = commands.get(commands.size() - 1);
           updateTimestamp(command.getTimestamp());
-          String deviceParams = command.getParameters();
-          alarmTime = DateTime.parse(deviceParams).withMillisOfSecond(0);
+          JsonStringWrapper deviceParams = command.getParameters();
+          alarmTime = DateTime.parse(deviceParams.getJsonString()).withMillisOfSecond(0);
         }
       }
     }, 0, 1, TimeUnit.SECONDS);
@@ -113,7 +119,7 @@ class TimerDevice {
   private void registerDevice() {
     DeviceUpdate device = createDevice();
     try {
-      List<Network> networks = networkApiImpl.list(null, null, null, null, null, null).
+      List<NetworkVO> networks = networkApiImpl.list(null, null, null, null, null, null).
           execute().body();
       if (networks != null && !networks.isEmpty()) {
         device.setNetwork(networks.get(0));
