@@ -10,9 +10,9 @@ public class Const {
 
 
     //    public static final String URL = "http://192.168.168.183/dh/rest";
-    public static final String URL = "http://localhost/api/rest/";
+    public static final String URL = "http://playground.dev.devicehive.com/api/rest/";
     //Auth
-    public static final String API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6IDEsICJhY3Rpb25zIjogWyIqIl0sICJuZXR3b3JrSWRzIjogWyIqIl0sICJkZXZpY2VHdWlkcyI6IFsiKiJdLCAiZXhwaXJhdGlvbiI6IDE0OTM4MTk1NjI5NjMsICJ0b2tlblR5cGUiOiAiQUNDRVNTIn19.JRbvZrImGADruDEWRbgHbUt1BAgYmekdiNgTo-YJwBo";
+    public static final String API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTAwNjI4MzgxNjQ5LCJ0b2tlblR5cGUiOiJBQ0NFU1MifX0.tz4-QETIQTQbIE3k4-ZrR7SukboMwPNZfNJaVG3705M";
     public static final String LOGIN = "dhadmin";
     public static final String PASSWORD = "dhadmin_#911";
 

@@ -19,29 +19,29 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 
 /**
- * JsonStringWrapper
+ * JwtAccessTokenVO
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
-public class JsonStringWrapper {
-  @SerializedName("jsonString")
-  private String jsonString = null;
+public class JwtAccessTokenVO {
+  @SerializedName("accessToken")
+  private String accessToken = null;
 
-  public JsonStringWrapper jsonString(String jsonString) {
-    this.jsonString = jsonString;
+  public JwtAccessTokenVO accessToken(String accessToken) {
+    this.accessToken = accessToken;
     return this;
   }
 
    /**
-   * Get jsonString
-   * @return jsonString
+   * Get accessToken
+   * @return accessToken
   **/
   @ApiModelProperty(value = "")
-  public String getJsonString() {
-    return jsonString;
+  public String getAccessToken() {
+    return accessToken;
   }
 
-  public void setJsonString(String jsonString) {
-    this.jsonString = jsonString;
+  public void setAccessToken(String accessToken) {
+    this.accessToken = accessToken;
   }
 
 
@@ -53,22 +53,22 @@ public class JsonStringWrapper {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    JsonStringWrapper jsonStringWrapper = (JsonStringWrapper) o;
-    return Objects.equals(this.jsonString, jsonStringWrapper.jsonString);
+    JwtAccessTokenVO jwtAccessTokenVO = (JwtAccessTokenVO) o;
+    return Objects.equals(this.accessToken, jwtAccessTokenVO.accessToken);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(jsonString);
+    return Objects.hash(accessToken);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class JsonStringWrapper {\n");
+    sb.append("class JwtAccessTokenVO {\n");
 
-    sb.append("    jsonString: ").append(toIndentedString(jsonString)).append("\n");
+    sb.append("    accessToken: ").append(toIndentedString(accessToken)).append("\n");
     sb.append("}");
     return sb.toString();
   }

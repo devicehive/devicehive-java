@@ -19,38 +19,20 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 
 /**
- * NetworkVO
+ * ConfigurationVO
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
-public class NetworkVO {
-  @SerializedName("id")
-  private Long id = null;
-
+public class ConfigurationVO {
   @SerializedName("name")
   private String name = null;
 
-  @SerializedName("description")
-  private String description = null;
+  @SerializedName("value")
+  private String value = null;
 
-  public NetworkVO id(Long id) {
-    this.id = id;
-    return this;
-  }
+  @SerializedName("entityVersion")
+  private Long entityVersion = null;
 
-   /**
-   * Get id
-   * @return id
-  **/
-  @ApiModelProperty(value = "")
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public NetworkVO name(String name) {
+  public ConfigurationVO name(String name) {
     this.name = name;
     return this;
   }
@@ -59,7 +41,7 @@ public class NetworkVO {
    * Get name
    * @return name
   **/
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(value = "")
   public String getName() {
     return name;
   }
@@ -68,22 +50,40 @@ public class NetworkVO {
     this.name = name;
   }
 
-  public NetworkVO description(String description) {
-    this.description = description;
+  public ConfigurationVO value(String value) {
+    this.value = value;
     return this;
   }
 
    /**
-   * Get description
-   * @return description
+   * Get value
+   * @return value
   **/
-  @ApiModelProperty(value = "")
-  public String getDescription() {
-    return description;
+  @ApiModelProperty(required = true, value = "")
+  public String getValue() {
+    return value;
   }
 
-  public void setDescription(String description) {
-    this.description = description;
+  public void setValue(String value) {
+    this.value = value;
+  }
+
+  public ConfigurationVO entityVersion(Long entityVersion) {
+    this.entityVersion = entityVersion;
+    return this;
+  }
+
+   /**
+   * Get entityVersion
+   * @return entityVersion
+  **/
+  @ApiModelProperty(value = "")
+  public Long getEntityVersion() {
+    return entityVersion;
+  }
+
+  public void setEntityVersion(Long entityVersion) {
+    this.entityVersion = entityVersion;
   }
 
 
@@ -95,26 +95,26 @@ public class NetworkVO {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    NetworkVO networkVO = (NetworkVO) o;
-    return Objects.equals(this.id, networkVO.id) &&
-        Objects.equals(this.name, networkVO.name) &&
-        Objects.equals(this.description, networkVO.description);
+    ConfigurationVO configurationVO = (ConfigurationVO) o;
+    return Objects.equals(this.name, configurationVO.name) &&
+        Objects.equals(this.value, configurationVO.value) &&
+        Objects.equals(this.entityVersion, configurationVO.entityVersion);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description);
+    return Objects.hash(name, value, entityVersion);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class NetworkVO {\n");
+    sb.append("class ConfigurationVO {\n");
 
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    value: ").append(toIndentedString(value)).append("\n");
+    sb.append("    entityVersion: ").append(toIndentedString(entityVersion)).append("\n");
     sb.append("}");
     return sb.toString();
   }

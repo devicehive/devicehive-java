@@ -19,50 +19,50 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 
 /**
- * ClusterConfigVO
+ * JwtRequestVO
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
-public class ClusterConfigVO {
-  @SerializedName("bootstrap.servers")
-  private String bootstrapServers = null;
+public class JwtRequestVO {
+  @SerializedName("login")
+  private String login = null;
 
-  @SerializedName("zookeeper.connect")
-  private String zookeeperConnect = null;
+  @SerializedName("password")
+  private String password = null;
 
-  public ClusterConfigVO bootstrapServers(String bootstrapServers) {
-    this.bootstrapServers = bootstrapServers;
+  public JwtRequestVO login(String login) {
+    this.login = login;
     return this;
   }
 
    /**
-   * Get bootstrapServers
-   * @return bootstrapServers
+   * Get login
+   * @return login
   **/
   @ApiModelProperty(value = "")
-  public String getBootstrapServers() {
-    return bootstrapServers;
+  public String getLogin() {
+    return login;
   }
 
-  public void setBootstrapServers(String bootstrapServers) {
-    this.bootstrapServers = bootstrapServers;
+  public void setLogin(String login) {
+    this.login = login;
   }
 
-  public ClusterConfigVO zookeeperConnect(String zookeeperConnect) {
-    this.zookeeperConnect = zookeeperConnect;
+  public JwtRequestVO password(String password) {
+    this.password = password;
     return this;
   }
 
    /**
-   * Get zookeeperConnect
-   * @return zookeeperConnect
+   * Get password
+   * @return password
   **/
   @ApiModelProperty(value = "")
-  public String getZookeeperConnect() {
-    return zookeeperConnect;
+  public String getPassword() {
+    return password;
   }
 
-  public void setZookeeperConnect(String zookeeperConnect) {
-    this.zookeeperConnect = zookeeperConnect;
+  public void setPassword(String password) {
+    this.password = password;
   }
 
 
@@ -74,24 +74,24 @@ public class ClusterConfigVO {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ClusterConfigVO clusterConfigVO = (ClusterConfigVO) o;
-    return Objects.equals(this.bootstrapServers, clusterConfigVO.bootstrapServers) &&
-        Objects.equals(this.zookeeperConnect, clusterConfigVO.zookeeperConnect);
+    JwtRequestVO jwtRequestVO = (JwtRequestVO) o;
+    return Objects.equals(this.login, jwtRequestVO.login) &&
+        Objects.equals(this.password, jwtRequestVO.password);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(bootstrapServers, zookeeperConnect);
+    return Objects.hash(login, password);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ClusterConfigVO {\n");
+    sb.append("class JwtRequestVO {\n");
 
-    sb.append("    bootstrapServers: ").append(toIndentedString(bootstrapServers)).append("\n");
-    sb.append("    zookeeperConnect: ").append(toIndentedString(zookeeperConnect)).append("\n");
+    sb.append("    login: ").append(toIndentedString(login)).append("\n");
+    sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("}");
     return sb.toString();
   }

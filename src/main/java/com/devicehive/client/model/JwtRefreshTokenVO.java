@@ -19,29 +19,29 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 
 /**
- * JsonStringWrapper
+ * JwtRefreshTokenVO
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
-public class JsonStringWrapper {
-  @SerializedName("jsonString")
-  private String jsonString = null;
+public class JwtRefreshTokenVO {
+  @SerializedName("refreshToken")
+  private String refreshToken = null;
 
-  public JsonStringWrapper jsonString(String jsonString) {
-    this.jsonString = jsonString;
+  public JwtRefreshTokenVO refreshToken(String refreshToken) {
+    this.refreshToken = refreshToken;
     return this;
   }
 
    /**
-   * Get jsonString
-   * @return jsonString
+   * Get refreshToken
+   * @return refreshToken
   **/
   @ApiModelProperty(value = "")
-  public String getJsonString() {
-    return jsonString;
+  public String getRefreshToken() {
+    return refreshToken;
   }
 
-  public void setJsonString(String jsonString) {
-    this.jsonString = jsonString;
+  public void setRefreshToken(String refreshToken) {
+    this.refreshToken = refreshToken;
   }
 
 
@@ -53,22 +53,22 @@ public class JsonStringWrapper {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    JsonStringWrapper jsonStringWrapper = (JsonStringWrapper) o;
-    return Objects.equals(this.jsonString, jsonStringWrapper.jsonString);
+    JwtRefreshTokenVO jwtRefreshTokenVO = (JwtRefreshTokenVO) o;
+    return Objects.equals(this.refreshToken, jwtRefreshTokenVO.refreshToken);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(jsonString);
+    return Objects.hash(refreshToken);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class JsonStringWrapper {\n");
+    sb.append("class JwtRefreshTokenVO {\n");
 
-    sb.append("    jsonString: ").append(toIndentedString(jsonString)).append("\n");
+    sb.append("    refreshToken: ").append(toIndentedString(refreshToken)).append("\n");
     sb.append("}");
     return sb.toString();
   }

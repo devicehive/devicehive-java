@@ -22,13 +22,15 @@ import io.swagger.annotations.ApiModelProperty;
 import org.joda.time.DateTime;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
- * UserVO
+ * UserResponse
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
-public class UserVO {
+public class UserResponse {
   @SerializedName("id")
   private Long id = null;
 
@@ -137,16 +139,16 @@ public class UserVO {
   @SerializedName("status")
   private StatusEnum status = null;
 
+  @SerializedName("networks")
+  private List<UserNetworkResponse> networks = null;
+
   @SerializedName("lastLogin")
   private DateTime lastLogin = null;
-
-  @SerializedName("data")
-  private JsonStringWrapper data = null;
 
   @SerializedName("introReviewed")
   private Boolean introReviewed = false;
 
-  public UserVO id(Long id) {
+  public UserResponse id(Long id) {
     this.id = id;
     return this;
   }
@@ -164,7 +166,7 @@ public class UserVO {
     this.id = id;
   }
 
-  public UserVO login(String login) {
+  public UserResponse login(String login) {
     this.login = login;
     return this;
   }
@@ -173,7 +175,7 @@ public class UserVO {
    * Get login
    * @return login
   **/
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(value = "")
   public String getLogin() {
     return login;
   }
@@ -182,7 +184,7 @@ public class UserVO {
     this.login = login;
   }
 
-  public UserVO role(RoleEnum role) {
+  public UserResponse role(RoleEnum role) {
     this.role = role;
     return this;
   }
@@ -200,7 +202,7 @@ public class UserVO {
     this.role = role;
   }
 
-  public UserVO status(StatusEnum status) {
+  public UserResponse status(StatusEnum status) {
     this.status = status;
     return this;
   }
@@ -218,7 +220,33 @@ public class UserVO {
     this.status = status;
   }
 
-  public UserVO lastLogin(DateTime lastLogin) {
+  public UserResponse networks(List<UserNetworkResponse> networks) {
+    this.networks = networks;
+    return this;
+  }
+
+  public UserResponse addNetworksItem(UserNetworkResponse networksItem) {
+    if (this.networks == null) {
+      this.networks = new ArrayList<UserNetworkResponse>();
+    }
+    this.networks.add(networksItem);
+    return this;
+  }
+
+   /**
+   * Get networks
+   * @return networks
+  **/
+  @ApiModelProperty(value = "")
+  public List<UserNetworkResponse> getNetworks() {
+    return networks;
+  }
+
+  public void setNetworks(List<UserNetworkResponse> networks) {
+    this.networks = networks;
+  }
+
+  public UserResponse lastLogin(DateTime lastLogin) {
     this.lastLogin = lastLogin;
     return this;
   }
@@ -236,25 +264,7 @@ public class UserVO {
     this.lastLogin = lastLogin;
   }
 
-  public UserVO data(JsonStringWrapper data) {
-    this.data = data;
-    return this;
-  }
-
-   /**
-   * Get data
-   * @return data
-  **/
-  @ApiModelProperty(value = "")
-  public JsonStringWrapper getData() {
-    return data;
-  }
-
-  public void setData(JsonStringWrapper data) {
-    this.data = data;
-  }
-
-  public UserVO introReviewed(Boolean introReviewed) {
+  public UserResponse introReviewed(Boolean introReviewed) {
     this.introReviewed = introReviewed;
     return this;
   }
@@ -281,33 +291,33 @@ public class UserVO {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    UserVO userVO = (UserVO) o;
-    return Objects.equals(this.id, userVO.id) &&
-        Objects.equals(this.login, userVO.login) &&
-        Objects.equals(this.role, userVO.role) &&
-        Objects.equals(this.status, userVO.status) &&
-        Objects.equals(this.lastLogin, userVO.lastLogin) &&
-        Objects.equals(this.data, userVO.data) &&
-        Objects.equals(this.introReviewed, userVO.introReviewed);
+    UserResponse userResponse = (UserResponse) o;
+    return Objects.equals(this.id, userResponse.id) &&
+        Objects.equals(this.login, userResponse.login) &&
+        Objects.equals(this.role, userResponse.role) &&
+        Objects.equals(this.status, userResponse.status) &&
+        Objects.equals(this.networks, userResponse.networks) &&
+        Objects.equals(this.lastLogin, userResponse.lastLogin) &&
+        Objects.equals(this.introReviewed, userResponse.introReviewed);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, login, role, status, lastLogin, data, introReviewed);
+    return Objects.hash(id, login, role, status, networks, lastLogin, introReviewed);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class UserVO {\n");
+    sb.append("class UserResponse {\n");
 
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    login: ").append(toIndentedString(login)).append("\n");
     sb.append("    role: ").append(toIndentedString(role)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    networks: ").append(toIndentedString(networks)).append("\n");
     sb.append("    lastLogin: ").append(toIndentedString(lastLogin)).append("\n");
-    sb.append("    data: ").append(toIndentedString(data)).append("\n");
     sb.append("    introReviewed: ").append(toIndentedString(introReviewed)).append("\n");
     sb.append("}");
     return sb.toString();
