@@ -34,13 +34,6 @@ public interface HiveClient extends AutoCloseable {
     void authenticate(String key) throws HiveException;
 
     /**
-     * Return new instance of access key API
-     *
-     * @return access key API
-     */
-    AccessKeyApi getAccessKeyAPI();
-
-    /**
      * Return new instance of command API
      *
      * @return command API

@@ -14,219 +14,57 @@
 package com.devicehive.client.model;
 
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import org.joda.time.DateTime;
-
-import java.util.Objects;
 
 /**
  * DeviceNotification
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
-public class DeviceNotification implements HiveMessage, Comparable<DeviceNotification>{
-  @SerializedName("id")
-  private Long id = null;
+@Data
+public class DeviceNotification implements HiveMessage, Comparable<DeviceNotification> {
+    @SerializedName("id")
+    private Long id = null;
 
-  @SerializedName("notification")
-  private String notification = null;
+    @SerializedName("notification")
+    private String notification = null;
 
-  @SerializedName("deviceId")
-  private String deviceId = null;
+    @SerializedName("deviceId")
+    private String deviceId = null;
 
-  @SerializedName("timestamp")
-  private DateTime timestamp = null;
+    @SerializedName("timestamp")
+    private DateTime timestamp = null;
 
-  @SerializedName("parameters")
-  private JsonStringWrapper parameters = null;
+    @SerializedName("parameters")
+    private JsonStringWrapper parameters = null;
 
-  @SerializedName("factoryId")
-  private Integer factoryId = null;
+    @SerializedName("factoryId")
+    private Integer factoryId = null;
 
-  @SerializedName("classId")
-  private Integer classId = null;
+    @SerializedName("classId")
+    private Integer classId = null;
 
-  public DeviceNotification id(Long id) {
-    this.id = id;
-    return this;
-  }
-
-   /**
-   * Get id
-   * @return id
-  **/
-  @ApiModelProperty(value = "")
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public DeviceNotification notification(String notification) {
-    this.notification = notification;
-    return this;
-  }
-
-   /**
-   * Get notification
-   * @return notification
-  **/
-  @ApiModelProperty(value = "")
-  public String getNotification() {
-    return notification;
-  }
-
-  public void setNotification(String notification) {
-    this.notification = notification;
-  }
-
-  public DeviceNotification deviceId(String deviceId) {
-    this.deviceId = deviceId;
-    return this;
-  }
-
-   /**
-   * Get deviceId
-   * @return deviceId
-  **/
-  @ApiModelProperty(value = "")
-  public String getDeviceId() {
-    return deviceId;
-  }
-
-  public void setDeviceId(String deviceId) {
-    this.deviceId = deviceId;
-  }
-
-  public DeviceNotification timestamp(DateTime timestamp) {
-    this.timestamp = timestamp;
-    return this;
-  }
-
-   /**
-   * Get timestamp
-   * @return timestamp
-  **/
-  @ApiModelProperty(value = "")
-  public DateTime getTimestamp() {
-    return timestamp;
-  }
-
-  public void setTimestamp(DateTime timestamp) {
-    this.timestamp = timestamp;
-  }
-
-  public DeviceNotification parameters(JsonStringWrapper parameters) {
-    this.parameters = parameters;
-    return this;
-  }
-
-   /**
-   * Get parameters
-   * @return parameters
-  **/
-  @ApiModelProperty(value = "")
-  public JsonStringWrapper getParameters() {
-    return parameters;
-  }
-
-  public void setParameters(JsonStringWrapper parameters) {
-    this.parameters = parameters;
-  }
-
-  public DeviceNotification factoryId(Integer factoryId) {
-    this.factoryId = factoryId;
-    return this;
-  }
-
-   /**
-   * Get factoryId
-   * @return factoryId
-  **/
-  @ApiModelProperty(value = "")
-  public Integer getFactoryId() {
-    return factoryId;
-  }
-
-  public void setFactoryId(Integer factoryId) {
-    this.factoryId = factoryId;
-  }
-
-  public DeviceNotification classId(Integer classId) {
-    this.classId = classId;
-    return this;
-  }
-
-   /**
-   * Get classId
-   * @return classId
-  **/
-  @ApiModelProperty(value = "")
-  public Integer getClassId() {
-    return classId;
-  }
-
-  public void setClassId(Integer classId) {
-    this.classId = classId;
-  }
-
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
+    @Override
+    public String toString() {
+        return "{\n\"DeviceNotification\":{\n"
+                + "\"id\":\"" + id + "\""
+                + ",\n \"notification\":\"" + notification + "\""
+                + ",\n \"deviceId\":\"" + deviceId + "\""
+                + ",\n \"timestamp\":" + timestamp
+                + ",\n \"parameters\":" + parameters
+                + ",\n \"factoryId\":\"" + factoryId + "\""
+                + ",\n \"classId\":\"" + classId + "\""
+                + "}\n}";
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+
+    @Override
+    public int compareTo(DeviceNotification notification) {
+        return getTimestamp().compareTo(notification.getTimestamp());
     }
-    DeviceNotification deviceNotification = (DeviceNotification) o;
-    return Objects.equals(this.id, deviceNotification.id) &&
-        Objects.equals(this.notification, deviceNotification.notification) &&
-        Objects.equals(this.deviceId, deviceNotification.deviceId) &&
-        Objects.equals(this.timestamp, deviceNotification.timestamp) &&
-        Objects.equals(this.parameters, deviceNotification.parameters) &&
-        Objects.equals(this.factoryId, deviceNotification.factoryId) &&
-        Objects.equals(this.classId, deviceNotification.classId);
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, notification, deviceId, timestamp, parameters, factoryId, classId);
-  }
-
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class DeviceNotification {\n");
-
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    notification: ").append(toIndentedString(notification)).append("\n");
-    sb.append("    deviceId: ").append(toIndentedString(deviceId)).append("\n");
-    sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
-    sb.append("    parameters: ").append(toIndentedString(parameters)).append("\n");
-    sb.append("    factoryId: ").append(toIndentedString(factoryId)).append("\n");
-    sb.append("    classId: ").append(toIndentedString(classId)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
+    @Override
+    public DateTime getTimestamp() {
+        return timestamp;
     }
-    return o.toString().replace("\n", "\n    ");
-  }
-
-  @Override
-  public int compareTo(DeviceNotification notification) {
-    return getTimestamp().compareTo(notification.getTimestamp());
-  }
-  
 }
 

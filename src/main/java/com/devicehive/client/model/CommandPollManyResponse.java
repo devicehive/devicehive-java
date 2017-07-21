@@ -4,9 +4,13 @@ package com.devicehive.client.model;
 import com.devicehive.client.json.strategies.JsonPolicyDef;
 import com.devicehive.client.websocket.model.HiveEntity;
 import com.google.gson.annotations.SerializedName;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import static com.devicehive.client.json.strategies.JsonPolicyDef.Policy.COMMAND_TO_CLIENT;
 
+@Data
+@AllArgsConstructor
 public class CommandPollManyResponse implements HiveEntity {
 
     private static final long serialVersionUID = -4390548037685312874L;
@@ -18,33 +22,4 @@ public class CommandPollManyResponse implements HiveEntity {
     @JsonPolicyDef(COMMAND_TO_CLIENT)
     private String guid;
 
-    public CommandPollManyResponse(DeviceCommand command, String guid) {
-        this.command = command;
-        this.guid = guid;
-    }
-
-    public String getGuid() {
-        return guid;
-    }
-
-    public void setGuid(String guid) {
-        this.guid = guid;
-    }
-
-    public DeviceCommand getCommand() {
-        return command;
-    }
-
-    public void setCommand(DeviceCommand command) {
-        this.command = command;
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("CommandPollManyResponse{");
-        sb.append("command=").append(command);
-        sb.append(", guid='").append(guid).append('\'');
-        sb.append('}');
-        return sb.toString();
-    }
 }

@@ -14,356 +14,67 @@
 package com.devicehive.client.model;
 
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import org.joda.time.DateTime;
-
-import java.util.Objects;
 
 /**
  * DeviceCommand
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
+@Data
 public class DeviceCommand implements HiveMessage, Comparable<DeviceCommand> {
-  @SerializedName("id")
-  private Long id = null;
+    @SerializedName("id")
+    private Long id = null;
 
-  @SerializedName("command")
-  private String command = null;
+    @SerializedName("command")
+    private String command = null;
 
-  @SerializedName("timestamp")
-  private DateTime timestamp = null;
+    @SerializedName("timestamp")
+    private DateTime timestamp = null;
 
-  @SerializedName("userId")
-  private Long userId = null;
+    @SerializedName("userId")
+    private Long userId = null;
 
-  @SerializedName("deviceId")
-  private String deviceId = null;
+    @SerializedName("deviceId")
+    private String deviceId = null;
 
-  @SerializedName("parameters")
-  private JsonStringWrapper parameters = null;
+    @SerializedName("parameters")
+    private JsonStringWrapper parameters = null;
 
-  @SerializedName("lifetime")
-  private Integer lifetime = null;
+    @SerializedName("lifetime")
+    private Integer lifetime = null;
 
-  @SerializedName("status")
-  private String status = null;
+    @SerializedName("status")
+    private String status = null;
 
-  @SerializedName("result")
-  private JsonStringWrapper result = null;
+    @SerializedName("result")
+    private JsonStringWrapper result = null;
 
-  @SerializedName("isUpdated")
-  private Boolean isUpdated = false;
+    @SerializedName("isUpdated")
+    private Boolean isUpdated = false;
 
-  @SerializedName("hazelcastKey")
-  private String hazelcastKey = null;
+    @SerializedName("hazelcastKey")
+    private String hazelcastKey = null;
 
-  @SerializedName("factoryId")
-  private Integer factoryId = null;
+    @SerializedName("factoryId")
+    private Integer factoryId = null;
 
-  @SerializedName("classId")
-  private Integer classId = null;
+    @SerializedName("classId")
+    private Integer classId = null;
 
-  public DeviceCommand id(Long id) {
-    this.id = id;
-    return this;
-  }
-
-   /**
-   * Get id
-   * @return id
-  **/
-  @ApiModelProperty(value = "")
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public DeviceCommand command(String command) {
-    this.command = command;
-    return this;
-  }
-
-   /**
-   * Get command
-   * @return command
-  **/
-  @ApiModelProperty(value = "")
-  public String getCommand() {
-    return command;
-  }
-
-  public void setCommand(String command) {
-    this.command = command;
-  }
-
-  public DeviceCommand timestamp(DateTime timestamp) {
-    this.timestamp = timestamp;
-    return this;
-  }
-
-   /**
-   * Get timestamp
-   * @return timestamp
-  **/
-  @ApiModelProperty(value = "")
-  public DateTime getTimestamp() {
-    return timestamp;
-  }
-
-  public void setTimestamp(DateTime timestamp) {
-    this.timestamp = timestamp;
-  }
-
-  public DeviceCommand userId(Long userId) {
-    this.userId = userId;
-    return this;
-  }
-
-   /**
-   * Get userId
-   * @return userId
-  **/
-  @ApiModelProperty(value = "")
-  public Long getUserId() {
-    return userId;
-  }
-
-  public void setUserId(Long userId) {
-    this.userId = userId;
-  }
-
-  public DeviceCommand deviceId(String deviceId) {
-    this.deviceId = deviceId;
-    return this;
-  }
-
-   /**
-   * Get deviceId
-   * @return deviceId
-  **/
-  @ApiModelProperty(value = "")
-  public String getDeviceId() {
-    return deviceId;
-  }
-
-  public void setDeviceId(String deviceId) {
-    this.deviceId = deviceId;
-  }
-
-  public DeviceCommand parameters(JsonStringWrapper parameters) {
-    this.parameters = parameters;
-    return this;
-  }
-
-   /**
-   * Get parameters
-   * @return parameters
-  **/
-  @ApiModelProperty(value = "")
-  public JsonStringWrapper getParameters() {
-    return parameters;
-  }
-
-  public void setParameters(JsonStringWrapper parameters) {
-    this.parameters = parameters;
-  }
-
-  public DeviceCommand lifetime(Integer lifetime) {
-    this.lifetime = lifetime;
-    return this;
-  }
-
-   /**
-   * Get lifetime
-   * @return lifetime
-  **/
-  @ApiModelProperty(value = "")
-  public Integer getLifetime() {
-    return lifetime;
-  }
-
-  public void setLifetime(Integer lifetime) {
-    this.lifetime = lifetime;
-  }
-
-  public DeviceCommand status(String status) {
-    this.status = status;
-    return this;
-  }
-
-   /**
-   * Get status
-   * @return status
-  **/
-  @ApiModelProperty(value = "")
-  public String getStatus() {
-    return status;
-  }
-
-  public void setStatus(String status) {
-    this.status = status;
-  }
-
-  public DeviceCommand result(JsonStringWrapper result) {
-    this.result = result;
-    return this;
-  }
-
-   /**
-   * Get result
-   * @return result
-  **/
-  @ApiModelProperty(value = "")
-  public JsonStringWrapper getResult() {
-    return result;
-  }
-
-  public void setResult(JsonStringWrapper result) {
-    this.result = result;
-  }
-
-  public DeviceCommand isUpdated(Boolean isUpdated) {
-    this.isUpdated = isUpdated;
-    return this;
-  }
-
-   /**
-   * Get isUpdated
-   * @return isUpdated
-  **/
-  @ApiModelProperty(value = "")
-  public Boolean getIsUpdated() {
-    return isUpdated;
-  }
-
-  public void setIsUpdated(Boolean isUpdated) {
-    this.isUpdated = isUpdated;
-  }
-
-  public DeviceCommand hazelcastKey(String hazelcastKey) {
-    this.hazelcastKey = hazelcastKey;
-    return this;
-  }
-
-   /**
-   * Get hazelcastKey
-   * @return hazelcastKey
-  **/
-  @ApiModelProperty(value = "")
-  public String getHazelcastKey() {
-    return hazelcastKey;
-  }
-
-  public void setHazelcastKey(String hazelcastKey) {
-    this.hazelcastKey = hazelcastKey;
-  }
-
-  public DeviceCommand factoryId(Integer factoryId) {
-    this.factoryId = factoryId;
-    return this;
-  }
-
-   /**
-   * Get factoryId
-   * @return factoryId
-  **/
-  @ApiModelProperty(value = "")
-  public Integer getFactoryId() {
-    return factoryId;
-  }
-
-  public void setFactoryId(Integer factoryId) {
-    this.factoryId = factoryId;
-  }
-
-  public DeviceCommand classId(Integer classId) {
-    this.classId = classId;
-    return this;
-  }
-
-   /**
-   * Get classId
-   * @return classId
-  **/
-  @ApiModelProperty(value = "")
-  public Integer getClassId() {
-    return classId;
-  }
-
-  public void setClassId(Integer classId) {
-    this.classId = classId;
-  }
-
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
+    public DeviceCommand id(Long id) {
+        this.id = id;
+        return this;
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
+
+    @Override
+    public int compareTo(DeviceCommand deviceCommand) {
+        return getTimestamp().compareTo(deviceCommand.getTimestamp());
     }
-    DeviceCommand deviceCommand = (DeviceCommand) o;
-    return Objects.equals(this.id, deviceCommand.id) &&
-        Objects.equals(this.command, deviceCommand.command) &&
-        Objects.equals(this.timestamp, deviceCommand.timestamp) &&
-        Objects.equals(this.userId, deviceCommand.userId) &&
-        Objects.equals(this.deviceId, deviceCommand.deviceId) &&
-        Objects.equals(this.parameters, deviceCommand.parameters) &&
-        Objects.equals(this.lifetime, deviceCommand.lifetime) &&
-        Objects.equals(this.status, deviceCommand.status) &&
-        Objects.equals(this.result, deviceCommand.result) &&
-        Objects.equals(this.isUpdated, deviceCommand.isUpdated) &&
-        Objects.equals(this.hazelcastKey, deviceCommand.hazelcastKey) &&
-        Objects.equals(this.factoryId, deviceCommand.factoryId) &&
-        Objects.equals(this.classId, deviceCommand.classId);
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, command, timestamp, userId, deviceId, parameters, lifetime, status, result, isUpdated, hazelcastKey, factoryId, classId);
-  }
-
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class DeviceCommand {\n");
-
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    command: ").append(toIndentedString(command)).append("\n");
-    sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
-    sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
-    sb.append("    deviceId: ").append(toIndentedString(deviceId)).append("\n");
-    sb.append("    parameters: ").append(toIndentedString(parameters)).append("\n");
-    sb.append("    lifetime: ").append(toIndentedString(lifetime)).append("\n");
-    sb.append("    status: ").append(toIndentedString(status)).append("\n");
-    sb.append("    result: ").append(toIndentedString(result)).append("\n");
-    sb.append("    isUpdated: ").append(toIndentedString(isUpdated)).append("\n");
-    sb.append("    hazelcastKey: ").append(toIndentedString(hazelcastKey)).append("\n");
-    sb.append("    factoryId: ").append(toIndentedString(factoryId)).append("\n");
-    sb.append("    classId: ").append(toIndentedString(classId)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
+    @Override
+    public DateTime getTimestamp() {
+        return timestamp;
     }
-    return o.toString().replace("\n", "\n    ");
-  }
-
-  @Override
-  public int compareTo(DeviceCommand deviceCommand) {
-    return getTimestamp().compareTo(deviceCommand.getTimestamp());
-  }
 }
 

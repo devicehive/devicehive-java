@@ -14,12 +14,13 @@
 package com.devicehive.client.model;
 
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 /**
  * DeviceVO
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
+@Data
 public class DeviceVO {
   @SerializedName("id")
   private String id = null;
@@ -40,118 +41,5 @@ public class DeviceVO {
     this.id = id;
     return this;
   }
-
-   /**
-   * Get id
-   * @return id
-  **/
-  @ApiModelProperty(value = "")
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-
-  public DeviceVO name(String name) {
-    this.name = name;
-    return this;
-  }
-
-   /**
-   * Get name
-   * @return name
-  **/
-  @ApiModelProperty(required = true, value = "")
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public DeviceVO data(JsonStringWrapper data) {
-    this.data = data;
-    return this;
-  }
-
-   /**
-   * Get data
-   * @return data
-  **/
-  @ApiModelProperty(value = "")
-  public JsonStringWrapper getData() {
-    return data;
-  }
-
-  public void setData(JsonStringWrapper data) {
-    this.data = data;
-  }
-
-  public DeviceVO networkId(Long networkId) {
-    this.networkId = networkId;
-    return this;
-  }
-
-   /**
-   * Get networkId
-   * @return networkId
-  **/
-  @ApiModelProperty(value = "")
-  public Long getNetworkId() {
-    return networkId;
-  }
-
-  public void setNetworkId(Long networkId) {
-    this.networkId = networkId;
-  }
-
-  public DeviceVO isBlocked(Boolean isBlocked) {
-    this.isBlocked = isBlocked;
-    return this;
-  }
-
-   /**
-   * Get isBlocked
-   * @return isBlocked
-  **/
-  @ApiModelProperty(value = "")
-  public Boolean getIsBlocked() {
-    return isBlocked;
-  }
-
-  public void setIsBlocked(Boolean isBlocked) {
-    this.isBlocked = isBlocked;
-  }
-
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class DeviceVO {\n");
-
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    data: ").append(toIndentedString(data)).append("\n");
-    sb.append("    networkId: ").append(toIndentedString(networkId)).append("\n");
-    sb.append("    isBlocked: ").append(toIndentedString(isBlocked)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-  
 }
 

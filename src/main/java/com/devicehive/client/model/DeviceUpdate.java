@@ -14,14 +14,13 @@
 package com.devicehive.client.model;
 
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModelProperty;
-
-import java.util.Objects;
+import lombok.Data;
 
 /**
  * DeviceUpdate
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
+@Data
 public class DeviceUpdate {
   @SerializedName("id")
   private String id = null;
@@ -37,144 +36,5 @@ public class DeviceUpdate {
 
   @SerializedName("blocked")
   private Boolean blocked = false;
-
-  public DeviceUpdate id(String id) {
-    this.id = id;
-    return this;
-  }
-
-   /**
-   * Get id
-   * @return id
-  **/
-  @ApiModelProperty(value = "")
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public DeviceUpdate name(String name) {
-    this.name = name;
-    return this;
-  }
-
-   /**
-   * Get name
-   * @return name
-  **/
-  @ApiModelProperty(value = "")
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public DeviceUpdate data(JsonStringWrapper data) {
-    this.data = data;
-    return this;
-  }
-
-   /**
-   * Get data
-   * @return data
-  **/
-  @ApiModelProperty(value = "")
-  public JsonStringWrapper getData() {
-    return data;
-  }
-
-  public void setData(JsonStringWrapper data) {
-    this.data = data;
-  }
-
-  public DeviceUpdate networkId(Long networkId) {
-    this.networkId = networkId;
-    return this;
-  }
-
-   /**
-   * Get networkId
-   * @return networkId
-  **/
-  @ApiModelProperty(value = "")
-  public Long getNetworkId() {
-    return networkId;
-  }
-
-  public void setNetworkId(Long networkId) {
-    this.networkId = networkId;
-  }
-
-  public DeviceUpdate blocked(Boolean blocked) {
-    this.blocked = blocked;
-    return this;
-  }
-
-   /**
-   * Get blocked
-   * @return blocked
-  **/
-  @ApiModelProperty(value = "")
-  public Boolean getBlocked() {
-    return blocked;
-  }
-
-  public void setBlocked(Boolean blocked) {
-    this.blocked = blocked;
-  }
-
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    DeviceUpdate deviceUpdate = (DeviceUpdate) o;
-    return Objects.equals(this.id, deviceUpdate.id) &&
-        Objects.equals(this.name, deviceUpdate.name) &&
-        Objects.equals(this.data, deviceUpdate.data) &&
-        Objects.equals(this.networkId, deviceUpdate.networkId) &&
-        Objects.equals(this.blocked, deviceUpdate.blocked);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, name, data, networkId, blocked);
-  }
-
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class DeviceUpdate {\n");
-
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    data: ").append(toIndentedString(data)).append("\n");
-    sb.append("    networkId: ").append(toIndentedString(networkId)).append("\n");
-    sb.append("    blocked: ").append(toIndentedString(blocked)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-  
 }
 

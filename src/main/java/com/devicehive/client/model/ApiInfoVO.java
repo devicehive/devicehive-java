@@ -14,122 +14,28 @@
 package com.devicehive.client.model;
 
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import org.joda.time.DateTime;
-
-import java.util.Objects;
 
 /**
  * ApiInfoVO
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
+@Data
 public class ApiInfoVO {
-  @SerializedName("apiVersion")
-  private String apiVersion = null;
+    @SerializedName("apiVersion")
+    private String apiVersion = null;
 
-  @SerializedName("serverTimestamp")
-  private DateTime serverTimestamp = null;
+    @SerializedName("serverTimestamp")
+    private DateTime serverTimestamp = null;
 
-  @SerializedName("webSocketServerUrl")
-  private String webSocketServerUrl = null;
+    @SerializedName("webSocketServerUrl")
+    private String webSocketServerUrl = null;
 
-  public ApiInfoVO apiVersion(String apiVersion) {
-    this.apiVersion = apiVersion;
-    return this;
-  }
-
-   /**
-   * Get apiVersion
-   * @return apiVersion
-  **/
-  @ApiModelProperty(value = "")
-  public String getApiVersion() {
-    return apiVersion;
-  }
-
-  public void setApiVersion(String apiVersion) {
-    this.apiVersion = apiVersion;
-  }
-
-  public ApiInfoVO serverTimestamp(DateTime serverTimestamp) {
-    this.serverTimestamp = serverTimestamp;
-    return this;
-  }
-
-   /**
-   * Get serverTimestamp
-   * @return serverTimestamp
-  **/
-  @ApiModelProperty(value = "")
-  public DateTime getServerTimestamp() {
-    return serverTimestamp;
-  }
-
-  public void setServerTimestamp(DateTime serverTimestamp) {
-    this.serverTimestamp = serverTimestamp;
-  }
-
-  public ApiInfoVO webSocketServerUrl(String webSocketServerUrl) {
-    this.webSocketServerUrl = webSocketServerUrl;
-    return this;
-  }
-
-   /**
-   * Get webSocketServerUrl
-   * @return webSocketServerUrl
-  **/
-  @ApiModelProperty(value = "")
-  public String getWebSocketServerUrl() {
-    return webSocketServerUrl;
-  }
-
-  public void setWebSocketServerUrl(String webSocketServerUrl) {
-    this.webSocketServerUrl = webSocketServerUrl;
-  }
-
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
+    public ApiInfoVO apiVersion(String apiVersion) {
+        this.apiVersion = apiVersion;
+        return this;
     }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    ApiInfoVO apiInfoVO = (ApiInfoVO) o;
-    return Objects.equals(this.apiVersion, apiInfoVO.apiVersion) &&
-        Objects.equals(this.serverTimestamp, apiInfoVO.serverTimestamp) &&
-        Objects.equals(this.webSocketServerUrl, apiInfoVO.webSocketServerUrl);
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(apiVersion, serverTimestamp, webSocketServerUrl);
-  }
-
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class ApiInfoVO {\n");
-
-    sb.append("    apiVersion: ").append(toIndentedString(apiVersion)).append("\n");
-    sb.append("    serverTimestamp: ").append(toIndentedString(serverTimestamp)).append("\n");
-    sb.append("    webSocketServerUrl: ").append(toIndentedString(webSocketServerUrl)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-  
 }
 

@@ -157,13 +157,13 @@
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-client</artifactId>
-            <version>2.22.1</version>
+            <version>${glassfish-jersey}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.4</version>
+            <version>${appache-commons}</version>
         </dependency>
 
         <!-- test dependencies -->
@@ -192,17 +192,17 @@
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
-            <version>1.9</version>
+            <version>${commons-codec}</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
-            <version>1.1.1</version>
+            <version>${json-simple}</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.tyrus.bundles</groupId>
             <artifactId>tyrus-standalone-client</artifactId>
-            <version>1.12</version>
+            <version>${glassfish-tyrus}</version>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
@@ -212,7 +212,7 @@
         <dependency>
             <groupId>org.apache.cassandra</groupId>
             <artifactId>cassandra-all</artifactId>
-            <version>0.8.1</version>
+            <version>${cassandra}</version>
 
             <exclusions>
                 <exclusion>
@@ -228,7 +228,13 @@
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
-            <version>3.0.0</version>
+            <version>${find-bugs}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${project-lombok}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     <properties>
@@ -245,5 +251,13 @@
         <slf4j-api>1.7.12</slf4j-api>
         <joda-time-version>2.9.9</joda-time-version>
         <mojo-maven-plugin>1.12</mojo-maven-plugin>
+        <find-bugs>3.0.0</find-bugs>
+        <cassandra>0.8.1</cassandra>
+        <commons-codec>1.9</commons-codec>
+        <json-simple>1.1.1</json-simple>
+        <glassfish-tyrus>1.12</glassfish-tyrus>
+        <appache-commons>3.4</appache-commons>
+        <glassfish-jersey>2.22.1</glassfish-jersey>
+        <project-lombok>1.16.16</project-lombok>
     </properties>
 </project>

@@ -14,75 +14,15 @@
 package com.devicehive.client.model;
 
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModelProperty;
-
-import java.util.Objects;
+import lombok.Data;
 
 /**
  * UserNetworkResponse
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
+@Data
 public class UserNetworkResponse {
   @SerializedName("network")
   private NetworkVO network = null;
-
-  public UserNetworkResponse network(NetworkVO network) {
-    this.network = network;
-    return this;
-  }
-
-   /**
-   * Get network
-   * @return network
-  **/
-  @ApiModelProperty(value = "")
-  public NetworkVO getNetwork() {
-    return network;
-  }
-
-  public void setNetwork(NetworkVO network) {
-    this.network = network;
-  }
-
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    UserNetworkResponse userNetworkResponse = (UserNetworkResponse) o;
-    return Objects.equals(this.network, userNetworkResponse.network);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(network);
-  }
-
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class UserNetworkResponse {\n");
-
-    sb.append("    network: ").append(toIndentedString(network)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-  
 }
 
