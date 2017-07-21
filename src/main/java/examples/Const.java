@@ -12,7 +12,7 @@ public class Const {
     //    public static final String URL = "http://192.168.168.183/dh/rest";
     public static final String URL = "***REMOVED***/";
     //Auth
-    public static final String API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTAwNjI4MzgxNjQ5LCJ0b2tlblR5cGUiOiJBQ0NFU1MifX0.tz4-QETIQTQbIE3k4-ZrR7SukboMwPNZfNJaVG3705M";
+    public static final String API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTAwNjQwODkzMDgxLCJ0b2tlblR5cGUiOiJBQ0NFU1MifX0.LCgyWFCO-TkpDydynBmwSCQWvRJYpmZsmC9gBzv1PD4";
     public static final String LOGIN = "***REMOVED***";
     public static final String PASSWORD = "***REMOVED***";
 

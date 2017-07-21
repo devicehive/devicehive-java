@@ -1,6 +1,8 @@
 package examples;
 
-import com.devicehive.client.model.*;
+import com.devicehive.client.model.DeviceCommand;
+import com.devicehive.client.model.DeviceNotification;
+import com.devicehive.client.model.HiveMessageHandler;
 import com.devicehive.client.model.exceptions.HiveException;
 import com.devicehive.client.websocket.HiveFactory;
 import com.devicehive.client.websocket.api.impl.CommandsApiWebSocketImpl;
@@ -19,7 +21,7 @@ public class WebsocketExample {
     public static void main(String[] args) {
 
         try {
-            final HiveClientWebSocketImplementation client = HiveFactory.createWSclient(URI.create("http://playground.devicehive.com/api/rest"));
+            final HiveClientWebSocketImplementation client = HiveFactory.createWSclient(URI.create(Const.URL));
             client.authenticate(Const.API_KEY);
 
             DateTime timestamp = client.getTimestamp();
@@ -50,6 +52,7 @@ public class WebsocketExample {
 //            command.setParameters("SENT");
 //
 //            commandsAPIWebSocket.updateCommand(Const.DEVICE_ID, command);
+
         } catch (HiveException e) {
             e.printStackTrace();
         }
