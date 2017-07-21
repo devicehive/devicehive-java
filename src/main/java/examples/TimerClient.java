@@ -9,7 +9,6 @@ import com.devicehive.client.model.DeviceCommandWrapper;
 import com.devicehive.client.model.DeviceNotification;
 import com.devicehive.client.model.DeviceVO;
 import com.devicehive.client.model.JsonStringWrapper;
-import com.sun.istack.internal.NotNull;
 import org.joda.time.DateTime;
 import retrofit2.Response;
 
@@ -34,7 +33,7 @@ class TimerClient {
     private DateTime timestamp = null;
 
     public TimerClient(String apiKey) {
-        restClient = new ApiClient(Const.URL, ApiClient.AUTH_API_KEY,apiKey);
+        restClient = new ApiClient(Const.URL, ApiClient.AUTH_API_KEY, apiKey);
         ses = Executors.newScheduledThreadPool(2);
         inflateApi();
     }
@@ -112,7 +111,7 @@ class TimerClient {
     }
 
     //Command updating
-    private void setTimer(String guid, Boolean isOnTimer, @NotNull DateTime time)
+    private void setTimer(String guid, Boolean isOnTimer, DateTime time)
             throws IOException {
         DeviceCommandWrapper deviceCommandWrapper = new DeviceCommandWrapper();
         if (isOnTimer) {
