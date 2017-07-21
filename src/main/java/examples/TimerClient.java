@@ -33,8 +33,8 @@ class TimerClient {
     private String deviceId = null;
     private DateTime timestamp = null;
 
-    public TimerClient() {
-        restClient = new ApiClient(Const.URL, ApiClient.AUTH_API_KEY, Const.API_KEY);
+    public TimerClient(String apiKey) {
+        restClient = new ApiClient(Const.URL, ApiClient.AUTH_API_KEY,apiKey);
         ses = Executors.newScheduledThreadPool(2);
         inflateApi();
     }
