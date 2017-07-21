@@ -32,5 +32,13 @@ public class JwtTokenVO {
     this.accessToken = accessToken;
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "{\n\"JwtTokenVO\":{\n"
+            + "\"accessToken\":\"" + accessToken + "\""
+            + ",\n \"refreshToken\":\"" + refreshToken + "\""
+            + "}\n}";
+  }
 }
 
