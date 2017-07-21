@@ -62,9 +62,23 @@ public class DeviceCommand implements HiveMessage, Comparable<DeviceCommand> {
     @SerializedName("classId")
     private Integer classId = null;
 
-    public DeviceCommand id(Long id) {
-        this.id = id;
-        return this;
+    @Override
+    public String toString() {
+        return "{\n\"DeviceCommand\":{\n"
+                + "\"id\":\"" + id + "\""
+                + ",\n \"command\":\"" + command + "\""
+                + ",\n \"timestamp\":" + timestamp
+                + ",\n \"userId\":\"" + userId + "\""
+                + ",\n \"deviceId\":\"" + deviceId + "\""
+                + ",\n \"parameters\":" + parameters
+                + ",\n \"lifetime\":\"" + lifetime + "\""
+                + ",\n \"status\":\"" + status + "\""
+                + ",\n \"result\":" + result
+                + ",\n \"isUpdated\":\"" + isUpdated + "\""
+                + ",\n \"hazelcastKey\":\"" + hazelcastKey + "\""
+                + ",\n \"factoryId\":\"" + factoryId + "\""
+                + ",\n \"classId\":\"" + classId + "\""
+                + "}\n}";
     }
 
     @Override

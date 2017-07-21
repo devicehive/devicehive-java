@@ -117,7 +117,7 @@ public class CommandsApiWebSocketImpl implements CommandsApiWebSocket {
 
         JsonObject request = new JsonObject();
         request.addProperty("action", WS_COMMAND_INSERT);
-        request.addProperty("deviceGuid", guid);
+        request.addProperty("deviceId", guid);
         request.add("command", gson.toJsonTree(command));
 
         DeviceCommand result = WebSocketClient.sendMessage(request, "command", DeviceCommand.class, COMMAND_TO_CLIENT);
