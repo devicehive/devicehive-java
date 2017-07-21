@@ -14,15 +14,14 @@
 package com.devicehive.client.model;
 
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import org.joda.time.DateTime;
-
-import java.util.Objects;
 
 /**
  * DeviceNotificationWrapper
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
+@Data
 public class DeviceNotificationWrapper {
   @SerializedName("notification")
   private String notification = null;
@@ -37,99 +36,5 @@ public class DeviceNotificationWrapper {
     this.notification = notification;
     return this;
   }
-
-   /**
-   * Get notification
-   * @return notification
-  **/
-  @ApiModelProperty(value = "")
-  public String getNotification() {
-    return notification;
-  }
-
-  public void setNotification(String notification) {
-    this.notification = notification;
-  }
-
-  public DeviceNotificationWrapper timestamp(DateTime timestamp) {
-    this.timestamp = timestamp;
-    return this;
-  }
-
-   /**
-   * Get timestamp
-   * @return timestamp
-  **/
-  @ApiModelProperty(value = "")
-  public DateTime getTimestamp() {
-    return timestamp;
-  }
-
-  public void setTimestamp(DateTime timestamp) {
-    this.timestamp = timestamp;
-  }
-
-  public DeviceNotificationWrapper parameters(JsonStringWrapper parameters) {
-    this.parameters = parameters;
-    return this;
-  }
-
-   /**
-   * Get parameters
-   * @return parameters
-  **/
-  @ApiModelProperty(value = "")
-  public JsonStringWrapper getParameters() {
-    return parameters;
-  }
-
-  public void setParameters(JsonStringWrapper parameters) {
-    this.parameters = parameters;
-  }
-
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    DeviceNotificationWrapper deviceNotificationWrapper = (DeviceNotificationWrapper) o;
-    return Objects.equals(this.notification, deviceNotificationWrapper.notification) &&
-        Objects.equals(this.timestamp, deviceNotificationWrapper.timestamp) &&
-        Objects.equals(this.parameters, deviceNotificationWrapper.parameters);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(notification, timestamp, parameters);
-  }
-
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class DeviceNotificationWrapper {\n");
-
-    sb.append("    notification: ").append(toIndentedString(notification)).append("\n");
-    sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
-    sb.append("    parameters: ").append(toIndentedString(parameters)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-  
 }
 

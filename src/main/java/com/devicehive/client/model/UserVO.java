@@ -18,16 +18,16 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import org.joda.time.DateTime;
 
 import java.io.IOException;
-import java.util.Objects;
 
 /**
  * UserVO
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
+@Data
 public class UserVO {
   @SerializedName("id")
   private Long id = null;
@@ -151,178 +151,5 @@ public class UserVO {
     return this;
   }
 
-   /**
-   * Get id
-   * @return id
-  **/
-  @ApiModelProperty(value = "")
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public UserVO login(String login) {
-    this.login = login;
-    return this;
-  }
-
-   /**
-   * Get login
-   * @return login
-  **/
-  @ApiModelProperty(required = true, value = "")
-  public String getLogin() {
-    return login;
-  }
-
-  public void setLogin(String login) {
-    this.login = login;
-  }
-
-  public UserVO role(RoleEnum role) {
-    this.role = role;
-    return this;
-  }
-
-   /**
-   * Get role
-   * @return role
-  **/
-  @ApiModelProperty(value = "")
-  public RoleEnum getRole() {
-    return role;
-  }
-
-  public void setRole(RoleEnum role) {
-    this.role = role;
-  }
-
-  public UserVO status(StatusEnum status) {
-    this.status = status;
-    return this;
-  }
-
-   /**
-   * Get status
-   * @return status
-  **/
-  @ApiModelProperty(value = "")
-  public StatusEnum getStatus() {
-    return status;
-  }
-
-  public void setStatus(StatusEnum status) {
-    this.status = status;
-  }
-
-  public UserVO lastLogin(DateTime lastLogin) {
-    this.lastLogin = lastLogin;
-    return this;
-  }
-
-   /**
-   * Get lastLogin
-   * @return lastLogin
-  **/
-  @ApiModelProperty(value = "")
-  public DateTime getLastLogin() {
-    return lastLogin;
-  }
-
-  public void setLastLogin(DateTime lastLogin) {
-    this.lastLogin = lastLogin;
-  }
-
-  public UserVO data(JsonStringWrapper data) {
-    this.data = data;
-    return this;
-  }
-
-   /**
-   * Get data
-   * @return data
-  **/
-  @ApiModelProperty(value = "")
-  public JsonStringWrapper getData() {
-    return data;
-  }
-
-  public void setData(JsonStringWrapper data) {
-    this.data = data;
-  }
-
-  public UserVO introReviewed(Boolean introReviewed) {
-    this.introReviewed = introReviewed;
-    return this;
-  }
-
-   /**
-   * Get introReviewed
-   * @return introReviewed
-  **/
-  @ApiModelProperty(value = "")
-  public Boolean getIntroReviewed() {
-    return introReviewed;
-  }
-
-  public void setIntroReviewed(Boolean introReviewed) {
-    this.introReviewed = introReviewed;
-  }
-
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    UserVO userVO = (UserVO) o;
-    return Objects.equals(this.id, userVO.id) &&
-        Objects.equals(this.login, userVO.login) &&
-        Objects.equals(this.role, userVO.role) &&
-        Objects.equals(this.status, userVO.status) &&
-        Objects.equals(this.lastLogin, userVO.lastLogin) &&
-        Objects.equals(this.data, userVO.data) &&
-        Objects.equals(this.introReviewed, userVO.introReviewed);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, login, role, status, lastLogin, data, introReviewed);
-  }
-
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class UserVO {\n");
-
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    login: ").append(toIndentedString(login)).append("\n");
-    sb.append("    role: ").append(toIndentedString(role)).append("\n");
-    sb.append("    status: ").append(toIndentedString(status)).append("\n");
-    sb.append("    lastLogin: ").append(toIndentedString(lastLogin)).append("\n");
-    sb.append("    data: ").append(toIndentedString(data)).append("\n");
-    sb.append("    introReviewed: ").append(toIndentedString(introReviewed)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-  
 }
 

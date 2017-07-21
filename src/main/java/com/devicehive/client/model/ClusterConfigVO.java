@@ -14,98 +14,18 @@
 package com.devicehive.client.model;
 
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModelProperty;
-
-import java.util.Objects;
+import lombok.Data;
 
 /**
  * ClusterConfigVO
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
+@Data
 public class ClusterConfigVO {
   @SerializedName("bootstrap.servers")
   private String bootstrapServers = null;
 
   @SerializedName("zookeeper.connect")
   private String zookeeperConnect = null;
-
-  public ClusterConfigVO bootstrapServers(String bootstrapServers) {
-    this.bootstrapServers = bootstrapServers;
-    return this;
-  }
-
-   /**
-   * Get bootstrapServers
-   * @return bootstrapServers
-  **/
-  @ApiModelProperty(value = "")
-  public String getBootstrapServers() {
-    return bootstrapServers;
-  }
-
-  public void setBootstrapServers(String bootstrapServers) {
-    this.bootstrapServers = bootstrapServers;
-  }
-
-  public ClusterConfigVO zookeeperConnect(String zookeeperConnect) {
-    this.zookeeperConnect = zookeeperConnect;
-    return this;
-  }
-
-   /**
-   * Get zookeeperConnect
-   * @return zookeeperConnect
-  **/
-  @ApiModelProperty(value = "")
-  public String getZookeeperConnect() {
-    return zookeeperConnect;
-  }
-
-  public void setZookeeperConnect(String zookeeperConnect) {
-    this.zookeeperConnect = zookeeperConnect;
-  }
-
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    ClusterConfigVO clusterConfigVO = (ClusterConfigVO) o;
-    return Objects.equals(this.bootstrapServers, clusterConfigVO.bootstrapServers) &&
-        Objects.equals(this.zookeeperConnect, clusterConfigVO.zookeeperConnect);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(bootstrapServers, zookeeperConnect);
-  }
-
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class ClusterConfigVO {\n");
-
-    sb.append("    bootstrapServers: ").append(toIndentedString(bootstrapServers)).append("\n");
-    sb.append("    zookeeperConnect: ").append(toIndentedString(zookeeperConnect)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-  
 }
 

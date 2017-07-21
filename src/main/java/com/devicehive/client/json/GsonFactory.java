@@ -3,7 +3,6 @@ package com.devicehive.client.json;
 
 import com.devicehive.client.json.adapters.*;
 import com.devicehive.client.json.strategies.AnnotatedStrategy;
-import com.devicehive.client.model.AccessType;
 import com.devicehive.client.model.exceptions.InternalHiveClientException;
 import com.devicehive.client.websocket.model.OAuthType;
 import com.devicehive.client.websocket.model.UserRole;
@@ -58,7 +57,6 @@ public class GsonFactory {
                 .setDateFormat(TIMESTAMP_FORMAT)
                 .registerTypeAdapterFactory(new JsonStringWrapperAdapterFactory())
                 .registerTypeAdapterFactory(new OptionalAdapterFactory())
-                .registerTypeAdapter(AccessType.class, new AccessTypeAdapter())
                 .registerTypeAdapter(OAuthType.class, new OAuthTypeAdapter())
                 .registerTypeAdapter(UserRole.class, new UserRoleAdapter())
                 .registerTypeAdapter(UserStatus.class, new UserStatusAdapter());

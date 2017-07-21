@@ -14,15 +14,14 @@
 package com.devicehive.client.model;
 
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import org.joda.time.DateTime;
-
-import java.util.Objects;
 
 /**
  * InsertNotification
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
+@Data
 public class InsertNotification {
   @SerializedName("id")
   private Long id = null;
@@ -34,79 +33,5 @@ public class InsertNotification {
     this.id = id;
     return this;
   }
-
-   /**
-   * Get id
-   * @return id
-  **/
-  @ApiModelProperty(value = "")
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public InsertNotification timestamp(DateTime timestamp) {
-    this.timestamp = timestamp;
-    return this;
-  }
-
-   /**
-   * Get timestamp
-   * @return timestamp
-  **/
-  @ApiModelProperty(value = "")
-  public DateTime getTimestamp() {
-    return timestamp;
-  }
-
-  public void setTimestamp(DateTime timestamp) {
-    this.timestamp = timestamp;
-  }
-
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    InsertNotification insertNotification = (InsertNotification) o;
-    return Objects.equals(this.id, insertNotification.id) &&
-        Objects.equals(this.timestamp, insertNotification.timestamp);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, timestamp);
-  }
-
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class InsertNotification {\n");
-
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-  
 }
 

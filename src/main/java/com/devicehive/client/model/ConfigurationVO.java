@@ -14,14 +14,13 @@
 package com.devicehive.client.model;
 
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModelProperty;
-
-import java.util.Objects;
+import lombok.Data;
 
 /**
  * ConfigurationVO
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
+@Data
 public class ConfigurationVO {
   @SerializedName("name")
   private String name = null;
@@ -37,98 +36,5 @@ public class ConfigurationVO {
     return this;
   }
 
-   /**
-   * Get name
-   * @return name
-  **/
-  @ApiModelProperty(value = "")
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public ConfigurationVO value(String value) {
-    this.value = value;
-    return this;
-  }
-
-   /**
-   * Get value
-   * @return value
-  **/
-  @ApiModelProperty(required = true, value = "")
-  public String getValue() {
-    return value;
-  }
-
-  public void setValue(String value) {
-    this.value = value;
-  }
-
-  public ConfigurationVO entityVersion(Long entityVersion) {
-    this.entityVersion = entityVersion;
-    return this;
-  }
-
-   /**
-   * Get entityVersion
-   * @return entityVersion
-  **/
-  @ApiModelProperty(value = "")
-  public Long getEntityVersion() {
-    return entityVersion;
-  }
-
-  public void setEntityVersion(Long entityVersion) {
-    this.entityVersion = entityVersion;
-  }
-
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    ConfigurationVO configurationVO = (ConfigurationVO) o;
-    return Objects.equals(this.name, configurationVO.name) &&
-        Objects.equals(this.value, configurationVO.value) &&
-        Objects.equals(this.entityVersion, configurationVO.entityVersion);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(name, value, entityVersion);
-  }
-
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class ConfigurationVO {\n");
-
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    value: ").append(toIndentedString(value)).append("\n");
-    sb.append("    entityVersion: ").append(toIndentedString(entityVersion)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-  
 }
 

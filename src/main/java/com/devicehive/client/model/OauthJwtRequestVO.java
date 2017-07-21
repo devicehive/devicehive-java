@@ -26,14 +26,14 @@
 package com.devicehive.client.model;
 
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModelProperty;
-import java.util.Objects;
+import lombok.Data;
 
 
 /**
  * OauthJwtRequestVO
  */
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-12-09T14:31:42.381+02:00")
+@Data
 public class OauthJwtRequestVO   {
   @SerializedName("providerName")
   private String providerName = null;
@@ -53,145 +53,5 @@ public class OauthJwtRequestVO   {
   @SerializedName("password")
   private String password = null;
 
-  public OauthJwtRequestVO providerName(String providerName) {
-    this.providerName = providerName;
-    return this;
-  }
-
-   /**
-   * Get providerName
-   * @return providerName
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public String getProviderName() {
-    return providerName;
-  }
-
-  public void setProviderName(String providerName) {
-    this.providerName = providerName;
-  }
-
-  public OauthJwtRequestVO code(String code) {
-    this.code = code;
-    return this;
-  }
-
-   /**
-   * Get code
-   * @return code
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public String getCode() {
-    return code;
-  }
-
-  public void setCode(String code) {
-    this.code = code;
-  }
-
-  public OauthJwtRequestVO redirectUri(String redirectUri) {
-    this.redirectUri = redirectUri;
-    return this;
-  }
-
-   /**
-   * Get redirectUri
-   * @return redirectUri
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public String getRedirectUri() {
-    return redirectUri;
-  }
-
-  public void setRedirectUri(String redirectUri) {
-    this.redirectUri = redirectUri;
-  }
-
-  public OauthJwtRequestVO accessToken(String accessToken) {
-    this.accessToken = accessToken;
-    return this;
-  }
-
-   /**
-   * Get accessToken
-   * @return accessToken
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public String getAccessToken() {
-    return accessToken;
-  }
-
-  public void setAccessToken(String accessToken) {
-    this.accessToken = accessToken;
-  }
-
-  public OauthJwtRequestVO login(String login) {
-    this.login = login;
-    return this;
-  }
-
-   /**
-   * Get login
-   * @return login
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public String getLogin() {
-    return login;
-  }
-
-  public void setLogin(String login) {
-    this.login = login;
-  }
-
-  public OauthJwtRequestVO password(String password) {
-    this.password = password;
-    return this;
-  }
-
-   /**
-   * Get password
-   * @return password
-  **/
-  @ApiModelProperty(example = "null", value = "")
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(providerName, code, redirectUri, accessToken, login, password);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class OauthJwtRequestVO {\n");
-    
-    sb.append("    providerName: ").append(toIndentedString(providerName)).append("\n");
-    sb.append("    code: ").append(toIndentedString(code)).append("\n");
-    sb.append("    redirectUri: ").append(toIndentedString(redirectUri)).append("\n");
-    sb.append("    accessToken: ").append(toIndentedString(accessToken)).append("\n");
-    sb.append("    login: ").append(toIndentedString(login)).append("\n");
-    sb.append("    password: ").append(toIndentedString(password)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
 }
 

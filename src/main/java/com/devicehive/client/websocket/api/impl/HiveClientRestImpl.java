@@ -1,6 +1,5 @@
 package com.devicehive.client.websocket.api.impl;
 
-import com.devicehive.client.api.AccessKeyApi;
 import com.devicehive.client.api.DeviceApi;
 import com.devicehive.client.api.DeviceCommandApi;
 import com.devicehive.client.api.DeviceNotificationApi;
@@ -52,14 +51,6 @@ public class HiveClientRestImpl implements HiveClient, HiveMessage {
     @Override
     public void authenticate(String accessKey) throws HiveException {
         restClient.authenticate(HivePrincipal.createAccessKey(accessKey));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public AccessKeyApi getAccessKeyAPI() {
-        return restClient.createService(AccessKeyApi.class);
     }
 
     /**

@@ -14,17 +14,16 @@
 package com.devicehive.client.model;
 
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import org.joda.time.DateTime;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * JwtPayload
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
+@Data
 public class JwtPayload {
   @SerializedName("userId")
   private Long userId = null;
@@ -45,163 +44,5 @@ public class JwtPayload {
     this.userId = userId;
     return this;
   }
-
-   /**
-   * Get userId
-   * @return userId
-  **/
-  @ApiModelProperty(required = true, value = "")
-  public Long getUserId() {
-    return userId;
-  }
-
-  public void setUserId(Long userId) {
-    this.userId = userId;
-  }
-
-  public JwtPayload actions(List<String> actions) {
-    this.actions = actions;
-    return this;
-  }
-
-  public JwtPayload addActionsItem(String actionsItem) {
-    if (this.actions == null) {
-      this.actions = new ArrayList<String>();
-    }
-    this.actions.add(actionsItem);
-    return this;
-  }
-
-   /**
-   * Get actions
-   * @return actions
-  **/
-  @ApiModelProperty(value = "")
-  public List<String> getActions() {
-    return actions;
-  }
-
-  public void setActions(List<String> actions) {
-    this.actions = actions;
-  }
-
-  public JwtPayload networkIds(List<String> networkIds) {
-    this.networkIds = networkIds;
-    return this;
-  }
-
-  public JwtPayload addNetworkIdsItem(String networkIdsItem) {
-    if (this.networkIds == null) {
-      this.networkIds = new ArrayList<String>();
-    }
-    this.networkIds.add(networkIdsItem);
-    return this;
-  }
-
-   /**
-   * Get networkIds
-   * @return networkIds
-  **/
-  @ApiModelProperty(value = "")
-  public List<String> getNetworkIds() {
-    return networkIds;
-  }
-
-  public void setNetworkIds(List<String> networkIds) {
-    this.networkIds = networkIds;
-  }
-
-  public JwtPayload deviceIds(List<String> deviceIds) {
-    this.deviceIds = deviceIds;
-    return this;
-  }
-
-  public JwtPayload addDeviceIdsItem(String deviceIdsItem) {
-    if (this.deviceIds == null) {
-      this.deviceIds = new ArrayList<String>();
-    }
-    this.deviceIds.add(deviceIdsItem);
-    return this;
-  }
-
-   /**
-   * Get deviceIds
-   * @return deviceIds
-  **/
-  @ApiModelProperty(value = "")
-  public List<String> getDeviceIds() {
-    return deviceIds;
-  }
-
-  public void setDeviceIds(List<String> deviceIds) {
-    this.deviceIds = deviceIds;
-  }
-
-  public JwtPayload expiration(DateTime expiration) {
-    this.expiration = expiration;
-    return this;
-  }
-
-   /**
-   * Get expiration
-   * @return expiration
-  **/
-  @ApiModelProperty(value = "")
-  public DateTime getExpiration() {
-    return expiration;
-  }
-
-  public void setExpiration(DateTime expiration) {
-    this.expiration = expiration;
-  }
-
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    JwtPayload jwtPayload = (JwtPayload) o;
-    return Objects.equals(this.userId, jwtPayload.userId) &&
-        Objects.equals(this.actions, jwtPayload.actions) &&
-        Objects.equals(this.networkIds, jwtPayload.networkIds) &&
-        Objects.equals(this.deviceIds, jwtPayload.deviceIds) &&
-        Objects.equals(this.expiration, jwtPayload.expiration);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(userId, actions, networkIds, deviceIds, expiration);
-  }
-
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class JwtPayload {\n");
-
-    sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
-    sb.append("    actions: ").append(toIndentedString(actions)).append("\n");
-    sb.append("    networkIds: ").append(toIndentedString(networkIds)).append("\n");
-    sb.append("    deviceIds: ").append(toIndentedString(deviceIds)).append("\n");
-    sb.append("    expiration: ").append(toIndentedString(expiration)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-  
 }
 

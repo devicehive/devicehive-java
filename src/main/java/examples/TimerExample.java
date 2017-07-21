@@ -19,9 +19,7 @@ public class TimerExample {
         final ExecutorService executorService = Executors.newFixedThreadPool(2);
 
 
-        JwtRequestVO auth = new JwtRequestVO();
-        auth.setLogin(Const.LOGIN);
-        auth.setPassword(Const.PASSWORD);
+        JwtRequestVO auth = new JwtRequestVO(Const.LOGIN, Const.PASSWORD);
         ApiClient client = new ApiClient(Const.URL);
 
         client.createService(JwtTokenApi.class).login(auth).enqueue(new Callback<JwtTokenVO>() {

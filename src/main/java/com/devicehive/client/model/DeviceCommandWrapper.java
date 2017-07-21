@@ -14,15 +14,14 @@
 package com.devicehive.client.model;
 
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import org.joda.time.DateTime;
-
-import java.util.Objects;
 
 /**
  * DeviceCommandWrapper
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
+@Data
 public class DeviceCommandWrapper {
   @SerializedName("command")
   private String command = null;
@@ -42,163 +41,5 @@ public class DeviceCommandWrapper {
   @SerializedName("result")
   private JsonStringWrapper result = null;
 
-  public DeviceCommandWrapper command(String command) {
-    this.command = command;
-    return this;
-  }
-
-   /**
-   * Get command
-   * @return command
-  **/
-  @ApiModelProperty(value = "")
-  public String getCommand() {
-    return command;
-  }
-
-  public void setCommand(String command) {
-    this.command = command;
-  }
-
-  public DeviceCommandWrapper timestamp(DateTime timestamp) {
-    this.timestamp = timestamp;
-    return this;
-  }
-
-   /**
-   * Get timestamp
-   * @return timestamp
-  **/
-  @ApiModelProperty(value = "")
-  public DateTime getTimestamp() {
-    return timestamp;
-  }
-
-  public void setTimestamp(DateTime timestamp) {
-    this.timestamp = timestamp;
-  }
-
-  public DeviceCommandWrapper parameters(JsonStringWrapper parameters) {
-    this.parameters = parameters;
-    return this;
-  }
-
-   /**
-   * Get parameters
-   * @return parameters
-  **/
-  @ApiModelProperty(value = "")
-  public JsonStringWrapper getParameters() {
-    return parameters;
-  }
-
-  public void setParameters(JsonStringWrapper parameters) {
-    this.parameters = parameters;
-  }
-
-  public DeviceCommandWrapper lifetime(Integer lifetime) {
-    this.lifetime = lifetime;
-    return this;
-  }
-
-   /**
-   * Get lifetime
-   * @return lifetime
-  **/
-  @ApiModelProperty(value = "")
-  public Integer getLifetime() {
-    return lifetime;
-  }
-
-  public void setLifetime(Integer lifetime) {
-    this.lifetime = lifetime;
-  }
-
-  public DeviceCommandWrapper status(String status) {
-    this.status = status;
-    return this;
-  }
-
-   /**
-   * Get status
-   * @return status
-  **/
-  @ApiModelProperty(value = "")
-  public String getStatus() {
-    return status;
-  }
-
-  public void setStatus(String status) {
-    this.status = status;
-  }
-
-  public DeviceCommandWrapper result(JsonStringWrapper result) {
-    this.result = result;
-    return this;
-  }
-
-   /**
-   * Get result
-   * @return result
-  **/
-  @ApiModelProperty(value = "")
-  public JsonStringWrapper getResult() {
-    return result;
-  }
-
-  public void setResult(JsonStringWrapper result) {
-    this.result = result;
-  }
-
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    DeviceCommandWrapper deviceCommandWrapper = (DeviceCommandWrapper) o;
-    return Objects.equals(this.command, deviceCommandWrapper.command) &&
-        Objects.equals(this.timestamp, deviceCommandWrapper.timestamp) &&
-        Objects.equals(this.parameters, deviceCommandWrapper.parameters) &&
-        Objects.equals(this.lifetime, deviceCommandWrapper.lifetime) &&
-        Objects.equals(this.status, deviceCommandWrapper.status) &&
-        Objects.equals(this.result, deviceCommandWrapper.result);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(command, timestamp, parameters, lifetime, status, result);
-  }
-
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class DeviceCommandWrapper {\n");
-
-    sb.append("    command: ").append(toIndentedString(command)).append("\n");
-    sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
-    sb.append("    parameters: ").append(toIndentedString(parameters)).append("\n");
-    sb.append("    lifetime: ").append(toIndentedString(lifetime)).append("\n");
-    sb.append("    status: ").append(toIndentedString(status)).append("\n");
-    sb.append("    result: ").append(toIndentedString(result)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-  
 }
 

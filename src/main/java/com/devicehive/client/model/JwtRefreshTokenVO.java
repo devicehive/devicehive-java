@@ -14,75 +14,15 @@
 package com.devicehive.client.model;
 
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModelProperty;
-
-import java.util.Objects;
+import lombok.Data;
 
 /**
  * JwtRefreshTokenVO
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
+@Data
 public class JwtRefreshTokenVO {
   @SerializedName("refreshToken")
   private String refreshToken = null;
-
-  public JwtRefreshTokenVO refreshToken(String refreshToken) {
-    this.refreshToken = refreshToken;
-    return this;
-  }
-
-   /**
-   * Get refreshToken
-   * @return refreshToken
-  **/
-  @ApiModelProperty(value = "")
-  public String getRefreshToken() {
-    return refreshToken;
-  }
-
-  public void setRefreshToken(String refreshToken) {
-    this.refreshToken = refreshToken;
-  }
-
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    JwtRefreshTokenVO jwtRefreshTokenVO = (JwtRefreshTokenVO) o;
-    return Objects.equals(this.refreshToken, jwtRefreshTokenVO.refreshToken);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(refreshToken);
-  }
-
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class JwtRefreshTokenVO {\n");
-
-    sb.append("    refreshToken: ").append(toIndentedString(refreshToken)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-  
 }
 
