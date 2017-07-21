@@ -31,8 +31,8 @@ class TimerDevice {
 
     private DateTime timestamp;
 
-    public TimerDevice() {
-        restClient = new ApiClient(Const.URL, ApiClient.AUTH_API_KEY, Const.API_KEY);
+    public TimerDevice(String apiKey) {
+        restClient = new ApiClient(Const.URL, ApiClient.AUTH_API_KEY, apiKey);
         ses = Executors.newScheduledThreadPool(3);
         inflateApi();
     }

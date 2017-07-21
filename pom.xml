@@ -233,7 +233,7 @@
     </dependencies>
     <properties>
         <swagger-annotations-version>1.5.4</swagger-annotations-version>
-        <retrofit2-version>2.1.0</retrofit2-version>
+        <retrofit2-version>2.3.0</retrofit2-version>
         <okhttp3-version>3.8.1</okhttp3-version>
         <oltu-version>1.0.0</oltu-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
