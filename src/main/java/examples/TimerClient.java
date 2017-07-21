@@ -49,12 +49,9 @@ class TimerClient {
     void run() {
         if (deviceId == null) {
             try {
-
                 Response<List<DeviceVO>> response = deviceApi
                         .list(Const.NAME, null, null, null, null,
-                                null, null, null,
-                                null, 20, 0).
-                                execute();
+                                null, 20, 0).execute();
 
                 if (!response.isSuccessful()) {
                     throw new IOException(response.errorBody().string());
@@ -64,7 +61,7 @@ class TimerClient {
                 if (devices.size() == 0) {
                     System.out.println("No devices was found");
                 } else {
-                    deviceId = devices.get(0).getGuid();
+                    deviceId = devices.get(0).getId();
                     try {
                         timestamp = infoApi.getApiInfo().execute().body().getServerTimestamp();
                     } catch (IOException e) {

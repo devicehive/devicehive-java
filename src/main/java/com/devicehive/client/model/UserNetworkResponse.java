@@ -19,29 +19,29 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 
 /**
- * JsonStringWrapper
+ * UserNetworkResponse
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
-public class JsonStringWrapper {
-  @SerializedName("jsonString")
-  private String jsonString = null;
+public class UserNetworkResponse {
+  @SerializedName("network")
+  private NetworkVO network = null;
 
-  public JsonStringWrapper jsonString(String jsonString) {
-    this.jsonString = jsonString;
+  public UserNetworkResponse network(NetworkVO network) {
+    this.network = network;
     return this;
   }
 
    /**
-   * Get jsonString
-   * @return jsonString
+   * Get network
+   * @return network
   **/
   @ApiModelProperty(value = "")
-  public String getJsonString() {
-    return jsonString;
+  public NetworkVO getNetwork() {
+    return network;
   }
 
-  public void setJsonString(String jsonString) {
-    this.jsonString = jsonString;
+  public void setNetwork(NetworkVO network) {
+    this.network = network;
   }
 
 
@@ -53,22 +53,22 @@ public class JsonStringWrapper {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    JsonStringWrapper jsonStringWrapper = (JsonStringWrapper) o;
-    return Objects.equals(this.jsonString, jsonStringWrapper.jsonString);
+    UserNetworkResponse userNetworkResponse = (UserNetworkResponse) o;
+    return Objects.equals(this.network, userNetworkResponse.network);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(jsonString);
+    return Objects.hash(network);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class JsonStringWrapper {\n");
+    sb.append("class UserNetworkResponse {\n");
 
-    sb.append("    jsonString: ").append(toIndentedString(jsonString)).append("\n");
+    sb.append("    network: ").append(toIndentedString(network)).append("\n");
     sb.append("}");
     return sb.toString();
   }

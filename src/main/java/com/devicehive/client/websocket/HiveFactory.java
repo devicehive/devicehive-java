@@ -1,6 +1,5 @@
 package com.devicehive.client.websocket;
 
-import com.devicehive.client.api.HiveClient;
 import com.devicehive.client.model.exceptions.HiveException;
 import com.devicehive.client.websocket.api.impl.HiveClientWebSocketImplementation;
 import com.devicehive.client.websocket.context.RestClientWIP;
@@ -14,21 +13,6 @@ public final class HiveFactory {
     }
 
 
-    /**
-     * Creates an instance of {@link HiveClient} connected to the Device Hive server.
-     *
-     * @param restUri          the Device Hive server RESTful API URI
-     *                         the server.
-     * @return an instance of {@link HiveClient}
-     * @throws HiveException if a connection error occurs
-     */
-//    public static HiveClient createClient(URI restUri, boolean preferWebsockets) throws HiveException {
-//        if (preferWebsockets) {
-//            return new HiveClientWebSocketImplementation(createWebsocketClientAgent(restUri));
-//        } else {
-//            return new HiveClientRestImpl(createRestAgent(restUri));
-//        }
-//    }
     private static RestClientWIP createRestAgent(URI restUri) throws HiveException {
         RestClientWIP agent = new RestClientWIP(restUri);
         agent.connect();

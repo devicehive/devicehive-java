@@ -209,7 +209,6 @@
             <artifactId>joda-time</artifactId>
             <version>${joda-time-version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.cassandra</groupId>
             <artifactId>cassandra-all</artifactId>
@@ -235,7 +234,7 @@
     <properties>
         <swagger-annotations-version>1.5.4</swagger-annotations-version>
         <retrofit2-version>2.1.0</retrofit2-version>
-        <okhttp3-version>3.5.0</okhttp3-version>
+        <okhttp3-version>3.8.1</okhttp3-version>
         <oltu-version>1.0.0</oltu-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <junit-version>4.12</junit-version>
@@ -244,7 +243,7 @@
         <guava-version>19.0</guava-version>
         <glassfish.tyrus>1.12</glassfish.tyrus>
         <slf4j-api>1.7.12</slf4j-api>
-        <joda-time-version>2.9.3</joda-time-version>
+        <joda-time-version>2.9.9</joda-time-version>
         <mojo-maven-plugin>1.12</mojo-maven-plugin>
     </properties>
 </project>

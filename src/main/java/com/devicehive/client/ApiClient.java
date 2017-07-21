@@ -120,8 +120,6 @@ public class ApiClient {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(DateTime.class,
                         typeAdapter)
-//                .registerTypeAdapter(DateTime.class,
-//                        typeAdapter)
                 .create();
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         // set your desired log level

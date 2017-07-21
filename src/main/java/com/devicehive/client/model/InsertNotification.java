@@ -20,38 +20,35 @@ import org.joda.time.DateTime;
 import java.util.Objects;
 
 /**
- * DeviceNotificationWrapper
+ * InsertNotification
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
-public class DeviceNotificationWrapper {
-  @SerializedName("notification")
-  private String notification = null;
+public class InsertNotification {
+  @SerializedName("id")
+  private Long id = null;
 
   @SerializedName("timestamp")
   private DateTime timestamp = null;
 
-  @SerializedName("parameters")
-  private JsonStringWrapper parameters = null;
-
-  public DeviceNotificationWrapper notification(String notification) {
-    this.notification = notification;
+  public InsertNotification id(Long id) {
+    this.id = id;
     return this;
   }
 
    /**
-   * Get notification
-   * @return notification
+   * Get id
+   * @return id
   **/
   @ApiModelProperty(value = "")
-  public String getNotification() {
-    return notification;
+  public Long getId() {
+    return id;
   }
 
-  public void setNotification(String notification) {
-    this.notification = notification;
+  public void setId(Long id) {
+    this.id = id;
   }
 
-  public DeviceNotificationWrapper timestamp(DateTime timestamp) {
+  public InsertNotification timestamp(DateTime timestamp) {
     this.timestamp = timestamp;
     return this;
   }
@@ -69,24 +66,6 @@ public class DeviceNotificationWrapper {
     this.timestamp = timestamp;
   }
 
-  public DeviceNotificationWrapper parameters(JsonStringWrapper parameters) {
-    this.parameters = parameters;
-    return this;
-  }
-
-   /**
-   * Get parameters
-   * @return parameters
-  **/
-  @ApiModelProperty(value = "")
-  public JsonStringWrapper getParameters() {
-    return parameters;
-  }
-
-  public void setParameters(JsonStringWrapper parameters) {
-    this.parameters = parameters;
-  }
-
 
   @Override
   public boolean equals(Object o) {
@@ -96,26 +75,24 @@ public class DeviceNotificationWrapper {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    DeviceNotificationWrapper deviceNotificationWrapper = (DeviceNotificationWrapper) o;
-    return Objects.equals(this.notification, deviceNotificationWrapper.notification) &&
-        Objects.equals(this.timestamp, deviceNotificationWrapper.timestamp) &&
-        Objects.equals(this.parameters, deviceNotificationWrapper.parameters);
+    InsertNotification insertNotification = (InsertNotification) o;
+    return Objects.equals(this.id, insertNotification.id) &&
+        Objects.equals(this.timestamp, insertNotification.timestamp);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(notification, timestamp, parameters);
+    return Objects.hash(id, timestamp);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class DeviceNotificationWrapper {\n");
+    sb.append("class InsertNotification {\n");
 
-    sb.append("    notification: ").append(toIndentedString(notification)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    timestamp: ").append(toIndentedString(timestamp)).append("\n");
-    sb.append("    parameters: ").append(toIndentedString(parameters)).append("\n");
     sb.append("}");
     return sb.toString();
   }
