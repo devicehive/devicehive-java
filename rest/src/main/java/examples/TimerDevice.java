@@ -1,9 +1,9 @@
 package examples;
 
-import com.devicehive.client.ApiClient;
-import com.devicehive.client.api.*;
-import com.devicehive.client.model.*;
-import com.devicehive.client.utils.Const;
+import com.devicehive.rest.ApiClient;
+import com.devicehive.rest.api.*;
+import com.devicehive.rest.model.*;
+import com.devicehive.rest.utils.Const;
 import org.joda.time.DateTime;
 
 import java.io.IOException;
@@ -14,12 +14,10 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 class TimerDevice {
-    public static final String URL = "http://playground.dev.devicehive.com/api/rest/";
-
     private DateTime alarmTime = null;
     private DateTime currentTime = null;
 
-    private ApiClient restClient;
+    private ApiClient client;
 
     private ScheduledExecutorService ses;
     private DeviceNotificationApi notificationApiImpl;
@@ -30,18 +28,18 @@ class TimerDevice {
 
     private DateTime timestamp;
 
-    public TimerDevice(String apiKey) {
-        restClient = new ApiClient(URL, ApiClient.AUTH_API_KEY, apiKey);
+    public TimerDevice(ApiClient client) {
+        this.client = client;
         ses = Executors.newScheduledThreadPool(3);
         inflateApi();
     }
 
     private void inflateApi() {
-        notificationApiImpl = restClient.createService(DeviceNotificationApi.class);
-        commandApiImpl = restClient.createService(DeviceCommandApi.class);
-        infoApiImpl = restClient.createService(ApiInfoVOApi.class);
-        deviceApiImpl = restClient.createService(DeviceApi.class);
-        networkApiImpl = restClient.createService(NetworkApi.class);
+        notificationApiImpl = client.createService(DeviceNotificationApi.class);
+        commandApiImpl = client.createService(DeviceCommandApi.class);
+        infoApiImpl = client.createService(ApiInfoVOApi.class);
+        deviceApiImpl = client.createService(DeviceApi.class);
+        networkApiImpl = client.createService(NetworkApi.class);
     }
 
     void run() throws IOException {
