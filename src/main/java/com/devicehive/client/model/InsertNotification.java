@@ -15,7 +15,6 @@ package com.devicehive.client.model;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
-import org.joda.time.DateTime;
 
 /**
  * InsertNotification
@@ -23,15 +22,11 @@ import org.joda.time.DateTime;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
 @Data
 public class InsertNotification {
-  @SerializedName("id")
-  private Long id = null;
+    @SerializedName("id")
+    private Long id = null;
 
-  @SerializedName("timestamp")
-  private DateTime timestamp = null;
-
-  public InsertNotification id(Long id) {
-    this.id = id;
-    return this;
-  }
+    //FIXME change type from Long to DateTime when backend will be fixed
+    @SerializedName("timestamp")
+    private Long timestamp = null;
 }
 

@@ -22,7 +22,7 @@ import org.joda.time.DateTime;
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
 @Data
-public class DeviceNotification implements HiveMessage, Comparable<DeviceNotification> {
+public class DeviceNotification implements Comparable<DeviceNotification> {
     @SerializedName("id")
     private Long id = null;
 
@@ -62,9 +62,5 @@ public class DeviceNotification implements HiveMessage, Comparable<DeviceNotific
         return getTimestamp().compareTo(notification.getTimestamp());
     }
 
-    @Override
-    public DateTime getTimestamp() {
-        return timestamp;
-    }
 }
 
