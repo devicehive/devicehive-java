@@ -137,17 +137,16 @@ public class DeviceCommand implements HiveMessage {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("DeviceCommand{");
-        sb.append("id=").append(id);
-        sb.append(", timestamp=").append(timestamp);
-        sb.append(", userId=").append(userId);
-        sb.append(", command='").append(command).append('\'');
-        sb.append(", parameters=").append(parameters);
-        sb.append(", lifetime=").append(lifetime);
-        sb.append(", flags=").append(flags);
-        sb.append(", status=").append(status);
-        sb.append(", result=").append(result);
-        sb.append('}');
-        return sb.toString();
+        return "{\n\"DeviceCommand\":{\n"
+                + "\"id\":\"" + id + "\""
+                + ",\n \"timestamp\":" + timestamp
+                + ",\n \"userId\":\"" + userId + "\""
+                + ",\n \"command\":\"" + command + "\""
+                + ",\n \"parameters\":\"" + parameters + "\""
+                + ",\n \"lifetime\":\"" + lifetime + "\""
+                + ",\n \"flags\":" + flags
+                + ",\n \"status\":" + status
+                + ",\n \"result\":" + result
+                + "}\n}";
     }
 }

@@ -12,6 +12,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.joda.time.DateTime;
 
 import java.util.concurrent.ExecutionException;
 
@@ -52,9 +53,13 @@ public class GsonFactory {
     }
 
     private static GsonBuilder createGsonBuilder() {
+        DateTimeTypeAdapter typeAdapter = new DateTimeTypeAdapter(TIMESTAMP_FORMAT);
+
         return new GsonBuilder()
                 .setPrettyPrinting()
                 .setDateFormat(TIMESTAMP_FORMAT)
+                .registerTypeAdapter(DateTime.class,
+                        typeAdapter)
                 .registerTypeAdapterFactory(new JsonStringWrapperAdapterFactory())
                 .registerTypeAdapterFactory(new OptionalAdapterFactory())
                 .registerTypeAdapter(OAuthType.class, new OAuthTypeAdapter())

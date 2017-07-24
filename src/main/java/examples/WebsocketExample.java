@@ -9,6 +9,8 @@ import com.devicehive.client.websocket.api.impl.CommandsApiWebSocketImpl;
 import com.devicehive.client.websocket.api.impl.HiveClientWebSocketImplementation;
 import com.devicehive.client.websocket.api.impl.NotificationsApiWebSocketImpl;
 import com.devicehive.client.websocket.context.SubscriptionFilter;
+import com.devicehive.client.websocket.model.DeviceCommand;
+import com.devicehive.client.websocket.model.DeviceNotification;
 import org.joda.time.DateTime;
 import retrofit2.Response;
 
@@ -31,6 +33,7 @@ public class WebsocketExample {
             if (!response.isSuccessful()) {
                 throw new RuntimeException("Bad response " + response.code());
             }
+
             HiveClientWebSocketImplementation client = HiveFactory.createWSclient(URI.create(Const.URL));
             client.authenticate(response.body().getAccessToken());
 
@@ -39,7 +42,6 @@ public class WebsocketExample {
             uuid.add(Const.DEVICE_ID);
 
             SubscriptionFilter filter = new SubscriptionFilter(uuid, null, timestamp);
-            System.out.println(timestamp);
 
             NotificationsApiWebSocketImpl notificationsAPIWebsocket = client.getNotificationsWSAPI();
             String id = notificationsAPIWebsocket.subscribeForNotifications(filter, new HiveMessageHandler<DeviceNotification>() {
@@ -50,6 +52,7 @@ public class WebsocketExample {
             });
 
             CommandsApiWebSocketImpl commandsAPIWebSocket = client.getCommandsWSAPI();
+
             String idCom = commandsAPIWebSocket.subscribeForCommands(filter, new HiveMessageHandler<DeviceCommand>() {
                 @Override
                 public void handle(DeviceCommand message) {
@@ -59,13 +62,17 @@ public class WebsocketExample {
             System.out.println(idCom);
             DeviceCommand command = new DeviceCommand();
             command.setCommand("ON");
-            command.setDeviceId(Const.DEVICE_ID);
-            commandsAPIWebSocket.insertCommand(Const.DEVICE_ID, command, new HiveMessageHandler<DeviceCommand>() {
+            JsonStringWrapper jsonStringWrapper = new JsonStringWrapper();
+            jsonStringWrapper.setJsonString(DateTime.now().plusSeconds(5).toString());
+            command.setParameters(jsonStringWrapper.toString());
+
+            commandsAPIWebSocket.insertCommand(Const.DEVICE_ID,command, new HiveMessageHandler<DeviceCommand>() {
                 @Override
                 public void handle(DeviceCommand message) {
-//                    System.out.println(message.toString());
+                    System.out.println(message.toString());
                 }
             });
+
 
         } catch (IOException | HiveException e) {
             e.printStackTrace();

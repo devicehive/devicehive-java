@@ -2,13 +2,13 @@ package com.devicehive.client.websocket.api.impl;
 
 
 import com.devicehive.client.json.GsonFactory;
-import com.devicehive.client.model.DeviceCommand;
 import com.devicehive.client.model.HiveMessageHandler;
 import com.devicehive.client.model.exceptions.HiveClientException;
 import com.devicehive.client.model.exceptions.HiveException;
 import com.devicehive.client.websocket.api.CommandsApiWebSocket;
 import com.devicehive.client.websocket.context.SubscriptionFilter;
 import com.devicehive.client.websocket.context.WebSocketClient;
+import com.devicehive.client.websocket.model.DeviceCommand;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -120,14 +120,15 @@ public class CommandsApiWebSocketImpl implements CommandsApiWebSocket {
         request.addProperty("deviceId", guid);
         request.add("command", gson.toJsonTree(command));
 
-        DeviceCommand result = WebSocketClient.sendMessage(request, "command", DeviceCommand.class, COMMAND_TO_CLIENT);
-
+        DeviceCommand result = WebSocketClient.sendMessage(request,
+                "command",
+                DeviceCommand.class, COMMAND_TO_CLIENT);
         if (commandUpdatesHandler != null) {
             WebSocketClient.subscribeForCommandUpdates(result.getId(), guid, commandUpdatesHandler);
         }
 
         LOGGER.debug("DeviceCommand: insert request proceed successfully for device id {] and command: command {}, " +
-                        "parameters {}, lifetime {}, flags {}. Result command id {}, timestamp {}, userId {}", guid,
+                        "parameters {}, lifetime {}, flags {}. Result command id {}, timestamp {}, userId {}",guid,
                 command.getCommand(), command.getParameters(), command.getLifetime(), result.getId(),
                 result.getTimestamp(), result.getUserId());
 
@@ -163,11 +164,12 @@ public class CommandsApiWebSocketImpl implements CommandsApiWebSocket {
                 "status {}, result {}", deviceId, command.getId(), command.getStatus(), command.getResult());
     }
 
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public String subscribeForCommands(SubscriptionFilter filter, HiveMessageHandler<com.devicehive.client.model.DeviceCommand> commandMessageHandler) throws HiveException {
+    public String subscribeForCommands(SubscriptionFilter filter, HiveMessageHandler<DeviceCommand> commandMessageHandler) throws HiveException {
         return WebSocketClient.subscribeForCommands(filter, commandMessageHandler);
     }
 
