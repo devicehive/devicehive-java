@@ -135,7 +135,6 @@ public class ApiClient {
                 .Builder()
                 .baseUrl(url)
                 .client(okClient)
-
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonCustomConverterFactory.create(gson));
 
