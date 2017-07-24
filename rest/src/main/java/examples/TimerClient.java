@@ -9,6 +9,7 @@ import com.devicehive.client.model.DeviceCommandWrapper;
 import com.devicehive.client.model.DeviceNotification;
 import com.devicehive.client.model.DeviceVO;
 import com.devicehive.client.model.JsonStringWrapper;
+import com.devicehive.client.utils.Const;
 import org.joda.time.DateTime;
 import retrofit2.Response;
 
@@ -20,6 +21,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 class TimerClient {
+    public static final String URL = "***REMOVED***/";
 
     private ScheduledExecutorService ses;
     private ApiClient restClient;
@@ -33,7 +35,7 @@ class TimerClient {
     private DateTime timestamp = null;
 
     public TimerClient(String apiKey) {
-        restClient = new ApiClient(Const.URL, ApiClient.AUTH_API_KEY, apiKey);
+        restClient = new ApiClient(URL, ApiClient.AUTH_API_KEY, apiKey);
         ses = Executors.newScheduledThreadPool(2);
         inflateApi();
     }

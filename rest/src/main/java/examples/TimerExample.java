@@ -4,6 +4,7 @@ import com.devicehive.client.ApiClient;
 import com.devicehive.client.api.JwtTokenApi;
 import com.devicehive.client.model.JwtRequestVO;
 import com.devicehive.client.model.JwtTokenVO;
+import com.devicehive.client.utils.Const;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

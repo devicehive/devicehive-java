@@ -3,6 +3,7 @@ package examples;
 import com.devicehive.client.ApiClient;
 import com.devicehive.client.api.*;
 import com.devicehive.client.model.*;
+import com.devicehive.client.utils.Const;
 import org.joda.time.DateTime;
 
 import java.io.IOException;
@@ -13,6 +14,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 class TimerDevice {
+    public static final String URL = "***REMOVED***/";
 
     private DateTime alarmTime = null;
     private DateTime currentTime = null;
@@ -29,7 +31,7 @@ class TimerDevice {
     private DateTime timestamp;
 
     public TimerDevice(String apiKey) {
-        restClient = new ApiClient(Const.URL, ApiClient.AUTH_API_KEY, apiKey);
+        restClient = new ApiClient(URL, ApiClient.AUTH_API_KEY, apiKey);
         ses = Executors.newScheduledThreadPool(3);
         inflateApi();
     }
