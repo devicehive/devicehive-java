@@ -7,8 +7,6 @@ import com.devicehive.client.json.adapters.DateTimeTypeAdapter;
 import com.devicehive.client.json.strategies.JsonPolicyApply;
 import com.devicehive.client.json.strategies.JsonPolicyDef;
 import com.devicehive.client.model.ApiInfoVO;
-import com.devicehive.client.model.DeviceCommand;
-import com.devicehive.client.model.DeviceNotification;
 import com.devicehive.client.model.HiveMessageHandler;
 import com.devicehive.client.model.exceptions.HiveClientException;
 import com.devicehive.client.model.exceptions.HiveException;
@@ -17,6 +15,8 @@ import com.devicehive.client.model.exceptions.InternalHiveClientException;
 import com.devicehive.client.websocket.impl.HiveWebsocketHandler;
 import com.devicehive.client.websocket.impl.SessionMonitor;
 import com.devicehive.client.websocket.impl.SimpleWebsocketResponse;
+import com.devicehive.client.websocket.model.DeviceCommand;
+import com.devicehive.client.websocket.model.DeviceNotification;
 import com.devicehive.client.websocket.model.HiveEntity;
 import com.devicehive.client.websocket.providers.CollectionProvider;
 import com.devicehive.client.websocket.providers.HiveEntityProvider;
@@ -592,7 +592,7 @@ public class WebSocketClient {
             final JsonObject result = websocketResponsesMap.get(requestId).get(WAIT_TIMEOUT, TimeUnit.MINUTES);
 
             if (result != null) {
-
+                System.out.println("processResponse: " + result.toString());
                 if (RESPONSE_STATUS_SUCCESS.equals(result.get(STATUS).getAsString())) {
                     LOGGER.debug("Request with id: {} proceed successfully", requestId);
 
@@ -633,6 +633,7 @@ public class WebSocketClient {
                 try {
                     response = gson.fromJson(result.get(responseMemberName), responseType);
                 } catch (JsonSyntaxException e) {
+                    e.printStackTrace();
                     throw new InternalHiveClientException(Messages.WRONG_TYPE_RESPONSE);
                 }
 

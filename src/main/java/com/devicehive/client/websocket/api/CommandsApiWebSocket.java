@@ -1,10 +1,10 @@
 package com.devicehive.client.websocket.api;
 
 
-import com.devicehive.client.model.DeviceCommand;
+import com.devicehive.client.model.HiveMessageHandler;
 import com.devicehive.client.model.exceptions.HiveException;
 import com.devicehive.client.websocket.context.SubscriptionFilter;
-import com.devicehive.client.model.HiveMessageHandler;
+import com.devicehive.client.websocket.model.DeviceCommand;
 
 import java.util.Date;
 import java.util.List;
@@ -52,7 +52,6 @@ public interface CommandsApiWebSocket {
     /**
      * Insert and send a command to a device with specified identifier.
      *
-     * @param guid                        a device identifier
      * @param command                     a command to be inserted
      * @param commandUpdateMessageHandler a handler that gets called every time an update on the command status is
      *                                    received. The handler receives the command with updated status as a parameter
@@ -94,7 +93,7 @@ public interface CommandsApiWebSocket {
      * command/update</a>
      */
     String subscribeForCommands(SubscriptionFilter filter, HiveMessageHandler<DeviceCommand> commandMessageHandler)
-        throws HiveException;
+            throws HiveException;
 
     /**
      * Unsubscribes client or device from commands.
