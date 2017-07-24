@@ -4,9 +4,6 @@ import com.devicehive.client.ApiClient;
 import com.devicehive.client.api.*;
 import com.devicehive.client.model.*;
 import org.joda.time.DateTime;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -71,18 +68,6 @@ class TimerDevice {
             public void run() {
                 List<DeviceCommand> commands = null;
                 try {
-                    commandApiImpl.poll(Const.DEVICE_ID, "ON", timestamp.toString(), 30L, null)
-                            .enqueue(new Callback<List<DeviceCommand>>() {
-                                @Override
-                                public void onResponse(Call<List<DeviceCommand>> call, Response<List<DeviceCommand>> response) {
-
-                                }
-
-                                @Override
-                                public void onFailure(Call<List<DeviceCommand>> call, Throwable throwable) {
-                                    System.out.println(throwable.getMessage());
-                                }
-                            });
                     commands = commandApiImpl.poll(Const.DEVICE_ID, "ON", timestamp.toString(), 30L, null)
                             .execute()
                             .body();
@@ -108,7 +93,7 @@ class TimerDevice {
                 DeviceNotificationWrapper alarmNotification = createAlarmNotificationWrapper();
                 if (isAlarmTime()) {
                     try {
-                        notificationApiImpl.insert(Const.DEVICE_ID, alarmNotification).execute().body();
+                        notificationApiImpl.insert(Const.DEVICE_ID, alarmNotification).execute();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

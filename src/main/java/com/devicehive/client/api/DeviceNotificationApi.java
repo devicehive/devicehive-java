@@ -28,7 +28,6 @@ public interface DeviceNotificationApi {
    * Creates notification
    * @param deviceId Device ID (required)
    * @param body Notification body (required)
-   * @param authorization Authorization token (required)
    * @return Call&lt;InsertNotification&gt;
    */
   @Headers({
