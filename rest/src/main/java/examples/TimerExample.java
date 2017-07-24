@@ -1,10 +1,11 @@
 package examples;
 
-import com.devicehive.client.ApiClient;
-import com.devicehive.client.api.JwtTokenApi;
-import com.devicehive.client.model.JwtRequestVO;
-import com.devicehive.client.model.JwtTokenVO;
-import com.devicehive.client.utils.Const;
+import com.devicehive.rest.ApiClient;
+import com.devicehive.rest.api.JwtTokenApi;
+import com.devicehive.rest.auth.ApiKeyAuth;
+import com.devicehive.rest.model.JwtRequestVO;
+import com.devicehive.rest.model.JwtTokenVO;
+import com.devicehive.rest.utils.Const;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -14,25 +15,28 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class TimerExample {
-
+    public static final String URL = "***REMOVED***/";
 
     public static void main(String[] args) {
         final ExecutorService executorService = Executors.newFixedThreadPool(2);
 
 
         JwtRequestVO auth = new JwtRequestVO(Const.LOGIN, Const.PASSWORD);
-        ApiClient client = new ApiClient(Const.URL);
+        final ApiClient client = new ApiClient(URL);
 
         client.createService(JwtTokenApi.class).login(auth).enqueue(new Callback<JwtTokenVO>() {
             @Override
             public void onResponse(Call<JwtTokenVO> call, final Response<JwtTokenVO> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    client.addAuthorization(ApiClient.AUTH_API_KEY,
+                            ApiKeyAuth.newInstance(response.body().getAccessToken()));
+
                     executorService.submit(new Runnable() {
                         @Override
                         public void run() {
-                            TimerDevice device = new TimerDevice(response.body().getAccessToken());
+                            TimerDevice timerDevice = new TimerDevice(client);
                             try {
-                                device.run();
+                                timerDevice.run();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -42,8 +46,8 @@ public class TimerExample {
                     executorService.submit(new Runnable() {
                         @Override
                         public void run() {
-                            TimerClient client = new TimerClient(response.body().getAccessToken());
-                            client.run();
+                            TimerClient timerClient = new TimerClient(client);
+                            timerClient.run();
                         }
                     });
 

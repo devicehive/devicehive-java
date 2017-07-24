@@ -1,15 +1,15 @@
 package examples;
 
-import com.devicehive.client.ApiClient;
-import com.devicehive.client.api.ApiInfoVOApi;
-import com.devicehive.client.api.DeviceApi;
-import com.devicehive.client.api.DeviceCommandApi;
-import com.devicehive.client.api.DeviceNotificationApi;
-import com.devicehive.client.model.DeviceCommandWrapper;
-import com.devicehive.client.model.DeviceNotification;
-import com.devicehive.client.model.DeviceVO;
-import com.devicehive.client.model.JsonStringWrapper;
-import com.devicehive.client.utils.Const;
+import com.devicehive.rest.ApiClient;
+import com.devicehive.rest.api.ApiInfoVOApi;
+import com.devicehive.rest.api.DeviceApi;
+import com.devicehive.rest.api.DeviceCommandApi;
+import com.devicehive.rest.api.DeviceNotificationApi;
+import com.devicehive.rest.model.DeviceCommandWrapper;
+import com.devicehive.rest.model.DeviceNotification;
+import com.devicehive.rest.model.DeviceVO;
+import com.devicehive.rest.model.JsonStringWrapper;
+import com.devicehive.rest.utils.Const;
 import org.joda.time.DateTime;
 import retrofit2.Response;
 
@@ -21,10 +21,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 class TimerClient {
-    public static final String URL = "***REMOVED***/";
-
     private ScheduledExecutorService ses;
-    private ApiClient restClient;
+    private ApiClient client;
 
     private DeviceNotificationApi notificationApi;
     private DeviceCommandApi commandApi;
@@ -34,17 +32,17 @@ class TimerClient {
     private String deviceId = null;
     private DateTime timestamp = null;
 
-    public TimerClient(String apiKey) {
-        restClient = new ApiClient(URL, ApiClient.AUTH_API_KEY, apiKey);
+    public TimerClient(ApiClient client) {
+        this.client = client;
         ses = Executors.newScheduledThreadPool(2);
         inflateApi();
     }
 
     private void inflateApi() {
-        notificationApi = restClient.createService(DeviceNotificationApi.class);
-        commandApi = restClient.createService(DeviceCommandApi.class);
-        infoApi = restClient.createService(ApiInfoVOApi.class);
-        deviceApi = restClient.createService(DeviceApi.class);
+        notificationApi = client.createService(DeviceNotificationApi.class);
+        commandApi = client.createService(DeviceCommandApi.class);
+        infoApi = client.createService(ApiInfoVOApi.class);
+        deviceApi = client.createService(DeviceApi.class);
     }
 
     void run() {
