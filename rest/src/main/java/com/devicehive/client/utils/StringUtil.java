@@ -1,4 +1,4 @@
-package com.devicehive.client;
+package com.devicehive.client.utils;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2015-11-03T14:12:41.080+02:00")
 public class StringUtil {

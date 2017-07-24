@@ -4,6 +4,7 @@ import com.devicehive.client.auth.ApiKeyAuth;
 import com.devicehive.client.auth.HttpBasicAuth;
 import com.devicehive.client.auth.OAuth;
 import com.devicehive.client.json.adapters.DateTimeTypeAdapter;
+import com.devicehive.client.utils.Const;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
@@ -11,7 +12,6 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
-import okhttp3.logging.HttpLoggingInterceptor;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
 import org.joda.time.DateTime;
@@ -38,7 +38,6 @@ public class ApiClient {
     private static final String AUTH_NAME = "Authorization";
     public static final String AUTH_BASIC = "basic";
 
-    public final static String ISO_PATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSS";
     private Retrofit.Builder adapterBuilder;
 
     public ApiClient(String url) {
@@ -116,14 +115,14 @@ public class ApiClient {
 
 
     private void createDefaultAdapter(String url) {
-        DateTimeTypeAdapter typeAdapter = new DateTimeTypeAdapter(ISO_PATTERN);
+        DateTimeTypeAdapter typeAdapter = new DateTimeTypeAdapter(Const.TIMESTAMP_FORMAT);
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(DateTime.class,
                         typeAdapter)
                 .create();
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+//        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         // set your desired log level
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+//        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         okClient = new OkHttpClient().newBuilder()
 //                .addInterceptor(logging)
