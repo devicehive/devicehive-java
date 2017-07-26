@@ -32,12 +32,12 @@ public class WebSocketExample {
         DeviceListener deviceListener = new DeviceListener() {
             @Override
             public void onDeviceList(List<DeviceVO> response) {
-                System.out.println(response);
+                System.out.println("LIST:"+response);
             }
 
             @Override
             public void onDeviceGet(DeviceVO response) {
-                System.out.println(response);
+                System.out.println("Single:"+response);
             }
 
             @Override
@@ -54,10 +54,11 @@ public class WebSocketExample {
         DeviceWS deviceWS = client.addDeviceListener(deviceListener);
 
 
-        loginWS.authenticate("***REMOVED***", "***REMOVED***");
+//        loginWS.authenticate("***REMOVED***", "***REMOVED***");
+        loginWS.authenticate("eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTAxMDgyMTEwMTE3LCJ0b2tlblR5cGUiOiJBQ0NFU1MifX0.5ybd_KzbOnOdAAcGhRDSLiy9raM1LneTbtkO9iO7Cxs");
         deviceWS.list(null, null, null,
                 null, null,
                 null, 0, 0);
-        deviceWS.get("websocket-list-commands-1500640479.302747");
+        deviceWS.get("441z79GRgY0QnV9HKrLra8Jt2FXRQ6MzqmuP");
     }
 }
