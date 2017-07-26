@@ -9,7 +9,6 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.internal.Streams;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
@@ -48,14 +47,14 @@ public class JsonStringWrapperAdapterFactory implements TypeAdapterFactory {
         @Override
         public JsonStringWrapper read(JsonReader in) throws IOException {
             JsonStringWrapper wrapper = new JsonStringWrapper();
-            JsonToken jsonToken = in.peek();
-            if (jsonToken == JsonToken.NULL) {
-                in.nextNull();
-                return null;
-            } else {
-                wrapper.setJsonString(Streams.parse(in).toString());
-                return wrapper;
+            try {
+
+                wrapper.setJsonString(Streams.parse(in).getAsString());
+            } catch (Exception e) {
+                e.printStackTrace();
+                wrapper = null;
             }
+            return wrapper;
         }
     }
 }
