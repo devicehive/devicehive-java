@@ -1,29 +1,12 @@
-package com.devicehive.websocket.client.model;
+package com.devicehive.websocket.model;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class DeviceAction extends Action {
-
-//    {
-//        "action": {string},
-//        "requestId": {object},
-//        "name": {string},
-//        "namePattern": {string},
-//        "networkId": {long},
-//        "networkName": {string},
-//        "sortField": {string},
-//        "sortOrder": {string},
-//        "take": {integer},
-//        "skip": {integer}
-//    }
-
-
+public class DeviceListAction extends Action {
     @SerializedName("name")
     String name;
     @SerializedName("namePattern")
@@ -41,4 +24,7 @@ public class DeviceAction extends Action {
     @SerializedName("skip")
     Integer skip;
 
+    public DeviceListAction() {
+        setAction("device/list");
+    }
 }

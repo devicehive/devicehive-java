@@ -1,8 +1,8 @@
-package com.devicehive.websocket.client.adapter;
+package com.devicehive.websocket.adapter;
 
-import com.devicehive.websocket.client.model.ErrorAction;
-import com.devicehive.websocket.client.model.JwtTokenVO;
-import com.devicehive.websocket.client.model.TokenResponse;
+import com.devicehive.websocket.model.ErrorAction;
+import com.devicehive.websocket.model.JwtTokenVO;
+import com.devicehive.websocket.model.TokenResponse;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;

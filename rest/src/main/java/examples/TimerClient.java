@@ -49,7 +49,7 @@ class TimerClient {
         if (deviceId == null) {
             try {
                 Response<List<DeviceVO>> response = deviceApi
-                        .list(Const.NAME, null, null, null, null,
+                        .list(null, null, null, null, null,
                                 null, 20, 0).execute();
 
                 if (!response.isSuccessful()) {
@@ -57,6 +57,7 @@ class TimerClient {
                 }
 
                 List<DeviceVO> devices = response.body();
+                System.out.println(devices);
                 if (devices.size() == 0) {
                     System.out.println("No devices was found");
                 } else {

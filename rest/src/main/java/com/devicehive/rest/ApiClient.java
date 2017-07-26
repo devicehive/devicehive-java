@@ -1,9 +1,10 @@
 package com.devicehive.rest;
 
+import com.devicehive.rest.adapters.DateTimeTypeAdapter;
+import com.devicehive.rest.adapters.JsonStringWrapperAdapterFactory;
 import com.devicehive.rest.auth.ApiKeyAuth;
 import com.devicehive.rest.auth.HttpBasicAuth;
 import com.devicehive.rest.auth.OAuth;
-import com.devicehive.rest.adapters.DateTimeTypeAdapter;
 import com.devicehive.rest.utils.Const;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -116,6 +117,7 @@ public class ApiClient {
     private void createDefaultAdapter(String url) {
         DateTimeTypeAdapter typeAdapter = new DateTimeTypeAdapter(Const.TIMESTAMP_FORMAT);
         Gson gson = new GsonBuilder()
+                .registerTypeAdapterFactory(new JsonStringWrapperAdapterFactory())
                 .registerTypeAdapter(DateTime.class,
                         typeAdapter)
                 .create();

@@ -37,9 +37,15 @@ public class DeviceVO {
   @SerializedName("isBlocked")
   private Boolean isBlocked = false;
 
-  public DeviceVO id(String id) {
-    this.id = id;
-    return this;
+  @Override
+  public String toString() {
+    return "{\n\"DeviceVO\":{\n"
+            + "\"id\":\"" + id + "\""
+            + ",\n \"name\":\"" + name + "\""
+            + ",\n \"data\":" + data
+            + ",\n \"networkId\":\"" + networkId + "\""
+            + ",\n \"isBlocked\":\"" + isBlocked + "\""
+            + "}\n}";
   }
 }
 

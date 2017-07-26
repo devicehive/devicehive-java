@@ -1,4 +1,4 @@
-package com.devicehive.websocket.client.model;
+package com.devicehive.websocket.model;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;

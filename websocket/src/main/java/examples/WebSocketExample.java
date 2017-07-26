@@ -1,37 +1,63 @@
 package examples;
 
-import com.devicehive.websocket.client.TokenResponseListener;
-import com.devicehive.websocket.client.api.DeviceWS;
-import com.devicehive.websocket.client.api.LoginWS;
-import com.devicehive.websocket.client.model.ErrorAction;
-import com.devicehive.websocket.client.model.JwtTokenVO;
+import com.devicehive.websocket.api.DeviceWS;
+import com.devicehive.websocket.api.listener.DeviceListener;
+import com.devicehive.websocket.api.listener.LoginListener;
+import com.devicehive.websocket.WSClient;
+import com.devicehive.websocket.api.listener.LoginWS;
+import com.devicehive.websocket.model.DeviceVO;
+import com.devicehive.websocket.model.ErrorAction;
+import com.devicehive.websocket.model.JwtTokenVO;
+
+import java.util.List;
 
 public class WebSocketExample {
-    public static final String URL = "ws://playground.dev.devicehive.com/api/websocket";
+    private static final String URL = "ws://playground.dev.devicehive.com/api/websocket";
 
     public static void main(String[] args) {
-        final LoginWS login = new LoginWS(URL);
-        login.subscribe(new TokenResponseListener() {
+        WSClient client = new WSClient(URL);
+
+        LoginListener loginListener = new LoginListener() {
             @Override
-            public void onResult(JwtTokenVO result) {
-                System.out.println(result);
+            public void onResponse(JwtTokenVO response) {
+                System.out.println(response);
+            }
+
+            @Override
+            public void onError(ErrorAction error) {
+                System.out.println(error);
+
+            }
+        };
+        DeviceListener deviceListener = new DeviceListener() {
+            @Override
+            public void onDeviceList(List<DeviceVO> response) {
+                System.out.println(response);
+            }
+
+            @Override
+            public void onDeviceGet(DeviceVO response) {
+                System.out.println(response);
+            }
+
+            @Override
+            public void onDeviceDelete(List<DeviceVO> response) {
+
             }
 
             @Override
             public void onError(ErrorAction error) {
                 System.out.println(error);
             }
-        });
-        login.sendMessage("dhadmin", "dhadmin_#911");
+        };
+        LoginWS loginWS = client.addLoginListener(loginListener);
+        DeviceWS deviceWS = client.addDeviceListener(deviceListener);
 
-        DeviceWS deviceWS = new DeviceWS(URL, login.getClient());
-        deviceWS.subscribe();
-        deviceWS.sendMessage();
-        deviceWS.sendMessage();
-        deviceWS.sendMessage();
-//        login.unsubscribe();
-//        deviceWS.subscribe();
-//        deviceWS.sendMessage();
 
+        loginWS.authenticate("dhadmin", "dhadmin_#911");
+        deviceWS.list(null, null, null,
+                null, null,
+                null, 0, 0);
+        deviceWS.get("websocket-list-commands-1500640479.302747");
     }
 }
