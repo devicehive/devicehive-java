@@ -30,15 +30,14 @@ public interface DeviceApi {
      * Gets information about device.
      *
      * @param id            Device unique identifier. (required)
-     * @param authorization Authorization token (required)
      * @return Call&lt;Void&gt;
      */
     @Headers({
             "Content-Type:application/json"
     })
     @GET("device/{id}")
-    Call<Void> get(
-            @Path("id") String id, @Header("Authorization") String authorization
+    Call<DeviceVO> get(
+            @Path("id") String id
     );
 
     /**
