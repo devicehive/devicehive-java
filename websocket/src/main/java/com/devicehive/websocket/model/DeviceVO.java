@@ -32,7 +32,7 @@ public class DeviceVO extends Action {
     private String name = null;
 
     @SerializedName("data")
-    private JsonStringWrapper data = null;
+    private Object data = null;
 
     @SerializedName("networkId")
     private Long networkId = null;
