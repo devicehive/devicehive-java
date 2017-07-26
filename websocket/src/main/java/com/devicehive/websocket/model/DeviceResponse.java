@@ -1,26 +1,12 @@
-package com.devicehive.websocket.client.model;
+package com.devicehive.websocket.model;
 
 import com.google.gson.annotations.SerializedName;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
 public class DeviceResponse extends Action {
-//    {
-//        "action": {string},
-//        "requestId": {object},
-//        "status": {string},
-//        "devices": [{
-//        "id": {string},
-//        "name": {string},
-//        "status": {string},
-//        "data": {object},
-//        "networkId": {integer},
-//        "isBlocked": {boolean},
-//    }]
-//    }
-
-    @SerializedName("status")
-    private String status;
     @SerializedName("devices")
     private List<DeviceVO> devices;
 

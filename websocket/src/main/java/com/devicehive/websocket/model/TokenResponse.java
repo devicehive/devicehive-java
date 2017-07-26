@@ -1,4 +1,4 @@
-package com.devicehive.websocket.client.model;
+package com.devicehive.websocket.model;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

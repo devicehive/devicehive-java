@@ -1,4 +1,4 @@
-package com.devicehive.websocket.client.model;
+package com.devicehive.websocket.model;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class JwtTokenVO extends Action {
 
-    @SerializedName("status")
-    String status;
     @SerializedName("accessToken")
     String accessToken;
     @SerializedName("refreshToken")

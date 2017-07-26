@@ -1,4 +1,4 @@
-package com.devicehive.websocket.client.model;
+package com.devicehive.websocket.model;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
@@ -8,8 +8,6 @@ public class ErrorAction extends Action {
 
     @SerializedName("code")
     int code;
-    @SerializedName("status")
-    String status;
     @SerializedName("error")
     String error;
 
