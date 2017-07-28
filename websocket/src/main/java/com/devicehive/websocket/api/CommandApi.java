@@ -1,4 +1,4 @@
-package com.devicehive.websocket.api.impl;
+package com.devicehive.websocket.api;
 
 import com.devicehive.websocket.model.request.CommandListAction;
 import com.devicehive.websocket.model.request.data.DeviceCommandWrapper;
@@ -6,7 +6,7 @@ import org.joda.time.DateTime;
 
 import java.util.List;
 
-public interface CommandApi {
+interface CommandApi {
 
 
     void get(String deviceId, String commandId);

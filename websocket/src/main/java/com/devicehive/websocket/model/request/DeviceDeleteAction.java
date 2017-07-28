@@ -6,11 +6,12 @@ import lombok.Data;
 @Data
 public class DeviceDeleteAction extends RequestAction {
 
+    public static final String DEVICE_DELETE = "device/delete";
     @SerializedName("deviceId")
     String deviceId;
 
     public DeviceDeleteAction(){
-        super("device/delete");
+        super(DEVICE_DELETE);
     }
 
     @Override

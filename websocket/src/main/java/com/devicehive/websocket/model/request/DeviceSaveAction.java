@@ -7,10 +7,11 @@ import lombok.Data;
 @Data
 public class DeviceSaveAction extends RequestAction {
 
+    public static final String DEVICE_SAVE = "device/save";
     @SerializedName("device")
     DeviceVO device;
     public DeviceSaveAction() {
-        super("device/save");
+        super(DEVICE_SAVE);
     }
 
     @Override
