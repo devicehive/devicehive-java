@@ -1,4 +1,4 @@
-package com.devicehive.websocket.model;
+package com.devicehive.websocket.model.repsonse;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtTokenVO extends Action {
+public class JwtTokenResponse extends ResponseAction {
 
     @SerializedName("accessToken")
     String accessToken;
@@ -17,7 +17,7 @@ public class JwtTokenVO extends Action {
 
     @Override
     public String toString() {
-        return "{\n\"JwtTokenVO\":{\n"
+        return "{\n\"JwtTokenResponse\":{\n"
                 + " \"action\":\"" + action + "\""
                 + ",\n \"requestId\":\"" + requestId + "\""
                 + ",\n \"status\":\"" + status + "\""

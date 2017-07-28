@@ -22,6 +22,9 @@ public class RequestAction {
         this.requestId = requestId;
     }
 
+    public String getAction() {
+        return action;
+    }
 
     @Override
     public String toString() {

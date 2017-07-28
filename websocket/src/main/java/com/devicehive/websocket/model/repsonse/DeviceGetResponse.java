@@ -1,10 +1,11 @@
-package com.devicehive.websocket.model;
+package com.devicehive.websocket.model.repsonse;
 
+import com.devicehive.websocket.model.repsonse.data.DeviceVO;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
 @Data
-public class DeviceResponse extends Action {
+public class DeviceGetResponse extends ResponseAction {
     @SerializedName("device")
     private DeviceVO device;
 

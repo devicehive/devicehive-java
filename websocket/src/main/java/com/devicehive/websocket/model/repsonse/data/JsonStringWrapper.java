@@ -11,7 +11,7 @@
  */
 
 
-package com.devicehive.websocket.model;
+package com.devicehive.websocket.model.repsonse.data;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;

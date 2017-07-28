@@ -1,10 +1,11 @@
-package com.devicehive.websocket.model;
+package com.devicehive.websocket.model.repsonse;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
 @Data
-public class ErrorAction extends Action {
+public class ErrorAction extends ResponseAction {
+    public static final String ERROR="error";
 
     @SerializedName("code")
     int code;

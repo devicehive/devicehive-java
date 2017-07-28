@@ -1,19 +1,25 @@
 package com.devicehive.websocket.api.listener;
 
 import com.devicehive.websocket.adapter.JsonStringWrapperAdapterFactory;
-import com.devicehive.websocket.model.*;
+import com.devicehive.websocket.model.repsonse.ErrorAction;
+import com.devicehive.websocket.model.repsonse.JwtTokenResponse;
+import com.devicehive.websocket.model.repsonse.ResponseAction;
+import com.devicehive.websocket.model.request.AuthenticateAction;
+import com.devicehive.websocket.model.request.TokenAction;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import okhttp3.*;
 
-public class LoginWS extends WebSocketListener {
+import static com.devicehive.websocket.model.request.AuthenticateAction.AUTH;
+import static com.devicehive.websocket.model.request.TokenAction.TOKEN;
 
-    public static final String TOKEN = "token";
+public class LoginWSImpl extends WebSocketListener {
+
     private WebSocket ws;
     private Gson writer = new Gson();
     private LoginListener loginListener;
 
-    public LoginWS(OkHttpClient client, Request request, LoginListener loginListener) {
+    public LoginWSImpl(OkHttpClient client, Request request, LoginListener loginListener) {
         ws = client.newWebSocket(request, this);
         this.loginListener = loginListener;
     }
@@ -23,17 +29,20 @@ public class LoginWS extends WebSocketListener {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapterFactory(new JsonStringWrapperAdapterFactory()).create();
 
-        Action action = gson.fromJson(text, Action.class);
+        ResponseAction action = gson.fromJson(text, ResponseAction.class);
         String actionName = action.getAction();
         String status = action.getStatus();
 
-        if (status.equalsIgnoreCase("error")) {
+        System.out.println(text);
+        if (status.equalsIgnoreCase(ErrorAction.ERROR)) {
             ErrorAction errorAction = gson.fromJson(text, ErrorAction.class);
             loginListener.onError(errorAction);
         } else if (actionName.equalsIgnoreCase(TOKEN)) {
-            JwtTokenVO tokenVO = gson.fromJson(text, JwtTokenVO.class);
+            JwtTokenResponse tokenVO = gson.fromJson(text, JwtTokenResponse.class);
             authenticate(tokenVO.getAccessToken());
             loginListener.onResponse(tokenVO);
+        } else if (actionName.equalsIgnoreCase(AUTH)) {
+            loginListener.onAuthenticate(action);
         }
     }
 
@@ -57,8 +66,7 @@ public class LoginWS extends WebSocketListener {
         if (ws == null) {
             return;
         }
-        AuthAction authAction = new AuthAction();
-        authAction.setAction("authenticate");
+        AuthenticateAction authAction = new AuthenticateAction();
         authAction.setToken(token);
         ws.send(writer.toJson(authAction));
     }

@@ -1,8 +1,8 @@
 package com.devicehive.websocket.adapter;
 
-import com.devicehive.websocket.model.ErrorAction;
-import com.devicehive.websocket.model.JwtTokenVO;
-import com.devicehive.websocket.model.TokenResponse;
+import com.devicehive.websocket.model.repsonse.ErrorAction;
+import com.devicehive.websocket.model.repsonse.JwtTokenResponse;
+import com.devicehive.websocket.model.repsonse.TokenResponse;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
@@ -19,7 +19,7 @@ public class TokenDeserializer implements JsonDeserializer<TokenResponse> {
             ErrorAction error = gson.fromJson(jsonObject, ErrorAction.class);
             return new TokenResponse(null, error);
         } else {
-            JwtTokenVO tokenVO = gson.fromJson(jsonObject, JwtTokenVO.class);
+            JwtTokenResponse tokenVO = gson.fromJson(jsonObject, JwtTokenResponse.class);
             return new TokenResponse(tokenVO, null);
         }
     }

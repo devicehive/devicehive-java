@@ -1,13 +1,11 @@
-package com.devicehive.websocket.model;
+package com.devicehive.websocket.model.repsonse;
 
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
 @Data
-@RequiredArgsConstructor
 public class TokenResponse {
 
-    private final JwtTokenVO tokenVO;
+    private final JwtTokenResponse tokenVO;
     private final ErrorAction error;
 
     public boolean isError() {

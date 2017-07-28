@@ -1,12 +1,14 @@
 package examples;
 
 import com.devicehive.websocket.WSClient;
-import com.devicehive.websocket.api.DeviceWS;
+import com.devicehive.websocket.api.DeviceWSImpl;
 import com.devicehive.websocket.api.listener.DeviceListener;
 import com.devicehive.websocket.api.listener.LoginListener;
-import com.devicehive.websocket.model.DeviceVO;
-import com.devicehive.websocket.model.ErrorAction;
-import com.devicehive.websocket.model.JwtTokenVO;
+import com.devicehive.websocket.api.listener.LoginWSImpl;
+import com.devicehive.websocket.model.repsonse.ResponseAction;
+import com.devicehive.websocket.model.repsonse.data.DeviceVO;
+import com.devicehive.websocket.model.repsonse.ErrorAction;
+import com.devicehive.websocket.model.repsonse.JwtTokenResponse;
 
 import java.util.List;
 
@@ -16,15 +18,20 @@ public class WebSocketExample {
     public static void main(String[] args) {
 
 
-        WSClient client = new WSClient.Builder()
-                .authParams("dhadmin", "dhadmin_#911")
-//                .token("eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTAxMTYyNzQzMDg3LCJ0b2tlblR5cGUiOiJBQ0NFU1MifX0.JZXjYUT4y5jrcdvJJzMcQzWw0MwyuVPpPTC0ihQz99k")
+        WSClient client = new WSClient
+                .Builder()
                 .url(URL)
                 .build();
 
-        LoginListener loginListener = new LoginListener() {
+
+        final LoginWSImpl loginWS = client.createLoginWS(new LoginListener() {
             @Override
-            public void onResponse(JwtTokenVO response) {
+            public void onResponse(JwtTokenResponse response) {
+                System.out.println(response);
+            }
+
+            @Override
+            public void onAuthenticate(ResponseAction response) {
                 System.out.println(response);
             }
 
@@ -33,10 +40,9 @@ public class WebSocketExample {
                 System.out.println(error);
 
             }
-        };
-
-
-        client.addLoginListener(loginListener);
+        });
+        loginWS.getToken("dhadmin1", "dhadmin_#911");
+//        loginWS.authenticate("eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTAxMjM5OTE5MTAxLCJ0b2tlblR5cGUiOiJBQ0NFU1MifX0.JPKslV1Hk2n8AU4Gd53S5XxqzFx1O_mn_raL4fo6hus");
         DeviceListener deviceListener = new DeviceListener() {
             @Override
             public void onDeviceList(List<DeviceVO> response) {
@@ -60,8 +66,7 @@ public class WebSocketExample {
         };
 
 
-
-        DeviceWS deviceWS = client.addDeviceListener(deviceListener);
+        DeviceWSImpl deviceWS = client.createDeviceWS(deviceListener);
 
         deviceWS.list(null, null, null,
                 null, null,
