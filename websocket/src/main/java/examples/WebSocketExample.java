@@ -37,7 +37,7 @@ public class WebSocketExample {
 
             @Override
             public void onError(ErrorResponse error) {
-                System.out.println(error);
+                System.out.println("AuthWS:"+error);
 
             }
         });
@@ -61,7 +61,7 @@ public class WebSocketExample {
 
             @Override
             public void onError(ErrorResponse error) {
-                System.out.println(error);
+                System.out.println("DeviceListener:"+error);
             }
         };
         DeviceWS deviceWS = client.createDeviceWS(deviceListener);

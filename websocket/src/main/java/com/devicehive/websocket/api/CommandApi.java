@@ -9,7 +9,7 @@ import java.util.List;
 interface CommandApi {
 
 
-    void get(String deviceId, String commandId);
+    void get(String deviceId, Long commandId);
 
     void list(String deviceId, DateTime start, DateTime end, String commandName, String status,
               CommandListAction.SortOrder sortOrder, Integer take, Integer skip);

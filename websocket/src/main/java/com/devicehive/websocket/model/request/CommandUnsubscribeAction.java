@@ -3,12 +3,14 @@ package com.devicehive.websocket.model.request;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class CommandUnsubscribeAction extends RequestAction {
     public static final String COMMAND_UNSUBSCRIBE = "command/unsubscribe";
 
-    @SerializedName("deviceId")
-    String deviceId;
+    @SerializedName("deviceIds")
+    List<String> deviceIds;
     @SerializedName("subscriptionId")
     String subscriptionId;
 
@@ -20,7 +22,7 @@ public class CommandUnsubscribeAction extends RequestAction {
     @Override
     public String toString() {
         return "{\n\"CommandUnsubscribeAction\":{\n"
-                + "\"deviceId\":\"" + deviceId + "\""
+                + "\"deviceIds\":" + deviceIds
                 + ",\n \"subscriptionId\":\"" + subscriptionId + "\""
                 + ",\n \"requestId\":\"" + requestId + "\""
                 + "}\n}";
