@@ -2,14 +2,16 @@ package com.devicehive.websocket.api;
 
 import com.devicehive.websocket.adapter.JsonStringWrapperAdapterFactory;
 import com.devicehive.websocket.listener.LoginListener;
-import com.devicehive.websocket.model.repsonse.ErrorResponse;
 import com.devicehive.websocket.model.repsonse.JwtTokenResponse;
 import com.devicehive.websocket.model.repsonse.ResponseAction;
 import com.devicehive.websocket.model.request.AuthenticateAction;
 import com.devicehive.websocket.model.request.TokenAction;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import okhttp3.*;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.WebSocket;
 
 import static com.devicehive.websocket.model.request.AuthenticateAction.AUTH;
 import static com.devicehive.websocket.model.request.TokenAction.TOKEN;
@@ -18,32 +20,28 @@ public class AuthWS extends BaseWebSocketListener implements AuthApi {
 
     private LoginListener loginListener;
 
-    public AuthWS(OkHttpClient client, Request request, LoginListener loginListener) {
-        super(client, request);
-        this.loginListener = loginListener;
+    public AuthWS(OkHttpClient client, Request request, LoginListener listener) {
+        super(client, request, listener);
+        this.loginListener = listener;
     }
 
+
     @Override
-    public void onMessage(WebSocket webSocket, String text) {
+    public void onSuccess(String message) {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapterFactory(new JsonStringWrapperAdapterFactory()).create();
 
-        ResponseAction action = getResponseAction(text);
+        ResponseAction action = getResponseAction(message);
         String actionName = action.getAction();
         String status = action.getStatus();
 
-        System.out.println(text);
-        if (status.equalsIgnoreCase(ErrorResponse.ERROR)) {
-            ErrorResponse errorResponse = gson.fromJson(text, ErrorResponse.class);
-            loginListener.onError(errorResponse);
-        } else {
-            if (actionName.equalsIgnoreCase(TOKEN)) {
-                JwtTokenResponse tokenVO = gson.fromJson(text, JwtTokenResponse.class);
-                authenticate(tokenVO.getAccessToken());
-                loginListener.onResponse(tokenVO);
-            } else if (actionName.equalsIgnoreCase(AUTH)) {
-                loginListener.onAuthenticate(action);
-            }
+        System.out.println(message);
+        if (actionName.equalsIgnoreCase(TOKEN)) {
+            JwtTokenResponse tokenVO = gson.fromJson(message, JwtTokenResponse.class);
+            authenticate(tokenVO.getAccessToken());
+            loginListener.onResponse(tokenVO);
+        } else if (actionName.equalsIgnoreCase(AUTH)) {
+            loginListener.onAuthenticate(action);
         }
     }
 
@@ -57,15 +55,14 @@ public class AuthWS extends BaseWebSocketListener implements AuthApi {
         TokenAction tokenAction = new TokenAction();
         tokenAction.setLogin(login);
         tokenAction.setPassword(password);
-        String json = getGson().toJson(tokenAction);
-        getWebSocketConnection().send(json);
+        send(tokenAction);
     }
 
     @Override
     public void authenticate(String token) {
         AuthenticateAction authAction = new AuthenticateAction();
         authAction.setToken(token);
-        getWebSocketConnection().send(getGson().toJson(authAction));
+        send(authAction);
     }
 
 }
