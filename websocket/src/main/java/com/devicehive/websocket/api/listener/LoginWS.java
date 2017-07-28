@@ -26,14 +26,13 @@ public class LoginWS extends WebSocketListener {
         Action action = gson.fromJson(text, Action.class);
         String actionName = action.getAction();
         String status = action.getStatus();
+
         if (status.equalsIgnoreCase("error")) {
             ErrorAction errorAction = gson.fromJson(text, ErrorAction.class);
             loginListener.onError(errorAction);
-            return;
-        }
-
-        if (action.getAction().equalsIgnoreCase(TOKEN)) {
+        } else if (actionName.equalsIgnoreCase(TOKEN)) {
             JwtTokenVO tokenVO = gson.fromJson(text, JwtTokenVO.class);
+            authenticate(tokenVO.getAccessToken());
             loginListener.onResponse(tokenVO);
         }
     }
@@ -43,7 +42,7 @@ public class LoginWS extends WebSocketListener {
         System.out.println(t.getMessage());
     }
 
-    public void authenticate(String login, String password) {
+    public void getToken(String login, String password) {
         if (ws == null) {
             return;
         }

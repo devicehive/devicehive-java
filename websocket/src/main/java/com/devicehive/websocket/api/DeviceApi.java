@@ -1,6 +1,7 @@
 package com.devicehive.websocket.api;
 
 import com.devicehive.websocket.model.DeviceVO;
+import lombok.NonNull;
 
 public interface DeviceApi {
 
@@ -26,7 +27,7 @@ public interface DeviceApi {
     //"requestId": {object}
     // }
     //device/delete
-    void delete(String deviceId);
+    void delete(@NonNull String deviceId);
 
 
 }

@@ -274,7 +274,8 @@ public class ApiClient {
      */
     public void addAuthorization(String authName, Interceptor authorization) {
         if (apiAuthorizations.containsKey(authName)) {
-            throw new RuntimeException("auth name \"" + authName + "\" already in api authorizations");
+//            throw new RuntimeException("auth name \"" + authName + "\" already in api authorizations");
+            return;
         }
         apiAuthorizations.put(authName, authorization);
         okClient = okClient.newBuilder()
