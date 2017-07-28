@@ -2,7 +2,15 @@ package com.devicehive.websocket.api;
 
 import com.devicehive.websocket.adapter.JsonStringWrapperAdapterFactory;
 import com.devicehive.websocket.api.listener.DeviceListener;
-import com.devicehive.websocket.model.*;
+import com.devicehive.websocket.model.repsonse.DeviceGetResponse;
+import com.devicehive.websocket.model.repsonse.DeviceListResponse;
+import com.devicehive.websocket.model.repsonse.ErrorAction;
+import com.devicehive.websocket.model.repsonse.ResponseAction;
+import com.devicehive.websocket.model.repsonse.data.DeviceVO;
+import com.devicehive.websocket.model.request.DeviceDeleteAction;
+import com.devicehive.websocket.model.request.DeviceGetAction;
+import com.devicehive.websocket.model.request.DeviceListAction;
+import com.devicehive.websocket.model.request.DeviceSaveAction;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.NonNull;
@@ -11,12 +19,12 @@ import okhttp3.Request;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
-public class DeviceWS extends WebSocketListener implements DeviceApi {
+public class DeviceWSImpl extends WebSocketListener implements DeviceApi {
     private final DeviceListener deviceListener;
     private WebSocket ws;
     private Gson writer = new Gson();
 
-    public DeviceWS(OkHttpClient client, Request request, DeviceListener deviceListener) {
+    public DeviceWSImpl(OkHttpClient client, Request request, DeviceListener deviceListener) {
         ws = client.newWebSocket(request, this);
         this.deviceListener = deviceListener;
     }
@@ -28,9 +36,10 @@ public class DeviceWS extends WebSocketListener implements DeviceApi {
                 .registerTypeAdapterFactory(new JsonStringWrapperAdapterFactory())
                 .create();
 //        System.out.println(text);
-        Action action = gson.fromJson(text, Action.class);
+        ResponseAction action = gson.fromJson(text, ResponseAction.class);
         String status = action.getStatus();
         if (status.equalsIgnoreCase("error")) {
+            System.out.println(text);
             ErrorAction errorAction = gson.fromJson(text, ErrorAction.class);
             deviceListener.onError(errorAction);
         } else {
@@ -39,7 +48,7 @@ public class DeviceWS extends WebSocketListener implements DeviceApi {
                 DeviceListResponse response = gson.fromJson(text, DeviceListResponse.class);
                 deviceListener.onDeviceList(response.getDevices());
             } else if (actionName.equalsIgnoreCase("device/get")) {
-                DeviceResponse device = gson.fromJson(text, DeviceResponse.class);
+                DeviceGetResponse device = gson.fromJson(text, DeviceGetResponse.class);
                 deviceListener.onDeviceGet(device.getDevice());
             }
         }
@@ -66,22 +75,22 @@ public class DeviceWS extends WebSocketListener implements DeviceApi {
         deviceListAction.setSortOrder(sortOrder);
         deviceListAction.setTake(take);
         deviceListAction.setSkip(skip);
+
         ws.send(writer.toJson(deviceListAction));
     }
 
     @Override
     public void save(@NonNull DeviceVO device) {
-//        device.setAction("device/save");
-//        ws.send(writer.toJson(device));
+        DeviceSaveAction action = new DeviceSaveAction();
+        action.setDevice(device);
+        ws.send(writer.toJson(action));
     }
 
 
     @Override
     public void delete(@NonNull String deviceId) {
-//        DeviceDeleteAction deleteAction=new DeviceDeleteAction();
-//        deleteAction.setDeviceId(deviceId);
-//        System.out.println(deleteAction);
-//
-//        ws.send(writer.toJson(deleteAction));
+        DeviceDeleteAction deleteAction = new DeviceDeleteAction();
+        deleteAction.setDeviceId(deviceId);
+        ws.send(writer.toJson(deleteAction));
     }
 }

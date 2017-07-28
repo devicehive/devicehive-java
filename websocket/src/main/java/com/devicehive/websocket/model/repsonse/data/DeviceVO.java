@@ -11,20 +11,16 @@
  */
 
 
-package com.devicehive.websocket.model;
+package com.devicehive.websocket.model.repsonse.data;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * DeviceVO
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class DeviceVO extends Action {
+public class DeviceVO {
     @SerializedName("id")
     private String id = null;
 

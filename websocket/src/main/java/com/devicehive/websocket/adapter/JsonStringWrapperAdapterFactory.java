@@ -1,7 +1,7 @@
 package com.devicehive.websocket.adapter;
 
 
-import com.devicehive.websocket.model.JsonStringWrapper;
+import com.devicehive.websocket.model.repsonse.data.JsonStringWrapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 import com.google.gson.TypeAdapter;
