@@ -1,9 +1,9 @@
-package com.devicehive.websocket.api;
+package com.devicehive.websocket.api.impl;
 
 import com.devicehive.websocket.model.repsonse.data.DeviceVO;
 import lombok.NonNull;
 
-public interface DeviceApi {
+interface DeviceApi {
 
 
     void get(String deviceId);

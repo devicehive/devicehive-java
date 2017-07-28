@@ -1,14 +1,14 @@
 package examples;
 
 import com.devicehive.websocket.WSClient;
-import com.devicehive.websocket.api.DeviceWSImpl;
+import com.devicehive.websocket.api.impl.AuthWSImpl;
+import com.devicehive.websocket.api.impl.DeviceWSImpl;
 import com.devicehive.websocket.api.listener.DeviceListener;
 import com.devicehive.websocket.api.listener.LoginListener;
-import com.devicehive.websocket.api.listener.LoginWSImpl;
-import com.devicehive.websocket.model.repsonse.ResponseAction;
-import com.devicehive.websocket.model.repsonse.data.DeviceVO;
 import com.devicehive.websocket.model.repsonse.ErrorAction;
 import com.devicehive.websocket.model.repsonse.JwtTokenResponse;
+import com.devicehive.websocket.model.repsonse.ResponseAction;
+import com.devicehive.websocket.model.repsonse.data.DeviceVO;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public class WebSocketExample {
                 .build();
 
 
-        final LoginWSImpl loginWS = client.createLoginWS(new LoginListener() {
+        final AuthWSImpl loginWS = client.createLoginWS(new LoginListener() {
             @Override
             public void onResponse(JwtTokenResponse response) {
                 System.out.println(response);
@@ -64,8 +64,6 @@ public class WebSocketExample {
                 System.out.println(error);
             }
         };
-
-
         DeviceWSImpl deviceWS = client.createDeviceWS(deviceListener);
 
         deviceWS.list(null, null, null,
