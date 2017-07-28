@@ -41,7 +41,6 @@ public interface NetworkApi {
    * Create network
    * Creates new device network.
    * @param body Network body (required)
-   * @param authorization Authorization token (required)
    * @return Call&lt;NetworkVO&gt;
    */
   @Headers({
@@ -49,13 +48,12 @@ public interface NetworkApi {
   })
   @POST("network")
   Call<NetworkVO> insert(
-          @Body NetworkVO body, @Header("Authorization") String authorization
+          @Body NetworkVO body
   );
 
   /**
    * List networks
    * Gets list of device networks the client has access to.
-   * @param authorization Authorization token (required)
    * @param name Filter by network name. (optional)
    * @param namePattern Filter by network name pattern. In pattern wildcards &#39;%&#39; and &#39;_&#39; can be used. (optional)
    * @param sortField Result list sort field. (optional)

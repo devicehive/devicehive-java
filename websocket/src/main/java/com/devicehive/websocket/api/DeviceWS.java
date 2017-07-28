@@ -5,6 +5,7 @@ import com.devicehive.websocket.api.listener.DeviceListener;
 import com.devicehive.websocket.model.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import lombok.NonNull;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.WebSocket;
@@ -56,25 +57,31 @@ public class DeviceWS extends WebSocketListener implements DeviceApi {
     public void list(String name, String namePattern, Long networkId,
                      String networkName, String sortField, String sortOrder, int take, int skip) {
 
-        DeviceListAction action = new DeviceListAction();
-        action.setName(name);
-        action.setNamePattern(namePattern);
-        action.setNetworkId(networkId);
-        action.setNetworkName(networkName);
-        action.setSortField(sortField);
-        action.setSortOrder(sortOrder);
-        action.setTake(take);
-        action.setSkip(skip);
-        ws.send(writer.toJson(action));
+        DeviceListAction deviceListAction = new DeviceListAction();
+        deviceListAction.setName(name);
+        deviceListAction.setNamePattern(namePattern);
+        deviceListAction.setNetworkId(networkId);
+        deviceListAction.setNetworkName(networkName);
+        deviceListAction.setSortField(sortField);
+        deviceListAction.setSortOrder(sortOrder);
+        deviceListAction.setTake(take);
+        deviceListAction.setSkip(skip);
+        ws.send(writer.toJson(deviceListAction));
     }
 
     @Override
-    public void save(DeviceVO device) {
-
+    public void save(@NonNull DeviceVO device) {
+//        device.setAction("device/save");
+//        ws.send(writer.toJson(device));
     }
 
-    @Override
-    public void delete(String deviceId) {
 
+    @Override
+    public void delete(@NonNull String deviceId) {
+//        DeviceDeleteAction deleteAction=new DeviceDeleteAction();
+//        deleteAction.setDeviceId(deviceId);
+//        System.out.println(deleteAction);
+//
+//        ws.send(writer.toJson(deleteAction));
     }
 }
