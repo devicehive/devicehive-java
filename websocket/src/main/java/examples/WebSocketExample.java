@@ -5,7 +5,7 @@ import com.devicehive.websocket.api.impl.AuthWSImpl;
 import com.devicehive.websocket.api.impl.DeviceWSImpl;
 import com.devicehive.websocket.api.listener.DeviceListener;
 import com.devicehive.websocket.api.listener.LoginListener;
-import com.devicehive.websocket.model.repsonse.ErrorAction;
+import com.devicehive.websocket.model.repsonse.ErrorResponse;
 import com.devicehive.websocket.model.repsonse.JwtTokenResponse;
 import com.devicehive.websocket.model.repsonse.ResponseAction;
 import com.devicehive.websocket.model.repsonse.data.DeviceVO;
@@ -36,7 +36,7 @@ public class WebSocketExample {
             }
 
             @Override
-            public void onError(ErrorAction error) {
+            public void onError(ErrorResponse error) {
                 System.out.println(error);
 
             }
@@ -60,7 +60,7 @@ public class WebSocketExample {
             }
 
             @Override
-            public void onError(ErrorAction error) {
+            public void onError(ErrorResponse error) {
                 System.out.println(error);
             }
         };

@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
 @Data
-public class ErrorAction extends ResponseAction {
+public class ErrorResponse extends ResponseAction {
     public static final String ERROR="error";
 
     @SerializedName("code")
@@ -14,7 +14,7 @@ public class ErrorAction extends ResponseAction {
 
     @Override
     public String toString() {
-        return "{\n\"ErrorAction\":{\n"
+        return "{\n\"ErrorResponse\":{\n"
                 + " \"action\":\"" + action + "\""
                 + ",\n \"requestId\":\"" + requestId + "\""
                 + ",\n \"code\":\"" + code + "\""
