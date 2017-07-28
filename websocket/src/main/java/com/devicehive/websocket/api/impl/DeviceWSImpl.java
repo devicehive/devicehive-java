@@ -4,7 +4,7 @@ import com.devicehive.websocket.adapter.JsonStringWrapperAdapterFactory;
 import com.devicehive.websocket.api.listener.DeviceListener;
 import com.devicehive.websocket.model.repsonse.DeviceGetResponse;
 import com.devicehive.websocket.model.repsonse.DeviceListResponse;
-import com.devicehive.websocket.model.repsonse.ErrorAction;
+import com.devicehive.websocket.model.repsonse.ErrorResponse;
 import com.devicehive.websocket.model.repsonse.ResponseAction;
 import com.devicehive.websocket.model.repsonse.data.DeviceVO;
 import com.devicehive.websocket.model.request.DeviceDeleteAction;
@@ -40,8 +40,8 @@ public class DeviceWSImpl extends WebSocketListener implements DeviceApi {
         String status = action.getStatus();
         if (status.equalsIgnoreCase("error")) {
             System.out.println(text);
-            ErrorAction errorAction = gson.fromJson(text, ErrorAction.class);
-            deviceListener.onError(errorAction);
+            ErrorResponse errorResponse = gson.fromJson(text, ErrorResponse.class);
+            deviceListener.onError(errorResponse);
         } else {
             String actionName = action.getAction();
             if (actionName.equalsIgnoreCase("device/list")) {

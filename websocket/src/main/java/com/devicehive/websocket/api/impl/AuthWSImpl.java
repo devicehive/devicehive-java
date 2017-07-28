@@ -2,7 +2,7 @@ package com.devicehive.websocket.api.impl;
 
 import com.devicehive.websocket.adapter.JsonStringWrapperAdapterFactory;
 import com.devicehive.websocket.api.listener.LoginListener;
-import com.devicehive.websocket.model.repsonse.ErrorAction;
+import com.devicehive.websocket.model.repsonse.ErrorResponse;
 import com.devicehive.websocket.model.repsonse.JwtTokenResponse;
 import com.devicehive.websocket.model.repsonse.ResponseAction;
 import com.devicehive.websocket.model.request.AuthenticateAction;
@@ -35,9 +35,9 @@ public class AuthWSImpl extends WebSocketListener implements AuthApi {
         String status = action.getStatus();
 
         System.out.println(text);
-        if (status.equalsIgnoreCase(ErrorAction.ERROR)) {
-            ErrorAction errorAction = gson.fromJson(text, ErrorAction.class);
-            loginListener.onError(errorAction);
+        if (status.equalsIgnoreCase(ErrorResponse.ERROR)) {
+            ErrorResponse errorResponse = gson.fromJson(text, ErrorResponse.class);
+            loginListener.onError(errorResponse);
         } else if (actionName.equalsIgnoreCase(TOKEN)) {
             JwtTokenResponse tokenVO = gson.fromJson(text, JwtTokenResponse.class);
             authenticate(tokenVO.getAccessToken());

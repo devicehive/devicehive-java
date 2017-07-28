@@ -1,6 +1,6 @@
 package com.devicehive.websocket.adapter;
 
-import com.devicehive.websocket.model.repsonse.ErrorAction;
+import com.devicehive.websocket.model.repsonse.ErrorResponse;
 import com.devicehive.websocket.model.repsonse.JwtTokenResponse;
 import com.devicehive.websocket.model.repsonse.TokenResponse;
 import com.google.gson.*;
@@ -16,7 +16,7 @@ public class TokenDeserializer implements JsonDeserializer<TokenResponse> {
         String status = element.getAsString();
         Gson gson = new Gson();
         if (status.equalsIgnoreCase("error")) {
-            ErrorAction error = gson.fromJson(jsonObject, ErrorAction.class);
+            ErrorResponse error = gson.fromJson(jsonObject, ErrorResponse.class);
             return new TokenResponse(null, error);
         } else {
             JwtTokenResponse tokenVO = gson.fromJson(jsonObject, JwtTokenResponse.class);
