@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class DeviceListAction extends RequestAction {
+    public static final String DEVICE_LIST = "device/list";
     @SerializedName("name")
     String name;
     @SerializedName("namePattern")
@@ -23,6 +24,6 @@ public class DeviceListAction extends RequestAction {
     Integer skip;
 
     public DeviceListAction() {
-        super("device/list");
+        super(DEVICE_LIST);
     }
 }

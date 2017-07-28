@@ -5,10 +5,11 @@ import lombok.Data;
 
 @Data
 public class DeviceGetAction extends RequestAction {
+    public static final String DEVICE_GET = "device/get";
     @SerializedName("deviceId")
     String deviceId;
 
     public DeviceGetAction() {
-        super("device/get");
+        super(DEVICE_GET);
     }
 }

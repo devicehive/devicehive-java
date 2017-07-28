@@ -1,7 +1,7 @@
-package com.devicehive.websocket.api.impl;
+package com.devicehive.websocket.api;
 
 import com.devicehive.websocket.adapter.JsonStringWrapperAdapterFactory;
-import com.devicehive.websocket.api.listener.DeviceListener;
+import com.devicehive.websocket.listener.DeviceListener;
 import com.devicehive.websocket.model.repsonse.DeviceGetResponse;
 import com.devicehive.websocket.model.repsonse.DeviceListResponse;
 import com.devicehive.websocket.model.repsonse.ErrorResponse;
@@ -17,37 +17,39 @@ import lombok.NonNull;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.WebSocket;
-import okhttp3.WebSocketListener;
 
-public class DeviceWSImpl extends WebSocketListener implements DeviceApi {
+import static com.devicehive.websocket.model.repsonse.ErrorResponse.ERROR;
+import static com.devicehive.websocket.model.request.DeviceGetAction.DEVICE_GET;
+import static com.devicehive.websocket.model.request.DeviceListAction.DEVICE_LIST;
+
+public class DeviceWS extends BaseWebSocketListener implements DeviceApi {
     private final DeviceListener deviceListener;
-    private WebSocket ws;
-    private Gson writer = new Gson();
 
-    public DeviceWSImpl(OkHttpClient client, Request request, DeviceListener deviceListener) {
-        ws = client.newWebSocket(request, this);
+    public DeviceWS(OkHttpClient client, Request request, DeviceListener deviceListener) {
+        super(client, request);
         this.deviceListener = deviceListener;
     }
 
 
     @Override
     public void onMessage(WebSocket webSocket, String text) {
+
+        ResponseAction action = getResponseAction(text);
+        String status = action.getStatus();
+
         Gson gson = new GsonBuilder()
                 .registerTypeAdapterFactory(new JsonStringWrapperAdapterFactory())
                 .create();
-//        System.out.println(text);
-        ResponseAction action = gson.fromJson(text, ResponseAction.class);
-        String status = action.getStatus();
-        if (status.equalsIgnoreCase("error")) {
-            System.out.println(text);
+
+        if (status.equalsIgnoreCase(ERROR)) {
             ErrorResponse errorResponse = gson.fromJson(text, ErrorResponse.class);
             deviceListener.onError(errorResponse);
         } else {
             String actionName = action.getAction();
-            if (actionName.equalsIgnoreCase("device/list")) {
+            if (actionName.equalsIgnoreCase(DEVICE_LIST)) {
                 DeviceListResponse response = gson.fromJson(text, DeviceListResponse.class);
                 deviceListener.onDeviceList(response.getDevices());
-            } else if (actionName.equalsIgnoreCase("device/get")) {
+            } else if (actionName.equalsIgnoreCase(DEVICE_GET)) {
                 DeviceGetResponse device = gson.fromJson(text, DeviceGetResponse.class);
                 deviceListener.onDeviceGet(device.getDevice());
             }
@@ -58,7 +60,7 @@ public class DeviceWSImpl extends WebSocketListener implements DeviceApi {
     public void get(String deviceId) {
         DeviceGetAction action = new DeviceGetAction();
         action.setDeviceId(deviceId);
-        ws.send(writer.toJson(action));
+        getWebSocketConnection().send(getGson().toJson(action));
     }
 
 
@@ -76,14 +78,14 @@ public class DeviceWSImpl extends WebSocketListener implements DeviceApi {
         deviceListAction.setTake(take);
         deviceListAction.setSkip(skip);
 
-        ws.send(writer.toJson(deviceListAction));
+        getWebSocketConnection().send(getGson().toJson(deviceListAction));
     }
 
     @Override
     public void save(@NonNull DeviceVO device) {
         DeviceSaveAction action = new DeviceSaveAction();
         action.setDevice(device);
-        ws.send(writer.toJson(action));
+        getWebSocketConnection().send(getGson().toJson(action));
     }
 
 
@@ -91,6 +93,6 @@ public class DeviceWSImpl extends WebSocketListener implements DeviceApi {
     public void delete(@NonNull String deviceId) {
         DeviceDeleteAction deleteAction = new DeviceDeleteAction();
         deleteAction.setDeviceId(deviceId);
-        ws.send(writer.toJson(deleteAction));
+        getWebSocketConnection().send(getGson().toJson(deleteAction));
     }
 }

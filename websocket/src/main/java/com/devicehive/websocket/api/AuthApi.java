@@ -1,4 +1,4 @@
-package com.devicehive.websocket.api.impl;
+package com.devicehive.websocket.api;
 
 interface AuthApi {
 

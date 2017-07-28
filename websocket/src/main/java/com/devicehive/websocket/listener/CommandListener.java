@@ -1,4 +1,4 @@
-package com.devicehive.websocket.api.listener;
+package com.devicehive.websocket.listener;
 
 import com.devicehive.websocket.model.repsonse.*;
 
