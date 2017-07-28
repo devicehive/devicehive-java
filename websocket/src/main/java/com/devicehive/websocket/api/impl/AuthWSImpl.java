@@ -1,6 +1,7 @@
-package com.devicehive.websocket.api.listener;
+package com.devicehive.websocket.api.impl;
 
 import com.devicehive.websocket.adapter.JsonStringWrapperAdapterFactory;
+import com.devicehive.websocket.api.listener.LoginListener;
 import com.devicehive.websocket.model.repsonse.ErrorAction;
 import com.devicehive.websocket.model.repsonse.JwtTokenResponse;
 import com.devicehive.websocket.model.repsonse.ResponseAction;
@@ -13,13 +14,13 @@ import okhttp3.*;
 import static com.devicehive.websocket.model.request.AuthenticateAction.AUTH;
 import static com.devicehive.websocket.model.request.TokenAction.TOKEN;
 
-public class LoginWSImpl extends WebSocketListener {
+public class AuthWSImpl extends WebSocketListener implements AuthApi {
 
     private WebSocket ws;
     private Gson writer = new Gson();
     private LoginListener loginListener;
 
-    public LoginWSImpl(OkHttpClient client, Request request, LoginListener loginListener) {
+    public AuthWSImpl(OkHttpClient client, Request request, LoginListener loginListener) {
         ws = client.newWebSocket(request, this);
         this.loginListener = loginListener;
     }
@@ -51,6 +52,7 @@ public class LoginWSImpl extends WebSocketListener {
         System.out.println(t.getMessage());
     }
 
+    @Override
     public void getToken(String login, String password) {
         if (ws == null) {
             return;
@@ -62,6 +64,7 @@ public class LoginWSImpl extends WebSocketListener {
         ws.send(json);
     }
 
+    @Override
     public void authenticate(String token) {
         if (ws == null) {
             return;

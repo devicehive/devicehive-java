@@ -1,4 +1,4 @@
-package com.devicehive.websocket.api;
+package com.devicehive.websocket.api.impl;
 
 import com.devicehive.websocket.adapter.JsonStringWrapperAdapterFactory;
 import com.devicehive.websocket.api.listener.DeviceListener;

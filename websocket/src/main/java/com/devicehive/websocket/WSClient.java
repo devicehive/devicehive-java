@@ -1,9 +1,9 @@
 package com.devicehive.websocket;
 
-import com.devicehive.websocket.api.DeviceWSImpl;
+import com.devicehive.websocket.api.impl.DeviceWSImpl;
 import com.devicehive.websocket.api.listener.DeviceListener;
 import com.devicehive.websocket.api.listener.LoginListener;
-import com.devicehive.websocket.api.listener.LoginWSImpl;
+import com.devicehive.websocket.api.impl.AuthWSImpl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
@@ -33,8 +33,8 @@ public class WSClient {
 
     }
 
-    public LoginWSImpl createLoginWS(LoginListener loginListener) {
-        return new LoginWSImpl(client, request, loginListener);
+    public AuthWSImpl createLoginWS(LoginListener loginListener) {
+        return new AuthWSImpl(client, request, loginListener);
     }
 
     public DeviceWSImpl createDeviceWS(DeviceListener deviceListener) {
