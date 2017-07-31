@@ -11,30 +11,29 @@
  */
 
 
-package com.devicehive.rest.model;
+package com.devicehive.websocket.model.request.data;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
-import java.util.List;
-
 /**
- * NetworkVO
+ * NetworkUpdate
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
 @Data
-public class NetworkVO {
-    @SerializedName("id")
-    private Long id = null;
+public class NetworkUpdate {
+  @SerializedName("id")
+  private Long id = null;
 
-    @SerializedName("name")
-    private String name = null;
+  @SerializedName("name")
+  private String name = null;
 
-    @SerializedName("description")
-    private String description = null;
+  @SerializedName("description")
+  private String description = null;
 
-    @SerializedName("devices")
-    private List<DeviceVO> devices = null;
-
+  public NetworkUpdate id(Long id) {
+    this.id = id;
+    return this;
+  }
 }
 
