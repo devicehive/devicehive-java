@@ -107,7 +107,7 @@ class TimerDevice {
     private void registerDevice() {
         DeviceUpdate device = createDevice();
         try {
-            List<NetworkVO> networks = networkApiImpl.list(null, null, null, null, null, null).
+            List<Network> networks = networkApiImpl.list(null, null, null, null, null, null).
                     execute().body();
             if (networks != null && !networks.isEmpty()) {
                 device.setNetworkId(networks.get(0).getId());
