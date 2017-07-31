@@ -28,5 +28,12 @@ import lombok.NoArgsConstructor;
 public class JsonStringWrapper {
   @SerializedName("jsonString")
   private String jsonString = null;
+
+  @Override
+  public String toString() {
+    return "{\n\"JsonStringWrapper\":{\n"
+            + "\"jsonString\":\"" + jsonString + "\""
+            + "}\n}";
+  }
 }
 

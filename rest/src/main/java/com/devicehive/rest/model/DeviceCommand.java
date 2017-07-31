@@ -39,7 +39,7 @@ public class DeviceCommand implements Comparable<DeviceCommand> {
     private String deviceId = null;
 
     @SerializedName("parameters")
-    private Object parameters = null;
+    private JsonStringWrapper parameters = null;
 
     @SerializedName("lifetime")
     private Integer lifetime = null;
@@ -48,7 +48,7 @@ public class DeviceCommand implements Comparable<DeviceCommand> {
     private String status = null;
 
     @SerializedName("result")
-    private Object result = null;
+    private JsonStringWrapper result = null;
 
     @SerializedName("isUpdated")
     private Boolean isUpdated = false;
