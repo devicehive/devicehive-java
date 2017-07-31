@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CommandWS extends BaseWebSocketListener implements CommandApi {
 
-    public static final String TAG="CommandWS";
+    public static final String TAG = "CommandWS";
 
     private final CommandListener listener;
 
@@ -33,15 +33,16 @@ public class CommandWS extends BaseWebSocketListener implements CommandApi {
     }
 
     @Override
-    public void get(String deviceId, Long commandId) {
+    public void get(String deviceId, Long commandId, Long requestId) {
         DeviceGetAction action = new DeviceGetAction();
         action.setDeviceId(deviceId);
         action.setCommandId(commandId);
+        action.setRequestId(requestId);
         send(action);
     }
 
     @Override
-    public void list(String deviceId, DateTime start, DateTime end, String commandName, String status, CommandListAction.SortOrder sortOrder, Integer take, Integer skip) {
+    public void list(String deviceId, Long requestId, DateTime start, DateTime end, String commandName, String status, CommandListAction.SortOrder sortOrder, Integer take, Integer skip) {
         CommandListAction action = new CommandListAction();
         action.setDeviceId(deviceId);
         action.setStart(start);
@@ -51,42 +52,47 @@ public class CommandWS extends BaseWebSocketListener implements CommandApi {
         action.setSortOrder(sortOrder);
         action.setTake(take);
         action.setSkip(skip);
+        action.setRequestId(requestId);
         send(action);
     }
 
     @Override
-    public void insert(String deviceId, DeviceCommandWrapper wrapper) {
+    public void insert(String deviceId, Long requestId, DeviceCommandWrapper wrapper) {
         CommandInsertAction action = new CommandInsertAction();
         action.setCommand(wrapper);
         action.setDeviceId(deviceId);
+        action.setRequestId(requestId);
         send(action);
     }
 
     @Override
-    public void update(String deviceId, String commandId, DeviceCommandWrapper wrapper) {
+    public void update(String deviceId, String commandId, Long requestId, DeviceCommandWrapper wrapper) {
         CommandUpdateAction action = new CommandUpdateAction();
         action.setDeviceId(deviceId);
         action.setCommandId(commandId);
         action.setCommand(wrapper);
+        action.setRequestId(requestId);
         send(action);
     }
 
     @Override
-    public void subscribe(List<String> names, String deviceId, List<String> deviceIds, DateTime timestamp, Integer limit) {
+    public void subscribe(List<String> names, String deviceId, Long requestId, List<String> deviceIds, DateTime timestamp, Integer limit) {
         CommandSubscribeAction action = new CommandSubscribeAction();
         action.setNames(names);
         action.setDeviceId(deviceId);
         action.setDeviceIds(deviceIds);
         action.setTimestamp(timestamp);
         action.setLimit(limit);
+        action.setRequestId(requestId);
         send(action);
     }
 
     @Override
-    public void unsubscribe(String subscriptionId, List<String> deviceIds) {
+    public void unsubscribe(String subscriptionId, Long requestId, List<String> deviceIds) {
         CommandUnsubscribeAction action = new CommandUnsubscribeAction();
         action.setSubscriptionId(subscriptionId);
         action.setDeviceIds(deviceIds);
+        action.setRequestId(requestId);
         send(action);
     }
 
