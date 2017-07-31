@@ -1,5 +1,6 @@
 package com.devicehive.rest.api;
 
+import com.devicehive.rest.model.Network;
 import com.devicehive.rest.model.NetworkUpdate;
 import com.devicehive.rest.model.NetworkVO;
 import retrofit2.Call;
@@ -66,7 +67,7 @@ public interface NetworkApi {
     "Content-Type:application/json"
   })
   @GET("network")
-  Call<List<NetworkVO>> list(
+  Call<List<Network>> list(
          @Query("name") String name, @Query("namePattern") String namePattern, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip
   );
 

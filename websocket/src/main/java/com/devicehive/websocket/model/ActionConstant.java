@@ -20,4 +20,13 @@ public class ActionConstant {
     public static final String DEVICE_DELETE = "device/delete";
     public static final String DEVICE_LIST = "device/list";
     public static final String DEVICE_SAVE = "device/save";
+    
+    
+    public static final String NETWORK_GET = "network/get";
+    public static final String NETWORK_DELETE = "network/delete";
+    public static final String NETWORK_LIST = "network/list";
+    public static final String NETWORK_UPDATE = "network/update";
+    public static final String NETWORK_INSERT = "network/insert";
+
+
 }
