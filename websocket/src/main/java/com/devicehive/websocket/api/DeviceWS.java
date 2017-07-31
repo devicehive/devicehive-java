@@ -16,8 +16,7 @@ import lombok.NonNull;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
-import static com.devicehive.websocket.model.ActionConstant.DEVICE_GET;
-import static com.devicehive.websocket.model.ActionConstant.DEVICE_LIST;
+import static com.devicehive.websocket.model.ActionConstant.*;
 
 public class DeviceWS extends BaseWebSocketListener implements DeviceApi {
 
@@ -42,12 +41,19 @@ public class DeviceWS extends BaseWebSocketListener implements DeviceApi {
                 .registerTypeAdapterFactory(new JsonStringWrapperAdapterFactory())
                 .create();
         String actionName = action.getAction();
+
         if (actionName.equalsIgnoreCase(DEVICE_LIST)) {
             DeviceListResponse response = gson.fromJson(message, DeviceListResponse.class);
             deviceListener.onDeviceList(response.getDevices());
         } else if (actionName.equalsIgnoreCase(DEVICE_GET)) {
-            DeviceGetResponse device = gson.fromJson(message, DeviceGetResponse.class);
-            deviceListener.onDeviceGet(device.getDevice());
+            DeviceGetResponse response = gson.fromJson(message, DeviceGetResponse.class);
+            deviceListener.onDeviceGet(response.getDevice());
+        } else if (actionName.equalsIgnoreCase(DEVICE_DELETE)) {
+            ResponseAction response = gson.fromJson(message, ResponseAction.class);
+            deviceListener.onDeviceDelete(response);
+        } else if (actionName.equalsIgnoreCase(DEVICE_SAVE)) {
+            ResponseAction response = gson.fromJson(message, ResponseAction.class);
+            deviceListener.onDeviceSave(response);
         }
     }
 
