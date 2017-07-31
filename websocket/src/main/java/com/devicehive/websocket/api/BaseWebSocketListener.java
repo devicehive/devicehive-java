@@ -3,6 +3,7 @@ package com.devicehive.websocket.api;
 import com.devicehive.websocket.listener.ErrorListener;
 import com.devicehive.websocket.model.repsonse.ErrorResponse;
 import com.devicehive.websocket.model.repsonse.ResponseAction;
+import com.devicehive.websocket.model.request.AuthenticateAction;
 import com.devicehive.websocket.model.request.RequestAction;
 import com.google.gson.Gson;
 import okhttp3.OkHttpClient;
@@ -34,15 +35,26 @@ public abstract class BaseWebSocketListener extends WebSocketListener {
 
     }
 
+    public abstract String getKey();
+
     public ResponseAction getResponseAction(String text) {
         return gson.fromJson(text, ResponseAction.class);
     }
 
     public boolean send(RequestAction action) {
+        System.out.println(gson.toJson(action));
         return ws.send(gson.toJson(action));
     }
 
+    public void authenticate(String token) {
+        AuthenticateAction authAction = new AuthenticateAction();
+        authAction.setToken(token);
+        send(authAction);
+    }
+
+    public void close() {
+        ws.close(1000, null);
+    }
 
     public abstract void onSuccess(String message);
-
 }

@@ -20,11 +20,17 @@ import static com.devicehive.websocket.model.request.DeviceGetAction.DEVICE_GET;
 import static com.devicehive.websocket.model.request.DeviceListAction.DEVICE_LIST;
 
 public class DeviceWS extends BaseWebSocketListener implements DeviceApi {
+
+    public static final String TAG="DeviceWS";
     private final DeviceListener deviceListener;
 
     public DeviceWS(OkHttpClient client, Request request, DeviceListener listener) {
         super(client, request, listener);
         this.deviceListener = listener;
+    }
+    @Override
+    public String getKey() {
+        return TAG;
     }
 
 
