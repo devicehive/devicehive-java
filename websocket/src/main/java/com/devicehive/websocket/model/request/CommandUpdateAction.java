@@ -4,10 +4,10 @@ import com.devicehive.websocket.model.request.data.DeviceCommandWrapper;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
+import static com.devicehive.websocket.model.ActionConstant.COMMAND_UPDATE;
+
 @Data
 public class CommandUpdateAction extends RequestAction {
-
-    public static final String COMMAND_UPDATE = "command/update";
 
     @SerializedName("deviceId")
     String deviceId;

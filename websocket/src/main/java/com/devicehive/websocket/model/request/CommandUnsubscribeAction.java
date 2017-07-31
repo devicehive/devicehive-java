@@ -5,9 +5,11 @@ import lombok.Data;
 
 import java.util.List;
 
+import static com.devicehive.websocket.model.ActionConstant.COMMAND_UNSUBSCRIBE;
+
 @Data
 public class CommandUnsubscribeAction extends RequestAction {
-    public static final String COMMAND_UNSUBSCRIBE = "command/unsubscribe";
+
 
     @SerializedName("deviceIds")
     List<String> deviceIds;

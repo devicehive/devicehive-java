@@ -3,9 +3,11 @@ package com.devicehive.websocket.model.request;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
+import static com.devicehive.websocket.model.ActionConstant.DEVICE_GET;
+
 @Data
 public class DeviceGetAction extends RequestAction {
-    public static final String DEVICE_GET = "device/get";
+
     @SerializedName("deviceId")
     String deviceId;
     @SerializedName("commandId")
