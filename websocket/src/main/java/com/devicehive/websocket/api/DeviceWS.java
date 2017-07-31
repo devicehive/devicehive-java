@@ -21,13 +21,14 @@ import static com.devicehive.websocket.model.request.DeviceListAction.DEVICE_LIS
 
 public class DeviceWS extends BaseWebSocketListener implements DeviceApi {
 
-    public static final String TAG="DeviceWS";
+    public static final String TAG = "DeviceWS";
     private final DeviceListener deviceListener;
 
     public DeviceWS(OkHttpClient client, Request request, DeviceListener listener) {
         super(client, request, listener);
         this.deviceListener = listener;
     }
+
     @Override
     public String getKey() {
         return TAG;
@@ -35,59 +36,59 @@ public class DeviceWS extends BaseWebSocketListener implements DeviceApi {
 
 
     @Override
-    public void onSuccess(String text) {
-        System.out.println("continue");
-        ResponseAction action = getResponseAction(text);
+    public void onSuccess(String message) {
+        ResponseAction action = getResponseAction(message);
         Gson gson = new GsonBuilder()
                 .registerTypeAdapterFactory(new JsonStringWrapperAdapterFactory())
                 .create();
         String actionName = action.getAction();
         if (actionName.equalsIgnoreCase(DEVICE_LIST)) {
-            DeviceListResponse response = gson.fromJson(text, DeviceListResponse.class);
+            DeviceListResponse response = gson.fromJson(message, DeviceListResponse.class);
             deviceListener.onDeviceList(response.getDevices());
         } else if (actionName.equalsIgnoreCase(DEVICE_GET)) {
-            DeviceGetResponse device = gson.fromJson(text, DeviceGetResponse.class);
+            DeviceGetResponse device = gson.fromJson(message, DeviceGetResponse.class);
             deviceListener.onDeviceGet(device.getDevice());
         }
     }
 
     @Override
-    public void get(String deviceId) {
+    public void get(String deviceId, Long requestId) {
         DeviceGetAction action = new DeviceGetAction();
         action.setDeviceId(deviceId);
+        action.setRequestId(requestId);
         send(action);
     }
 
-
     @Override
-    public void list(String name, String namePattern, Long networkId,
-                     String networkName, String sortField, String sortOrder, int take, int skip) {
+    public void list(String name, String namePattern, Long networkId, String networkName, Long requestId, String sortField, String sortOrder, int take, int skip) {
+        DeviceListAction action = new DeviceListAction();
+        action.setName(name);
+        action.setNamePattern(namePattern);
+        action.setNetworkId(networkId);
+        action.setNetworkName(networkName);
+        action.setSortField(sortField);
+        action.setSortOrder(sortOrder);
+        action.setTake(take);
+        action.setSkip(skip);
+        action.setRequestId(requestId);
 
-        DeviceListAction deviceListAction = new DeviceListAction();
-        deviceListAction.setName(name);
-        deviceListAction.setNamePattern(namePattern);
-        deviceListAction.setNetworkId(networkId);
-        deviceListAction.setNetworkName(networkName);
-        deviceListAction.setSortField(sortField);
-        deviceListAction.setSortOrder(sortOrder);
-        deviceListAction.setTake(take);
-        deviceListAction.setSkip(skip);
-
-        send(deviceListAction);
+        send(action);
     }
 
     @Override
-    public void save(@NonNull DeviceVO device) {
+    public void save(@NonNull DeviceVO device, Long requestId) {
         DeviceSaveAction action = new DeviceSaveAction();
         action.setDevice(device);
+        action.setRequestId(requestId);
         send(action);
     }
 
 
     @Override
-    public void delete(@NonNull String deviceId) {
-        DeviceDeleteAction deleteAction = new DeviceDeleteAction();
-        deleteAction.setDeviceId(deviceId);
-        send(deleteAction);
+    public void delete(@NonNull String deviceId, Long requestId) {
+        DeviceDeleteAction action = new DeviceDeleteAction();
+        action.setDeviceId(deviceId);
+        action.setRequestId(requestId);
+        send(action);
     }
 }

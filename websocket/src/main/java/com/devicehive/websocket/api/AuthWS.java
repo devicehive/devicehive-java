@@ -47,11 +47,12 @@ public class AuthWS extends BaseWebSocketListener implements AuthApi {
     }
 
     @Override
-    public void getToken(String login, String password) {
-        TokenAction tokenAction = new TokenAction();
-        tokenAction.setLogin(login);
-        tokenAction.setPassword(password);
-        send(tokenAction);
+    public void getToken(String login, String password, Long requestId) {
+        TokenAction action = new TokenAction();
+        action.setLogin(login);
+        action.setPassword(password);
+        action.setRequestId(requestId);
+        send(action);
     }
 
 }

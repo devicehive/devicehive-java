@@ -34,7 +34,7 @@ public class WebSocketExample {
 
             }
         });
-        loginWS.getToken("dhadmin", "dhadmin_#911");
+        loginWS.getToken("dhadmin", "dhadmin_#911",null);
 //        loginWS.authenticate("eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTAxMjM5OTE5MTAxLCJ0b2tlblR5cGUiOiJBQ0NFU1MifX0.JPKslV1Hk2n8AU4Gd53S5XxqzFx1O_mn_raL4fo6hus");
         DeviceListener deviceListener = new DeviceListener() {
             @Override
@@ -59,11 +59,11 @@ public class WebSocketExample {
         };
         DeviceWS deviceWS = client.createDeviceWS(deviceListener);
 
-        deviceWS.list(null, null, null,
+        deviceWS.list(null, null,null, null,
                 null, null,
                 null, 0, 0);
-        deviceWS.get("441z79GRgY0QnV9HKrLra8Jt2FXRQ6MzqmuP");
-        deviceWS.delete("1234");
+        deviceWS.get("441z79GRgY0QnV9HKrLra8Jt2FXRQ6MzqmuP",null);
+        deviceWS.delete("1234",null);
 
     }
 }
