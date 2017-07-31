@@ -7,7 +7,6 @@ import com.devicehive.websocket.listener.DeviceListener;
 import com.devicehive.websocket.listener.LoginListener;
 import com.devicehive.websocket.model.repsonse.ErrorResponse;
 import com.devicehive.websocket.model.repsonse.JwtTokenResponse;
-import com.devicehive.websocket.model.repsonse.ResponseAction;
 import com.devicehive.websocket.model.repsonse.data.DeviceVO;
 
 import java.util.List;
@@ -24,24 +23,18 @@ public class WebSocketExample {
                 .build();
 
 
-        final AuthWS loginWS = client.createLoginWS(new LoginListener() {
+        AuthWS loginWS = client.createLoginWS(new LoginListener() {
             @Override
             public void onResponse(JwtTokenResponse response) {
                 System.out.println(response);
             }
-
-            @Override
-            public void onAuthenticate(ResponseAction response) {
-                System.out.println(response);
-            }
-
             @Override
             public void onError(ErrorResponse error) {
-                System.out.println("AuthWS:"+error);
+                System.out.println("AuthWS:" + error);
 
             }
         });
-        loginWS.getToken("dhadmin1", "dhadmin_#911");
+        loginWS.getToken("dhadmin", "dhadmin_#911");
 //        loginWS.authenticate("eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTAxMjM5OTE5MTAxLCJ0b2tlblR5cGUiOiJBQ0NFU1MifX0.JPKslV1Hk2n8AU4Gd53S5XxqzFx1O_mn_raL4fo6hus");
         DeviceListener deviceListener = new DeviceListener() {
             @Override
@@ -61,7 +54,7 @@ public class WebSocketExample {
 
             @Override
             public void onError(ErrorResponse error) {
-                System.out.println("DeviceListener:"+error);
+                System.out.println("DeviceListener:" + error);
             }
         };
         DeviceWS deviceWS = client.createDeviceWS(deviceListener);

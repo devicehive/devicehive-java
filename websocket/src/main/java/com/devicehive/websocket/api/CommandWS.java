@@ -11,12 +11,18 @@ import java.util.List;
 
 public class CommandWS extends BaseWebSocketListener implements CommandApi {
 
+    public static final String TAG="CommandWS";
 
     private final CommandListener listener;
 
     public CommandWS(OkHttpClient client, Request request, CommandListener listener) {
         super(client, request, listener);
         this.listener = listener;
+    }
+
+    @Override
+    public String getKey() {
+        return TAG;
     }
 
     @Override
