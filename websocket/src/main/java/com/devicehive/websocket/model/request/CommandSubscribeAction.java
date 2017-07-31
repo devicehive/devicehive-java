@@ -6,9 +6,11 @@ import org.joda.time.DateTime;
 
 import java.util.List;
 
+import static com.devicehive.websocket.model.ActionConstant.COMMAND_SUBSCRIBE;
+
 @Data
 public class CommandSubscribeAction extends RequestAction {
-    public static final String COMMAND_SUBSCRIBE = "command/subscribe";
+
 
     @SerializedName("timestamp")
     DateTime timestamp;

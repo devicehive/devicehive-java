@@ -13,6 +13,10 @@ import com.google.gson.GsonBuilder;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
+import static com.devicehive.websocket.model.ActionConstant.CONFIGURATION_DELETE;
+import static com.devicehive.websocket.model.ActionConstant.CONFIGURATION_GET;
+import static com.devicehive.websocket.model.ActionConstant.CONFIGURATION_INSERT;
+
 public class ConfigurationWS extends BaseWebSocketListener implements ConfigurationApi {
 
     public static final String TAG = "ConfigurationWS";
@@ -35,13 +39,13 @@ public class ConfigurationWS extends BaseWebSocketListener implements Configurat
                 .registerTypeAdapterFactory(new JsonStringWrapperAdapterFactory())
                 .create();
         String actionName = action.getAction();
-        if (actionName.equalsIgnoreCase(ConfigurationGetAction.CONFIGURATION_GET)) {
+        if (actionName.equalsIgnoreCase(CONFIGURATION_GET)) {
             ConfigurationGetResponse response = gson.fromJson(message, ConfigurationGetResponse.class);
             listener.onGet(response);
-        } else if (actionName.equalsIgnoreCase(ConfigurationInsertAction.CONFIGURATION_INSERT)) {
+        } else if (actionName.equalsIgnoreCase(CONFIGURATION_INSERT)) {
             ConfigurationInsertResponse response = gson.fromJson(message, ConfigurationInsertResponse.class);
             listener.onInsert(response);
-        } else if (actionName.equalsIgnoreCase(ConfigurationDeleteAction.CONFIGURATION_DELETE)) {
+        } else if (actionName.equalsIgnoreCase(CONFIGURATION_DELETE)) {
             ResponseAction response = gson.fromJson(message, ResponseAction.class);
             listener.onDelete(response);
 

@@ -3,9 +3,11 @@ package com.devicehive.websocket.model.request;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
+import static com.devicehive.websocket.model.ActionConstant.DEVICE_LIST;
+
 @Data
 public class DeviceListAction extends RequestAction {
-    public static final String DEVICE_LIST = "device/list";
+
     @SerializedName("name")
     String name;
     @SerializedName("namePattern")

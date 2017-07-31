@@ -12,7 +12,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.WebSocket;
 
-import static com.devicehive.websocket.model.request.TokenAction.TOKEN;
+import static com.devicehive.websocket.model.ActionConstant.TOKEN;
 
 public class AuthWS extends BaseWebSocketListener implements AuthApi {
     public static final String TAG = "AuthWS";
@@ -22,6 +22,7 @@ public class AuthWS extends BaseWebSocketListener implements AuthApi {
         super(client, request, listener);
         this.loginListener = listener;
     }
+
     @Override
     public String getKey() {
         return TAG;

@@ -16,8 +16,8 @@ import lombok.NonNull;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
-import static com.devicehive.websocket.model.request.DeviceGetAction.DEVICE_GET;
-import static com.devicehive.websocket.model.request.DeviceListAction.DEVICE_LIST;
+import static com.devicehive.websocket.model.ActionConstant.DEVICE_GET;
+import static com.devicehive.websocket.model.ActionConstant.DEVICE_LIST;
 
 public class DeviceWS extends BaseWebSocketListener implements DeviceApi {
 

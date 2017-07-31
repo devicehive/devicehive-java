@@ -4,10 +4,10 @@ import com.devicehive.websocket.model.request.data.DeviceCommandWrapper;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
+import static com.devicehive.websocket.model.ActionConstant.COMMAND_INSERT;
+
 @Data
 public class CommandInsertAction extends RequestAction {
-
-    public static final String COMMAND_INSERT = "command/insert";
 
     @SerializedName("deviceId")
     String deviceId;

@@ -3,10 +3,12 @@ package com.devicehive.websocket.model.request;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
+import static com.devicehive.websocket.model.ActionConstant.AUTH;
+
 
 @Data
 public class AuthenticateAction extends RequestAction {
-    public static final String AUTH = "authenticate";
+
     @SerializedName("token")
     String token;
 

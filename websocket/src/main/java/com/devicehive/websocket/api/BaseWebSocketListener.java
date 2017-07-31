@@ -37,12 +37,11 @@ public abstract class BaseWebSocketListener extends WebSocketListener {
 
     public abstract String getKey();
 
-    public ResponseAction getResponseAction(String text) {
+    ResponseAction getResponseAction(String text) {
         return gson.fromJson(text, ResponseAction.class);
     }
 
-    public boolean send(RequestAction action) {
-        System.out.println(gson.toJson(action));
+    boolean send(RequestAction action) {
         return ws.send(gson.toJson(action));
     }
 
