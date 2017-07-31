@@ -7,6 +7,7 @@ import com.devicehive.websocket.listener.DeviceListener;
 import com.devicehive.websocket.listener.LoginListener;
 import com.devicehive.websocket.model.repsonse.ErrorResponse;
 import com.devicehive.websocket.model.repsonse.JwtTokenResponse;
+import com.devicehive.websocket.model.repsonse.ResponseAction;
 import com.devicehive.websocket.model.repsonse.data.DeviceVO;
 
 import java.util.List;
@@ -48,7 +49,12 @@ public class WebSocketExample {
             }
 
             @Override
-            public void onDeviceDelete(List<DeviceVO> response) {
+            public void onDeviceDelete(ResponseAction response) {
+
+            }
+
+            @Override
+            public void onDeviceSave(ResponseAction response) {
 
             }
 
