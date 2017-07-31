@@ -29,7 +29,7 @@ public class DeviceVO {
   private String name = null;
 
   @SerializedName("data")
-  private Object data = null;
+  private JsonStringWrapper data = null;
 
   @SerializedName("networkId")
   private Long networkId = null;
