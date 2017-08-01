@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtTokenResponse extends ResponseAction {
+public class TokenGetResponse extends ResponseAction {
 
     @SerializedName("accessToken")
     String accessToken;
@@ -17,7 +17,7 @@ public class JwtTokenResponse extends ResponseAction {
 
     @Override
     public String toString() {
-        return "{\n\"JwtTokenResponse\":{\n"
+        return "{\n\"TokenGetResponse\":{\n"
                 + " \"action\":\"" + action + "\""
                 + ",\n \"requestId\":\"" + requestId + "\""
                 + ",\n \"status\":\"" + status + "\""

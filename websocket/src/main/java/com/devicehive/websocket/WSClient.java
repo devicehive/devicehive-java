@@ -1,6 +1,6 @@
 package com.devicehive.websocket;
 
-import com.devicehive.websocket.api.AuthWS;
+import com.devicehive.websocket.api.TokenWS;
 import com.devicehive.websocket.api.BaseWebSocketListener;
 import com.devicehive.websocket.api.CommandWS;
 import com.devicehive.websocket.api.DeviceWS;
@@ -51,10 +51,10 @@ public class WSClient implements Closeable {
 
     }
 
-    public AuthWS createLoginWS(LoginListener loginListener) {
-        AuthWS authWS = new AuthWS(client, request, loginListener);
-        put(AuthWS.TAG, authWS);
-        return authWS;
+    public TokenWS createLoginWS(LoginListener loginListener) {
+        TokenWS tokenWS = new TokenWS(client, request, loginListener);
+        put(TokenWS.TAG, tokenWS);
+        return tokenWS;
     }
 
     public DeviceWS createDeviceWS(DeviceListener deviceListener) {

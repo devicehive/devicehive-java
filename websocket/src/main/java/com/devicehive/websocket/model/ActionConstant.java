@@ -1,9 +1,11 @@
 package com.devicehive.websocket.model;
 
 public class ActionConstant {
-    public static final String AUTH = "authenticate";
+    public static final String AUTHENTICATE = "authenticate";
 
-    public static final String TOKEN = "token";
+    public static final String TOKEN_GET = "token";
+    public static final String TOKEN_CREATE = "token/create";
+    public static final String TOKEN_REFRESH = "token/refresh";
 
     public static final String COMMAND_GET = "command/get";
     public static final String COMMAND_INSERT = "command/insert";

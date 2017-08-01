@@ -3,17 +3,17 @@ package com.devicehive.websocket.model.request;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
-import static com.devicehive.websocket.model.ActionConstant.TOKEN;
+import static com.devicehive.websocket.model.ActionConstant.TOKEN_GET;
 
 @Data
-public class TokenAction extends RequestAction {
+public class TokenGetAction extends RequestAction {
 
     @SerializedName("login")
     String login;
     @SerializedName("password")
     String password;
 
-    public TokenAction() {
-        super(TOKEN);
+    public TokenGetAction() {
+        super(TOKEN_GET);
     }
 }
