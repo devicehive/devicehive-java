@@ -1,13 +1,14 @@
 package examples;
 
 import com.devicehive.websocket.WSClient;
-import com.devicehive.websocket.api.AuthWS;
 import com.devicehive.websocket.api.DeviceWS;
+import com.devicehive.websocket.api.TokenWS;
 import com.devicehive.websocket.listener.DeviceListener;
 import com.devicehive.websocket.listener.LoginListener;
 import com.devicehive.websocket.model.repsonse.ErrorResponse;
-import com.devicehive.websocket.model.repsonse.JwtTokenResponse;
 import com.devicehive.websocket.model.repsonse.ResponseAction;
+import com.devicehive.websocket.model.repsonse.TokenGetResponse;
+import com.devicehive.websocket.model.repsonse.TokenRefreshResponse;
 import com.devicehive.websocket.model.repsonse.data.DeviceVO;
 
 import java.util.List;
@@ -24,19 +25,32 @@ public class WebSocketExample {
                 .build();
 
 
-        AuthWS loginWS = client.createLoginWS(new LoginListener() {
+        final TokenWS loginWS = client.createLoginWS(new LoginListener() {
             @Override
-            public void onResponse(JwtTokenResponse response) {
+            public void onGet(TokenGetResponse response) {
+                System.out.println(response);
+
+            }
+
+            @Override
+            public void onCreate(TokenGetResponse response) {
                 System.out.println(response);
             }
+
+            @Override
+            public void onRefresh(TokenRefreshResponse response) {
+                System.out.println(response);
+            }
+
             @Override
             public void onError(ErrorResponse error) {
-                System.out.println("AuthWS:" + error);
+                System.out.println("TokenWS:" + error);
 
             }
         });
-        loginWS.getToken("dhadmin", "dhadmin_#911",null);
-//        loginWS.authenticate("eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTAxMjM5OTE5MTAxLCJ0b2tlblR5cGUiOiJBQ0NFU1MifX0.JPKslV1Hk2n8AU4Gd53S5XxqzFx1O_mn_raL4fo6hus");
+        loginWS.get("dhadmin", "dhadmin_#911", null);
+
+
         DeviceListener deviceListener = new DeviceListener() {
             @Override
             public void onDeviceList(List<DeviceVO> response) {
@@ -65,11 +79,12 @@ public class WebSocketExample {
         };
         DeviceWS deviceWS = client.createDeviceWS(deviceListener);
 
-        deviceWS.list(null, null,null, null,
+        deviceWS.list(null, null, null, null,
                 null, null,
                 null, 0, 0);
-        deviceWS.get("441z79GRgY0QnV9HKrLra8Jt2FXRQ6MzqmuP",null);
-        deviceWS.delete("1234",null);
+        deviceWS.get("441z79GRgY0QnV9HKrLra8Jt2FXRQ6MzqmuP", null);
+        deviceWS.delete("1234", null);
+
 
     }
 }
