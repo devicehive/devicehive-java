@@ -22,8 +22,8 @@ public class ActionConstant {
     public static final String DEVICE_DELETE = "device/delete";
     public static final String DEVICE_LIST = "device/list";
     public static final String DEVICE_SAVE = "device/save";
-    
-    
+
+
     public static final String NETWORK_GET = "network/get";
     public static final String NETWORK_DELETE = "network/delete";
     public static final String NETWORK_LIST = "network/list";
@@ -35,6 +35,17 @@ public class ActionConstant {
     public static final String NOTIFICATION_INSERT = "notification/insert";
     public static final String NOTIFICATION_SUBSCRIBE = "notification/subscribe";
     public static final String NOTIFICATION_UNSUBSCRIBE = "notification/unsubscribe";
+    
+    public static final String USER_GET = "user/get";
+    public static final String USER_LIST = "user/list";
+    public static final String USER_INSERT = "user/insert";
+    public static final String USER_UPDATE = "user/update";
+    public static final String USER_DELETE = "user/delete";
+    public static final String USER_GET_CURRENT = "user/getCurrent";
+    public static final String USER_UPDATE_CURRENT = "user/updateCurrent";
+    public static final String USER_GET_NETWORK = "user/getNetwork";
+    public static final String USER_ASSIGN_NETWORK = "user/assignNetwork";
+    public static final String USER_UNASSIGN_NETWORK = "user/unassignNetwork";
 
 
 }
