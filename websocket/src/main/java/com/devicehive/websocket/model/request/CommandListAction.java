@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import org.joda.time.DateTime;
 
-import static com.devicehive.websocket.model.ActionConstant.COMMAND_GET;
+import static com.devicehive.websocket.model.ActionConstant.COMMAND_LIST;
 
 @Data
 public class CommandListAction extends RequestAction {
@@ -28,7 +28,7 @@ public class CommandListAction extends RequestAction {
     Integer skip;
 
     public CommandListAction() {
-        super(COMMAND_GET);
+        super(COMMAND_LIST);
     }
 
     @Override

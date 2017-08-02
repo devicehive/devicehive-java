@@ -51,11 +51,9 @@ public class NetworkWS extends BaseWebSocketListener implements NetworkApi {
             NetworkInsertResponse response = gson.fromJson(message, NetworkInsertResponse.class);
             listener.onInsert(response);
         } else if (actionName.equalsIgnoreCase(NETWORK_UPDATE)) {
-            ResponseAction response = gson.fromJson(message, ResponseAction.class);
-            listener.onUpdate(response);
+            listener.onUpdate(action);
         } else if (actionName.equalsIgnoreCase(NETWORK_DELETE)) {
-            ResponseAction response = gson.fromJson(message, ResponseAction.class);
-            listener.onDelete(response);
+            listener.onDelete(action);
         }
 
     }

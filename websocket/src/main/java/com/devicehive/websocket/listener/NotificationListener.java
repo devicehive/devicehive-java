@@ -10,7 +10,7 @@ public interface NotificationListener extends ErrorListener {
 
     void onInsert(NotificationInsertResponse response);
 
-    void onSubcribe(NotificationSubscribeResponse response);
+    void onSubscribe(NotificationSubscribeResponse response);
 
     void onUnsubscribe(ResponseAction response);
 }

@@ -1,15 +1,21 @@
 package com.devicehive.websocket.api;
 
+import com.devicehive.websocket.adapter.JsonStringWrapperAdapterFactory;
 import com.devicehive.websocket.listener.CommandListener;
 import com.devicehive.websocket.model.SortOrder;
+import com.devicehive.websocket.model.repsonse.*;
 import com.devicehive.websocket.model.request.*;
 import com.devicehive.websocket.model.request.data.DeviceCommandWrapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nullable;
 import java.util.List;
+
+import static com.devicehive.websocket.model.ActionConstant.*;
 
 public class CommandWS extends BaseWebSocketListener implements CommandApi {
 
@@ -29,8 +35,25 @@ public class CommandWS extends BaseWebSocketListener implements CommandApi {
 
     @Override
     public void onSuccess(String message) {
-        //TODO CommandParsing Handling add
-
+        ResponseAction action = getResponseAction(message);
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapterFactory(new JsonStringWrapperAdapterFactory())
+                .create();
+        if (action.compareAction(COMMAND_LIST)) {
+            CommandListResponse response = gson.fromJson(message, CommandListResponse.class);
+            listener.onList(response);
+        } else if (action.compareAction(COMMAND_GET)) {
+            CommandGetResponse response = gson.fromJson(message, CommandGetResponse.class);
+            listener.onGet(response);
+        } else if (action.compareAction(COMMAND_INSERT)) {
+            CommandInsertResponse response = gson.fromJson(message, CommandInsertResponse.class);
+            listener.onInsert(response);
+        } else if (action.compareAction(COMMAND_SUBSCRIBE)) {
+            CommandSubscribeResponse response = gson.fromJson(message, CommandSubscribeResponse.class);
+            listener.onSubscribe(response);
+        } else if (action.compareAction(COMMAND_UNSUBSCRIBE)) {
+            listener.onUnsubscribe(action);
+        }
 
     }
 

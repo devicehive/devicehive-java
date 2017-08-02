@@ -8,6 +8,7 @@ public class ActionConstant {
     public static final String TOKEN_REFRESH = "token/refresh";
 
     public static final String COMMAND_GET = "command/get";
+    public static final String COMMAND_LIST = "command/list";
     public static final String COMMAND_INSERT = "command/insert";
     public static final String COMMAND_SUBSCRIBE = "command/subscribe";
     public static final String COMMAND_UNSUBSCRIBE = "command/unsubscribe";
@@ -35,7 +36,7 @@ public class ActionConstant {
     public static final String NOTIFICATION_INSERT = "notification/insert";
     public static final String NOTIFICATION_SUBSCRIBE = "notification/subscribe";
     public static final String NOTIFICATION_UNSUBSCRIBE = "notification/unsubscribe";
-    
+
     public static final String USER_GET = "user/get";
     public static final String USER_LIST = "user/list";
     public static final String USER_INSERT = "user/insert";
