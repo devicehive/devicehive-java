@@ -48,27 +48,27 @@ public class WebSocketExample {
 
             }
         });
-        loginWS.get("dhadmin", "dhadmin_#911", null);
+        loginWS.get(null, "dhadmin", "dhadmin_#911");
 
 
         DeviceListener deviceListener = new DeviceListener() {
             @Override
-            public void onDeviceList(List<DeviceVO> response) {
+            public void onList(List<DeviceVO> response) {
                 System.out.println("LIST:" + response);
             }
 
             @Override
-            public void onDeviceGet(DeviceVO response) {
+            public void onGet(DeviceVO response) {
                 System.out.println("Single:" + response);
             }
 
             @Override
-            public void onDeviceDelete(ResponseAction response) {
+            public void onDelete(ResponseAction response) {
 
             }
 
             @Override
-            public void onDeviceSave(ResponseAction response) {
+            public void onSave(ResponseAction response) {
 
             }
 
@@ -82,8 +82,8 @@ public class WebSocketExample {
         deviceWS.list(null, null, null, null,
                 null, null,
                 null, 0, 0);
-        deviceWS.get("441z79GRgY0QnV9HKrLra8Jt2FXRQ6MzqmuP", null);
-        deviceWS.delete("1234", null);
+        deviceWS.get(null, "441z79GRgY0QnV9HKrLra8Jt2FXRQ6MzqmuP");
+        deviceWS.delete(null, "1234");
 
 
     }

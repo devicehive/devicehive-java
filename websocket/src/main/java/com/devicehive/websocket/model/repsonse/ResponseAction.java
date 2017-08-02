@@ -31,4 +31,8 @@ public class ResponseAction {
                 + ",\n \"status\":\"" + status + "\""
                 + "}\n}";
     }
+
+    public boolean compareAction(String actionName){
+        return action.equalsIgnoreCase(actionName);
+    }
 }

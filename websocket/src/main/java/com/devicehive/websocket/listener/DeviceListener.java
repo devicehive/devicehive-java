@@ -7,12 +7,12 @@ import java.util.List;
 
 public interface DeviceListener  extends ErrorListener{
 
-    void onDeviceList(List<DeviceVO> response);
+    void onList(List<DeviceVO> response);
 
-    void onDeviceGet(DeviceVO response);
+    void onGet(DeviceVO response);
 
-    void onDeviceDelete(ResponseAction response);
+    void onDelete(ResponseAction response);
 
-    void onDeviceSave(ResponseAction response);
+    void onSave(ResponseAction response);
 
 }

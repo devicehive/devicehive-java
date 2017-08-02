@@ -1,21 +1,19 @@
 package com.devicehive.websocket.model.repsonse;
 
-import com.devicehive.websocket.model.repsonse.data.NetworkVO;
+import com.devicehive.websocket.model.repsonse.data.DeviceNotification;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
-public class NetworkListResponse extends ResponseAction {
+public class NotificationGetResponse extends ResponseAction {
 
-    @SerializedName("networks")
-    private List<NetworkVO> networks;
+    @SerializedName("notification")
+    private DeviceNotification notification;
 
     @Override
     public String toString() {
-        return "{\n\"NetworkListResponse\":{\n"
-                + "\"networks\":" + networks
+        return "{\n\"NotificationGetResponse\":{\n"
+                + "\"notification\":" + notification
                 + ",\n \"action\":\"" + action + "\""
                 + ",\n \"requestId\":\"" + requestId + "\""
                 + ",\n \"status\":\"" + status + "\""

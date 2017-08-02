@@ -61,8 +61,7 @@ public class NetworkWS extends BaseWebSocketListener implements NetworkApi {
     }
 
     @Override
-    public void list(String name, @Nullable Long requestId, String namePattern,
-                     String sortField, Boolean sortOrderAsc, Integer take, Integer skip) {
+    public void list(@Nullable Long requestId, String name, String namePattern, String sortField, Boolean sortOrderAsc, Integer take, Integer skip) {
         NetworkListAction action = new NetworkListAction();
         action.setName(name);
         action.setNamePattern(namePattern);
@@ -75,7 +74,7 @@ public class NetworkWS extends BaseWebSocketListener implements NetworkApi {
     }
 
     @Override
-    public void get(Long id, @Nullable Long requestId) {
+    public void get(@Nullable Long requestId, Long id) {
         NetworkGetAction action = new NetworkGetAction();
         action.setId(id);
         action.setRequestId(requestId);

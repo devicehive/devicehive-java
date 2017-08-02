@@ -18,60 +18,40 @@ import lombok.Data;
 import org.joda.time.DateTime;
 
 /**
- * DeviceCommand
+ * DeviceNotification
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
 @Data
-public class DeviceCommand implements Comparable<DeviceCommand> {
+public class DeviceNotification implements Comparable<DeviceNotification> {
     @SerializedName("id")
     private Long id = null;
 
-    @SerializedName("command")
-    private String command = null;
-
-    @SerializedName("timestamp")
-    private DateTime timestamp = null;
-
-    @SerializedName("userId")
-    private Long userId = null;
+    @SerializedName("notification")
+    private String notification = null;
 
     @SerializedName("deviceId")
     private String deviceId = null;
 
+    @SerializedName("timestamp")
+    private DateTime timestamp = null;
+
     @SerializedName("parameters")
     private JsonStringWrapper parameters = null;
 
-    @SerializedName("lifetime")
-    private Integer lifetime = null;
-
-    @SerializedName("status")
-    private String status = null;
-
-    @SerializedName("result")
-    private JsonStringWrapper result = null;
-
-    @SerializedName("isUpdated")
-    private Boolean isUpdated = false;
-
     @Override
     public String toString() {
-        return "{\n\"DeviceCommand\":{\n"
+        return "{\n\"DeviceNotification\":{\n"
                 + "\"id\":\"" + id + "\""
-                + ",\n \"command\":\"" + command + "\""
-                + ",\n \"timestamp\":" + timestamp
-                + ",\n \"userId\":\"" + userId + "\""
+                + ",\n \"notification\":\"" + notification + "\""
                 + ",\n \"deviceId\":\"" + deviceId + "\""
+                + ",\n \"timestamp\":" + timestamp
                 + ",\n \"parameters\":" + parameters
-                + ",\n \"lifetime\":\"" + lifetime + "\""
-                + ",\n \"status\":\"" + status + "\""
-                + ",\n \"result\":" + result
-                + ",\n \"isUpdated\":\"" + isUpdated + "\""
                 + "}\n}";
     }
 
     @Override
-    public int compareTo(DeviceCommand deviceCommand) {
-        return getTimestamp().compareTo(deviceCommand.getTimestamp());
+    public int compareTo(DeviceNotification notification) {
+        return getTimestamp().compareTo(notification.getTimestamp());
     }
 
 }

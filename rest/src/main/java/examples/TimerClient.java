@@ -10,6 +10,7 @@ import com.devicehive.rest.model.DeviceNotification;
 import com.devicehive.rest.model.DeviceVO;
 import com.devicehive.rest.model.JsonStringWrapper;
 import com.devicehive.rest.utils.Const;
+import com.google.gson.Gson;
 import org.joda.time.DateTime;
 import retrofit2.Response;
 
@@ -57,7 +58,7 @@ class TimerClient {
                 }
 
                 List<DeviceVO> devices = response.body();
-                System.out.println(devices);
+
                 if (devices.size() == 0) {
                     System.out.println("No devices was found");
                 } else {
@@ -117,8 +118,12 @@ class TimerClient {
         DeviceCommandWrapper deviceCommandWrapper = new DeviceCommandWrapper();
         if (isOnTimer) {
             deviceCommandWrapper.setCommand(Const.ON);
+            TimeStamp timeStamp = new TimeStamp();
+            timeStamp.setTimestamp(time.toString());
+
             JsonStringWrapper jsonStringWrapper = new JsonStringWrapper();
-            jsonStringWrapper.setJsonString(time.toString());
+            jsonStringWrapper.setJsonString(new Gson().toJson(timeStamp));
+
             deviceCommandWrapper.setParameters(jsonStringWrapper);
         }
         commandApi.insert(guid, deviceCommandWrapper).execute();
@@ -131,5 +136,6 @@ class TimerClient {
             this.timestamp = timestamp;
         }
     }
+
 }
 

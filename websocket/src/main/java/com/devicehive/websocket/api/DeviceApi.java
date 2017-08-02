@@ -8,14 +8,14 @@ import javax.annotation.Nullable;
 interface DeviceApi {
 
 
-    void get(String deviceId,@Nullable  Long requestId);
+    void get(@Nullable Long requestId, String deviceId);
 
-    void list(String name, String namePattern, Long networkId,
-              String networkName,@Nullable  Long requestId, String sortField, String sortOrder, int take, int skip);
+    void list(@Nullable Long requestId, String name, String namePattern, Long networkId,
+              String networkName, String sortField, String sortOrder, int take, int skip);
 
-    void save(DeviceVO device, @Nullable Long requestId);
+    void save(@Nullable Long requestId, DeviceVO device);
 
-    void delete(@NonNull String deviceId, @Nullable Long requestId);
+    void delete(@Nullable Long requestId, @NonNull String deviceId);
 
 
 }

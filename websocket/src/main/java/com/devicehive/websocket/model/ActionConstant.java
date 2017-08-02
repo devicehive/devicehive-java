@@ -30,5 +30,11 @@ public class ActionConstant {
     public static final String NETWORK_UPDATE = "network/update";
     public static final String NETWORK_INSERT = "network/insert";
 
+    public static final String NOTIFICATION_GET = "notification/get";
+    public static final String NOTIFICATION_LIST = "notification/list";
+    public static final String NOTIFICATION_INSERT = "notification/insert";
+    public static final String NOTIFICATION_SUBSCRIBE = "notification/subscribe";
+    public static final String NOTIFICATION_UNSUBSCRIBE = "notification/unsubscribe";
+
 
 }
