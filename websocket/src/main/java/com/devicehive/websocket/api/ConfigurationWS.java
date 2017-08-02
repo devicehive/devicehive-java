@@ -48,8 +48,7 @@ public class ConfigurationWS extends BaseWebSocketListener implements Configurat
             ConfigurationInsertResponse response = gson.fromJson(message, ConfigurationInsertResponse.class);
             listener.onInsert(response);
         } else if (actionName.equalsIgnoreCase(CONFIGURATION_DELETE)) {
-            ResponseAction response = gson.fromJson(message, ResponseAction.class);
-            listener.onDelete(response);
+            listener.onDelete(action);
 
         }
     }

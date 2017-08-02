@@ -15,5 +15,5 @@ public interface CommandListener extends ErrorListener {
 
     void onSubscribe(CommandSubscribeResponse response);
 
-    void onUnSubscribe(ResponseAction response);
+    void onUnsubscribe(ResponseAction response);
 }

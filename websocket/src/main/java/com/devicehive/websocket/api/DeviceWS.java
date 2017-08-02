@@ -51,11 +51,9 @@ public class DeviceWS extends BaseWebSocketListener implements DeviceApi {
             DeviceGetResponse response = gson.fromJson(message, DeviceGetResponse.class);
             listener.onGet(response.getDevice());
         } else if (actionName.equalsIgnoreCase(DEVICE_DELETE)) {
-            ResponseAction response = gson.fromJson(message, ResponseAction.class);
-            listener.onDelete(response);
+            listener.onDelete(action);
         } else if (actionName.equalsIgnoreCase(DEVICE_SAVE)) {
-            ResponseAction response = gson.fromJson(message, ResponseAction.class);
-            listener.onSave(response);
+            listener.onSave(action);
         }
     }
 

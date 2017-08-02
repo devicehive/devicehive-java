@@ -50,10 +50,9 @@ public class NotificationWS extends BaseWebSocketListener implements Notificatio
             listener.onInsert(response);
         } else if (action.compareAction(NOTIFICATION_SUBSCRIBE)) {
             NotificationSubscribeResponse response = gson.fromJson(message, NotificationSubscribeResponse.class);
-            listener.onSubcribe(response);
+            listener.onSubscribe(response);
         } else if (action.compareAction(NOTIFICATION_UNSUBSCRIBE)) {
-            ResponseAction response = gson.fromJson(message, ResponseAction.class);
-            listener.onUnsubscribe(response);
+            listener.onUnsubscribe(action);
         }
 
     }
