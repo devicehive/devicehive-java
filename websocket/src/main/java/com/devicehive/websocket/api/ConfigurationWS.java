@@ -13,6 +13,8 @@ import com.google.gson.GsonBuilder;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
+import javax.annotation.Nullable;
+
 import static com.devicehive.websocket.model.ActionConstant.CONFIGURATION_DELETE;
 import static com.devicehive.websocket.model.ActionConstant.CONFIGURATION_GET;
 import static com.devicehive.websocket.model.ActionConstant.CONFIGURATION_INSERT;
@@ -53,7 +55,7 @@ public class ConfigurationWS extends BaseWebSocketListener implements Configurat
     }
 
     @Override
-    public void get(String name, Long requestId) {
+    public void get(@Nullable Long requestId, String name) {
         ConfigurationGetAction action = new ConfigurationGetAction();
         action.setName(name);
         action.setRequestId(requestId);
@@ -61,7 +63,7 @@ public class ConfigurationWS extends BaseWebSocketListener implements Configurat
     }
 
     @Override
-    public void put(String name, String value, Long requestId) {
+    public void put(@Nullable Long requestId, String name, String value) {
         ConfigurationInsertAction action = new ConfigurationInsertAction();
         action.setName(name);
         action.setValue(value);
@@ -70,7 +72,7 @@ public class ConfigurationWS extends BaseWebSocketListener implements Configurat
     }
 
     @Override
-    public void delete(String name, Long requestId) {
+    public void delete(@Nullable Long requestId, String name) {
         ConfigurationDeleteAction action = new ConfigurationDeleteAction();
         action.setName(name);
         action.setRequestId(requestId);
