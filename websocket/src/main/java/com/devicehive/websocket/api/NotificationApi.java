@@ -7,7 +7,7 @@ import org.joda.time.DateTime;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public interface NotificationApi {
+interface NotificationApi {
 
     void list(@Nullable Long requestId, String deviceId, String notification, DateTime start, DateTime end,
               String sortField, SortOrder sortOrder, int take, int skip);
