@@ -53,15 +53,6 @@ public class DeviceCommand implements Comparable<DeviceCommand> {
     @SerializedName("isUpdated")
     private Boolean isUpdated = false;
 
-    @SerializedName("hazelcastKey")
-    private String hazelcastKey = null;
-
-    @SerializedName("factoryId")
-    private Integer factoryId = null;
-
-    @SerializedName("classId")
-    private Integer classId = null;
-
     @Override
     public String toString() {
         return "{\n\"DeviceCommand\":{\n"
@@ -75,9 +66,6 @@ public class DeviceCommand implements Comparable<DeviceCommand> {
                 + ",\n \"status\":\"" + status + "\""
                 + ",\n \"result\":" + result
                 + ",\n \"isUpdated\":\"" + isUpdated + "\""
-                + ",\n \"hazelcastKey\":\"" + hazelcastKey + "\""
-                + ",\n \"factoryId\":\"" + factoryId + "\""
-                + ",\n \"classId\":\"" + classId + "\""
                 + "}\n}";
     }
 

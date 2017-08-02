@@ -16,16 +16,18 @@ import lombok.NonNull;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
+import javax.annotation.Nullable;
+
 import static com.devicehive.websocket.model.ActionConstant.*;
 
 public class DeviceWS extends BaseWebSocketListener implements DeviceApi {
 
     public static final String TAG = "DeviceWS";
-    private final DeviceListener deviceListener;
+    private final DeviceListener listener;
 
     public DeviceWS(OkHttpClient client, Request request, DeviceListener listener) {
         super(client, request, listener);
-        this.deviceListener = listener;
+        this.listener = listener;
     }
 
     @Override
@@ -44,21 +46,21 @@ public class DeviceWS extends BaseWebSocketListener implements DeviceApi {
 
         if (actionName.equalsIgnoreCase(DEVICE_LIST)) {
             DeviceListResponse response = gson.fromJson(message, DeviceListResponse.class);
-            deviceListener.onDeviceList(response.getDevices());
+            listener.onList(response.getDevices());
         } else if (actionName.equalsIgnoreCase(DEVICE_GET)) {
             DeviceGetResponse response = gson.fromJson(message, DeviceGetResponse.class);
-            deviceListener.onDeviceGet(response.getDevice());
+            listener.onGet(response.getDevice());
         } else if (actionName.equalsIgnoreCase(DEVICE_DELETE)) {
             ResponseAction response = gson.fromJson(message, ResponseAction.class);
-            deviceListener.onDeviceDelete(response);
+            listener.onDelete(response);
         } else if (actionName.equalsIgnoreCase(DEVICE_SAVE)) {
             ResponseAction response = gson.fromJson(message, ResponseAction.class);
-            deviceListener.onDeviceSave(response);
+            listener.onSave(response);
         }
     }
 
     @Override
-    public void get(String deviceId, Long requestId) {
+    public void get(@Nullable Long requestId, String deviceId) {
         DeviceGetAction action = new DeviceGetAction();
         action.setDeviceId(deviceId);
         action.setRequestId(requestId);
@@ -66,7 +68,7 @@ public class DeviceWS extends BaseWebSocketListener implements DeviceApi {
     }
 
     @Override
-    public void list(String name, String namePattern, Long networkId, String networkName, Long requestId, String sortField, String sortOrder, int take, int skip) {
+    public void list(@Nullable Long requestId, String name, String namePattern, Long networkId, String networkName, String sortField, String sortOrder, int take, int skip) {
         DeviceListAction action = new DeviceListAction();
         action.setName(name);
         action.setNamePattern(namePattern);
@@ -82,7 +84,7 @@ public class DeviceWS extends BaseWebSocketListener implements DeviceApi {
     }
 
     @Override
-    public void save(@NonNull DeviceVO device, Long requestId) {
+    public void save(@Nullable Long requestId, @NonNull DeviceVO device) {
         DeviceSaveAction action = new DeviceSaveAction();
         action.setDevice(device);
         action.setRequestId(requestId);
@@ -91,7 +93,7 @@ public class DeviceWS extends BaseWebSocketListener implements DeviceApi {
 
 
     @Override
-    public void delete(@NonNull String deviceId, Long requestId) {
+    public void delete(@Nullable Long requestId,@NonNull String deviceId) {
         DeviceDeleteAction action = new DeviceDeleteAction();
         action.setDeviceId(deviceId);
         action.setRequestId(requestId);

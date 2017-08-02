@@ -6,9 +6,9 @@ import javax.annotation.Nullable;
 
 interface TokenApi {
 
-    void get(String login, String password, @Nullable Long requestId);
+    void get(@Nullable Long requestId, String login, String password);
 
     void create(@Nullable Long requestId, JwtPayload payload);
 
-    void refresh(String refreshToken, @Nullable Long requestId);
+    void refresh(@Nullable Long requestId, String refreshToken);
 }

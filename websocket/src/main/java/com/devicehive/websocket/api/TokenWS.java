@@ -62,7 +62,7 @@ public class TokenWS extends BaseWebSocketListener implements TokenApi {
     }
 
     @Override
-    public void get(String login, String password, Long requestId) {
+    public void get(@Nullable Long requestId, String login, String password) {
         TokenGetAction action = new TokenGetAction();
         action.setLogin(login);
         action.setPassword(password);
@@ -79,7 +79,7 @@ public class TokenWS extends BaseWebSocketListener implements TokenApi {
     }
 
     @Override
-    public void refresh(String refreshToken, @Nullable Long requestId) {
+    public void refresh(@Nullable Long requestId, String refreshToken) {
         TokenRefreshAction action = new TokenRefreshAction();
         action.setRefreshToken(refreshToken);
         action.setRequestId(requestId);

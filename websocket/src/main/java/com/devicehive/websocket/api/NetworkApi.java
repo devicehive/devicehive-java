@@ -6,9 +6,9 @@ import javax.annotation.Nullable;
 
 interface NetworkApi {
 
-    void list(String name, @Nullable Long requestId, String namePattern, String sortField, Boolean sortOrderAsc, Integer take, Integer skip);
+    void list(@Nullable Long requestId, String name, String namePattern, String sortField, Boolean sortOrderAsc, Integer take, Integer skip);
 
-    void get(Long id, @Nullable Long requestId);
+    void get(@Nullable Long requestId, Long id);
 
     void insert(@Nullable Long requestId, NetworkUpdate networkUpdate);
 

@@ -30,7 +30,7 @@ public class DeviceCommandWrapper {
   private DateTime timestamp = null;
 
   @SerializedName("parameters")
-  private Object parameters = null;
+  private JsonStringWrapper parameters = null;
 
   @SerializedName("lifetime")
   private Integer lifetime = null;
@@ -39,7 +39,18 @@ public class DeviceCommandWrapper {
   private String status = null;
 
   @SerializedName("result")
-  private Object result = null;
+  private JsonStringWrapper result = null;
 
+  @Override
+  public String toString() {
+    return "{\n\"DeviceCommandWrapper\":{\n"
+            + "\"command\":\"" + command + "\""
+            + ",\n \"timestamp\":" + timestamp
+            + ",\n \"parameters\":" + parameters
+            + ",\n \"lifetime\":\"" + lifetime + "\""
+            + ",\n \"status\":\"" + status + "\""
+            + ",\n \"result\":" + result
+            + "}\n}";
+  }
 }
 

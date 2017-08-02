@@ -11,8 +11,9 @@
  */
 
 
-package com.devicehive.rest.model;
+package com.devicehive.websocket.model.request.data;
 
+import com.devicehive.websocket.model.repsonse.data.JsonStringWrapper;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import org.joda.time.DateTime;
@@ -31,14 +32,6 @@ public class DeviceNotificationWrapper {
 
   @SerializedName("parameters")
   private JsonStringWrapper parameters = null;
-
-  @Override
-  public String toString() {
-    return "{\n\"DeviceNotificationWrapper\":{\n"
-            + "\"notification\":\"" + notification + "\""
-            + ",\n \"timestamp\":" + timestamp
-            + ",\n \"parameters\":" + parameters
-            + "}\n}";
-  }
+  
 }
 

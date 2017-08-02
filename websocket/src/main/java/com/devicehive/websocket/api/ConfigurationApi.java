@@ -4,11 +4,11 @@ import javax.annotation.Nullable;
 
 interface ConfigurationApi {
 
-    void get(String name, @Nullable Long requestId);
+    void get(@Nullable Long requestId, String name);
 
-    void put(String name, String value, @Nullable Long requestId);
+    void put(@Nullable Long requestId, String name, String value);
 
-    void delete(String name, @Nullable Long requestId);
+    void delete(@Nullable Long requestId, String name);
 
 
 }

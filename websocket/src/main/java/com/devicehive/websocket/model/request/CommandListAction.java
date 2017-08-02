@@ -1,5 +1,6 @@
 package com.devicehive.websocket.model.request;
 
+import com.devicehive.websocket.model.SortOrder;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import org.joda.time.DateTime;
@@ -45,10 +46,5 @@ public class CommandListAction extends RequestAction {
                 + "}\n}";
     }
 
-    public enum SortOrder {
-        @SerializedName("ASC")
-        ASC,
-        @SerializedName("DESC")
-        DESC
-    }
+
 }
