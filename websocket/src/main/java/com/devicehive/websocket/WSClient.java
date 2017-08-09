@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.devicehive.websocket.model.ActionConstant.AUTHENTICATE;
+import static com.devicehive.websocket.model.repsonse.ErrorResponse.ERROR;
+
 public class WSClient extends WebSocketListener implements Closeable {
 
     private Request request;
@@ -34,27 +37,33 @@ public class WSClient extends WebSocketListener implements Closeable {
     @Override
     public void onMessage(WebSocket webSocket, String text) {
         ResponseAction action = getResponseAction(text);
-        BaseWebSocketApi listener = null;
+        BaseWebSocketApi api = null;
         String actionName = action.getAction();
-
-        if (actionName.startsWith(DeviceWS.TAG)) {
-            listener = map.get(DeviceWS.TAG);
-        } else if (actionName.startsWith(CommandWS.TAG)) {
-            listener = map.get(CommandWS.TAG);
-        } else if (actionName.startsWith(ConfigurationWS.TAG)) {
-            listener = map.get(ConfigurationWS.TAG);
-        } else if (actionName.startsWith(NotificationWS.TAG)) {
-            listener = map.get(NotificationWS.TAG);
-        } else if (actionName.startsWith(NetworkWS.TAG)) {
-            listener = map.get(NetworkWS.TAG);
-        } else if (actionName.startsWith(UserWS.TAG)) {
-            listener = map.get(UserWS.TAG);
-        } else if (actionName.startsWith(TokenWS.TAG)) {
-            listener = map.get(TokenWS.TAG);
+        if (actionName.startsWith(AUTHENTICATE) && action.getStatus().equalsIgnoreCase(ERROR)) {
+            for (BaseWebSocketApi a : map.values()) {
+                a.onMessage(text);
+            }
+            return;
         }
 
-        if (listener != null) {
-            listener.onMessage(text);
+        if (actionName.startsWith(DeviceWS.TAG)) {
+            api = map.get(DeviceWS.TAG);
+        } else if (actionName.startsWith(CommandWS.TAG)) {
+            api = map.get(CommandWS.TAG);
+        } else if (actionName.startsWith(ConfigurationWS.TAG)) {
+            api = map.get(ConfigurationWS.TAG);
+        } else if (actionName.startsWith(NotificationWS.TAG)) {
+            api = map.get(NotificationWS.TAG);
+        } else if (actionName.startsWith(NetworkWS.TAG)) {
+            api = map.get(NetworkWS.TAG);
+        } else if (actionName.startsWith(UserWS.TAG)) {
+            api = map.get(UserWS.TAG);
+        } else if (actionName.startsWith(TokenWS.TAG)) {
+            api = map.get(TokenWS.TAG);
+        }
+
+        if (api != null) {
+            api.onMessage(text);
         }
 
 
