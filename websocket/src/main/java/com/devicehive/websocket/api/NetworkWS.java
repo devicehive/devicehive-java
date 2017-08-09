@@ -10,21 +10,20 @@ import com.devicehive.websocket.model.request.*;
 import com.devicehive.websocket.model.request.data.NetworkUpdate;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
+import okhttp3.WebSocket;
 
 import javax.annotation.Nullable;
 
 import static com.devicehive.websocket.model.ActionConstant.*;
 
-public class NetworkWS extends BaseWebSocketListener implements NetworkApi {
+public class NetworkWS extends BaseWebSocketApi implements NetworkApi {
 
-    public static final String TAG = "NetworkWS";
+    public static final String TAG = "network";
     private final NetworkListener listener;
 
 
-    public NetworkWS(OkHttpClient client, Request request, NetworkListener listener) {
-        super(client, request, listener);
+    public NetworkWS(WebSocket ws, NetworkListener listener) {
+        super(ws, listener);
         this.listener = listener;
     }
 

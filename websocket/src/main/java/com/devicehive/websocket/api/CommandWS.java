@@ -8,8 +8,7 @@ import com.devicehive.websocket.model.request.*;
 import com.devicehive.websocket.model.request.data.DeviceCommandWrapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
+import okhttp3.WebSocket;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nullable;
@@ -17,14 +16,14 @@ import java.util.List;
 
 import static com.devicehive.websocket.model.ActionConstant.*;
 
-public class CommandWS extends BaseWebSocketListener implements CommandApi {
+public class CommandWS extends BaseWebSocketApi implements CommandApi {
 
-    public static final String TAG = "CommandWS";
+    public static final String TAG = "command";
 
     private final CommandListener listener;
 
-    public CommandWS(OkHttpClient client, Request request, CommandListener listener) {
-        super(client, request, listener);
+    public CommandWS(WebSocket ws, CommandListener listener) {
+        super(ws, listener);
         this.listener = listener;
     }
 

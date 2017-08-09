@@ -8,8 +8,7 @@ import com.devicehive.websocket.model.request.*;
 import com.devicehive.websocket.model.request.data.DeviceNotificationWrapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
+import okhttp3.WebSocket;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nullable;
@@ -17,13 +16,13 @@ import java.util.List;
 
 import static com.devicehive.websocket.model.ActionConstant.*;
 
-public class NotificationWS extends BaseWebSocketListener implements NotificationApi {
+public class NotificationWS extends BaseWebSocketApi implements NotificationApi {
 
-    public static final String TAG = "NotificationWS";
+    public static final String TAG = "notification";
     private final NotificationListener listener;
 
-    public NotificationWS(OkHttpClient client, Request request, NotificationListener listener) {
-        super(client, request, listener);
+    public NotificationWS(WebSocket ws, NotificationListener listener) {
+        super(ws, listener);
         this.listener = listener;
     }
 
@@ -53,6 +52,11 @@ public class NotificationWS extends BaseWebSocketListener implements Notificatio
             listener.onSubscribe(response);
         } else if (action.compareAction(NOTIFICATION_UNSUBSCRIBE)) {
             listener.onUnsubscribe(action);
+        }else if (action.compareAction("authenticate")){
+            ErrorResponse response=new ErrorResponse();
+
+            response.setError(message);
+            listener.onError(response);
         }
 
     }

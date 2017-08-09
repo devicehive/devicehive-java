@@ -13,20 +13,19 @@ import com.devicehive.websocket.model.request.DeviceSaveAction;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.NonNull;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
+import okhttp3.WebSocket;
 
 import javax.annotation.Nullable;
 
 import static com.devicehive.websocket.model.ActionConstant.*;
 
-public class DeviceWS extends BaseWebSocketListener implements DeviceApi {
+public class DeviceWS extends BaseWebSocketApi implements DeviceApi {
 
-    public static final String TAG = "DeviceWS";
+    public static final String TAG = "device";
     private final DeviceListener listener;
 
-    public DeviceWS(OkHttpClient client, Request request, DeviceListener listener) {
-        super(client, request, listener);
+    public DeviceWS(WebSocket ws, DeviceListener listener) {
+        super(ws, listener);
         this.listener = listener;
     }
 
@@ -43,7 +42,6 @@ public class DeviceWS extends BaseWebSocketListener implements DeviceApi {
                 .registerTypeAdapterFactory(new JsonStringWrapperAdapterFactory())
                 .create();
         String actionName = action.getAction();
-
         if (actionName.equalsIgnoreCase(DEVICE_LIST)) {
             DeviceListResponse response = gson.fromJson(message, DeviceListResponse.class);
             listener.onList(response.getDevices());
@@ -91,7 +89,7 @@ public class DeviceWS extends BaseWebSocketListener implements DeviceApi {
 
 
     @Override
-    public void delete(@Nullable Long requestId,@NonNull String deviceId) {
+    public void delete(@Nullable Long requestId, @NonNull String deviceId) {
         DeviceDeleteAction action = new DeviceDeleteAction();
         action.setDeviceId(deviceId);
         action.setRequestId(requestId);

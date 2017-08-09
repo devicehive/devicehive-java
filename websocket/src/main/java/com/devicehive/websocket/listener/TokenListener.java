@@ -3,7 +3,7 @@ package com.devicehive.websocket.listener;
 import com.devicehive.websocket.model.repsonse.TokenGetResponse;
 import com.devicehive.websocket.model.repsonse.TokenRefreshResponse;
 
-public interface LoginListener extends ErrorListener {
+public interface TokenListener extends ErrorListener {
 
     void onGet(TokenGetResponse response);
 
