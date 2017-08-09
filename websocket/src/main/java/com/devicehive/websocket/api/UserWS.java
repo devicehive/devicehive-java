@@ -11,21 +11,20 @@ import com.devicehive.websocket.model.request.data.User;
 import com.devicehive.websocket.model.request.data.UserUpdate;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
+import okhttp3.WebSocket;
 
 import javax.annotation.Nullable;
 
 import static com.devicehive.websocket.model.ActionConstant.*;
 
-public class UserWS extends BaseWebSocketListener implements UserApi {
+public class UserWS extends BaseWebSocketApi implements UserApi {
 
-    public static final String TAG = "UserWS";
+    public static final String TAG = "user";
     private final UserListener listener;
 
 
-    public UserWS(OkHttpClient client, Request request, UserListener listener) {
-        super(client, request, listener);
+    public UserWS(WebSocket ws, UserListener listener) {
+        super(ws, listener);
         this.listener = listener;
     }
 

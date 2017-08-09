@@ -10,22 +10,19 @@ import com.devicehive.websocket.model.request.ConfigurationGetAction;
 import com.devicehive.websocket.model.request.ConfigurationInsertAction;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
+import okhttp3.WebSocket;
 
 import javax.annotation.Nullable;
 
-import static com.devicehive.websocket.model.ActionConstant.CONFIGURATION_DELETE;
-import static com.devicehive.websocket.model.ActionConstant.CONFIGURATION_GET;
-import static com.devicehive.websocket.model.ActionConstant.CONFIGURATION_INSERT;
+import static com.devicehive.websocket.model.ActionConstant.*;
 
-public class ConfigurationWS extends BaseWebSocketListener implements ConfigurationApi {
+public class ConfigurationWS extends BaseWebSocketApi implements ConfigurationApi {
 
-    public static final String TAG = "ConfigurationWS";
+    public static final String TAG = "configuration";
     private ConfigurationListener listener;
 
-    public ConfigurationWS(OkHttpClient client, Request request, ConfigurationListener listener) {
-        super(client, request, listener);
+    public ConfigurationWS(WebSocket ws, ConfigurationListener listener) {
+        super(ws, listener);
         this.listener = listener;
     }
 

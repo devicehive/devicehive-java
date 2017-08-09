@@ -1,7 +1,7 @@
 package com.devicehive.websocket.api;
 
 import com.devicehive.websocket.adapter.JsonStringWrapperAdapterFactory;
-import com.devicehive.websocket.listener.LoginListener;
+import com.devicehive.websocket.listener.TokenListener;
 import com.devicehive.websocket.model.repsonse.ResponseAction;
 import com.devicehive.websocket.model.repsonse.TokenGetResponse;
 import com.devicehive.websocket.model.repsonse.TokenRefreshResponse;
@@ -11,24 +11,19 @@ import com.devicehive.websocket.model.request.TokenRefreshAction;
 import com.devicehive.websocket.model.request.data.JwtPayload;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import okhttp3.WebSocket;
 
 import javax.annotation.Nullable;
 
-import static com.devicehive.websocket.model.ActionConstant.TOKEN_CREATE;
-import static com.devicehive.websocket.model.ActionConstant.TOKEN_GET;
-import static com.devicehive.websocket.model.ActionConstant.TOKEN_REFRESH;
+import static com.devicehive.websocket.model.ActionConstant.*;
 
-public class TokenWS extends BaseWebSocketListener implements TokenApi {
-    public static final String TAG = "TokenWS";
-    private LoginListener loginListener;
+public class TokenWS extends BaseWebSocketApi implements TokenApi {
+    public static final String TAG = "token";
+    private TokenListener tokenListener;
 
-    public TokenWS(OkHttpClient client, Request request, LoginListener listener) {
-        super(client, request, listener);
-        this.loginListener = listener;
+    public TokenWS(WebSocket ws, TokenListener listener) {
+        super(ws, listener);
+        this.tokenListener = listener;
     }
 
     @Override
@@ -44,21 +39,16 @@ public class TokenWS extends BaseWebSocketListener implements TokenApi {
         String actionName = action.getAction();
         if (actionName.equalsIgnoreCase(TOKEN_GET)) {
             TokenGetResponse tokenVO = gson.fromJson(message, TokenGetResponse.class);
-            loginListener.onGet(tokenVO);
+            tokenListener.onGet(tokenVO);
         } else if (actionName.equalsIgnoreCase(TOKEN_REFRESH)) {
             TokenRefreshResponse tokenVO = gson.fromJson(message, TokenRefreshResponse.class);
-            loginListener.onRefresh(tokenVO);
+            tokenListener.onRefresh(tokenVO);
 
         } else if (actionName.equalsIgnoreCase(TOKEN_CREATE)) {
             TokenGetResponse tokenVO = gson.fromJson(message, TokenGetResponse.class);
-            loginListener.onCreate(tokenVO);
+            tokenListener.onCreate(tokenVO);
 
         }
-    }
-
-    @Override
-    public void onFailure(WebSocket webSocket, Throwable t, Response response) {
-        System.out.println(t.getMessage());
     }
 
     @Override
