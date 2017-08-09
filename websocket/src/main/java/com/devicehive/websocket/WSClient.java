@@ -102,7 +102,7 @@ public class WSClient extends WebSocketListener implements Closeable {
         ws.send(gson.toJson(authAction));
     }
 
-    //TODO add factory
+    //TODO add unification function
 
     public DeviceWS createDeviceWS(DeviceListener listener) {
         DeviceWS deviceWS = new DeviceWS(ws, listener);
