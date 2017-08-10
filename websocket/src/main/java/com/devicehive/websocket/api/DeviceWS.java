@@ -21,10 +21,10 @@ import static com.devicehive.websocket.model.ActionConstant.*;
 
 public class DeviceWS extends BaseWebSocketApi implements DeviceApi {
 
-    public static final String TAG = "device";
+    static final String TAG = "device";
     private final DeviceListener listener;
 
-    public DeviceWS(WebSocket ws, DeviceListener listener) {
+    DeviceWS(WebSocket ws, DeviceListener listener) {
         super(ws, listener);
         this.listener = listener;
     }

@@ -18,10 +18,10 @@ import static com.devicehive.websocket.model.ActionConstant.*;
 
 public class NotificationWS extends BaseWebSocketApi implements NotificationApi {
 
-    public static final String TAG = "notification";
+    static final String TAG = "notification";
     private final NotificationListener listener;
 
-    public NotificationWS(WebSocket ws, NotificationListener listener) {
+    NotificationWS(WebSocket ws, NotificationListener listener) {
         super(ws, listener);
         this.listener = listener;
     }
@@ -52,8 +52,8 @@ public class NotificationWS extends BaseWebSocketApi implements NotificationApi 
             listener.onSubscribe(response);
         } else if (action.compareAction(NOTIFICATION_UNSUBSCRIBE)) {
             listener.onUnsubscribe(action);
-        }else if (action.compareAction("authenticate")){
-            ErrorResponse response=new ErrorResponse();
+        } else if (action.compareAction("authenticate")) {
+            ErrorResponse response = new ErrorResponse();
 
             response.setError(message);
             listener.onError(response);
