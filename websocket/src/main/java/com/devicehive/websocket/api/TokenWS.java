@@ -18,10 +18,10 @@ import javax.annotation.Nullable;
 import static com.devicehive.websocket.model.ActionConstant.*;
 
 public class TokenWS extends BaseWebSocketApi implements TokenApi {
-    public static final String TAG = "token";
+    static final String TAG = "token";
     private TokenListener tokenListener;
 
-    public TokenWS(WebSocket ws, TokenListener listener) {
+    TokenWS(WebSocket ws, TokenListener listener) {
         super(ws, listener);
         this.tokenListener = listener;
     }

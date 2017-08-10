@@ -18,11 +18,11 @@ import static com.devicehive.websocket.model.ActionConstant.*;
 
 public class CommandWS extends BaseWebSocketApi implements CommandApi {
 
-    public static final String TAG = "command";
+    static final String TAG = "command";
 
     private final CommandListener listener;
 
-    public CommandWS(WebSocket ws, CommandListener listener) {
+    CommandWS(WebSocket ws, CommandListener listener) {
         super(ws, listener);
         this.listener = listener;
     }

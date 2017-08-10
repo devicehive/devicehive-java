@@ -18,11 +18,11 @@ import static com.devicehive.websocket.model.ActionConstant.*;
 
 public class NetworkWS extends BaseWebSocketApi implements NetworkApi {
 
-    public static final String TAG = "network";
+    static final String TAG = "network";
     private final NetworkListener listener;
 
 
-    public NetworkWS(WebSocket ws, NetworkListener listener) {
+    NetworkWS(WebSocket ws, NetworkListener listener) {
         super(ws, listener);
         this.listener = listener;
     }

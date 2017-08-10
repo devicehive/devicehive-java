@@ -19,11 +19,11 @@ import static com.devicehive.websocket.model.ActionConstant.*;
 
 public class UserWS extends BaseWebSocketApi implements UserApi {
 
-    public static final String TAG = "user";
+    static final String TAG = "user";
     private final UserListener listener;
 
 
-    public UserWS(WebSocket ws, UserListener listener) {
+    UserWS(WebSocket ws, UserListener listener) {
         super(ws, listener);
         this.listener = listener;
     }

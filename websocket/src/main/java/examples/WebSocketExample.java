@@ -1,8 +1,8 @@
 package examples;
 
-import com.devicehive.websocket.WSClient;
 import com.devicehive.websocket.api.CommandWS;
 import com.devicehive.websocket.api.DeviceWS;
+import com.devicehive.websocket.api.WebSocketClient;
 import com.devicehive.websocket.listener.CommandListener;
 import com.devicehive.websocket.listener.DeviceListener;
 import com.devicehive.websocket.model.repsonse.*;
@@ -12,17 +12,16 @@ import java.util.List;
 
 public class WebSocketExample {
     private static final String URL = "ws://playground.dev.devicehive.com/api/websocket";
-    private static final String TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTAyMjgyOTIzOTU3LCJ0b2tlblR5cGUiOiJBQ0NFU1MifX0.LWnobrxJxRzKzXX8emIulampR0qQUwUXqaFxPW53qu4";
+    private static final String TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTAyMzUyODY4NjkzLCJ0b2tlblR5cGUiOiJBQ0NFU1MifX0.oupEODSROiSSc5GqAR1dIXOM3G1s5kiylRaAg02A7h0";
 
     public static void main(String[] args) {
 
 
-        WSClient client = new WSClient
+        WebSocketClient client = new WebSocketClient
                 .Builder()
                 .url(URL)
                 .token(TOKEN)
                 .build();
-
 
         DeviceWS deviceWS = client.createDeviceWS(new DeviceListener() {
             @Override

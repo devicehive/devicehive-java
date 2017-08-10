@@ -18,10 +18,10 @@ import static com.devicehive.websocket.model.ActionConstant.*;
 
 public class ConfigurationWS extends BaseWebSocketApi implements ConfigurationApi {
 
-    public static final String TAG = "configuration";
+    static final String TAG = "configuration";
     private ConfigurationListener listener;
 
-    public ConfigurationWS(WebSocket ws, ConfigurationListener listener) {
+    ConfigurationWS(WebSocket ws, ConfigurationListener listener) {
         super(ws, listener);
         this.listener = listener;
     }
