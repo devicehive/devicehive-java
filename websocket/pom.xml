@@ -211,6 +211,12 @@
             <version>${project-lombok}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.9.5</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <properties>
         <swagger-annotations-version>1.5.4</swagger-annotations-version>
