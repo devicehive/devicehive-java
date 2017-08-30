@@ -14,7 +14,6 @@ public interface DeviceApi {
      * Deletes an existing device.
      *
      * @param id            Device unique identifier. (required)
-     * @param authorization Authorization token (required)
      * @return Call&lt;Void&gt;
      */
     @Headers({
@@ -22,8 +21,7 @@ public interface DeviceApi {
     })
     @DELETE("device/{id}")
     Call<Void> delete(
-            @Path("id") String id, @Header("Authorization") String authorization
-    );
+            @Path("id") String id);
 
     /**
      * Get device
