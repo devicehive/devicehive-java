@@ -7,6 +7,9 @@ import com.devicehive.websocket.model.repsonse.TokenRefreshResponse;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
 public class Main {
     private static final String URL = "ws://playground.dev.devicehive.com/api/websocket";
     private static final String LOGIN = "***REMOVED***";
@@ -19,7 +22,7 @@ public class Main {
 
     @Test
     public void getToken() throws InterruptedException {
-        final Object syncObject = new Object();
+        final CountDownLatch latch = new CountDownLatch(1);
 
         TokenWS tokenWS = client.createTokenWS(new TokenListener() {
             @Override
@@ -27,9 +30,7 @@ public class Main {
                 Assert.assertTrue(response.getAccessToken() != null);
                 Assert.assertTrue(response.getAccessToken().length() > 0);
                 System.out.println(response);
-                synchronized (syncObject) {
-                    syncObject.notify();
-                }
+                latch.countDown();
             }
 
             @Override
@@ -44,13 +45,11 @@ public class Main {
 
             @Override
             public void onError(ErrorResponse error) {
-
+                latch.countDown();
             }
         });
         tokenWS.get(null, LOGIN, PASSWORD);
-        synchronized (syncObject) {
-            syncObject.wait();
-        }
+        latch.await(30, TimeUnit.SECONDS);
 
     }
 }
