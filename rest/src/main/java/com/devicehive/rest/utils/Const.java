@@ -7,7 +7,8 @@ public class Const {
     public static final String PASSWORD = "dhadmin_#911";
 
     //Device
-    public static final String DEVICE_ID = "3d77f31c-bddd-443b-b11c-640946b0581z4123tzxc3";
+    public static final String FIRST_DEVICE_ID = "3d77f31c-bddd-443b-b11c-640946b0581z4123tzxc1";
+    public static final String SECOND_DEVICE_ID = "3d77f31c-bddd-443b-b11c-640946b0581z4123tzxc2";
     public static final String NAME = "TIMER";
 
     //Command
