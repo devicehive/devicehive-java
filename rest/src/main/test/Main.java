@@ -24,9 +24,9 @@ public class Main {
     private static final String LOGIN = "***REMOVED***";
     private static final String PASSWORD = "***REMOVED***";
     private static final String URL = "***REMOVED***/";
-    public static final String COMMAND_NAME = "TEST COMMAND";
-    public static final String TEST_PROP = "testProp";
-    public static final String TEST_VALUE = "testValue";
+    private static final String COMMAND_NAME = "TEST COMMAND";
+    private static final String TEST_PROP = "testProp";
+    private static final String TEST_VALUE = "testValue";
 
     private ApiClient client = new ApiClient(URL);
 
@@ -253,8 +253,22 @@ public class Main {
     }
 
     @Test
-    public void queryCommand() {
+    public void queryCommand() throws IOException {
+        boolean isSuccessful = authenticateAndCreateDevice();
+        Assert.assertTrue(isSuccessful);
 
+        DeviceCommandApi commandApi = client.createService(DeviceCommandApi.class);
+        DeviceCommandWrapper deviceCommandWrapper = getCommandWrapper();
+        DateTime currentTimestamp = DateTime.now();
+        for (int i = 0; i < 5; i++) {
+            commandApi.insert(Const.FIRST_DEVICE_ID, deviceCommandWrapper).execute();
+        }
+        String current = currentTimestamp.toString();
+        String endTimestamp = currentTimestamp.plusMinutes(2).toString();
+        Response<List<DeviceCommand>> response = commandApi.query(Const.FIRST_DEVICE_ID, current, endTimestamp, COMMAND_NAME,
+                null, null, null, 10, 0).execute();
+        Assert.assertTrue(response.isSuccessful());
+        Assert.assertTrue(response.body().size() == 5);
     }
 
     @Test

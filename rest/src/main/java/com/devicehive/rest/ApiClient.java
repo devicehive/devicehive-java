@@ -275,11 +275,19 @@ public class ApiClient {
     public void addAuthorization(String authName, Interceptor authorization) {
         if (apiAuthorizations.containsKey(authName)) {
 //            throw new RuntimeException("auth name \"" + authName + "\" already in api authorizations");
-            return;
+            apiAuthorizations.remove(authName);
         }
         apiAuthorizations.put(authName, authorization);
         okClient = okClient.newBuilder()
                 .addInterceptor(authorization)
+                .build();
+
+        adapterBuilder.client(okClient);
+    }
+
+    public void clearAuthorizations() {
+        apiAuthorizations.clear();
+        okClient = okClient.newBuilder()
                 .build();
 
         adapterBuilder.client(okClient);
