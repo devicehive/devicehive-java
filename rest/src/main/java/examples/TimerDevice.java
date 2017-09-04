@@ -56,7 +56,7 @@ class TimerDevice {
             public void run() {
                 DeviceNotificationWrapper myDevice = getTimestampNotificationWrapper();
                 try {
-                    notificationApiImpl.insert(Const.DEVICE_ID, myDevice).execute();
+                    notificationApiImpl.insert(Const.FIRST_DEVICE_ID, myDevice).execute();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -69,7 +69,7 @@ class TimerDevice {
             public void run() {
                 List<DeviceCommand> commands = null;
                 try {
-                    commands = commandApiImpl.poll(Const.DEVICE_ID, "ON", timestamp.toString(), 30L, null)
+                    commands = commandApiImpl.poll(Const.FIRST_DEVICE_ID, "ON", timestamp.toString(), 30L, null)
                             .execute()
                             .body();
                 } catch (IOException e) {
@@ -98,7 +98,7 @@ class TimerDevice {
                 DeviceNotificationWrapper alarmNotification = createAlarmNotificationWrapper();
                 if (isAlarmTime()) {
                     try {
-                        notificationApiImpl.insert(Const.DEVICE_ID, alarmNotification).execute();
+                        notificationApiImpl.insert(Const.FIRST_DEVICE_ID, alarmNotification).execute();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -116,7 +116,7 @@ class TimerDevice {
                     execute().body();
             if (networks != null && !networks.isEmpty()) {
                 device.setNetworkId(networks.get(0).getId());
-                deviceApiImpl.register(device, Const.DEVICE_ID).execute().raw().toString();
+                deviceApiImpl.register(device, Const.FIRST_DEVICE_ID).execute().raw().toString();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -126,7 +126,7 @@ class TimerDevice {
     private DeviceUpdate createDevice() {
         DeviceUpdate device = new DeviceUpdate();
         device.setName(Const.NAME);
-        device.setId(Const.DEVICE_ID);
+        device.setId(Const.FIRST_DEVICE_ID);
 
         return device;
     }

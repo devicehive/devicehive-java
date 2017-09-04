@@ -78,7 +78,7 @@ public interface DeviceCommandApi {
     })
     @GET("device/command/poll")
     Call<List<DeviceCommand>> pollMany(
-            @Query("deviceIds") String deviceIds, @Query("names") String names, @Query("timestamp") String timestamp, @Query("waitTimeout") Long waitTimeout, @Query("limit") Integer limit
+            @Query("deviceId") List<String> deviceIds, @Query("names") String names, @Query("timestamp") String timestamp, @Query("waitTimeout") Long waitTimeout, @Query("limit") Integer limit
     );
 
     /**

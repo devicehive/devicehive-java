@@ -78,7 +78,7 @@ class TimerClient {
             @Override
             public void run() {
                 try {
-                    setTimer(Const.DEVICE_ID, true, DateTime.now().plusSeconds(5));
+                    setTimer(Const.FIRST_DEVICE_ID, true, DateTime.now().plusSeconds(5));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -99,7 +99,7 @@ class TimerClient {
 
     private void pollNotifications(String timestamp) throws IOException {
         List<DeviceNotification> deviceNotifications =
-                notificationApi.poll(Const.DEVICE_ID, null, timestamp, 30L).execute().body();
+                notificationApi.poll(Const.FIRST_DEVICE_ID, null, timestamp, 30L).execute().body();
         if (deviceNotifications.size() != 0) {
             Collections.sort(deviceNotifications);
             DeviceNotification notification = deviceNotifications.get(deviceNotifications.size() - 1);

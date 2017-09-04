@@ -13,7 +13,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import retrofit2.Response;
 
+import javax.annotation.Nonnull;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -43,7 +45,7 @@ public class Main {
     private boolean createDevice() throws IOException {
         DeviceUpdate device = new DeviceUpdate();
         device.setName(Const.NAME);
-        device.setId(Const.DEVICE_ID);
+        device.setId(Const.FIRST_DEVICE_ID);
         DeviceApi deviceApi = client.createService(DeviceApi.class);
         NetworkApi networkApi = client.createService(NetworkApi.class);
         Response<List<Network>> networkResponse = networkApi.list(null, null, null,
@@ -52,7 +54,26 @@ public class Main {
 
         if (networks != null && !networks.isEmpty()) {
             device.setNetworkId(networks.get(0).getId());
-            Response<Void> response = deviceApi.register(device, Const.DEVICE_ID).execute();
+            Response<Void> response = deviceApi.register(device, Const.FIRST_DEVICE_ID).execute();
+            return response.isSuccessful();
+        } else {
+            return false;
+        }
+    }
+
+    private boolean createDevice(@Nonnull String deviceId) throws IOException {
+        DeviceUpdate device = new DeviceUpdate();
+        device.setName(Const.NAME);
+        device.setId(deviceId);
+        DeviceApi deviceApi = client.createService(DeviceApi.class);
+        NetworkApi networkApi = client.createService(NetworkApi.class);
+        Response<List<Network>> networkResponse = networkApi.list(null, null, null,
+                null, null, null).execute();
+        List<Network> networks = networkResponse.body();
+
+        if (networks != null && !networks.isEmpty()) {
+            device.setNetworkId(networks.get(0).getId());
+            Response<Void> response = deviceApi.register(device, deviceId).execute();
             return response.isSuccessful();
         } else {
             return false;
@@ -105,7 +126,7 @@ public class Main {
         Assert.assertTrue(isSuccessful);
 
         DeviceApi api = client.createService(DeviceApi.class);
-        Response<Void> response = api.delete(Const.DEVICE_ID).execute();
+        Response<Void> response = api.delete(Const.FIRST_DEVICE_ID).execute();
         Assert.assertTrue(response.isSuccessful());
     }
 
@@ -126,7 +147,7 @@ public class Main {
         Assert.assertTrue(isSuccessful);
 
         DeviceApi api = client.createService(DeviceApi.class);
-        Response<DeviceVO> response = api.get(Const.DEVICE_ID).execute();
+        Response<DeviceVO> response = api.get(Const.FIRST_DEVICE_ID).execute();
         Assert.assertTrue(response.isSuccessful());
     }
 
@@ -152,7 +173,7 @@ public class Main {
         DeviceCommandWrapper deviceCommandWrapper = getCommandWrapper();
         DeviceCommandApi commandApi = client.createService(DeviceCommandApi.class);
 
-        Response<DeviceCommand> response = commandApi.insert(Const.DEVICE_ID, deviceCommandWrapper).execute();
+        Response<DeviceCommand> response = commandApi.insert(Const.FIRST_DEVICE_ID, deviceCommandWrapper).execute();
         Assert.assertTrue(response.isSuccessful());
     }
 
@@ -165,7 +186,7 @@ public class Main {
 
         DeviceCommandApi commandApi = client.createService(DeviceCommandApi.class);
 
-        Response<DeviceCommand> response = commandApi.insert(Const.DEVICE_ID, deviceCommandWrapper).execute();
+        Response<DeviceCommand> response = commandApi.insert(Const.FIRST_DEVICE_ID, deviceCommandWrapper).execute();
 
         Assert.assertTrue(response.body() != null);
         DeviceCommand command = response.body();
@@ -173,7 +194,7 @@ public class Main {
         String commandId = String.valueOf(command.getId());
         Assert.assertTrue(commandId != null);
 
-        Response<DeviceCommand> getResponse = commandApi.get(Const.DEVICE_ID, commandId).execute();
+        Response<DeviceCommand> getResponse = commandApi.get(Const.FIRST_DEVICE_ID, commandId).execute();
         DeviceCommand getCommand = getResponse.body();
         Assert.assertTrue(getResponse.isSuccessful());
         assert getCommand != null;
@@ -191,10 +212,10 @@ public class Main {
         DeviceCommandWrapper deviceCommandWrapper = getCommandWrapper();
         DateTime currentTimestamp = DateTime.now();
         for (int i = 0; i < 5; i++) {
-            commandApi.insert(Const.DEVICE_ID, deviceCommandWrapper).execute();
+            commandApi.insert(Const.FIRST_DEVICE_ID, deviceCommandWrapper).execute();
         }
         String timestamp = currentTimestamp.toString();
-        Response<List<DeviceCommand>> pollResponse = commandApi.poll(Const.DEVICE_ID, COMMAND_NAME,
+        Response<List<DeviceCommand>> pollResponse = commandApi.poll(Const.FIRST_DEVICE_ID, COMMAND_NAME,
                 timestamp, 30L, 10).execute();
 
         Assert.assertTrue(pollResponse.isSuccessful());
@@ -202,8 +223,33 @@ public class Main {
     }
 
     @Test
-    public void pollManyCommand() {
+    public void pollManyCommand() throws IOException {
+        boolean authenticated = authenticate();
+        boolean firstDeviceCreated = createDevice(Const.FIRST_DEVICE_ID);
+        boolean secondDeviceCreated = createDevice(Const.SECOND_DEVICE_ID);
+        Assert.assertTrue(authenticated && firstDeviceCreated && secondDeviceCreated);
 
+        DeviceCommandApi commandApi = client.createService(DeviceCommandApi.class);
+
+        DeviceCommandWrapper deviceCommandWrapper = getCommandWrapper();
+        DateTime currentTimestamp = DateTime.now();
+        for (int i = 0; i < 5; i++) {
+            commandApi.insert(Const.FIRST_DEVICE_ID, deviceCommandWrapper).execute();
+            commandApi.insert(Const.SECOND_DEVICE_ID, deviceCommandWrapper).execute();
+        }
+        String timestamp = currentTimestamp.toString();
+
+        List<String> deviceIds = new ArrayList<>();
+        deviceIds.add(Const.FIRST_DEVICE_ID);
+        deviceIds.add(Const.SECOND_DEVICE_ID);
+
+        Response<List<DeviceCommand>> pollResponse = commandApi.pollMany(
+                deviceIds,
+                COMMAND_NAME,
+                timestamp, 30L, 20).execute();
+
+        Assert.assertTrue(pollResponse.isSuccessful());
+        Assert.assertTrue(pollResponse.body().size() == 10);
     }
 
     @Test
