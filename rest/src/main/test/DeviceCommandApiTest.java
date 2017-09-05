@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandApiTest extends TestHelper {
+public class DeviceCommandApiTest extends TestHelper {
 
     private static final String COMMAND_NAME = "TEST COMMAND";
     private static final String TEST_PROP = "testProp";
