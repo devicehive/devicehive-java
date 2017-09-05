@@ -15,17 +15,15 @@ import java.io.IOException;
 import java.util.List;
 
 
-
-
 class TestHelper {
 
-     private static final String LOGIN = "dhadmin";
-     private static final String PASSWORD = "dhadmin_#911";
-     private static final String URL = "http://playground.dev.devicehive.com/api/rest/";
+    private static final String LOGIN = "dhadmin";
+    private static final String PASSWORD = "dhadmin_#911";
+    private static final String URL = "http://playground.dev.devicehive.com/api/rest/";
 
-     ApiClient client = new ApiClient(URL);
+    ApiClient client = new ApiClient(URL);
 
-     boolean authenticate() throws IOException {
+    boolean authenticate() throws IOException {
         JwtTokenApi api = client.createService(JwtTokenApi.class);
         JwtRequestVO requestBody = new JwtRequestVO();
         requestBody.setLogin(LOGIN);
@@ -37,26 +35,8 @@ class TestHelper {
         return response.isSuccessful();
     }
 
-     boolean createDevice() throws IOException {
-        DeviceUpdate device = new DeviceUpdate();
-        device.setName(Const.NAME);
-        device.setId(Const.FIRST_DEVICE_ID);
-        DeviceApi deviceApi = client.createService(DeviceApi.class);
-        NetworkApi networkApi = client.createService(NetworkApi.class);
-        Response<List<Network>> networkResponse = networkApi.list(null, null, null,
-                null, null, null).execute();
-        List<Network> networks = networkResponse.body();
 
-        if (networks != null && !networks.isEmpty()) {
-            device.setNetworkId(networks.get(0).getId());
-            Response<Void> response = deviceApi.register(device, Const.FIRST_DEVICE_ID).execute();
-            return response.isSuccessful();
-        } else {
-            return false;
-        }
-    }
-
-     boolean createDevice(@Nonnull String deviceId) throws IOException {
+    boolean createDevice(@Nonnull String deviceId) throws IOException {
         DeviceUpdate device = new DeviceUpdate();
         device.setName(Const.NAME);
         device.setId(deviceId);
@@ -75,9 +55,16 @@ class TestHelper {
         }
     }
 
-     boolean authenticateAndCreateDevice() throws IOException {
-        boolean authSuccessful = authenticate();
-        boolean deviceCreated = createDevice();
-        return authSuccessful && deviceCreated;
+    boolean deleteDevices(String... ids) throws IOException {
+        int count = 0;
+        DeviceApi api = client.createService(DeviceApi.class);
+        for (String id : ids) {
+            if (api.delete(id).execute().isSuccessful()) {
+                count++;
+            } else {
+                return false;
+            }
+        }
+        return count == ids.length;
     }
 }
