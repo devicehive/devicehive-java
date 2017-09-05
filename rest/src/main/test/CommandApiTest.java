@@ -1,10 +1,7 @@
-import com.devicehive.rest.ApiClient;
-import com.devicehive.rest.api.DeviceApi;
 import com.devicehive.rest.api.DeviceCommandApi;
-import com.devicehive.rest.api.JwtTokenApi;
-import com.devicehive.rest.api.NetworkApi;
-import com.devicehive.rest.auth.ApiKeyAuth;
-import com.devicehive.rest.model.*;
+import com.devicehive.rest.model.DeviceCommand;
+import com.devicehive.rest.model.DeviceCommandWrapper;
+import com.devicehive.rest.model.JsonStringWrapper;
 import com.devicehive.rest.utils.Const;
 import com.google.gson.Gson;
 import org.joda.time.DateTime;
@@ -13,144 +10,16 @@ import org.junit.Assert;
 import org.junit.Test;
 import retrofit2.Response;
 
-import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main {
+public class CommandApiTest extends TestHelper {
 
-
-    private static final String LOGIN = "***REMOVED***";
-    private static final String PASSWORD = "***REMOVED***";
-    private static final String URL = "***REMOVED***/";
     private static final String COMMAND_NAME = "TEST COMMAND";
     private static final String TEST_PROP = "testProp";
     private static final String TEST_VALUE = "testValue";
-
-    private ApiClient client = new ApiClient(URL);
-
-    private boolean authenticate() throws IOException {
-        JwtTokenApi api = client.createService(JwtTokenApi.class);
-        JwtRequestVO requestBody = new JwtRequestVO();
-        requestBody.setLogin(LOGIN);
-        requestBody.setPassword(PASSWORD);
-        Response<JwtTokenVO> response = api.login(requestBody).execute();
-        if (response.isSuccessful()) {
-            client.addAuthorization(ApiClient.AUTH_API_KEY, ApiKeyAuth.newInstance(response.body().getAccessToken()));
-        }
-        return response.isSuccessful();
-    }
-
-    private boolean createDevice() throws IOException {
-        DeviceUpdate device = new DeviceUpdate();
-        device.setName(Const.NAME);
-        device.setId(Const.FIRST_DEVICE_ID);
-        DeviceApi deviceApi = client.createService(DeviceApi.class);
-        NetworkApi networkApi = client.createService(NetworkApi.class);
-        Response<List<Network>> networkResponse = networkApi.list(null, null, null,
-                null, null, null).execute();
-        List<Network> networks = networkResponse.body();
-
-        if (networks != null && !networks.isEmpty()) {
-            device.setNetworkId(networks.get(0).getId());
-            Response<Void> response = deviceApi.register(device, Const.FIRST_DEVICE_ID).execute();
-            return response.isSuccessful();
-        } else {
-            return false;
-        }
-    }
-
-    private boolean createDevice(@Nonnull String deviceId) throws IOException {
-        DeviceUpdate device = new DeviceUpdate();
-        device.setName(Const.NAME);
-        device.setId(deviceId);
-        DeviceApi deviceApi = client.createService(DeviceApi.class);
-        NetworkApi networkApi = client.createService(NetworkApi.class);
-        Response<List<Network>> networkResponse = networkApi.list(null, null, null,
-                null, null, null).execute();
-        List<Network> networks = networkResponse.body();
-
-        if (networks != null && !networks.isEmpty()) {
-            device.setNetworkId(networks.get(0).getId());
-            Response<Void> response = deviceApi.register(device, deviceId).execute();
-            return response.isSuccessful();
-        } else {
-            return false;
-        }
-    }
-
-    private boolean authenticateAndCreateDevice() throws IOException {
-        boolean authSuccessful = authenticate();
-        boolean deviceCreated = createDevice();
-        return authSuccessful && deviceCreated;
-    }
-
-    @Test
-    public void getToken() throws IOException {
-        JwtTokenApi api = client.createService(JwtTokenApi.class);
-        JwtRequestVO requestBody = new JwtRequestVO();
-        requestBody.setLogin(LOGIN);
-        requestBody.setPassword(PASSWORD);
-        Response<JwtTokenVO> response = api.login(requestBody).execute();
-        Assert.assertTrue(response.isSuccessful());
-        JwtTokenVO tokenVO = response.body();
-        Assert.assertTrue(tokenVO != null);
-        Assert.assertTrue(tokenVO.getAccessToken() != null);
-        Assert.assertTrue(tokenVO.getAccessToken().length() > 0);
-    }
-
-    @Test
-    public void getTokenIncorrectCredentials() throws IOException {
-        JwtTokenApi api = client.createService(JwtTokenApi.class);
-        JwtRequestVO requestBody = new JwtRequestVO();
-        requestBody.setLogin("incorrectLogin");
-        requestBody.setPassword("incorrectPassword");
-        Response<JwtTokenVO> response = api.login(requestBody).execute();
-        Assert.assertTrue(!response.isSuccessful());
-        Assert.assertTrue(response.body() == null);
-    }
-
-    //DeviceApi
-    @Test
-    public void registerDevice() throws IOException {
-        boolean authSuccessful = authenticate();
-        Assert.assertTrue(authSuccessful);
-        boolean deviceCreated = createDevice();
-        Assert.assertTrue(deviceCreated);
-    }
-
-    @Test
-    public void deleteDevice() throws IOException {
-        boolean isSuccessful = authenticateAndCreateDevice();
-        Assert.assertTrue(isSuccessful);
-
-        DeviceApi api = client.createService(DeviceApi.class);
-        Response<Void> response = api.delete(Const.FIRST_DEVICE_ID).execute();
-        Assert.assertTrue(response.isSuccessful());
-    }
-
-
-    @Test
-    public void getDeviceList() throws IOException {
-        boolean authSuccessful = authenticate();
-        Assert.assertTrue(authSuccessful);
-        DeviceApi api = client.createService(DeviceApi.class);
-        Response<List<DeviceVO>> response = api.list(null, null, null, null,
-                null, null, 0, null).execute();
-        Assert.assertTrue(response.isSuccessful());
-    }
-
-    @Test
-    public void getDevice() throws IOException {
-        boolean isSuccessful = authenticateAndCreateDevice();
-        Assert.assertTrue(isSuccessful);
-
-        DeviceApi api = client.createService(DeviceApi.class);
-        Response<DeviceVO> response = api.get(Const.FIRST_DEVICE_ID).execute();
-        Assert.assertTrue(response.isSuccessful());
-    }
-
+    private static final String UPDATED_COMMAND_NAME = "UPDATED COMMAND";
 
     //DeviceCommandApi
     private DeviceCommandWrapper getCommandWrapper() {
@@ -272,13 +141,26 @@ public class Main {
     }
 
     @Test
-    public void updateCommand() {
+    public void updateCommand() throws IOException {
+        boolean isSuccessful = authenticateAndCreateDevice();
+        Assert.assertTrue(isSuccessful);
 
+        DeviceCommandApi commandApi = client.createService(DeviceCommandApi.class);
+        DeviceCommandWrapper wrapper = getCommandWrapper();
+        Response<DeviceCommand> response = commandApi.insert(Const.FIRST_DEVICE_ID, wrapper).execute();
+        Assert.assertTrue(response.isSuccessful());
+
+        long id = response.body().getId();
+
+        wrapper.setResult(response.body().getResult());
+        wrapper.setCommand(UPDATED_COMMAND_NAME);
+        wrapper.setLifetime(response.body().getLifetime());
+        Response<Void> updatedResponse = commandApi.update(Const.FIRST_DEVICE_ID, id, wrapper).execute();
+        Assert.assertTrue(updatedResponse.isSuccessful());
     }
 
     @Test
     public void waitCommand() {
 
     }
-
 }

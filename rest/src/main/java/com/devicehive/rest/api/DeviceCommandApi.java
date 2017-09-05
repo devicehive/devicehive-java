@@ -117,7 +117,7 @@ public interface DeviceCommandApi {
             "Content-Type:application/json"
     })
     @PUT("device/{deviceId}/command/{commandId}")
-    Call<DeviceCommand> update(
+    Call<Void> update(
             @Path("deviceId") String deviceId, @Path("commandId") Long commandId, @Body DeviceCommandWrapper body
     );
 
