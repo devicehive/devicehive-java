@@ -38,12 +38,6 @@ public class DeviceNotification implements Comparable<DeviceNotification> {
     @SerializedName("parameters")
     private JsonStringWrapper parameters = null;
 
-    @SerializedName("factoryId")
-    private Integer factoryId = null;
-
-    @SerializedName("classId")
-    private Integer classId = null;
-
     @Override
     public String toString() {
         return "{\n\"DeviceNotification\":{\n"
@@ -52,8 +46,6 @@ public class DeviceNotification implements Comparable<DeviceNotification> {
                 + ",\n \"deviceId\":\"" + deviceId + "\""
                 + ",\n \"timestamp\":" + timestamp
                 + ",\n \"parameters\":" + parameters
-                + ",\n \"factoryId\":\"" + factoryId + "\""
-                + ",\n \"classId\":\"" + classId + "\""
                 + "}\n}";
     }
 

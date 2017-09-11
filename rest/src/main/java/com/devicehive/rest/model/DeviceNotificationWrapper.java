@@ -32,9 +32,13 @@ public class DeviceNotificationWrapper {
   @SerializedName("parameters")
   private JsonStringWrapper parameters = null;
 
-  public DeviceNotificationWrapper notification(String notification) {
-    this.notification = notification;
-    return this;
+  @Override
+  public String toString() {
+    return "{\n\"DeviceNotificationWrapper\":{\n"
+            + "\"notification\":\"" + notification + "\""
+            + ",\n \"timestamp\":" + timestamp
+            + ",\n \"parameters\":" + parameters
+            + "}\n}";
   }
 }
 
