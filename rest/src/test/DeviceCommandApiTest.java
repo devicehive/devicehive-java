@@ -13,6 +13,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class DeviceCommandApiTest extends TestHelper {
 
@@ -181,18 +184,29 @@ public class DeviceCommandApiTest extends TestHelper {
 
     @Test
     public void waitCommand() throws IOException {
-        String deviceId = UUID.randomUUID().toString();
+        final String deviceId = UUID.randomUUID().toString();
         boolean authenticated = authenticate();
         boolean deviceCreated = createDevice(deviceId);
         Assert.assertTrue(authenticated && deviceCreated);
 
 
-        DeviceCommandApi commandApi = client.createService(DeviceCommandApi.class);
-        DeviceCommandWrapper wrapper = getCommandWrapper();
+        final DeviceCommandApi commandApi = client.createService(DeviceCommandApi.class);
+        final DeviceCommandWrapper wrapper = getCommandWrapper();
 
-        Response<DeviceCommand> updatedResponse = commandApi.wait(deviceId, wrapper.getCommand(), 30L).execute();
-        Response<DeviceCommand> response = commandApi.insert(deviceId, wrapper).execute();
+        final Response<DeviceCommand> response = commandApi.insert(deviceId, wrapper).execute();
+        final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        executorService.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    commandApi.update(deviceId, response.body().getId(), wrapper).execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 0, 1, TimeUnit.SECONDS);
 
+        Response<DeviceCommand> updatedResponse = commandApi.wait(deviceId, response.body().getId(), 60L).execute();
         Assert.assertTrue(response.isSuccessful());
         Assert.assertTrue(updatedResponse.isSuccessful());
         Assert.assertTrue(deleteDevices(deviceId));

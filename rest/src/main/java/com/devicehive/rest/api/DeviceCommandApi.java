@@ -135,7 +135,7 @@ public interface DeviceCommandApi {
     })
     @GET("device/{deviceId}/command/{commandId}/poll")
     Call<DeviceCommand> wait(
-            @Path("deviceId") String deviceId, @Path("commandId") String commandId, @Query("waitTimeout") Long waitTimeout
+            @Path("deviceId") String deviceId, @Path("commandId") Long commandId, @Query("waitTimeout") Long waitTimeout
     );
 
 }
