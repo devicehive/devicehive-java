@@ -41,5 +41,16 @@ public class DeviceCommandWrapper {
   @SerializedName("result")
   private JsonStringWrapper result = null;
 
+  @Override
+  public String toString() {
+    return "{\n\"DeviceCommandWrapper\":{\n"
+            + "\"command\":\"" + command + "\""
+            + ",\n \"timestamp\":" + timestamp
+            + ",\n \"parameters\":" + parameters
+            + ",\n \"lifetime\":\"" + lifetime + "\""
+            + ",\n \"status\":\"" + status + "\""
+            + ",\n \"result\":" + result
+            + "}\n}";
+  }
 }
 

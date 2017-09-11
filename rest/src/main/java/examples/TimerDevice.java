@@ -4,6 +4,7 @@ import com.devicehive.rest.ApiClient;
 import com.devicehive.rest.api.*;
 import com.devicehive.rest.model.*;
 import com.devicehive.rest.utils.Const;
+import com.google.gson.Gson;
 import org.joda.time.DateTime;
 
 import java.io.IOException;
@@ -74,13 +75,17 @@ class TimerDevice {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
                 if (commands != null && commands.size() != 0) {
                     Collections.sort(commands);
                     DeviceCommand command = commands.get(commands.size() - 1);
                     updateTimestamp(command.getTimestamp());
                     JsonStringWrapper deviceParams = command.getParameters();
-                    alarmTime = DateTime.parse(deviceParams.getJsonString()).withMillisOfSecond(0);
+                    try {
+                        TimeStamp timestamp = new Gson().fromJson(deviceParams.getJsonString(), TimeStamp.class);
+                        alarmTime = DateTime.parse(timestamp.getTimestamp()).withMillisOfSecond(0);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }, 0, 1, TimeUnit.SECONDS);
@@ -107,7 +112,7 @@ class TimerDevice {
     private void registerDevice() {
         DeviceUpdate device = createDevice();
         try {
-            List<NetworkVO> networks = networkApiImpl.list(null, null, null, null, null, null).
+            List<Network> networks = networkApiImpl.list(null, null, null, null, null, null).
                     execute().body();
             if (networks != null && !networks.isEmpty()) {
                 device.setNetworkId(networks.get(0).getId());
@@ -134,7 +139,9 @@ class TimerDevice {
         DeviceNotificationWrapper wrapper = new DeviceNotificationWrapper();
         JsonStringWrapper jsonStringWrapper = new JsonStringWrapper();
         DateTime currentTimestamp = DateTime.now();
-        jsonStringWrapper.setJsonString(currentTimestamp.toString());
+        TimeStamp timeStamp = new TimeStamp();
+        timeStamp.setTimestamp(currentTimestamp.toString());
+        jsonStringWrapper.setJsonString(new Gson().toJson(timeStamp));
         wrapper.setParameters(jsonStringWrapper);
         wrapper.setNotification("Timestamp");
         return wrapper;
@@ -142,8 +149,13 @@ class TimerDevice {
 
     private DeviceNotificationWrapper createAlarmNotificationWrapper() {
         DeviceNotificationWrapper wrapper = new DeviceNotificationWrapper();
+
+        AlarmNotification notification = new AlarmNotification();
+        notification.setMessage("BIP BIP BIP at " + alarmTime);
+
         JsonStringWrapper jsonStringWrapper = new JsonStringWrapper();
-        jsonStringWrapper.setJsonString("BIP BIP BIP at " + alarmTime);
+        jsonStringWrapper.setJsonString(new Gson().toJson(notification));
+
         wrapper.setParameters(jsonStringWrapper);
         wrapper.setNotification("ALARM");
         return wrapper;
