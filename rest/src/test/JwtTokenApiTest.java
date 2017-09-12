@@ -1,6 +1,6 @@
 import com.devicehive.rest.api.JwtTokenApi;
-import com.devicehive.rest.model.JwtRequestVO;
-import com.devicehive.rest.model.JwtTokenVO;
+import com.devicehive.rest.model.JwtRequest;
+import com.devicehive.rest.model.JwtToken;
 import org.junit.Assert;
 import org.junit.Test;
 import retrofit2.Response;
@@ -13,13 +13,13 @@ public class JwtTokenApiTest extends TestHelper {
     @Test
     public void getToken() throws IOException {
         JwtTokenApi api = client.createService(JwtTokenApi.class);
-        JwtRequestVO requestBody = new JwtRequestVO();
+        JwtRequest requestBody = new JwtRequest();
         requestBody.setLogin("dhadmin");
         requestBody.setPassword("dhadmin_#911");
 
-        Response<JwtTokenVO> response = api.login(requestBody).execute();
+        Response<JwtToken> response = api.login(requestBody).execute();
         Assert.assertTrue(response.isSuccessful());
-        JwtTokenVO tokenVO = response.body();
+        JwtToken tokenVO = response.body();
         Assert.assertTrue(tokenVO != null);
         Assert.assertTrue(tokenVO.getAccessToken() != null);
         Assert.assertTrue(tokenVO.getAccessToken().length() > 0);
@@ -28,10 +28,10 @@ public class JwtTokenApiTest extends TestHelper {
     @Test
     public void getTokenIncorrectCredentials() throws IOException {
         JwtTokenApi api = client.createService(JwtTokenApi.class);
-        JwtRequestVO requestBody = new JwtRequestVO();
+        JwtRequest requestBody = new JwtRequest();
         requestBody.setLogin("incorrectLogin");
         requestBody.setPassword("incorrectPassword");
-        Response<JwtTokenVO> response = api.login(requestBody).execute();
+        Response<JwtToken> response = api.login(requestBody).execute();
         Assert.assertTrue(!response.isSuccessful());
         Assert.assertTrue(response.body() == null);
     }

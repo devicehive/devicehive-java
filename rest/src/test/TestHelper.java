@@ -4,8 +4,8 @@ import com.devicehive.rest.api.JwtTokenApi;
 import com.devicehive.rest.api.NetworkApi;
 import com.devicehive.rest.auth.ApiKeyAuth;
 import com.devicehive.rest.model.DeviceUpdate;
-import com.devicehive.rest.model.JwtRequestVO;
-import com.devicehive.rest.model.JwtTokenVO;
+import com.devicehive.rest.model.JwtRequest;
+import com.devicehive.rest.model.JwtToken;
 import com.devicehive.rest.model.Network;
 import com.devicehive.rest.utils.Const;
 import retrofit2.Response;
@@ -25,10 +25,10 @@ class TestHelper {
 
     boolean authenticate() throws IOException {
         JwtTokenApi api = client.createService(JwtTokenApi.class);
-        JwtRequestVO requestBody = new JwtRequestVO();
+        JwtRequest requestBody = new JwtRequest();
         requestBody.setLogin(LOGIN);
         requestBody.setPassword(PASSWORD);
-        Response<JwtTokenVO> response = api.login(requestBody).execute();
+        Response<JwtToken> response = api.login(requestBody).execute();
         if (response.isSuccessful()) {
             client.addAuthorization(ApiClient.AUTH_API_KEY, ApiKeyAuth.newInstance(response.body().getAccessToken()));
         }

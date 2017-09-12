@@ -25,11 +25,11 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * UserWithNetworkVO
+ * UserWithNetwork
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
 @Data
-public class UserWithNetworkVO {
+public class UserWithNetwork {
   @SerializedName("id")
   private Long id = null;
 
@@ -150,7 +150,7 @@ public class UserWithNetworkVO {
   @SerializedName("networks")
   private List<NetworkVO> networks = null;
 
-  public UserWithNetworkVO id(Long id) {
+  public UserWithNetwork id(Long id) {
     this.id = id;
     return this;
   }

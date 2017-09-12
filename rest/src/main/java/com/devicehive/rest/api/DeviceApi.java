@@ -1,7 +1,7 @@
 package com.devicehive.rest.api;
 
+import com.devicehive.rest.model.Device;
 import com.devicehive.rest.model.DeviceUpdate;
-import com.devicehive.rest.model.DeviceVO;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -34,7 +34,7 @@ public interface DeviceApi {
             "Content-Type:application/json"
     })
     @GET("device/{id}")
-    Call<DeviceVO> get(
+    Call<Device> get(
             @Path("id") String id
     );
 
@@ -50,13 +50,13 @@ public interface DeviceApi {
      * @param sortOrder   Result list sort order. The sortField should be specified. (optional)
      * @param take        Number of records to take from the result list. (optional, default to 20)
      * @param skip        Number of records to skip from the result list. (optional, default to 0)
-     * @return Call&lt;List&lt;DeviceVO&gt;&gt;
+     * @return Call&lt;List&lt;Device&gt;&gt;
      */
     @Headers({
             "Content-Type:application/json"
     })
     @GET("device")
-    Call<List<DeviceVO>> list(
+    Call<List<Device>> list(
             @Query("name") String name,
             @Query("namePattern") String namePattern,
             @Query("networkId") Long networkId,

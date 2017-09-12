@@ -13,28 +13,28 @@ public interface JwtTokenApi {
    * Login
    * Authenticates a user and returns a session-level JWT token.
    * @param body Access key request (required)
-   * @return Call&lt;JwtTokenVO&gt;
+   * @return Call&lt;JwtToken&gt;
    */
   @Headers({
     "Content-Type:application/json"
   })
   @POST("token")
-  Call<JwtTokenVO> login(
-          @Body JwtRequestVO body
+  Call<JwtToken> login(
+          @Body JwtRequest body
   );
 
   /**
    * JWT access token request with refresh token
    *
    * @param refreshToken Refresh token (required)
-   * @return Call&lt;JwtAccessTokenVO&gt;
+   * @return Call&lt;JwtAccessToken&gt;
    */
   @Headers({
     "Content-Type:application/json"
   })
   @POST("token/refresh")
-  Call<JwtAccessTokenVO> refreshTokenRequest(
-          @Body JwtRefreshTokenVO refreshToken
+  Call<JwtAccessToken> refreshTokenRequest(
+          @Body JwtRefreshToken refreshToken
   );
 
   /**
@@ -42,13 +42,13 @@ public interface JwtTokenApi {
    *
    * @param payload Payload (required)
    * @param authorization Authorization token (required)
-   * @return Call&lt;JwtTokenVO&gt;
+   * @return Call&lt;JwtToken&gt;
    */
   @Headers({
     "Content-Type:application/json"
   })
   @POST("token/create")
-  Call<JwtTokenVO> tokenRequest(
+  Call<JwtToken> tokenRequest(
           @Body JwtPayload payload, @Header("Authorization") String authorization
   );
 

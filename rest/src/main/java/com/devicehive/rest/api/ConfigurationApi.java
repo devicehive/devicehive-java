@@ -1,6 +1,6 @@
 package com.devicehive.rest.api;
 
-import com.devicehive.rest.model.ConfigurationVO;
+import com.devicehive.rest.model.Configuration;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -26,13 +26,13 @@ public interface ConfigurationApi {
    * Returns requested property value
    * @param name Property name (required)
    * @param authorization Authorization token (required)
-   * @return Call&lt;ConfigurationVO&gt;
+   * @return Call&lt;Configuration&gt;
    */
   @Headers({
     "Content-Type:application/json"
   })
   @GET("configuration/{name}")
-  Call<ConfigurationVO> get(
+  Call<Configuration> get(
           @Path("name") String name, @Header("Authorization") String authorization
   );
 
@@ -42,13 +42,13 @@ public interface ConfigurationApi {
    * @param name Property name (required)
    * @param body Property value (required)
    * @param authorization Authorization token (required)
-   * @return Call&lt;ConfigurationVO&gt;
+   * @return Call&lt;Configuration&gt;
    */
   @Headers({
     "Content-Type:application/json"
   })
   @PUT("configuration/{name}")
-  Call<ConfigurationVO> setProperty(
+  Call<Configuration> setProperty(
           @Path("name") String name, @Body String body, @Header("Authorization") String authorization
   );
 

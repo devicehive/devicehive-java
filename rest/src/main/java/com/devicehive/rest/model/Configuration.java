@@ -15,27 +15,26 @@ package com.devicehive.rest.model;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
-import org.joda.time.DateTime;
 
 /**
- * ApiInfoVO
+ * Configuration
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
 @Data
-public class ApiInfoVO {
-    @SerializedName("apiVersion")
-    private String apiVersion = null;
+public class Configuration {
+  @SerializedName("name")
+  private String name = null;
 
-    @SerializedName("serverTimestamp")
-    private DateTime serverTimestamp = null;
+  @SerializedName("value")
+  private String value = null;
 
-    @SerializedName("webSocketServerUrl")
-    private String webSocketServerUrl = null;
+  @SerializedName("entityVersion")
+  private Long entityVersion = null;
 
-    public ApiInfoVO apiVersion(String apiVersion) {
-        this.apiVersion = apiVersion;
-        return this;
-    }
+  public Configuration name(String name) {
+    this.name = name;
+    return this;
+  }
 
 }
 
