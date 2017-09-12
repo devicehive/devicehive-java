@@ -11,4 +11,8 @@ public class BasicAuth {
     private String username;
     private String password;
 
+    public boolean isValid() {
+        return (username != null && username.length() > 0)
+                && (password != null && password.length() > 0);
+    }
 }

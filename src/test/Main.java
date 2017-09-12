@@ -1,4 +1,5 @@
 import com.devicehive.client.DeviceHive;
+import com.devicehive.client.model.BasicAuth;
 import com.devicehive.client.model.DHResponse;
 import com.devicehive.client.model.TokenAuth;
 import com.devicehive.client.service.DeviceService;
@@ -21,7 +22,8 @@ public class Main {
     @Test
     public void createDevice() {
         DeviceHive deviceHive = new DeviceHive(URL, new TokenAuth());
-        DeviceService deviceService = new DeviceService();
+        BasicAuth basicAuth=new BasicAuth("dhadmin","dhadmin_#911");
+        DeviceService deviceService = new DeviceService(basicAuth);
         Assert.assertTrue(deviceService.createDevice());
     }
 }

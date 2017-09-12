@@ -11,6 +11,7 @@ import com.devicehive.rest.model.JwtAccessToken;
 import com.devicehive.rest.model.JwtRefreshToken;
 import com.devicehive.rest.model.JwtRequest;
 import com.devicehive.rest.model.JwtToken;
+import retrofit2.Response;
 
 import java.io.IOException;
 
@@ -18,23 +19,51 @@ public class BaseService {
     private ApiClient apiClient;
     private JwtTokenApi jwtTokenApi;
     private TokenAuth tokenAuth = new TokenAuth();
+    private BasicAuth basicAuth = new BasicAuth();
 
     BaseService() {
         this.apiClient = RestHelper.getInstance().getApiClient();
         jwtTokenApi = apiClient.createService(JwtTokenApi.class);
+        tokenAuth = new TokenAuth();
+        basicAuth = new BasicAuth();
     }
 
+    BaseService(BasicAuth basicAuth) {
+        this.apiClient = RestHelper.getInstance().getApiClient();
+        this.basicAuth = basicAuth;
+        tokenAuth = new TokenAuth();
+        jwtTokenApi = apiClient.createService(JwtTokenApi.class);
+    }
 
-    protected void authorize(TokenAuth tokenAuth) {
+    BaseService(TokenAuth tokenAuth) {
         this.tokenAuth = tokenAuth;
+        basicAuth = new BasicAuth();
+        this.apiClient = RestHelper.getInstance().getApiClient();
+        jwtTokenApi = apiClient.createService(JwtTokenApi.class);
+    }
 
+    public void authorize() throws IOException {
+        if (tokenAuth.canAccess()) {
+            authorizeViaToken();
+        } else if (tokenAuth.canRefresh()) {
+            refreshToken();
+            authorize();
+        } else if (basicAuth.isValid()) {
+            getToken();
+            authorize();
+        } else {
+            throw new IOException("Cannot authorize. Nor username/password data nor " +
+                    "accessToken/refreshToken data was provided");
+        }
+    }
+
+    private void authorizeViaToken() {
         ApiKeyAuth apiKeyAuth = ApiKeyAuth.newInstance();
         apiKeyAuth.setApiKey(tokenAuth.getAccessToken());
         apiClient.addAuthorization(ApiClient.AUTH_API_KEY, apiKeyAuth);
-
     }
 
-    protected void authorize(BasicAuth basicAuth) throws IOException {
+    void getToken() throws IOException {
         JwtRequest body = new JwtRequest();
         body.setLogin(basicAuth.getUsername());
         body.setPassword(basicAuth.getPassword());
@@ -45,13 +74,13 @@ public class BaseService {
         tokenAuth.setAccessToken(token.getAccessToken());
         tokenAuth.setRefreshToken(token.getRefreshToken());
         this.tokenAuth = tokenAuth;
-        authorize(tokenAuth);
     }
 
     protected void refreshToken() throws IOException {
         JwtRefreshToken refreshToken = new JwtRefreshToken();
         refreshToken.setRefreshToken(tokenAuth.getRefreshToken());
-        JwtAccessToken accessToken = jwtTokenApi.refreshTokenRequest(refreshToken).execute().body();
+        Response<JwtAccessToken> response = jwtTokenApi.refreshTokenRequest(refreshToken).execute();
+        JwtAccessToken accessToken = response.body();
         tokenAuth.setAccessToken(accessToken.getAccessToken());
     }
 
