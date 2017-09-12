@@ -1,5 +1,5 @@
 import com.devicehive.rest.api.DeviceApi;
-import com.devicehive.rest.model.DeviceVO;
+import com.devicehive.rest.model.Device;
 import org.junit.Assert;
 import org.junit.Test;
 import retrofit2.Response;
@@ -39,7 +39,7 @@ public class DeviceApiTest extends TestHelper {
         Assert.assertTrue(authenticated && deviceCreated);
 
         DeviceApi api = client.createService(DeviceApi.class);
-        Response<List<DeviceVO>> response = api.list(null, null, null, null,
+        Response<List<Device>> response = api.list(null, null, null, null,
                 null, null, 0, null).execute();
         Assert.assertTrue(response.isSuccessful());
     }
@@ -52,7 +52,7 @@ public class DeviceApiTest extends TestHelper {
         Assert.assertTrue(authenticated && deviceCreated);
 
         DeviceApi api = client.createService(DeviceApi.class);
-        Response<DeviceVO> response = api.get(deviceId).execute();
+        Response<Device> response = api.get(deviceId).execute();
         Assert.assertTrue(response.isSuccessful());
         Assert.assertTrue(deleteDevices(deviceId));
     }

@@ -14,31 +14,22 @@
 package com.devicehive.rest.model;
 
 import com.google.gson.annotations.SerializedName;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * JwtTokenVO
+ * JwtRequest
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
 @Data
-public class JwtTokenVO {
-  @SerializedName("accessToken")
-  private String accessToken = null;
+@AllArgsConstructor
+@NoArgsConstructor
+public class JwtRequest {
+    @SerializedName("login")
+    private String login = null;
 
-  @SerializedName("refreshToken")
-  private String refreshToken = null;
-
-  public JwtTokenVO accessToken(String accessToken) {
-    this.accessToken = accessToken;
-    return this;
-  }
-
-  @Override
-  public String toString() {
-    return "{\n\"JwtTokenVO\":{\n"
-            + "\"accessToken\":\"" + accessToken + "\""
-            + ",\n \"refreshToken\":\"" + refreshToken + "\""
-            + "}\n}";
-  }
+    @SerializedName("password")
+    private String password = null;
 }
 

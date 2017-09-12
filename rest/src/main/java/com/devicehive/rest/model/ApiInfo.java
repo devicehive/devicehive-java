@@ -14,22 +14,28 @@
 package com.devicehive.rest.model;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.joda.time.DateTime;
 
 /**
- * JwtRequestVO
+ * ApiInfo
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class JwtRequestVO {
-    @SerializedName("login")
-    private String login = null;
+public class ApiInfo {
+    @SerializedName("apiVersion")
+    private String apiVersion = null;
 
-    @SerializedName("password")
-    private String password = null;
+    @SerializedName("serverTimestamp")
+    private DateTime serverTimestamp = null;
+
+    @SerializedName("webSocketServerUrl")
+    private String webSocketServerUrl = null;
+
+    public ApiInfo apiVersion(String apiVersion) {
+        this.apiVersion = apiVersion;
+        return this;
+    }
+
 }
 

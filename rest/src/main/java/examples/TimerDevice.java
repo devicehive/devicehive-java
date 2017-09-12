@@ -23,7 +23,7 @@ class TimerDevice {
     private ScheduledExecutorService ses;
     private DeviceNotificationApi notificationApiImpl;
     private DeviceApi deviceApiImpl;
-    private ApiInfoVOApi infoApiImpl;
+    private ApiInfoApi infoApiImpl;
     private DeviceCommandApi commandApiImpl;
     private NetworkApi networkApiImpl;
 
@@ -38,7 +38,7 @@ class TimerDevice {
     private void inflateApi() {
         notificationApiImpl = client.createService(DeviceNotificationApi.class);
         commandApiImpl = client.createService(DeviceCommandApi.class);
-        infoApiImpl = client.createService(ApiInfoVOApi.class);
+        infoApiImpl = client.createService(ApiInfoApi.class);
         deviceApiImpl = client.createService(DeviceApi.class);
         networkApiImpl = client.createService(NetworkApi.class);
     }
@@ -47,7 +47,7 @@ class TimerDevice {
 
         registerDevice();
 
-        ApiInfoVO apiInfo = infoApiImpl.getApiInfo().execute().body();
+        ApiInfo apiInfo = infoApiImpl.getApiInfo().execute().body();
 
         timestamp = apiInfo.getServerTimestamp();
         //Send current timestamp notification

@@ -17,13 +17,15 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
 /**
- * JwtAccessTokenVO
+ * ClusterConfig
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
 @Data
-public class JwtAccessTokenVO {
-  @SerializedName("accessToken")
-  private String accessToken = null;
+public class ClusterConfig {
+  @SerializedName("bootstrap.servers")
+  private String bootstrapServers = null;
 
+  @SerializedName("zookeeper.connect")
+  private String zookeeperConnect = null;
 }
 

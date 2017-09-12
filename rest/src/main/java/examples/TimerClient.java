@@ -1,13 +1,13 @@
 package examples;
 
 import com.devicehive.rest.ApiClient;
-import com.devicehive.rest.api.ApiInfoVOApi;
+import com.devicehive.rest.api.ApiInfoApi;
 import com.devicehive.rest.api.DeviceApi;
 import com.devicehive.rest.api.DeviceCommandApi;
 import com.devicehive.rest.api.DeviceNotificationApi;
 import com.devicehive.rest.model.DeviceCommandWrapper;
 import com.devicehive.rest.model.DeviceNotification;
-import com.devicehive.rest.model.DeviceVO;
+import com.devicehive.rest.model.Device;
 import com.devicehive.rest.model.JsonStringWrapper;
 import com.devicehive.rest.utils.Const;
 import com.google.gson.Gson;
@@ -27,7 +27,7 @@ class TimerClient {
 
     private DeviceNotificationApi notificationApi;
     private DeviceCommandApi commandApi;
-    private ApiInfoVOApi infoApi;
+    private ApiInfoApi infoApi;
     private DeviceApi deviceApi;
 
     private String deviceId = null;
@@ -42,14 +42,14 @@ class TimerClient {
     private void inflateApi() {
         notificationApi = client.createService(DeviceNotificationApi.class);
         commandApi = client.createService(DeviceCommandApi.class);
-        infoApi = client.createService(ApiInfoVOApi.class);
+        infoApi = client.createService(ApiInfoApi.class);
         deviceApi = client.createService(DeviceApi.class);
     }
 
     void run() {
         if (deviceId == null) {
             try {
-                Response<List<DeviceVO>> response = deviceApi
+                Response<List<Device>> response = deviceApi
                         .list(null, null, null, null, null,
                                 null, 20, 0).execute();
 
@@ -57,7 +57,7 @@ class TimerClient {
                     throw new IOException(response.errorBody().string());
                 }
 
-                List<DeviceVO> devices = response.body();
+                List<Device> devices = response.body();
 
                 if (devices.size() == 0) {
                     System.out.println("No devices was found");

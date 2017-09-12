@@ -17,12 +17,28 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
 /**
- * JwtRefreshTokenVO
+ * JwtToken
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
 @Data
-public class JwtRefreshTokenVO {
+public class JwtToken {
+  @SerializedName("accessToken")
+  private String accessToken = null;
+
   @SerializedName("refreshToken")
   private String refreshToken = null;
+
+  public JwtToken accessToken(String accessToken) {
+    this.accessToken = accessToken;
+    return this;
+  }
+
+  @Override
+  public String toString() {
+    return "{\n\"JwtToken\":{\n"
+            + "\"accessToken\":\"" + accessToken + "\""
+            + ",\n \"refreshToken\":\"" + refreshToken + "\""
+            + "}\n}";
+  }
 }
 

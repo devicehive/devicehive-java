@@ -17,11 +17,11 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
 /**
- * DeviceVO
+ * Device
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
 @Data
-public class DeviceVO {
+public class Device {
   @SerializedName("id")
   private String id = null;
 
@@ -39,7 +39,7 @@ public class DeviceVO {
 
   @Override
   public String toString() {
-    return "{\n\"DeviceVO\":{\n"
+    return "{\n\"Device\":{\n"
             + "\"id\":\"" + id + "\""
             + ",\n \"name\":\"" + name + "\""
             + ",\n \"data\":" + data

@@ -17,24 +17,13 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
 /**
- * ConfigurationVO
+ * JwtAccessToken
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
 @Data
-public class ConfigurationVO {
-  @SerializedName("name")
-  private String name = null;
-
-  @SerializedName("value")
-  private String value = null;
-
-  @SerializedName("entityVersion")
-  private Long entityVersion = null;
-
-  public ConfigurationVO name(String name) {
-    this.name = name;
-    return this;
-  }
+public class JwtAccessToken {
+  @SerializedName("accessToken")
+  private String accessToken = null;
 
 }
 

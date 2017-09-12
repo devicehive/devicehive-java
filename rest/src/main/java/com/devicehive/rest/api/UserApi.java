@@ -44,13 +44,13 @@ public interface UserApi {
    * Get current user
    * Get information about the current user.
    * @param authorization Authorization token (required)
-   * @return Call&lt;UserWithNetworkVO&gt;
+   * @return Call&lt;UserWithNetwork&gt;
    */
   @Headers({
     "Content-Type:application/json"
   })
   @GET("user/current")
-  Call<UserWithNetworkVO> getCurrent(
+  Call<UserWithNetwork> getCurrent(
           @Header("Authorization") String authorization
   );
 
