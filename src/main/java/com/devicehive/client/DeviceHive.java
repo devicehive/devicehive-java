@@ -1,7 +1,7 @@
 package com.devicehive.client;
 
 import com.devicehive.client.api.MainDeviceHive;
-import com.devicehive.client.callback.ApiInfoCallback;
+import com.devicehive.client.callback.ResponseCallback;
 import com.devicehive.client.model.BasicAuth;
 import com.devicehive.client.model.DHResponse;
 import com.devicehive.client.model.TokenAuth;
@@ -39,7 +39,7 @@ public class DeviceHive implements MainDeviceHive {
         return service.getApiInfo();
     }
 
-    public void getInfo(ApiInfoCallback callback) {
+    public void getInfo(ResponseCallback callback) {
         ApiInfoService service = new ApiInfoService();
         service.getApiInfo(callback);
     }

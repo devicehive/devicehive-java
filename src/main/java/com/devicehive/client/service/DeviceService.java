@@ -33,7 +33,6 @@ public class DeviceService extends BaseService {
     }
 
     public boolean createDevice() {
-
         DeviceUpdate device = new DeviceUpdate();
         device.setName("JavaLibDevice");
         device.setId("java-lib-device");
