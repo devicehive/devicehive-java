@@ -1,16 +1,17 @@
 package com.devicehive.client.service;
 
 import com.devicehive.client.RestHelper;
+import com.devicehive.client.callback.ResponseCallback;
 import com.devicehive.client.model.BasicAuth;
+import com.devicehive.client.model.DHResponse;
 import com.devicehive.client.model.FailureData;
 import com.devicehive.client.model.TokenAuth;
 import com.devicehive.rest.ApiClient;
 import com.devicehive.rest.api.JwtTokenApi;
 import com.devicehive.rest.auth.ApiKeyAuth;
-import com.devicehive.rest.model.JwtAccessToken;
-import com.devicehive.rest.model.JwtRefreshToken;
-import com.devicehive.rest.model.JwtRequest;
-import com.devicehive.rest.model.JwtToken;
+import com.devicehive.rest.model.*;
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.io.IOException;
@@ -84,6 +85,40 @@ public class BaseService {
         tokenAuth.setAccessToken(accessToken.getAccessToken());
     }
 
+    public <T> DHResponse<T> execute(Call<T> call) {
+        try {
+            Response<T> response = call.execute();
+            if (response.isSuccessful()) {
+                return new DHResponse<T>(response.body(), null);
+            } else {
+                FailureData failureData = createFailData(response.code(), response.message());
+                return new DHResponse<T>(null, failureData);
+            }
+        } catch (IOException e) {
+            FailureData failureData = createFailData(FailureData.NO_CODE, e.getMessage());
+            return new DHResponse<T>(null, failureData);
+        }
+    }
+
+    public <T> void execute(Call<T> call, final ResponseCallback<T> callback) {
+        call.enqueue(new Callback<T>() {
+            public void onResponse(Call<T> call, Response<T> response) {
+                if (response.isSuccessful()) {
+                    callback.onResponse(new DHResponse<T>(response.body(), null));
+                } else {
+                    FailureData failureData = createFailData(response.code(), response.message());
+                    callback.onResponse(new DHResponse<T>(null, failureData));
+                }
+            }
+
+            public void onFailure(Call<T> call, Throwable t) {
+                FailureData failureData = new FailureData();
+                failureData.setCode(FailureData.NO_CODE);
+                failureData.setMessage(t.getMessage());
+                callback.onResponse(new DHResponse<T>(null, failureData));
+            }
+        });
+    }
 
     FailureData createFailData(int code, String message) {
         return new FailureData(code, message);
