@@ -3,7 +3,6 @@ package com.devicehive.rest.api;
 import com.devicehive.rest.model.*;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
@@ -41,7 +40,6 @@ public interface JwtTokenApi {
    * JWT access and refresh token request
    *
    * @param payload Payload (required)
-   * @param authorization Authorization token (required)
    * @return Call&lt;JwtToken&gt;
    */
   @Headers({
@@ -49,7 +47,7 @@ public interface JwtTokenApi {
   })
   @POST("token/create")
   Call<JwtToken> tokenRequest(
-          @Body JwtPayload payload, @Header("Authorization") String authorization
+          @Body JwtPayload payload
   );
 
 }

@@ -6,12 +6,14 @@ import com.devicehive.client.model.BasicAuth;
 import com.devicehive.client.model.DHResponse;
 import com.devicehive.client.model.TokenAuth;
 import com.devicehive.client.service.ApiInfoService;
+import com.devicehive.client.service.JwtTokenService;
 import com.devicehive.rest.api.JwtTokenApi;
-import com.devicehive.rest.model.ApiInfo;
+import com.devicehive.rest.model.*;
 import okhttp3.WebSocketListener;
 import org.joda.time.DateTime;
 
 import javax.annotation.Nonnull;
+import java.io.IOException;
 import java.util.List;
 
 public class DeviceHive implements MainDeviceHive {
@@ -39,22 +41,30 @@ public class DeviceHive implements MainDeviceHive {
         return service.getApiInfo();
     }
 
-    public void getInfo(ResponseCallback callback) {
+    public void getInfo(ResponseCallback<ApiInfo> callback) {
         ApiInfoService service = new ApiInfoService();
         service.getApiInfo(callback);
     }
 
 
-    public void getClusterInfo() {
-
+    public DHResponse<ClusterConfig> getClusterInfo() {
+        ApiInfoService service = new ApiInfoService();
+        return service.getClusterConfig();
     }
 
-    public String createToken(List<String> actions, String userId, List<String> networkIds, List<String> deviceIds, DateTime expiration) {
-        return null;
+    public void getClusterInfo(ResponseCallback<ClusterConfig> callback) {
+        ApiInfoService service = new ApiInfoService();
+        service.getClusterConfig(callback);
     }
 
-    public String refreshToken() {
-        return null;
+    public DHResponse<JwtToken> createToken(List<String> actions, Long userId, List<String> networkIds, List<String> deviceIds, DateTime expiration) throws IOException {
+        JwtTokenService service = new JwtTokenService(tokenAuth, basicAuth);
+        return service.createToken(actions, userId, networkIds, deviceIds, expiration);
+    }
+
+    public DHResponse<JwtAccessToken> refreshToken() throws IOException {
+        JwtTokenService service = new JwtTokenService(tokenAuth, basicAuth);
+        return service.getRefreshToken();
     }
 
     public void getProperty(String name) {
