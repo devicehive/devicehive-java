@@ -3,14 +3,12 @@ package com.devicehive.client.service;
 import com.devicehive.client.RestHelper;
 import com.devicehive.client.callback.ResponseCallback;
 import com.devicehive.client.model.DHResponse;
-import com.devicehive.rest.ApiClient;
 import com.devicehive.rest.api.ApiInfoApi;
 import com.devicehive.rest.model.ApiInfo;
 import com.devicehive.rest.model.ClusterConfig;
 
 public class ApiInfoService extends BaseService {
     private ApiInfoApi apiInfo;
-    private ApiClient apiClient;
 
     public ApiInfoService() {
         super();

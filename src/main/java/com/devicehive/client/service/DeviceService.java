@@ -1,6 +1,5 @@
 package com.devicehive.client.service;
 
-import com.devicehive.client.RestHelper;
 import com.devicehive.client.model.BasicAuth;
 import com.devicehive.client.model.TokenAuth;
 import com.devicehive.rest.ApiClient;
@@ -14,7 +13,6 @@ import java.io.IOException;
 
 public class DeviceService extends BaseService {
     private DeviceApi deviceApi;
-    private ApiClient apiClient;
 
 
     public DeviceService(@Nonnull TokenAuth tokenAuth) {
@@ -28,7 +26,6 @@ public class DeviceService extends BaseService {
     }
 
     private void setupDeviceService() {
-        apiClient = RestHelper.getInstance().getApiClient();
         deviceApi = apiClient.createService(DeviceApi.class);
     }
 

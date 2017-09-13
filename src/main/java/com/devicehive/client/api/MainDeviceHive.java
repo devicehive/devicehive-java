@@ -2,6 +2,9 @@ package com.devicehive.client.api;
 
 import com.devicehive.client.model.DHResponse;
 import com.devicehive.rest.model.ApiInfo;
+import com.devicehive.rest.model.ClusterConfig;
+import com.devicehive.rest.model.JwtAccessToken;
+import com.devicehive.rest.model.JwtToken;
 import okhttp3.WebSocketListener;
 import org.joda.time.DateTime;
 
@@ -12,11 +15,11 @@ public interface MainDeviceHive {
 
     DHResponse<ApiInfo> getInfo() throws IOException;
 
-    void getClusterInfo();
+    DHResponse<ClusterConfig> getClusterInfo();
 
-    String createToken(List<String> actions, String userId, List<String> networkIds, List<String> deviceIds, DateTime expiration);
+    DHResponse<JwtToken> createToken(List<String> actions, Long userId, List<String> networkIds, List<String> deviceIds, DateTime expiration) throws IOException;
 
-    String refreshToken();
+    DHResponse<JwtAccessToken> refreshToken() throws IOException;
 
     void getProperty(String name);
 
