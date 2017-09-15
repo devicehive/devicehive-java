@@ -1,6 +1,7 @@
 package com.devicehive.rest.api;
 
 import com.devicehive.rest.model.Configuration;
+import com.devicehive.rest.model.ValueProperty;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -46,7 +47,7 @@ public interface ConfigurationApi {
   })
   @PUT("configuration/{name}")
   Call<Configuration> setProperty(
-          @Path("name") String name, @Body String body
+          @Path("name") String name, @Body ValueProperty body
   );
 
 }

@@ -20,9 +20,9 @@ public interface MainDeviceHive {
 
     DHResponse<Configuration> getProperty(String name) throws IOException;
 
-    void setProperty(String name, String value);
+    DHResponse<Configuration> setProperty(String name, String value) throws IOException;
 
-    void removeProperty(String name);
+    DHResponse<Void> removeProperty(String name) throws IOException;
 
     void subscribeCommands(List<String> ids, WebSocketListener callback, String commandFilter);
 
