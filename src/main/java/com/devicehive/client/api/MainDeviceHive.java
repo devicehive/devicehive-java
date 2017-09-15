@@ -1,10 +1,7 @@
 package com.devicehive.client.api;
 
 import com.devicehive.client.model.DHResponse;
-import com.devicehive.rest.model.ApiInfo;
-import com.devicehive.rest.model.ClusterConfig;
-import com.devicehive.rest.model.JwtAccessToken;
-import com.devicehive.rest.model.JwtToken;
+import com.devicehive.rest.model.*;
 import okhttp3.WebSocketListener;
 import org.joda.time.DateTime;
 
@@ -21,7 +18,7 @@ public interface MainDeviceHive {
 
     DHResponse<JwtAccessToken> refreshToken() throws IOException;
 
-    void getProperty(String name);
+    DHResponse<Configuration> getProperty(String name) throws IOException;
 
     void setProperty(String name, String value);
 
