@@ -11,6 +11,6 @@ public class DHResponse<T> {
     private FailureData failureData;
 
     public boolean isSuccessful() {
-        return failureData == null && data != null;
+        return failureData == null;
     }
 }

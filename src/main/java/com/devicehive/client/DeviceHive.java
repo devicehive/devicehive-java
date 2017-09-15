@@ -91,12 +91,12 @@ public class DeviceHive implements MainDeviceHive {
         return configurationService.getProperty(name);
     }
 
-    public void setProperty(String name, String value) {
-
+    public DHResponse<Configuration> setProperty(String name, String value) throws IOException {
+        return configurationService.setProperty(name, value);
     }
 
-    public void removeProperty(String name) {
-
+    public DHResponse<Void> removeProperty(String name) throws IOException {
+        return configurationService.removeProperty(name);
     }
 
     public void subscribeCommands(List<String> ids, WebSocketListener callback, String commandFilter) {

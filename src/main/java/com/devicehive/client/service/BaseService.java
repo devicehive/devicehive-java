@@ -50,7 +50,7 @@ public class BaseService {
         apiClient.addAuthorization(ApiClient.AUTH_API_KEY, apiKeyAuth);
     }
 
-    protected void refreshToken() throws IOException {
+    private void refreshToken() throws IOException {
         JwtRefreshToken refreshToken = new JwtRefreshToken();
         refreshToken.setRefreshToken(getTokenAuth().getRefreshToken());
         JwtTokenApi jwtTokenApi = createService(JwtTokenApi.class);

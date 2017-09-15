@@ -3,6 +3,7 @@ import com.devicehive.client.callback.ResponseCallback;
 import com.devicehive.client.model.DHResponse;
 import com.devicehive.client.model.TokenAuth;
 import com.devicehive.rest.model.ApiInfo;
+import com.devicehive.rest.model.Configuration;
 import com.devicehive.rest.model.JwtAccessToken;
 import com.devicehive.rest.model.JwtToken;
 import org.joda.time.DateTime;
@@ -18,6 +19,8 @@ import java.util.concurrent.TimeUnit;
 public class Main {
 
     private static final String URL = "***REMOVED***/";
+    private String accessToken = "***REMOVED***";
+    private String refreshToken = "***REMOVED***";
 
     @Test
     public void apiInfoTest() throws InterruptedException {
@@ -34,11 +37,6 @@ public class Main {
         Assert.assertTrue(deviceHive.getInfo().isSuccessful());
     }
 
-    //    DHResponse(data={
-    //"JwtToken":{
-    // "accessToken":"***REMOVED***",
-    // "refreshToken":"***REMOVED***"}
-    //}, failureData=null)
     @Test
     public void createToken() throws IOException {
         DeviceHive deviceHive = new DeviceHive(URL, new TokenAuth());
@@ -61,8 +59,6 @@ public class Main {
 
     @Test
     public void createTokenViaToken() throws IOException {
-        String accessToken = "***REMOVED***";
-        String refreshToken = "***REMOVED***";
         DeviceHive deviceHive = new DeviceHive(URL, new TokenAuth(refreshToken, accessToken));
 
         List<String> actions = new ArrayList<String>();
@@ -84,6 +80,39 @@ public class Main {
         deviceHive.login("***REMOVED***", "***REMOVED***");
 
         DHResponse<JwtAccessToken> response2 = deviceHive.refreshToken();
+        System.out.println(response2);
+        Assert.assertTrue(response2.isSuccessful());
+    }
+
+    @Test
+    public void getConfigurationProperty() throws IOException {
+        DeviceHive deviceHive = new DeviceHive(URL, new TokenAuth(refreshToken, accessToken));
+
+        DHResponse<Configuration> response = deviceHive.getProperty("jwt.secret");
+        System.out.println(response);
+        Assert.assertTrue(response.isSuccessful());
+    }
+
+    @Test
+    public void setConfigurationProperty() throws IOException {
+        DeviceHive deviceHive = new DeviceHive(URL, new TokenAuth(refreshToken, accessToken));
+
+        DHResponse<Configuration> response = deviceHive.setProperty("jwt.secret2", "device2");
+
+        System.out.println(response);
+
+        Assert.assertTrue(response.isSuccessful());
+    }
+
+    @Test
+    public void deleteConfigurationProperty() throws IOException {
+        DeviceHive deviceHive = new DeviceHive(URL, new TokenAuth(refreshToken, accessToken));
+
+        DHResponse<Configuration> response1 = deviceHive.setProperty("jwt.secret2", "device2");
+        System.out.println(response1);
+        Assert.assertTrue(response1.isSuccessful());
+
+        DHResponse<Void> response2 = deviceHive.removeProperty("jwt.secret2");
         System.out.println(response2);
         Assert.assertTrue(response2.isSuccessful());
     }
