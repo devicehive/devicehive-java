@@ -2,15 +2,16 @@ package com.devicehive.client;
 
 import com.devicehive.client.api.MainDeviceHive;
 import com.devicehive.client.callback.ResponseCallback;
-import com.devicehive.client.model.BasicAuth;
 import com.devicehive.client.model.DHResponse;
 import com.devicehive.client.model.TokenAuth;
 import com.devicehive.client.service.ApiInfoService;
+import com.devicehive.client.service.ConfigurationService;
 import com.devicehive.client.service.JwtTokenService;
 import com.devicehive.rest.api.JwtTokenApi;
 import com.devicehive.rest.model.*;
 import okhttp3.WebSocketListener;
 import org.joda.time.DateTime;
+import retrofit2.Response;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -19,22 +20,43 @@ import java.util.List;
 public class DeviceHive implements MainDeviceHive {
 
     static String URL;
+    private final ConfigurationService configurationService;
+    private ApiInfoService apiInfoService;
+    private JwtTokenService jwtTokenService;
 
-    private TokenAuth tokenAuth;
-    private BasicAuth basicAuth;
+    public TokenAuth getTokenAuthService() {
+        return jwtTokenService.getTokenAuth();
+    }
 
-    private JwtTokenApi jwtService;
+    public TokenAuth getTokenConfigurationService() {
+        return configurationService.getTokenAuth();
+    }
+
 
     public DeviceHive(@Nonnull String url, @Nonnull TokenAuth tokenAuth) {
         DeviceHive.URL = url;
-        this.tokenAuth = tokenAuth;
+        TokenHelper.getInstance().getTokenAuth().setAccessToken(tokenAuth.getAccessToken());
+        TokenHelper.getInstance().getTokenAuth().setRefreshToken(tokenAuth.getRefreshToken());
+
+        apiInfoService = new ApiInfoService();
+        jwtTokenService = new JwtTokenService();
+        configurationService = new ConfigurationService();
     }
 
-    public DeviceHive(@Nonnull String url, @Nonnull BasicAuth basicAuth) {
-        DeviceHive.URL = url;
-        this.basicAuth = basicAuth;
-    }
+    public void login(String username, String password) throws IOException {
+        JwtRequest body = new JwtRequest();
+        body.setLogin(username);
+        body.setPassword(password);
 
+        JwtTokenApi jwtTokenApi = RestHelper.getInstance().getApiClient()
+                .createService(JwtTokenApi.class);
+        Response<JwtToken> response = jwtTokenApi.login(body).execute();
+        if (response.isSuccessful()) {
+            JwtToken token = response.body();
+            TokenHelper.getInstance().getTokenAuth().setAccessToken(token.getAccessToken());
+            TokenHelper.getInstance().getTokenAuth().setRefreshToken(token.getRefreshToken());
+        }
+    }
 
     public DHResponse<ApiInfo> getInfo() {
         ApiInfoService service = new ApiInfoService();
@@ -58,17 +80,15 @@ public class DeviceHive implements MainDeviceHive {
     }
 
     public DHResponse<JwtToken> createToken(List<String> actions, Long userId, List<String> networkIds, List<String> deviceIds, DateTime expiration) throws IOException {
-        JwtTokenService service = new JwtTokenService(tokenAuth, basicAuth);
-        return service.createToken(actions, userId, networkIds, deviceIds, expiration);
+        return jwtTokenService.createToken(actions, userId, networkIds, deviceIds, expiration);
     }
 
     public DHResponse<JwtAccessToken> refreshToken() throws IOException {
-        JwtTokenService service = new JwtTokenService(tokenAuth, basicAuth);
-        return service.getRefreshToken();
+        return jwtTokenService.getRefreshToken();
     }
 
-    public void getProperty(String name) {
-
+    public DHResponse<Configuration> getProperty(String name) throws IOException {
+        return configurationService.getProperty(name);
     }
 
     public void setProperty(String name, String value) {

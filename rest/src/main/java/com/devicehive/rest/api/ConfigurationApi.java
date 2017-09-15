@@ -10,7 +10,6 @@ public interface ConfigurationApi {
    * Delete property
    * Deletes property
    * @param name Property name (required)
-   * @param authorization Authorization token (required)
    * @return Call&lt;Void&gt;
    */
   @Headers({
@@ -18,14 +17,13 @@ public interface ConfigurationApi {
   })
   @DELETE("configuration/{name}")
   Call<Void> deleteProperty(
-          @Path("name") String name, @Header("Authorization") String authorization
+          @Path("name") String name
   );
 
   /**
    * Get property
    * Returns requested property value
    * @param name Property name (required)
-   * @param authorization Authorization token (required)
    * @return Call&lt;Configuration&gt;
    */
   @Headers({
@@ -33,7 +31,7 @@ public interface ConfigurationApi {
   })
   @GET("configuration/{name}")
   Call<Configuration> get(
-          @Path("name") String name, @Header("Authorization") String authorization
+          @Path("name") String name
   );
 
   /**
@@ -41,7 +39,6 @@ public interface ConfigurationApi {
    * Creates new or updates existing property
    * @param name Property name (required)
    * @param body Property value (required)
-   * @param authorization Authorization token (required)
    * @return Call&lt;Configuration&gt;
    */
   @Headers({
@@ -49,7 +46,7 @@ public interface ConfigurationApi {
   })
   @PUT("configuration/{name}")
   Call<Configuration> setProperty(
-          @Path("name") String name, @Body String body, @Header("Authorization") String authorization
+          @Path("name") String name, @Body String body
   );
 
 }

@@ -1,9 +1,7 @@
 import com.devicehive.client.DeviceHive;
 import com.devicehive.client.callback.ResponseCallback;
-import com.devicehive.client.model.BasicAuth;
 import com.devicehive.client.model.DHResponse;
 import com.devicehive.client.model.TokenAuth;
-import com.devicehive.client.service.DeviceService;
 import com.devicehive.rest.model.ApiInfo;
 import com.devicehive.rest.model.JwtAccessToken;
 import com.devicehive.rest.model.JwtToken;
@@ -36,19 +34,15 @@ public class Main {
         Assert.assertTrue(deviceHive.getInfo().isSuccessful());
     }
 
-    @Test
-    public void createDevice() {
-        DeviceHive deviceHive = new DeviceHive(URL, new TokenAuth());
-        BasicAuth basicAuth = new BasicAuth("***REMOVED***", "***REMOVED***");
-        DeviceService deviceService = new DeviceService(basicAuth);
-        Assert.assertTrue(deviceService.createDevice());
-    }
-
+    //    DHResponse(data={
+    //"JwtToken":{
+    // "accessToken":"***REMOVED***",
+    // "refreshToken":"***REMOVED***"}
+    //}, failureData=null)
     @Test
     public void createToken() throws IOException {
-//        TokenAuth tokenAuth = new TokenAuth("***REMOVED***", "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTA1MzA5Njg5MzE3LCJ0b2tlblR5cGUiOiJBQ0NFU1MifX0.RCHGhxOrxduisbgVzQcCSeGaxrO5ojCeAnahv9goBfU");
-        BasicAuth basicAuth = new BasicAuth("***REMOVED***", "***REMOVED***");
-        DeviceHive deviceHive = new DeviceHive(URL, basicAuth);
+        DeviceHive deviceHive = new DeviceHive(URL, new TokenAuth());
+        deviceHive.login("***REMOVED***", "***REMOVED***");
 
         List<String> actions = new ArrayList<String>();
         actions.add("*");
@@ -59,27 +53,36 @@ public class Main {
         DateTime dateTime = DateTime.now().plusYears(1);
 
         DHResponse<JwtToken> response = deviceHive.createToken(actions, 1L, networkIds, deviceIds, dateTime);
-        System.out.println(response);
+        System.out.println(deviceHive.getTokenAuthService().equals(deviceHive.getTokenConfigurationService()));
+        System.out.println(deviceHive.getTokenConfigurationService());
+        System.out.println(deviceHive.getTokenAuthService());
+        Assert.assertTrue(response.isSuccessful());
+    }
+
+    @Test
+    public void createTokenViaToken() throws IOException {
+        String accessToken = "***REMOVED***";
+        String refreshToken = "***REMOVED***";
+        DeviceHive deviceHive = new DeviceHive(URL, new TokenAuth(refreshToken, accessToken));
+
+        List<String> actions = new ArrayList<String>();
+        actions.add("*");
+        List<String> networkIds = new ArrayList<String>();
+        networkIds.add("*");
+        List<String> deviceIds = new ArrayList<String>();
+        deviceIds.add("*");
+        DateTime dateTime = DateTime.now().plusYears(1);
+
+        DHResponse<JwtToken> response = deviceHive.createToken(actions, 1L, networkIds, deviceIds, dateTime);
+        System.out.println(response.toString());
         Assert.assertTrue(response.isSuccessful());
     }
 
     @Test
     public void refreshToken() throws IOException {
-        BasicAuth basicAuth = new BasicAuth("***REMOVED***", "***REMOVED***");
-        DeviceHive deviceHive = new DeviceHive(URL, basicAuth);
+        DeviceHive deviceHive = new DeviceHive(URL, new TokenAuth());
+        deviceHive.login("***REMOVED***", "***REMOVED***");
 
-        List<String> actions = new ArrayList<String>();
-        actions.add("*");
-        List<String> networkIds = new ArrayList<String>();
-        networkIds.add("*");
-        List<String> deviceIds = new ArrayList<String>();
-        deviceIds.add("*");
-        DateTime dateTime = DateTime.now().plusYears(1);
-
-        DHResponse<JwtToken> response = deviceHive.createToken(actions, 1L, networkIds, deviceIds, dateTime);
-        TokenAuth tokenAuth = new TokenAuth(response.getData().getRefreshToken(),
-                response.getData().getAccessToken());
-        deviceHive = new DeviceHive(URL, tokenAuth);
         DHResponse<JwtAccessToken> response2 = deviceHive.refreshToken();
         System.out.println(response2);
         Assert.assertTrue(response2.isSuccessful());
