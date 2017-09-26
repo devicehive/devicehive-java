@@ -3,10 +3,12 @@ package com.devicehive.client;
 import com.devicehive.client.api.MainDeviceHive;
 import com.devicehive.client.callback.ResponseCallback;
 import com.devicehive.client.model.DHResponse;
+import com.devicehive.client.model.NetworkFilter;
 import com.devicehive.client.model.TokenAuth;
 import com.devicehive.client.service.ApiInfoService;
 import com.devicehive.client.service.ConfigurationService;
 import com.devicehive.client.service.JwtTokenService;
+import com.devicehive.client.service.NetworkService;
 import com.devicehive.rest.api.JwtTokenApi;
 import com.devicehive.rest.model.*;
 import okhttp3.WebSocketListener;
@@ -20,7 +22,8 @@ import java.util.List;
 public class DeviceHive implements MainDeviceHive {
 
     static String URL;
-    private final ConfigurationService configurationService;
+    private ConfigurationService configurationService;
+    private NetworkService networkService;
     private ApiInfoService apiInfoService;
     private JwtTokenService jwtTokenService;
 
@@ -41,6 +44,7 @@ public class DeviceHive implements MainDeviceHive {
         apiInfoService = new ApiInfoService();
         jwtTokenService = new JwtTokenService();
         configurationService = new ConfigurationService();
+        networkService = new NetworkService();
     }
 
     public void login(String username, String password) throws IOException {
@@ -59,24 +63,20 @@ public class DeviceHive implements MainDeviceHive {
     }
 
     public DHResponse<ApiInfo> getInfo() {
-        ApiInfoService service = new ApiInfoService();
-        return service.getApiInfo();
+        return apiInfoService.getApiInfo();
     }
 
     public void getInfo(ResponseCallback<ApiInfo> callback) {
-        ApiInfoService service = new ApiInfoService();
-        service.getApiInfo(callback);
+        apiInfoService.getApiInfo(callback);
     }
 
 
     public DHResponse<ClusterConfig> getClusterInfo() {
-        ApiInfoService service = new ApiInfoService();
-        return service.getClusterConfig();
+        return apiInfoService.getClusterConfig();
     }
 
     public void getClusterInfo(ResponseCallback<ClusterConfig> callback) {
-        ApiInfoService service = new ApiInfoService();
-        service.getClusterConfig(callback);
+        apiInfoService.getClusterConfig(callback);
     }
 
     public DHResponse<JwtToken> createToken(List<String> actions, Long userId, List<String> networkIds, List<String> deviceIds, DateTime expiration) throws IOException {
@@ -115,20 +115,20 @@ public class DeviceHive implements MainDeviceHive {
 
     }
 
-    public void listNetworks(String filter) {
-
+    public DHResponse<List<Network>> listNetworks(NetworkFilter filter) throws IOException {
+        return networkService.listNetworks(filter);
     }
 
-    public void getNetwork(String id) {
-
+    public DHResponse<NetworkVO> getNetwork(long id) throws IOException {
+        return networkService.getNetwork(id);
     }
 
-    public void removeNetwork(String id) {
-
+    public DHResponse<Void> removeNetwork(long id) throws IOException {
+        return networkService.removeNetwork(id);
     }
 
-    public void createNetwork(String name, String description) {
-
+    public DHResponse<NetworkId> createNetwork(String name, String description) throws IOException {
+        return networkService.createNetwork(name, description);
     }
 
     public void listDevices(String filter) {

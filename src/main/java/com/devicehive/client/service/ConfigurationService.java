@@ -10,13 +10,13 @@ import java.io.IOException;
 public class ConfigurationService extends BaseService {
 
     public DHResponse<Configuration> getProperty(String name) throws IOException {
-        ConfigurationApi configurationApi = apiClient.createService(ConfigurationApi.class);
+        ConfigurationApi configurationApi = createService(ConfigurationApi.class);
         DHResponse<Configuration> response = execute(configurationApi.get(name));
         if (response.isSuccessful()) {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
             authorize();
-            configurationApi = apiClient.createService(ConfigurationApi.class);
+            configurationApi = createService(ConfigurationApi.class);
             return execute(configurationApi.get(name));
         } else {
             return response;
@@ -32,7 +32,7 @@ public class ConfigurationService extends BaseService {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
             authorize();
-            configurationApi = apiClient.createService(ConfigurationApi.class);
+            configurationApi = createService(ConfigurationApi.class);
             return execute(configurationApi.setProperty(name, body));
         } else {
             return response;
@@ -40,7 +40,7 @@ public class ConfigurationService extends BaseService {
     }
 
     public DHResponse<Void> removeProperty(String name) throws IOException {
-        ConfigurationApi configurationApi = apiClient.createService(ConfigurationApi.class);
+        ConfigurationApi configurationApi = createService(ConfigurationApi.class);
 
         DHResponse<Void> response = execute(configurationApi.deleteProperty(name));
 
@@ -48,7 +48,7 @@ public class ConfigurationService extends BaseService {
             return response;
         } else if (response.getFailureData() != null && response.getFailureData().getCode() == 401) {
             authorize();
-            configurationApi = apiClient.createService(ConfigurationApi.class);
+            configurationApi = createService(ConfigurationApi.class);
             return execute(configurationApi.deleteProperty(name));
         } else {
             return response;

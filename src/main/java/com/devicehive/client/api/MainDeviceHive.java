@@ -1,6 +1,7 @@
 package com.devicehive.client.api;
 
 import com.devicehive.client.model.DHResponse;
+import com.devicehive.client.model.NetworkFilter;
 import com.devicehive.rest.model.*;
 import okhttp3.WebSocketListener;
 import org.joda.time.DateTime;
@@ -32,13 +33,13 @@ public interface MainDeviceHive {
 
     void unsubscribeNotifications(List<String> ids, String nameFilter);
 
-    void listNetworks(String filter);
+    DHResponse<List<Network>> listNetworks(NetworkFilter filter) throws IOException;
 
-    void getNetwork(String id);
+    DHResponse<NetworkVO> getNetwork(long id) throws IOException;
 
-    void removeNetwork(String id);
+    DHResponse<Void> removeNetwork(long id) throws IOException;
 
-    void createNetwork(String name, String description);
+    DHResponse<NetworkId> createNetwork(String name, String description) throws IOException;
 
     void listDevices(String filter);
 
