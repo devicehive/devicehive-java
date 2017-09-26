@@ -1,10 +1,9 @@
 package com.devicehive.client.service;
 
-import com.devicehive.rest.ApiClient;
+import com.devicehive.client.model.DHResponse;
+import com.devicehive.client.model.Device;
 import com.devicehive.rest.api.DeviceApi;
-import com.devicehive.rest.auth.ApiKeyAuth;
 import com.devicehive.rest.model.DeviceUpdate;
-import retrofit2.Response;
 
 import java.io.IOException;
 
@@ -12,30 +11,38 @@ public class DeviceService extends BaseService {
     private DeviceApi deviceApi;
 
 
-    public boolean createDevice() {
+    public DHResponse<Void> createDevice(String id, String name) throws IOException {
         deviceApi = createService(DeviceApi.class);
         DeviceUpdate device = new DeviceUpdate();
-        device.setName("JavaLibDevice");
-        device.setId("java-lib-device");
-        device.setNetworkId(1L);
-        Response<Void> response = null;
-        try {
-            response = deviceApi.register(device, device.getId()).execute();
-
-            if (response.isSuccessful()) {
-                System.out.println("Success");
-            } else if (response.code() == 401) {
-                authorize();
-                deviceApi = apiClient.createService(DeviceApi.class);
-                response = deviceApi.register(device, device.getId()).execute();
-
-                ApiKeyAuth auth = (ApiKeyAuth) apiClient.getApiAuthorizations().get(ApiClient.AUTH_API_KEY);
-                System.out.println(auth.getApiKey());
-            }
-            System.out.println(response.code());
-        } catch (IOException e) {
-            e.printStackTrace();
+        device.setName(name);
+        device.setId(id);
+        DHResponse<Void> response = execute(deviceApi.register(device, device.getId()));
+        if (response.isSuccessful()) {
+            return response;
+        } else if (response.getFailureData().getCode() == 401) {
+            authorize();
+            deviceApi = createService(DeviceApi.class);
+            return execute(deviceApi.register(device, device.getId()));
+        } else {
+            return response;
         }
-        return response != null && response.isSuccessful();
+    }
+
+    public DHResponse<Device> getDevice(String id) throws IOException {
+        deviceApi = createService(DeviceApi.class);
+        DHResponse<Device> response;
+
+        DHResponse<com.devicehive.rest.model.Device> result = execute(deviceApi.get(id));
+        response = new DHResponse<Device>(Device.createDeviceFromRestResponse(result.getData()), result.getFailureData());
+        if (response.isSuccessful()) {
+            return response;
+        } else if (response.getFailureData().getCode() == 401) {
+            authorize();
+            deviceApi = createService(DeviceApi.class);
+            result = execute(deviceApi.get(id));
+            return new DHResponse<Device>(Device.createDeviceFromRestResponse(result.getData()), result.getFailureData());
+        } else {
+            return response;
+        }
     }
 }

@@ -19,10 +19,10 @@ public class Main {
     private static final String URL = "http://playground.dev.devicehive.com/api/rest/";
     private String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTM2OTI1MTA2NDM1LCJ0b2tlblR5cGUiOiJBQ0NFU1MifX0.DVRKVgrtnv35MWwxR1T8bLm83-RJCfloYuoEjvYPQ4s";
     private String refreshToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTM2OTI1MTA2NDM1LCJ0b2tlblR5cGUiOiJSRUZSRVNIIn19.7alYTD5kb_imglE7NyRhjQBFqXhqpfJJs-ZA68yJZiQ";
+    DeviceHive deviceHive = DeviceHive.getInstance().setup(URL, new TokenAuth(refreshToken, accessToken));
 
     @Test
     public void apiInfoTest() throws InterruptedException {
-        DeviceHive deviceHive = new DeviceHive(URL, new TokenAuth());
         final CountDownLatch latch = new CountDownLatch(1);
         deviceHive.getInfo(new ResponseCallback<ApiInfo>() {
             public void onResponse(DHResponse<ApiInfo> response) {
@@ -37,7 +37,6 @@ public class Main {
 
     @Test
     public void createToken() throws IOException {
-        DeviceHive deviceHive = new DeviceHive(URL, new TokenAuth());
         deviceHive.login("dhadmin", "dhadmin_#911");
 
         List<String> actions = new ArrayList<String>();
@@ -57,7 +56,6 @@ public class Main {
 
     @Test
     public void createTokenViaToken() throws IOException {
-        DeviceHive deviceHive = new DeviceHive(URL, new TokenAuth(refreshToken, accessToken));
 
         List<String> actions = new ArrayList<String>();
         actions.add("*");
@@ -74,7 +72,6 @@ public class Main {
 
     @Test
     public void refreshToken() throws IOException {
-        DeviceHive deviceHive = new DeviceHive(URL, new TokenAuth());
         deviceHive.login("dhadmin", "dhadmin_#911");
 
         DHResponse<JwtAccessToken> response2 = deviceHive.refreshToken();
@@ -84,8 +81,6 @@ public class Main {
 
     @Test
     public void getConfigurationProperty() throws IOException {
-        DeviceHive deviceHive = new DeviceHive(URL, new TokenAuth(refreshToken, accessToken));
-
         DHResponse<Configuration> response = deviceHive.getProperty("jwt.secret");
         System.out.println(response);
         Assert.assertTrue(response.isSuccessful());
@@ -93,7 +88,6 @@ public class Main {
 
     @Test
     public void setConfigurationProperty() throws IOException {
-        DeviceHive deviceHive = new DeviceHive(URL, new TokenAuth(refreshToken, accessToken));
 
         DHResponse<Configuration> response = deviceHive.setProperty("jwt.secret2", "device2");
 
@@ -104,7 +98,6 @@ public class Main {
 
     @Test
     public void deleteConfigurationProperty() throws IOException {
-        DeviceHive deviceHive = new DeviceHive(URL, new TokenAuth(refreshToken, accessToken));
 
         DHResponse<Configuration> response1 = deviceHive.setProperty("jwt.secret2", "device2");
         System.out.println(response1);
@@ -117,7 +110,6 @@ public class Main {
 
     @Test
     public void createNetworkAndDelete() throws IOException {
-        DeviceHive deviceHive = new DeviceHive(URL, new TokenAuth(refreshToken, accessToken));
         DHResponse<NetworkId> response = deviceHive.createNetwork("Java Client Lib", "My test network");
         System.out.println(response);
         Assert.assertTrue(response.isSuccessful());
@@ -129,7 +121,6 @@ public class Main {
 
     @Test
     public void getNetwork() throws IOException {
-        DeviceHive deviceHive = new DeviceHive(URL, new TokenAuth(refreshToken, accessToken));
         DHResponse<NetworkId> response = deviceHive.createNetwork("Java Client Lib", "My test network");
         Assert.assertTrue(response.isSuccessful());
 
@@ -143,14 +134,22 @@ public class Main {
 
     @Test
     public void listNetwork() throws IOException {
-        DeviceHive deviceHive = new DeviceHive(URL, new TokenAuth(refreshToken, accessToken));
-
         NetworkFilter filter = new NetworkFilter();
         filter.setNamePattern("%network%");
         DHResponse<List<Network>> response = deviceHive.listNetworks(filter);
         System.out.println(response);
         Assert.assertTrue(response.isSuccessful());
 
+    }
+
+    @Test
+    public void createDevice() throws IOException {
+        com.devicehive.client.model.Device device =
+                new com.devicehive.client.model.Device("123$$$", "JAVA LIB TEST");
+        device.setDeviceHive(deviceHive);
+        device.save();
+        DHResponse<com.devicehive.client.model.Device> response = deviceHive.getDevice("123$$$");
+        Assert.assertTrue(response.isSuccessful());
     }
 
 }
