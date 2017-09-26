@@ -1,6 +1,7 @@
 package com.devicehive.rest.api;
 
 import com.devicehive.rest.model.Network;
+import com.devicehive.rest.model.NetworkId;
 import com.devicehive.rest.model.NetworkUpdate;
 import com.devicehive.rest.model.NetworkVO;
 import retrofit2.Call;
@@ -48,7 +49,7 @@ public interface NetworkApi {
     "Content-Type:application/json"
   })
   @POST("network")
-  Call<NetworkVO> insert(
+  Call<NetworkId> insert(
           @Body NetworkVO body
   );
 
