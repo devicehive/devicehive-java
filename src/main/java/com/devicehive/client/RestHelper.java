@@ -6,10 +6,10 @@ public class RestHelper {
     private final ApiClient apiClient;
 
     private RestHelper() {
-        if (DeviceHive.URL == null || DeviceHive.URL.length() <= 0) {
+        if (DeviceHive.getInstance().getUrl() == null || DeviceHive.getInstance().getUrl().length() <= 0) {
             throw new NullPointerException("Server URL cannot be null or empty");
         }
-        apiClient = new ApiClient(DeviceHive.URL);
+        apiClient = new ApiClient(DeviceHive.getInstance().getUrl());
     }
 
     private static class InstanceHolder {

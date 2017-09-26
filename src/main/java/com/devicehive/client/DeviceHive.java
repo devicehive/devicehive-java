@@ -2,13 +2,9 @@ package com.devicehive.client;
 
 import com.devicehive.client.api.MainDeviceHive;
 import com.devicehive.client.callback.ResponseCallback;
-import com.devicehive.client.model.DHResponse;
-import com.devicehive.client.model.NetworkFilter;
-import com.devicehive.client.model.TokenAuth;
-import com.devicehive.client.service.ApiInfoService;
-import com.devicehive.client.service.ConfigurationService;
-import com.devicehive.client.service.JwtTokenService;
-import com.devicehive.client.service.NetworkService;
+import com.devicehive.client.model.*;
+import com.devicehive.client.model.Device;
+import com.devicehive.client.service.*;
 import com.devicehive.rest.api.JwtTokenApi;
 import com.devicehive.rest.model.*;
 import okhttp3.WebSocketListener;
@@ -21,11 +17,52 @@ import java.util.List;
 
 public class DeviceHive implements MainDeviceHive {
 
-    static String URL;
+    //    static String URL;
     private ConfigurationService configurationService;
     private NetworkService networkService;
     private ApiInfoService apiInfoService;
     private JwtTokenService jwtTokenService;
+    private DeviceService deviceService;
+    private String url;
+
+    private DeviceHive() {
+    }
+
+    private static class InstanceHolder {
+        static final DeviceHive INSTANCE = new DeviceHive();
+    }
+
+    String getUrl() {
+        return url;
+    }
+
+    public static DeviceHive getInstance() {
+        return DeviceHive.InstanceHolder.INSTANCE;
+    }
+
+
+    public DeviceHive setup(@Nonnull String url, @Nonnull TokenAuth tokenAuth) {
+        this.url = url;
+        this.setAuth(tokenAuth.getAccessToken(), tokenAuth.getRefreshToken());
+        this.createServices();
+        return this;
+    }
+
+    private void setAuth(String accessToken, String refreshToken) {
+        TokenHelper.getInstance()
+                .getTokenAuth()
+                .setAccessToken(accessToken)
+                .setRefreshToken(refreshToken);
+    }
+
+    private void createServices() {
+        apiInfoService = new ApiInfoService();
+        jwtTokenService = new JwtTokenService();
+        configurationService = new ConfigurationService();
+        networkService = new NetworkService();
+        deviceService = new DeviceService();
+    }
+
 
     public TokenAuth getTokenAuthService() {
         return jwtTokenService.getTokenAuth();
@@ -33,18 +70,6 @@ public class DeviceHive implements MainDeviceHive {
 
     public TokenAuth getTokenConfigurationService() {
         return configurationService.getTokenAuth();
-    }
-
-
-    public DeviceHive(@Nonnull String url, @Nonnull TokenAuth tokenAuth) {
-        DeviceHive.URL = url;
-        TokenHelper.getInstance().getTokenAuth().setAccessToken(tokenAuth.getAccessToken());
-        TokenHelper.getInstance().getTokenAuth().setRefreshToken(tokenAuth.getRefreshToken());
-
-        apiInfoService = new ApiInfoService();
-        jwtTokenService = new JwtTokenService();
-        configurationService = new ConfigurationService();
-        networkService = new NetworkService();
     }
 
     public void login(String username, String password) throws IOException {
@@ -99,19 +124,19 @@ public class DeviceHive implements MainDeviceHive {
         return configurationService.removeProperty(name);
     }
 
-    public void subscribeCommands(List<String> ids, WebSocketListener callback, String commandFilter) {
+    public void subscribeCommands(List<String> ids, WebSocketListener callback, CommandFilter commandFilter) {
 
     }
 
-    public void subscribeNotifications(List<String> ids, WebSocketListener callback, String nameFilter) {
+    public void subscribeNotifications(List<String> ids, WebSocketListener callback, NameFilter nameFilter) {
 
     }
 
-    public void unsubscribeCommands(List<String> ids, String commandFilter) {
+    public void unsubscribeCommands(List<String> ids, CommandFilter commandFilter) {
 
     }
 
-    public void unsubscribeNotifications(List<String> ids, String nameFilter) {
+    public void unsubscribeNotifications(List<String> ids, NameFilter nameFilter) {
 
     }
 
@@ -131,20 +156,23 @@ public class DeviceHive implements MainDeviceHive {
         return networkService.createNetwork(name, description);
     }
 
-    public void listDevices(String filter) {
-
+    public DHResponse<List<Device>> listDevices(DeviceFilter filter) {
+        return null;
     }
 
-    public void removeDevice(String id) {
-
+    public DHResponse<Void> removeDevice(String id) {
+        return null;
     }
 
-    public void getDevice(String id) {
-
+    public DHResponse<Device> getDevice(String id) throws IOException {
+        return deviceService.getDevice(id);
     }
 
-    public void putDevice(String id, String name) {
-
+    public DHResponse<Void> putDevice(String id, String name) throws IOException {
+        return deviceService.createDevice(id, name);
     }
 
+    public DeviceService getDeviceService() {
+        return deviceService;
+    }
 }

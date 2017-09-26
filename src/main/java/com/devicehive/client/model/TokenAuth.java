@@ -1,10 +1,8 @@
 package com.devicehive.client.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-@Data
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class TokenAuth {
@@ -18,5 +16,24 @@ public class TokenAuth {
 
     public boolean canRefresh() {
         return refreshToken != null && refreshToken.length() > 0;
+    }
+
+
+    public TokenAuth setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+        return this;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public TokenAuth setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+        return this;
     }
 }

@@ -1,7 +1,7 @@
 package com.devicehive.client.api;
 
-import com.devicehive.client.model.DHResponse;
-import com.devicehive.client.model.NetworkFilter;
+import com.devicehive.client.model.*;
+import com.devicehive.client.model.Device;
 import com.devicehive.rest.model.*;
 import okhttp3.WebSocketListener;
 import org.joda.time.DateTime;
@@ -25,13 +25,13 @@ public interface MainDeviceHive {
 
     DHResponse<Void> removeProperty(String name) throws IOException;
 
-    void subscribeCommands(List<String> ids, WebSocketListener callback, String commandFilter);
+    void subscribeCommands(List<String> ids, WebSocketListener callback, CommandFilter commandFilter);
 
-    void subscribeNotifications(List<String> ids, WebSocketListener callback, String nameFilter);
+    void subscribeNotifications(List<String> ids, WebSocketListener callback, NameFilter nameFilter);
 
-    void unsubscribeCommands(List<String> ids, String commandFilter);
+    void unsubscribeCommands(List<String> ids, CommandFilter commandFilter);
 
-    void unsubscribeNotifications(List<String> ids, String nameFilter);
+    void unsubscribeNotifications(List<String> ids, NameFilter nameFilter);
 
     DHResponse<List<Network>> listNetworks(NetworkFilter filter) throws IOException;
 
@@ -41,11 +41,11 @@ public interface MainDeviceHive {
 
     DHResponse<NetworkId> createNetwork(String name, String description) throws IOException;
 
-    void listDevices(String filter);
+    DHResponse<List<Device>> listDevices(DeviceFilter filter);
 
-    void removeDevice(String id);
+    DHResponse<Void> removeDevice(String id);
 
-    void getDevice(String id);
+    DHResponse<Device> getDevice(String id) throws IOException;
 
-    void putDevice(String id, String name);
+    DHResponse<Void> putDevice(String id, String name) throws IOException;
 }
