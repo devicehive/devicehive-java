@@ -2,6 +2,7 @@ package com.devicehive.client.model;
 
 import org.joda.time.DateTime;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -19,17 +20,18 @@ import java.util.List;
  */
 interface DeviceInterface {
 
-    void save();
+    void save() throws IOException;
 
-    List<DeviceCommand> getCommands(DateTime startTimestamp, DateTime endTimestamp, int maxNumber);
+    List<DeviceCommand> getCommands(DateTime startTimestamp, DateTime endTimestamp, int maxNumber) throws IOException;
 
     List<DeviceNotification> getNotifications(DateTime startTimestamp, DateTime endTimestamp, int maxNumber);
 
-    DeviceCommand sendCommand(DeviceCommand command, String parameters, DeviceCommandCallback resultCallback);
+    DeviceCommandCallback sendCommand(String command, List<Parameter> parameters) throws IOException;
 
-    DeviceNotification sendNotification(String notification, String parameters);
+    DHResponse<DeviceNotification> sendNotification(String notification, List<Parameter> parameters) throws IOException;
 
     //TODO Find callback that is needed
+
     void subscribeCommands(DeviceCommandCallback callback, CommandFilter commandFilter);
 
     void subscribeNotifications(DeviceNotificationCallback callback, NameFilter nameFilter);

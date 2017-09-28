@@ -24,6 +24,8 @@ public class DeviceHive implements MainDeviceHive {
     private JwtTokenService jwtTokenService;
     private DeviceService deviceService;
     private String url;
+    private DeviceCommandService deviceCommandService;
+    private DeviceNotificationService notificationService;
 
     private DeviceHive() {
     }
@@ -61,6 +63,8 @@ public class DeviceHive implements MainDeviceHive {
         configurationService = new ConfigurationService();
         networkService = new NetworkService();
         deviceService = new DeviceService();
+        deviceCommandService = new DeviceCommandService();
+        notificationService = new DeviceNotificationService();
     }
 
 
@@ -174,5 +178,13 @@ public class DeviceHive implements MainDeviceHive {
 
     public DeviceService getDeviceService() {
         return deviceService;
+    }
+
+    public DeviceCommandService getDeviceCommandService() {
+        return deviceCommandService;
+    }
+
+    public DeviceNotificationService getDeviceNotificationService() {
+        return notificationService;
     }
 }

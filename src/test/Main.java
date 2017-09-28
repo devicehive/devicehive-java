@@ -1,8 +1,9 @@
 import com.devicehive.client.DeviceHive;
 import com.devicehive.client.callback.ResponseCallback;
-import com.devicehive.client.model.DHResponse;
-import com.devicehive.client.model.NetworkFilter;
-import com.devicehive.client.model.TokenAuth;
+import com.devicehive.client.model.*;
+import com.devicehive.client.model.Device;
+import com.devicehive.client.model.DeviceCommand;
+import com.devicehive.client.model.DeviceNotification;
 import com.devicehive.rest.model.*;
 import org.joda.time.DateTime;
 import org.junit.Assert;
@@ -12,14 +13,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Main {
 
     private static final String URL = "http://playground.dev.devicehive.com/api/rest/";
+    public static final String DEVICE_ID = "271990";
+    public static final String DEVICE_NAME = "JAVA LIB TEST";
+    public static final String COMMAND_NAME = "TEST_COMMAND";
+    public static final String PROP = "TEST_PROP";
+    public static final String VALUE = "TEST_VALUE";
     private String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTM2OTI1MTA2NDM1LCJ0b2tlblR5cGUiOiJBQ0NFU1MifX0.DVRKVgrtnv35MWwxR1T8bLm83-RJCfloYuoEjvYPQ4s";
     private String refreshToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTM2OTI1MTA2NDM1LCJ0b2tlblR5cGUiOiJSRUZSRVNIIn19.7alYTD5kb_imglE7NyRhjQBFqXhqpfJJs-ZA68yJZiQ";
-    DeviceHive deviceHive = DeviceHive.getInstance().setup(URL, new TokenAuth(refreshToken, accessToken));
+    private DeviceHive deviceHive = DeviceHive.getInstance().setup(URL, new TokenAuth(refreshToken, accessToken));
+    private Device device = new Device(DEVICE_ID, DEVICE_NAME);
 
     @Test
     public void apiInfoTest() throws InterruptedException {
@@ -33,6 +42,7 @@ public class Main {
         });
         latch.await(20, TimeUnit.SECONDS);
         Assert.assertTrue(deviceHive.getInfo().isSuccessful());
+
     }
 
     @Test
@@ -144,12 +154,56 @@ public class Main {
 
     @Test
     public void createDevice() throws IOException {
-        com.devicehive.client.model.Device device =
-                new com.devicehive.client.model.Device("123$$$", "JAVA LIB TEST");
-        device.setDeviceHive(deviceHive);
+        DHResponse<com.devicehive.client.model.Device> response;
         device.save();
-        DHResponse<com.devicehive.client.model.Device> response = deviceHive.getDevice("123$$$");
+        response = deviceHive.getDevice(DEVICE_ID);
         Assert.assertTrue(response.isSuccessful());
     }
 
+    @Test
+    public void getCommands() throws IOException {
+        device.save();
+        ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
+        service.schedule(new Thread(new Runnable() {
+            public void run() {
+                try {
+                    List<Parameter> parameters = new ArrayList<Parameter>();
+
+                    parameters.add(new Parameter("Param 1", "Value 1"));
+                    parameters.add(new Parameter("Param 2", "Value 2"));
+                    parameters.add(new Parameter("Param 3", "Value 3"));
+                    parameters.add(new Parameter("Param 4", "Value 4"));
+                    device.sendCommand("Command TEST", parameters);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }), 5, TimeUnit.SECONDS);
+        System.out.println(device);
+
+        DHResponse<com.devicehive.client.model.Device> response = deviceHive.getDevice(DEVICE_ID);
+
+        List<DeviceCommand> list =
+                device.getCommands(DateTime.now(), DateTime.now().plusMinutes(1), 30);
+        System.out.println(list.get(0).getCommandName());
+
+        Assert.assertTrue(response.isSuccessful());
+    }
+
+    @Test
+    public void sendNotification() throws IOException {
+        Device device =
+                new Device(DEVICE_ID, DEVICE_NAME);
+        device.save();
+
+        List<Parameter> parameters = new ArrayList<Parameter>();
+
+        parameters.add(new Parameter("Param 1", "Value 1"));
+        parameters.add(new Parameter("Param 2", "Value 2"));
+        parameters.add(new Parameter("Param 3", "Value 3"));
+        parameters.add(new Parameter("Param 4", "Value 4"));
+
+        DHResponse<DeviceNotification> response = device.sendNotification("NOTIFICATION MESSAGE", parameters);
+        Assert.assertTrue(response.isSuccessful());
+    }
 }

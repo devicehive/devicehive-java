@@ -5,17 +5,21 @@ import com.devicehive.client.TokenHelper;
 import com.devicehive.client.callback.ResponseCallback;
 import com.devicehive.client.model.DHResponse;
 import com.devicehive.client.model.FailureData;
+import com.devicehive.client.model.Parameter;
 import com.devicehive.client.model.TokenAuth;
 import com.devicehive.rest.ApiClient;
 import com.devicehive.rest.api.JwtTokenApi;
 import com.devicehive.rest.auth.ApiKeyAuth;
+import com.devicehive.rest.model.JsonStringWrapper;
 import com.devicehive.rest.model.JwtAccessToken;
 import com.devicehive.rest.model.JwtRefreshToken;
+import org.json.JSONObject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.io.IOException;
+import java.util.List;
 
 public class BaseService {
     ApiClient apiClient;
@@ -101,5 +105,16 @@ public class BaseService {
 
     public <S> S createService(Class<S> serviceClass) {
         return apiClient.createService(serviceClass);
+    }
+
+    JsonStringWrapper wrapParameters(List<Parameter> parameters) {
+        JSONObject object = new JSONObject();
+        for (Parameter p :
+                parameters) {
+            object.put(p.getKey(), p.getValue());
+        }
+        JsonStringWrapper wrapper = new JsonStringWrapper();
+        wrapper.setJsonString(object.toString());
+        return wrapper;
     }
 }

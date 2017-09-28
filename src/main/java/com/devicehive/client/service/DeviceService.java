@@ -14,8 +14,8 @@ public class DeviceService extends BaseService {
     public DHResponse<Void> createDevice(String id, String name) throws IOException {
         deviceApi = createService(DeviceApi.class);
         DeviceUpdate device = new DeviceUpdate();
-        device.setName(name);
         device.setId(id);
+        device.setName(name);
         DHResponse<Void> response = execute(deviceApi.register(device, device.getId()));
         if (response.isSuccessful()) {
             return response;

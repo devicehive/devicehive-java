@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.devicehive</groupId>
     <artifactId>client</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <name>devicehive-client-library</name>
     <version>1.0.0</version>
     <prerequisites>
@@ -38,6 +38,11 @@
             <groupId>com.devicehive</groupId>
             <artifactId>rest</artifactId>
             <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>RELEASE</version>
         </dependency>
     </dependencies>
 </project>
