@@ -51,7 +51,7 @@ public class Device implements DeviceInterface {
         return DeviceHive.getInstance().getDeviceCommandService()
                 .getDeviceCommands(this.id, startTimestamp, endTimestamp, maxNumber).getData();
     }
-
+//TODO make me please :*(
     public List<DeviceNotification> getNotifications(DateTime startTimestamp, DateTime endTimestamp, int maxNumber) {
         return null;
     }

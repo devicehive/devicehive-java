@@ -4,6 +4,7 @@ import com.devicehive.client.model.*;
 import com.devicehive.client.model.Device;
 import com.devicehive.client.model.DeviceCommand;
 import com.devicehive.client.model.DeviceNotification;
+import com.devicehive.client.model.Network;
 import com.devicehive.rest.model.*;
 import org.joda.time.DateTime;
 import org.junit.Assert;
@@ -120,7 +121,7 @@ public class Main {
 
     @Test
     public void createNetworkAndDelete() throws IOException {
-        DHResponse<NetworkId> response = deviceHive.createNetwork("Java Client Lib", "My test network");
+        DHResponse<Network> response = deviceHive.createNetwork("Java Client Lib", "My test network");
         System.out.println(response);
         Assert.assertTrue(response.isSuccessful());
         if (response.isSuccessful()) {
@@ -131,15 +132,37 @@ public class Main {
 
     @Test
     public void getNetwork() throws IOException {
-        DHResponse<NetworkId> response = deviceHive.createNetwork("Java Client Lib", "My test network");
+        DHResponse<Network> response = deviceHive.createNetwork("Java Client Lib", "My test network");
         Assert.assertTrue(response.isSuccessful());
-
+        System.out.println(response);
         DHResponse<NetworkVO> response2 = deviceHive.getNetwork(response.getData().getId());
         System.out.println(response2);
         Assert.assertTrue(response2.isSuccessful());
 
         DHResponse<Void> response3 = deviceHive.removeNetwork(response.getData().getId());
         Assert.assertTrue(response3.isSuccessful());
+    }
+
+    @Test
+    public void updateNetwork() throws IOException {
+        DHResponse<Network> response = deviceHive.createNetwork("Java Client Lib", "My test network");
+        System.out.println(response);
+        Assert.assertTrue(response.isSuccessful());
+
+
+        DHResponse<NetworkVO> response2 = deviceHive.getNetwork(response.getData().getId());
+        System.out.println(response2);
+        Assert.assertTrue(response2.isSuccessful());
+
+        response.getData().setName("Java Client Lib Renamed");
+        response.getData().save();
+        DHResponse<NetworkVO> response3 = deviceHive.getNetwork(response.getData().getId());
+        System.out.println(response3);
+        Assert.assertTrue(response3.isSuccessful());
+        Assert.assertEquals("Java Client Lib Renamed", response3.getData().getName());
+
+        DHResponse<Void> response4 = deviceHive.removeNetwork(response.getData().getId());
+        Assert.assertTrue(response4.isSuccessful());
     }
 
     @Test

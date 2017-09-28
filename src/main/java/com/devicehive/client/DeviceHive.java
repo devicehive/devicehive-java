@@ -4,6 +4,7 @@ import com.devicehive.client.api.MainDeviceHive;
 import com.devicehive.client.callback.ResponseCallback;
 import com.devicehive.client.model.*;
 import com.devicehive.client.model.Device;
+import com.devicehive.client.model.Network;
 import com.devicehive.client.service.*;
 import com.devicehive.rest.api.JwtTokenApi;
 import com.devicehive.rest.model.*;
@@ -156,7 +157,7 @@ public class DeviceHive implements MainDeviceHive {
         return networkService.removeNetwork(id);
     }
 
-    public DHResponse<NetworkId> createNetwork(String name, String description) throws IOException {
+    public DHResponse<Network> createNetwork(String name, String description) throws IOException {
         return networkService.createNetwork(name, description);
     }
 
@@ -178,6 +179,10 @@ public class DeviceHive implements MainDeviceHive {
 
     public DeviceService getDeviceService() {
         return deviceService;
+    }
+
+    public NetworkService getNetworkService() {
+        return networkService;
     }
 
     public DeviceCommandService getDeviceCommandService() {
