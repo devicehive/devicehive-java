@@ -2,6 +2,7 @@ package com.devicehive.client.api;
 
 import com.devicehive.client.model.*;
 import com.devicehive.client.model.Device;
+import com.devicehive.client.model.Network;
 import com.devicehive.rest.model.*;
 import okhttp3.WebSocketListener;
 import org.joda.time.DateTime;
@@ -39,7 +40,7 @@ public interface MainDeviceHive {
 
     DHResponse<Void> removeNetwork(long id) throws IOException;
 
-    DHResponse<NetworkId> createNetwork(String name, String description) throws IOException;
+    DHResponse<Network> createNetwork(String name, String description) throws IOException;
 
     DHResponse<List<Device>> listDevices(DeviceFilter filter);
 

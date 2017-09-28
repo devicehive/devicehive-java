@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class BaseService {
+    public static final String ERROR_MESSAGE_KEY = "message";
     ApiClient apiClient;
 
     BaseService() {
@@ -70,7 +71,7 @@ public class BaseService {
             if (response.isSuccessful()) {
                 return new DHResponse<T>(response.body(), null);
             } else {
-                FailureData failureData = createFailData(response.code(), response.message());
+                FailureData failureData = createFailData(response.code(), parseErrorMessage(response));
                 return new DHResponse<T>(null, failureData);
             }
         } catch (IOException e) {
@@ -85,7 +86,7 @@ public class BaseService {
                 if (response.isSuccessful()) {
                     callback.onResponse(new DHResponse<T>(response.body(), null));
                 } else {
-                    FailureData failureData = createFailData(response.code(), response.message());
+                    FailureData failureData = createFailData(response.code(), parseErrorMessage(response));
                     callback.onResponse(new DHResponse<T>(null, failureData));
                 }
             }
@@ -116,5 +117,15 @@ public class BaseService {
         JsonStringWrapper wrapper = new JsonStringWrapper();
         wrapper.setJsonString(object.toString());
         return wrapper;
+    }
+
+    private String parseErrorMessage(Response response) {
+        try {
+            JSONObject error = new JSONObject(response.errorBody().string());
+            return error.getString(ERROR_MESSAGE_KEY);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response.message();
     }
 }
