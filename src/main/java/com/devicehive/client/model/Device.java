@@ -8,6 +8,7 @@ import org.joda.time.DateTime;
 import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.util.List;
+
 @Data
 public class Device implements DeviceInterface {
 
@@ -51,9 +52,9 @@ public class Device implements DeviceInterface {
         return DeviceHive.getInstance().getDeviceCommandService()
                 .getDeviceCommands(this.id, startTimestamp, endTimestamp, maxNumber).getData();
     }
-//TODO make me please :*(
-    public List<DeviceNotification> getNotifications(DateTime startTimestamp, DateTime endTimestamp, int maxNumber) {
-        return null;
+
+    public List<DeviceNotification> getNotifications(DateTime startTimestamp, DateTime endTimestamp) throws IOException {
+        return DeviceHive.getInstance().getDeviceNotificationService().getDeviceNotifications(id, startTimestamp, endTimestamp).getData();
     }
 
     public DeviceCommandCallback sendCommand(String command, List<Parameter> parameters) throws IOException {

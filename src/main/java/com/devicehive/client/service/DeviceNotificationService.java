@@ -7,6 +7,7 @@ import com.devicehive.rest.api.DeviceNotificationApi;
 import com.devicehive.rest.model.DeviceNotificationWrapper;
 import com.devicehive.rest.model.InsertNotification;
 import org.joda.time.DateTime;
+import org.joda.time.Period;
 
 import java.io.IOException;
 import java.util.List;
@@ -54,6 +55,35 @@ public class DeviceNotificationService extends BaseService {
                     result.getFailureData());
         } else {
             return new DHResponse<DeviceNotification>(null, result.getFailureData());
+        }
+    }
+
+    public DHResponse<List<DeviceNotification>> getDeviceNotifications(String deviceId, DateTime startTimestamp,
+                                                                       DateTime endTimestamp) throws IOException {
+        notificationApi = createService(DeviceNotificationApi.class);
+
+        Period period = new Period(startTimestamp, endTimestamp);
+
+        DHResponse<List<DeviceNotification>> response;
+
+        DHResponse<List<com.devicehive.rest.model.DeviceNotification>> result =
+                execute(notificationApi.poll(deviceId, null, startTimestamp.toString(),
+                        (long) period.toStandardSeconds().getSeconds()));
+
+        response = new DHResponse<List<DeviceNotification>>(
+                DeviceNotification.createList(result.getData()),
+                result.getFailureData());
+        if (response.isSuccessful()) {
+            return response;
+        } else if (response.getFailureData().getCode() == 401) {
+            authorize();
+            notificationApi = createService(DeviceNotificationApi.class);
+            result = execute(notificationApi.poll(deviceId, null, startTimestamp.toString(),
+                    30L));
+            return new DHResponse<List<DeviceNotification>>(DeviceNotification.createList(result.getData()),
+                    result.getFailureData());
+        } else {
+            return response;
         }
     }
 }
