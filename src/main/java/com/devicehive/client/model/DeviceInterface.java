@@ -24,7 +24,7 @@ interface DeviceInterface {
 
     List<DeviceCommand> getCommands(DateTime startTimestamp, DateTime endTimestamp, int maxNumber) throws IOException;
 
-    List<DeviceNotification> getNotifications(DateTime startTimestamp, DateTime endTimestamp, int maxNumber);
+    List<DeviceNotification> getNotifications(DateTime startTimestamp, DateTime endTimestamp) throws IOException;
 
     DeviceCommandCallback sendCommand(String command, List<Parameter> parameters) throws IOException;
 

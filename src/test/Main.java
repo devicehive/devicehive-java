@@ -215,8 +215,6 @@ public class Main {
 
     @Test
     public void sendNotification() throws IOException {
-        Device device =
-                new Device(DEVICE_ID, DEVICE_NAME);
         device.save();
 
         List<Parameter> parameters = new ArrayList<Parameter>();
@@ -228,5 +226,30 @@ public class Main {
 
         DHResponse<DeviceNotification> response = device.sendNotification("NOTIFICATION MESSAGE", parameters);
         Assert.assertTrue(response.isSuccessful());
+    }
+
+    @Test
+    public void getNotification() throws IOException {
+        device.save();
+        ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
+        service.schedule(new Thread(new Runnable() {
+            public void run() {
+                try {
+                    List<Parameter> parameters = new ArrayList<Parameter>();
+
+                    parameters.add(new Parameter("Param 1", "Value 1"));
+                    parameters.add(new Parameter("Param 2", "Value 2"));
+                    parameters.add(new Parameter("Param 3", "Value 3"));
+                    parameters.add(new Parameter("Param 4", "Value 4"));
+                    device.sendNotification("NOTIFICATION MESSAGE", parameters);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }), 5, TimeUnit.SECONDS);
+
+        List<DeviceNotification> response = device.getNotifications(DateTime.now(), DateTime.now().plusMinutes(1));
+        System.out.println(response);
+        Assert.assertTrue(response.size() > 0);
     }
 }

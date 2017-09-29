@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Builder
 public class DeviceNotification {
@@ -26,6 +29,17 @@ public class DeviceNotification {
                 .timestamp(notification.getTimestamp())
                 .parameters(notification.getParameters())
                 .build();
+    }
+
+    public static List<DeviceNotification> createList(List<com.devicehive.rest.model.DeviceNotification> notifications) {
+        if (notifications == null) {
+            return null;
+        }
+        List<DeviceNotification> result = new ArrayList<DeviceNotification>(notifications.size());
+        for (com.devicehive.rest.model.DeviceNotification n : notifications) {
+            result.add(create(n));
+        }
+        return result;
     }
 
 
