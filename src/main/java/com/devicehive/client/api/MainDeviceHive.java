@@ -28,11 +28,11 @@ public interface MainDeviceHive {
 
     void subscribeCommands(List<String> ids, WebSocketListener callback, CommandFilter commandFilter);
 
-    void subscribeNotifications(List<String> ids, WebSocketListener callback, NameFilter nameFilter);
+    void subscribeNotifications(List<String> ids, WebSocketListener callback, NotificationFilter notificationFilter);
 
     void unsubscribeCommands(List<String> ids, CommandFilter commandFilter);
 
-    void unsubscribeNotifications(List<String> ids, NameFilter nameFilter);
+    void unsubscribeNotifications(List<String> ids, NotificationFilter notificationFilter);
 
     DHResponse<List<Network>> listNetworks(NetworkFilter filter) throws IOException;
 
