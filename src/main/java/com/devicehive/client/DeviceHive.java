@@ -133,7 +133,7 @@ public class DeviceHive implements MainDeviceHive {
 
     }
 
-    public void subscribeNotifications(List<String> ids, WebSocketListener callback, NameFilter nameFilter) {
+    public void subscribeNotifications(List<String> ids, WebSocketListener callback, NotificationFilter notificationFilter) {
 
     }
 
@@ -141,7 +141,7 @@ public class DeviceHive implements MainDeviceHive {
 
     }
 
-    public void unsubscribeNotifications(List<String> ids, NameFilter nameFilter) {
+    public void unsubscribeNotifications(List<String> ids, NotificationFilter notificationFilter) {
 
     }
 

@@ -35,9 +35,9 @@ interface DeviceInterface {
 
     void subscribeCommands(CommandFilter commandFilter, DeviceCommandsCallback commandsCallback);
 
-    DeviceNotificationCallback subscribeNotifications(NameFilter nameFilter);
+    void subscribeNotifications(NotificationFilter notificationFilter, DeviceNotificationCallback notificationCallback);
 
     void unsubscribeCommands(CommandFilter commandFilter);
 
-    void unsubscribeNotifications(NameFilter nameFilter);
+    void unsubscribeNotifications(NotificationFilter notificationFilter);
 }
