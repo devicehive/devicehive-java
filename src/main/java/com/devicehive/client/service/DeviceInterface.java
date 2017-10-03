@@ -1,5 +1,6 @@
-package com.devicehive.client.model;
+package com.devicehive.client.service;
 
+import com.devicehive.client.model.*;
 import org.joda.time.DateTime;
 
 import java.io.IOException;
@@ -32,9 +33,9 @@ interface DeviceInterface {
 
     //TODO Find callback that is needed
 
-    void subscribeCommands(DeviceCommandCallback callback, CommandFilter commandFilter);
+    void subscribeCommands(CommandFilter commandFilter, DeviceCommandsCallback commandsCallback);
 
-    void subscribeNotifications(DeviceNotificationCallback callback, NameFilter nameFilter);
+    DeviceNotificationCallback subscribeNotifications(NameFilter nameFilter);
 
     void unsubscribeCommands(CommandFilter commandFilter);
 

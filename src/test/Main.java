@@ -1,7 +1,7 @@
 import com.devicehive.client.DeviceHive;
 import com.devicehive.client.callback.ResponseCallback;
 import com.devicehive.client.model.*;
-import com.devicehive.client.model.Device;
+import com.devicehive.client.service.Device;
 import com.devicehive.client.model.DeviceCommand;
 import com.devicehive.client.model.DeviceNotification;
 import com.devicehive.client.model.Network;
@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 public class Main {
 
     private static final String URL = "http://playground.dev.devicehive.com/api/rest/";
-    public static final String DEVICE_ID = "271990";
+    private static final String DEVICE_ID = "271990123";
     public static final String DEVICE_NAME = "JAVA LIB TEST";
     public static final String COMMAND_NAME = "TEST_COMMAND";
     public static final String PROP = "TEST_PROP";
@@ -29,7 +29,7 @@ public class Main {
     private String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTM2OTI1MTA2NDM1LCJ0b2tlblR5cGUiOiJBQ0NFU1MifX0.DVRKVgrtnv35MWwxR1T8bLm83-RJCfloYuoEjvYPQ4s";
     private String refreshToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTM2OTI1MTA2NDM1LCJ0b2tlblR5cGUiOiJSRUZSRVNIIn19.7alYTD5kb_imglE7NyRhjQBFqXhqpfJJs-ZA68yJZiQ";
     private DeviceHive deviceHive = DeviceHive.getInstance().setup(URL, new TokenAuth(refreshToken, accessToken));
-    private Device device = new Device(DEVICE_ID, DEVICE_NAME);
+    private Device device = deviceHive.getDevice(DEVICE_ID);
 
     @Test
     public void apiInfoTest() throws InterruptedException {
@@ -177,15 +177,10 @@ public class Main {
 
     @Test
     public void createDevice() throws IOException {
-        DHResponse<com.devicehive.client.model.Device> response;
-        device.save();
-        response = deviceHive.getDevice(DEVICE_ID);
-        Assert.assertTrue(response.isSuccessful());
     }
 
     @Test
     public void getCommands() throws IOException {
-        device.save();
         ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
         service.schedule(new Thread(new Runnable() {
             public void run() {
@@ -204,18 +199,46 @@ public class Main {
         }), 5, TimeUnit.SECONDS);
         System.out.println(device);
 
-        DHResponse<com.devicehive.client.model.Device> response = deviceHive.getDevice(DEVICE_ID);
-
         List<DeviceCommand> list =
                 device.getCommands(DateTime.now(), DateTime.now().plusMinutes(1), 30);
         System.out.println(list.get(0).getCommandName());
 
-        Assert.assertTrue(response.isSuccessful());
+    }
+
+    @Test
+    public void subscribeCommands() throws IOException, InterruptedException {
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        final CommandFilter commandFilter = new CommandFilter();
+        commandFilter.setCommandNames("comA", "comB");
+        commandFilter.setStartTimestamp(DateTime.now());
+        commandFilter.setEndTimestamp(DateTime.now().plusSeconds(10));
+        commandFilter.setMaxNumber(30);
+
+        device.subscribeCommands(commandFilter, new DeviceCommandsCallback() {
+            public void onSuccess(List<DeviceCommand> command) {
+                System.out.println(DateTime.now().toString());
+                System.out.println(command);
+            }
+
+            public void onFail(FailureData failureData) {
+                System.out.println(failureData);
+            }
+        });
+        ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
+        service.schedule(new Thread(new Runnable() {
+            public void run() {
+                System.out.println("SUBSCRIBED FOR comZ");
+                commandFilter.setCommandNames("comZ");
+                device.unsubscribeCommands(commandFilter);
+            }
+        }), 30, TimeUnit.SECONDS);
+        latch.await();
     }
 
     @Test
     public void sendNotification() throws IOException {
-        device.save();
+
 
         List<Parameter> parameters = new ArrayList<Parameter>();
 
@@ -230,7 +253,7 @@ public class Main {
 
     @Test
     public void getNotification() throws IOException {
-        device.save();
+
         ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
         service.schedule(new Thread(new Runnable() {
             public void run() {

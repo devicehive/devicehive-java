@@ -1,11 +1,11 @@
-package com.devicehive.client.model;
+package com.devicehive.client.service;
 
 import com.devicehive.client.DeviceHive;
+import com.devicehive.client.model.*;
 import com.devicehive.rest.model.JsonStringWrapper;
 import lombok.Data;
 import org.joda.time.DateTime;
 
-import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.util.List;
 
@@ -22,16 +22,12 @@ public class Device implements DeviceInterface {
     private Long networkId = null;
 
     private Boolean isBlocked = false;
+    private DeviceCommandsCallback commandCallback;
 
     private Device() {
     }
 
-    public Device(@Nonnull String id, @Nonnull String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public static Device createDeviceFromRestResponse(com.devicehive.rest.model.Device device) {
+    static Device createDeviceFromRestResponse(com.devicehive.rest.model.Device device) {
         if (device == null) {
             return null;
         }
@@ -44,7 +40,7 @@ public class Device implements DeviceInterface {
         return result;
     }
 
-    public void save() throws IOException {
+    public void save() {
         DeviceHive.getInstance().putDevice(id, name);
     }
 
@@ -59,11 +55,12 @@ public class Device implements DeviceInterface {
 
     public DeviceCommandCallback sendCommand(String command, List<Parameter> parameters) throws IOException {
         DeviceCommandCallback resultCallback = new DeviceCommandCallback() {
-            public void onSuccess() {
+
+            public void onSuccess(DeviceCommand command) {
 
             }
 
-            public void onFail() {
+            public void onFail(FailureData failureData) {
 
             }
         };
@@ -77,16 +74,21 @@ public class Device implements DeviceInterface {
                 parameters);
     }
 
-    public void subscribeCommands(DeviceCommandCallback callback, CommandFilter commandFilter) {
-
+    public void subscribeCommands(CommandFilter commandFilter, DeviceCommandsCallback commandCallback) {
+        this.commandCallback = commandCallback;
+        DeviceHive.getInstance().getDeviceCommandService().pollCommands(id, commandFilter, true, commandCallback);
     }
 
-    public void subscribeNotifications(DeviceNotificationCallback callback, NameFilter nameFilter) {
-
+    public DeviceNotificationCallback subscribeNotifications(NameFilter nameFilter) {
+        return null;
     }
 
     public void unsubscribeCommands(CommandFilter commandFilter) {
+        DeviceHive.getInstance().getDeviceCommandService().pollCommands(id, commandFilter, true, commandCallback);
+    }
 
+    public void unsubscribeAll() {
+        DeviceHive.getInstance().getDeviceCommandService().unsubscribeAll();
     }
 
     public void unsubscribeNotifications(NameFilter nameFilter) {

@@ -112,6 +112,7 @@ public class NetworkService extends BaseService {
     public void updateNetwork(long id, String name, String description) throws IOException {
         NetworkApi api = createService(NetworkApi.class);
         NetworkUpdate body = createUpdateBody(name, description);
+        System.out.println(body);
         DHResponse<Void> restResponse = execute(api.update(body, id));
         if (!restResponse.isSuccessful()) {
             if (restResponse.getFailureData().getCode() == 401) {
