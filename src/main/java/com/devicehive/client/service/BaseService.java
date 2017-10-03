@@ -38,15 +38,11 @@ public class BaseService {
         TokenHelper.getInstance().getTokenAuth().setAccessToken(token.getAccessToken());
     }
 
-    public void authorize() throws IOException {
+    void authorize() {
         if (getTokenAuth().canRefresh()) {
             refreshToken();
             authorizeViaToken();
-        } else {
-            throw new IOException("Cannot authorize. Nor username/password data nor " +
-                    "accessToken/refreshToken data was provided");
         }
-
     }
 
     void authorizeViaToken() {
@@ -55,13 +51,18 @@ public class BaseService {
         apiClient.addAuthorization(ApiClient.AUTH_API_KEY, apiKeyAuth);
     }
 
-    private void refreshToken() throws IOException {
+    private void refreshToken() {
         JwtRefreshToken refreshToken = new JwtRefreshToken();
         refreshToken.setRefreshToken(getTokenAuth().getRefreshToken());
         JwtTokenApi jwtTokenApi = createService(JwtTokenApi.class);
-        Response<JwtAccessToken> response = jwtTokenApi.refreshTokenRequest(refreshToken).execute();
-        JwtAccessToken accessToken = response.body();
-        getTokenAuth().setAccessToken(accessToken.getAccessToken());
+        Response<JwtAccessToken> response = null;
+        try {
+            response = jwtTokenApi.refreshTokenRequest(refreshToken).execute();
+            JwtAccessToken accessToken = response.body();
+            getTokenAuth().setAccessToken(accessToken.getAccessToken());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -119,7 +120,7 @@ public class BaseService {
         return wrapper;
     }
 
-    private String parseErrorMessage(Response response) {
+    String parseErrorMessage(Response response) {
         try {
             JSONObject error = new JSONObject(response.errorBody().string());
             return error.getString(ERROR_MESSAGE_KEY);

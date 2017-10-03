@@ -1,17 +1,14 @@
 package com.devicehive.client.service;
 
 import com.devicehive.client.model.DHResponse;
-import com.devicehive.client.model.Device;
 import com.devicehive.rest.api.DeviceApi;
 import com.devicehive.rest.model.DeviceUpdate;
-
-import java.io.IOException;
 
 public class DeviceService extends BaseService {
     private DeviceApi deviceApi;
 
 
-    public DHResponse<Void> createDevice(String id, String name) throws IOException {
+    public DHResponse<Void> createDevice(String id, String name) {
         deviceApi = createService(DeviceApi.class);
         DeviceUpdate device = new DeviceUpdate();
         device.setId(id);
@@ -28,21 +25,40 @@ public class DeviceService extends BaseService {
         }
     }
 
-    public DHResponse<Device> getDevice(String id) throws IOException {
+    public Device getDevice(String id) {
         deviceApi = createService(DeviceApi.class);
         DHResponse<Device> response;
+        DHResponse<com.devicehive.rest.model.Device> result;
 
-        DHResponse<com.devicehive.rest.model.Device> result = execute(deviceApi.get(id));
+        result = execute(deviceApi.get(id));
         response = new DHResponse<Device>(Device.createDeviceFromRestResponse(result.getData()), result.getFailureData());
+
         if (response.isSuccessful()) {
-            return response;
+            return response.getData();
         } else if (response.getFailureData().getCode() == 401) {
             authorize();
             deviceApi = createService(DeviceApi.class);
             result = execute(deviceApi.get(id));
-            return new DHResponse<Device>(Device.createDeviceFromRestResponse(result.getData()), result.getFailureData());
+            response = new DHResponse<Device>(Device.createDeviceFromRestResponse(result.getData()), result.getFailureData());
+            if (response.isSuccessful()) {
+                return response.getData();
+            } else if (response.getFailureData().getCode() == 404) {
+                return createAndGetDevice(id);
+            } else {
+                return null;
+            }
+        } else if (response.getFailureData().getCode() == 404) {
+            return createAndGetDevice(id);
         } else {
-            return response;
+            return null;
         }
+    }
+
+    private Device createAndGetDevice(String id) {
+        createDevice(id, id);
+        DHResponse<com.devicehive.rest.model.Device> result = execute(deviceApi.get(id));
+        DHResponse<Device> response = new DHResponse<Device>(Device.createDeviceFromRestResponse(result.getData()), result.getFailureData());
+        return response.isSuccessful() ? response.getData() : null;
+
     }
 }

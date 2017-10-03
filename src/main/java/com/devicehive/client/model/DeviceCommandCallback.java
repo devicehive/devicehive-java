@@ -2,7 +2,7 @@ package com.devicehive.client.model;
 
 public interface DeviceCommandCallback {
 
-    void onSuccess();
+    void onSuccess(DeviceCommand command);
 
-    void onFail();
+    void onFail(FailureData failureData);
 }

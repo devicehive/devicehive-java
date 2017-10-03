@@ -1,7 +1,7 @@
 package com.devicehive.client.api;
 
 import com.devicehive.client.model.*;
-import com.devicehive.client.model.Device;
+import com.devicehive.client.service.Device;
 import com.devicehive.client.model.Network;
 import com.devicehive.rest.model.*;
 import okhttp3.WebSocketListener;
@@ -46,7 +46,7 @@ public interface MainDeviceHive {
 
     DHResponse<Void> removeDevice(String id);
 
-    DHResponse<Device> getDevice(String id) throws IOException;
+    Device getDevice(String id) throws IOException;
 
     DHResponse<Void> putDevice(String id, String name) throws IOException;
 }

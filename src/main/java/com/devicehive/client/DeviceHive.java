@@ -3,7 +3,7 @@ package com.devicehive.client;
 import com.devicehive.client.api.MainDeviceHive;
 import com.devicehive.client.callback.ResponseCallback;
 import com.devicehive.client.model.*;
-import com.devicehive.client.model.Device;
+import com.devicehive.client.service.Device;
 import com.devicehive.client.model.Network;
 import com.devicehive.client.service.*;
 import com.devicehive.rest.api.JwtTokenApi;
@@ -13,12 +13,12 @@ import org.joda.time.DateTime;
 import retrofit2.Response;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.List;
 
 public class DeviceHive implements MainDeviceHive {
 
-    //    static String URL;
     private ConfigurationService configurationService;
     private NetworkService networkService;
     private ApiInfoService apiInfoService;
@@ -169,11 +169,12 @@ public class DeviceHive implements MainDeviceHive {
         return null;
     }
 
-    public DHResponse<Device> getDevice(String id) throws IOException {
+    @Nullable
+    public Device getDevice(String id) {
         return deviceService.getDevice(id);
     }
 
-    public DHResponse<Void> putDevice(String id, String name) throws IOException {
+    public DHResponse<Void> putDevice(String id, String name) {
         return deviceService.createDevice(id, name);
     }
 
