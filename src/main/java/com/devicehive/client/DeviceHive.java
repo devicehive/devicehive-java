@@ -25,10 +25,10 @@ public class DeviceHive implements MainDeviceHive {
     private JwtTokenService jwtTokenService;
     private DeviceService deviceService;
     private String url;
-    private DeviceCommandService deviceCommandService;
+    private DeviceCommandService commandService;
     private DeviceNotificationService notificationService;
-    private DeviceNotificationsCallback notificationPollManyCallback;
-    private DeviceCommandsCallback deviceCommandsPollManyCallback;
+    private DeviceNotificationsCallback notificationsCallback;
+    private DeviceCommandsCallback commandsCallback;
 
     private DeviceHive() {
     }
@@ -66,7 +66,7 @@ public class DeviceHive implements MainDeviceHive {
         configurationService = new ConfigurationService();
         networkService = new NetworkService();
         deviceService = new DeviceService();
-        deviceCommandService = new DeviceCommandService();
+        commandService = new DeviceCommandService();
         notificationService = new DeviceNotificationService();
     }
 
@@ -131,27 +131,27 @@ public class DeviceHive implements MainDeviceHive {
         return configurationService.removeProperty(name);
     }
 
-    public void subscribeCommands(List<String> ids, CommandFilter commandFilter, DeviceCommandsCallback deviceCommandsPollManyCallback) {
+    public void subscribeCommands(List<String> ids, CommandFilter commandFilter, DeviceCommandsCallback commandsCallback) {
         String deviceIds = StringUtils.join(ids, ",");
-        this.deviceCommandsPollManyCallback = deviceCommandsPollManyCallback;
-        deviceCommandService.pollManyCommands(deviceIds, commandFilter, true, deviceCommandsPollManyCallback);
+        this.commandsCallback = commandsCallback;
+        commandService.pollManyCommands(deviceIds, commandFilter, true, commandsCallback);
 
     }
 
-    public void subscribeNotifications(List<String> ids, NotificationFilter notificationFilter, DeviceNotificationsCallback notificationPollManyCallback) {
+    public void subscribeNotifications(List<String> ids, NotificationFilter notificationFilter, DeviceNotificationsCallback notificationsCallback) {
         String deviceIds = StringUtils.join(ids, ",");
-        this.notificationPollManyCallback = notificationPollManyCallback;
-        notificationService.pollManyNotifications(deviceIds, notificationFilter, true, notificationPollManyCallback);
+        this.notificationsCallback = notificationsCallback;
+        notificationService.pollManyNotifications(deviceIds, notificationFilter, true, notificationsCallback);
     }
 
     public void unsubscribeCommands(List<String> ids, CommandFilter commandFilter) {
         String deviceIds = StringUtils.join(ids, ",");
-        deviceCommandService.pollManyCommands(deviceIds, commandFilter, true, deviceCommandsPollManyCallback);
+        commandService.pollManyCommands(deviceIds, commandFilter, true, commandsCallback);
     }
 
     public void unsubscribeNotifications(List<String> ids, NotificationFilter notificationFilter) {
         String deviceIds = StringUtils.join(ids, ",");
-        notificationService.pollManyNotifications(deviceIds, notificationFilter, true, notificationPollManyCallback);
+        notificationService.pollManyNotifications(deviceIds, notificationFilter, true, notificationsCallback);
     }
 
     public DHResponse<List<Network>> listNetworks(NetworkFilter filter) throws IOException {
@@ -171,11 +171,11 @@ public class DeviceHive implements MainDeviceHive {
     }
 
     public DHResponse<List<Device>> listDevices(DeviceFilter filter) {
-        return null;
+        return deviceService.getDevices(filter);
     }
 
     public DHResponse<Void> removeDevice(String id) {
-        return null;
+        return deviceService.removeDevice(id);
     }
 
     @Nullable
@@ -191,8 +191,8 @@ public class DeviceHive implements MainDeviceHive {
         return networkService;
     }
 
-    public DeviceCommandService getDeviceCommandService() {
-        return deviceCommandService;
+    public DeviceCommandService getCommandService() {
+        return commandService;
     }
 
     public DeviceNotificationService getDeviceNotificationService() {
