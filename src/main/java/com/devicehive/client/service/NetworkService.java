@@ -1,17 +1,18 @@
 package com.devicehive.client.service;
 
 import com.devicehive.client.model.DHResponse;
+import com.devicehive.client.model.Network;
 import com.devicehive.client.model.NetworkFilter;
 import com.devicehive.rest.api.NetworkApi;
-import com.devicehive.client.model.Network;
-import com.devicehive.rest.model.*;
+import com.devicehive.rest.model.NetworkId;
+import com.devicehive.rest.model.NetworkUpdate;
+import com.devicehive.rest.model.NetworkVO;
 
-import java.io.IOException;
 import java.util.List;
 
 public class NetworkService extends BaseService {
 
-    public DHResponse<List<Network>> listNetworks(NetworkFilter filter) throws IOException {
+    public DHResponse<List<Network>> listNetworks(NetworkFilter filter) {
         NetworkApi api = createService(NetworkApi.class);
         DHResponse<List<Network>> dhResponse;
 
@@ -34,7 +35,7 @@ public class NetworkService extends BaseService {
         }
     }
 
-    public DHResponse<NetworkVO> getNetwork(long id) throws IOException {
+    public DHResponse<NetworkVO> getNetwork(long id) {
         NetworkApi api = createService(NetworkApi.class);
         DHResponse<NetworkVO> response = execute(api.get(id));
         if (response.isSuccessful()) {
@@ -48,7 +49,7 @@ public class NetworkService extends BaseService {
         }
     }
 
-    public DHResponse<Void> removeNetwork(long id) throws IOException {
+    public DHResponse<Void> removeNetwork(long id) {
         NetworkApi api = createService(NetworkApi.class);
         DHResponse<Void> response = execute(api.delete(id));
         if (response.isSuccessful()) {
@@ -62,7 +63,7 @@ public class NetworkService extends BaseService {
         }
     }
 
-    public DHResponse<Network> createNetwork(String name, String description) throws IOException {
+    public DHResponse<Network> createNetwork(String name, String description) {
 
         NetworkVO network = createCreateBody(name, description);
 
@@ -109,7 +110,7 @@ public class NetworkService extends BaseService {
         return dhResponse;
     }
 
-    public void updateNetwork(long id, String name, String description) throws IOException {
+    public void updateNetwork(long id, String name, String description) {
         NetworkApi api = createService(NetworkApi.class);
         NetworkUpdate body = createUpdateBody(name, description);
         System.out.println(body);

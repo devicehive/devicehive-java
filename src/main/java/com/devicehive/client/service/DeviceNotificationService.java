@@ -10,7 +10,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class DeviceNotificationService extends BaseService {
     private Call<List<com.devicehive.rest.model.DeviceNotification>> pollCall;
     private Call<List<com.devicehive.rest.model.DeviceNotification>> pollManyCall;
 
-    public DHResponse<DeviceNotification> sendNotification(String deviceId, String notification, List<Parameter> parameters) throws IOException {
+    public DHResponse<DeviceNotification> sendNotification(String deviceId, String notification, List<Parameter> parameters) {
         notificationApi = createService(DeviceNotificationApi.class);
 
         DeviceNotificationWrapper notificationWrapper = createDeviceNotificationWrapper(notification, parameters);
@@ -48,7 +47,7 @@ public class DeviceNotificationService extends BaseService {
 
     }
 
-    private DHResponse<DeviceNotification> getNotification(String deviceId, long notificationId) throws IOException {
+    private DHResponse<DeviceNotification> getNotification(String deviceId, long notificationId) {
         DHResponse<com.devicehive.rest.model.DeviceNotification> result = execute(notificationApi.get(deviceId,
                 notificationId));
         if (result.isSuccessful()) {
@@ -66,7 +65,7 @@ public class DeviceNotificationService extends BaseService {
     }
 
     public DHResponse<List<DeviceNotification>> getDeviceNotifications(String deviceId, DateTime startTimestamp,
-                                                                       DateTime endTimestamp) throws IOException {
+                                                                       DateTime endTimestamp) {
         notificationApi = createService(DeviceNotificationApi.class);
 
         Period period = new Period(startTimestamp, endTimestamp);
@@ -148,8 +147,9 @@ public class DeviceNotificationService extends BaseService {
         }
         return pollNotificationsCallback;
     }
+
     public void pollManyNotifications(String deviceIds, NotificationFilter filter, boolean isAuthNeeded,
-                               DeviceNotificationsCallback notificationsCallback) {
+                                      DeviceNotificationsCallback notificationsCallback) {
         isSubscribed = true;
         notificationApi = createService(DeviceNotificationApi.class);
         Period period = new Period(filter.getStartTimestamp(), filter.getEndTimestamp());
@@ -162,7 +162,6 @@ public class DeviceNotificationService extends BaseService {
         pollManyCall.enqueue(getNotificationsAllCallback(deviceIds, filter, isAuthNeeded, notificationsCallback));
 
     }
-
 
 
     private Callback<List<com.devicehive.rest.model.DeviceNotification>> getNotificationsAllCallback(

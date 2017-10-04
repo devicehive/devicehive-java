@@ -60,16 +60,16 @@ public class Device implements DeviceInterface {
         DeviceHive.getInstance().putDevice(id, name);
     }
 
-    public List<DeviceCommand> getCommands(DateTime startTimestamp, DateTime endTimestamp, int maxNumber) throws IOException {
+    public List<DeviceCommand> getCommands(DateTime startTimestamp, DateTime endTimestamp, int maxNumber)  {
         return DeviceHive.getInstance().getCommandService()
                 .getDeviceCommands(this.id, startTimestamp, endTimestamp, maxNumber).getData();
     }
 
-    public List<DeviceNotification> getNotifications(DateTime startTimestamp, DateTime endTimestamp) throws IOException {
+    public List<DeviceNotification> getNotifications(DateTime startTimestamp, DateTime endTimestamp)  {
         return DeviceHive.getInstance().getDeviceNotificationService().getDeviceNotifications(id, startTimestamp, endTimestamp).getData();
     }
 
-    public DeviceCommandCallback sendCommand(String command, List<Parameter> parameters) throws IOException {
+    public DeviceCommandCallback sendCommand(String command, List<Parameter> parameters) {
         DeviceCommandCallback resultCallback = new DeviceCommandCallback() {
 
             public void onSuccess(DeviceCommand command) {
@@ -85,7 +85,7 @@ public class Device implements DeviceInterface {
         return resultCallback;
     }
 
-    public DHResponse<DeviceNotification> sendNotification(String notification, List<Parameter> parameters) throws IOException {
+    public DHResponse<DeviceNotification> sendNotification(String notification, List<Parameter> parameters)  {
         return DeviceHive.getInstance().getDeviceNotificationService().sendNotification(id, notification,
                 parameters);
     }

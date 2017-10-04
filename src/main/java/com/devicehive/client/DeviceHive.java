@@ -111,23 +111,23 @@ public class DeviceHive implements MainDeviceHive {
         apiInfoService.getClusterConfig(callback);
     }
 
-    public DHResponse<JwtToken> createToken(List<String> actions, Long userId, List<String> networkIds, List<String> deviceIds, DateTime expiration) throws IOException {
+    public DHResponse<JwtToken> createToken(List<String> actions, Long userId, List<String> networkIds, List<String> deviceIds, DateTime expiration) {
         return jwtTokenService.createToken(actions, userId, networkIds, deviceIds, expiration);
     }
 
-    public DHResponse<JwtAccessToken> refreshToken() throws IOException {
+    public DHResponse<JwtAccessToken> refreshToken() {
         return jwtTokenService.getRefreshToken();
     }
 
-    public DHResponse<Configuration> getProperty(String name) throws IOException {
+    public DHResponse<Configuration> getProperty(String name) {
         return configurationService.getProperty(name);
     }
 
-    public DHResponse<Configuration> setProperty(String name, String value) throws IOException {
+    public DHResponse<Configuration> setProperty(String name, String value) {
         return configurationService.setProperty(name, value);
     }
 
-    public DHResponse<Void> removeProperty(String name) throws IOException {
+    public DHResponse<Void> removeProperty(String name) {
         return configurationService.removeProperty(name);
     }
 
@@ -154,19 +154,19 @@ public class DeviceHive implements MainDeviceHive {
         notificationService.pollManyNotifications(deviceIds, notificationFilter, true, notificationsCallback);
     }
 
-    public DHResponse<List<Network>> listNetworks(NetworkFilter filter) throws IOException {
+    public DHResponse<List<Network>> listNetworks(NetworkFilter filter) {
         return networkService.listNetworks(filter);
     }
 
-    public DHResponse<NetworkVO> getNetwork(long id) throws IOException {
+    public DHResponse<NetworkVO> getNetwork(long id) {
         return networkService.getNetwork(id);
     }
 
-    public DHResponse<Void> removeNetwork(long id) throws IOException {
+    public DHResponse<Void> removeNetwork(long id) {
         return networkService.removeNetwork(id);
     }
 
-    public DHResponse<Network> createNetwork(String name, String description) throws IOException {
+    public DHResponse<Network> createNetwork(String name, String description) {
         return networkService.createNetwork(name, description);
     }
 

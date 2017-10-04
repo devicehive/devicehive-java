@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface DeviceNotificationsCallback {
 
-    void onSuccess(List<DeviceNotification> command);
+    void onSuccess(List<DeviceNotification> notifications);
 
     void onFail(FailureData failureData);
 }
