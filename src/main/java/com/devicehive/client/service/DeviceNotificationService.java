@@ -19,8 +19,9 @@ public class DeviceNotificationService extends BaseService {
     private static final String CANCELED = "Canceled";
     private DeviceNotificationApi notificationApi;
     private boolean isSubscribed;
-    private Callback<List<com.devicehive.rest.model.DeviceNotification>> pollCommandsCallback;
+    private Callback<List<com.devicehive.rest.model.DeviceNotification>> pollNotificationsCallback;
     private Call<List<com.devicehive.rest.model.DeviceNotification>> pollCall;
+    private Call<List<com.devicehive.rest.model.DeviceNotification>> pollManyCall;
 
     public DHResponse<DeviceNotification> sendNotification(String deviceId, String notification, List<Parameter> parameters) throws IOException {
         notificationApi = createService(DeviceNotificationApi.class);
@@ -94,8 +95,8 @@ public class DeviceNotificationService extends BaseService {
     }
 
 
-    void pollNotifications(final String deviceId, final NotificationFilter filter, final boolean isAuthNeeded,
-                           final DeviceNotificationCallback commandsCallback) {
+    void pollNotifications(String deviceId, NotificationFilter filter, boolean isAuthNeeded,
+                           DeviceNotificationsCallback notificationsCallback) {
         isSubscribed = true;
         notificationApi = createService(DeviceNotificationApi.class);
         Period period = new Period(filter.getStartTimestamp(), filter.getEndTimestamp());
@@ -106,15 +107,15 @@ public class DeviceNotificationService extends BaseService {
         pollCall = notificationApi.poll(deviceId, filter.getNotificationNames(), filter.getStartTimestamp().toString(),
                 (long) period.toStandardSeconds().getSeconds());
 
-        pollCall.enqueue(getCommandsCallback(deviceId, filter, isAuthNeeded, commandsCallback));
+        pollCall.enqueue(getNotificationsCallback(deviceId, filter, isAuthNeeded, notificationsCallback));
 
     }
 
-    private Callback<List<com.devicehive.rest.model.DeviceNotification>> getCommandsCallback(
+    private Callback<List<com.devicehive.rest.model.DeviceNotification>> getNotificationsCallback(
             final String deviceId, final NotificationFilter filter, final boolean isAuthNeeded,
-            final DeviceNotificationCallback notificationCallback) {
-        if (pollCommandsCallback == null) {
-            pollCommandsCallback = new Callback<List<com.devicehive.rest.model.DeviceNotification>>() {
+            final DeviceNotificationsCallback notificationCallback) {
+        if (pollNotificationsCallback == null) {
+            pollNotificationsCallback = new Callback<List<com.devicehive.rest.model.DeviceNotification>>() {
                 public void onResponse(Call<List<com.devicehive.rest.model.DeviceNotification>> call,
                                        Response<List<com.devicehive.rest.model.DeviceNotification>> response) {
                     if (response.isSuccessful()) {
@@ -145,7 +146,61 @@ public class DeviceNotificationService extends BaseService {
                 }
             };
         }
-        return pollCommandsCallback;
+        return pollNotificationsCallback;
+    }
+    public void pollManyNotifications(String deviceIds, NotificationFilter filter, boolean isAuthNeeded,
+                               DeviceNotificationsCallback notificationsCallback) {
+        isSubscribed = true;
+        notificationApi = createService(DeviceNotificationApi.class);
+        Period period = new Period(filter.getStartTimestamp(), filter.getEndTimestamp());
+        if (pollManyCall != null && pollManyCall.isExecuted()) {
+            pollManyCall.cancel();
+            pollManyCall = null;
+        }
+        pollManyCall = notificationApi.pollMany((long) period.toStandardSeconds().getSeconds(), deviceIds, filter.getNotificationNames(), filter.getStartTimestamp().toString());
+
+        pollManyCall.enqueue(getNotificationsAllCallback(deviceIds, filter, isAuthNeeded, notificationsCallback));
+
+    }
+
+
+
+    private Callback<List<com.devicehive.rest.model.DeviceNotification>> getNotificationsAllCallback(
+            final String deviceIds, final NotificationFilter filter, final boolean isAuthNeeded,
+            final DeviceNotificationsCallback notificationCallback) {
+        if (pollNotificationsCallback == null) {
+            pollNotificationsCallback = new Callback<List<com.devicehive.rest.model.DeviceNotification>>() {
+                public void onResponse(Call<List<com.devicehive.rest.model.DeviceNotification>> call,
+                                       Response<List<com.devicehive.rest.model.DeviceNotification>> response) {
+                    if (response.isSuccessful()) {
+                        List<DeviceNotification> notifications = new ArrayList<DeviceNotification>();
+                        notifications.addAll(DeviceNotification.createList(response.body()));
+                        notificationCallback.onSuccess(notifications);
+                        if (isSubscribed) {
+                            filter.setStartTimestamp(DateTime.now());
+                            filter.setEndTimestamp(DateTime.now().plusSeconds(30));
+                            pollManyNotifications(deviceIds, filter, false, notificationCallback);
+                        }
+                    } else if (response.code() == 401 && isAuthNeeded) {
+                        System.out.println("AUTH");
+                        authorize();
+                        pollManyNotifications(deviceIds, filter, false, notificationCallback);
+                    } else {
+                        notificationCallback.onFail(createFailData(response.code(), parseErrorMessage(response)));
+                        unsubscribeAll();
+                    }
+                }
+
+                public void onFailure(Call<List<com.devicehive.rest.model.DeviceNotification>> call, Throwable t) {
+                    if (!t.getMessage().equals(CANCELED)) {
+                        notificationCallback.onFail(new FailureData(FailureData.NO_CODE, t.getMessage()));
+                        unsubscribeAll();
+                    }
+
+                }
+            };
+        }
+        return pollNotificationsCallback;
     }
 
     public void unsubscribeAll() {

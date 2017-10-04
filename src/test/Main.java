@@ -245,7 +245,7 @@ public class Main {
         notificationFilter.setStartTimestamp(DateTime.now());
         notificationFilter.setEndTimestamp(DateTime.now().plusSeconds(10));
 
-        device.subscribeNotifications(notificationFilter, new DeviceNotificationCallback() {
+        device.subscribeNotifications(notificationFilter, new DeviceNotificationsCallback() {
             public void onSuccess(List<DeviceNotification> command) {
                 System.out.println(DateTime.now().toString());
                 System.out.println(command);
@@ -261,6 +261,38 @@ public class Main {
                 System.out.println("SUBSCRIBED FOR notificationZ");
                 notificationFilter.setNotificationNames("notificationZ");
                 device.unsubscribeNotifications(notificationFilter);
+            }
+        }), 30, TimeUnit.SECONDS);
+        latch.await();
+    }
+
+    @Test
+    public void subscribeManyNotifications() throws IOException, InterruptedException {
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        final NotificationFilter notificationFilter = new NotificationFilter();
+        notificationFilter.setNotificationNames("notificationA", "notificationB");
+        notificationFilter.setStartTimestamp(DateTime.now());
+        notificationFilter.setEndTimestamp(DateTime.now().plusSeconds(10));
+        final List<String> ids = new ArrayList<String>();
+        ids.add(DEVICE_ID);
+        ids.add("271990");
+        deviceHive.subscribeNotifications(ids, notificationFilter, new DeviceNotificationsCallback() {
+            public void onSuccess(List<DeviceNotification> command) {
+                System.out.println(DateTime.now().toString());
+                System.out.println(command);
+            }
+
+            public void onFail(FailureData failureData) {
+                System.out.println(failureData);
+            }
+        });
+        ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
+        service.schedule(new Thread(new Runnable() {
+            public void run() {
+                System.out.println("SUBSCRIBED FOR notificationZ");
+                notificationFilter.setNotificationNames("notificationZ");
+                deviceHive.unsubscribeNotifications(ids,notificationFilter);
             }
         }), 30, TimeUnit.SECONDS);
         latch.await();
