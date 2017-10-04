@@ -3,12 +3,12 @@ package com.devicehive.client;
 import com.devicehive.client.api.MainDeviceHive;
 import com.devicehive.client.callback.ResponseCallback;
 import com.devicehive.client.model.*;
-import com.devicehive.client.service.Device;
 import com.devicehive.client.model.Network;
 import com.devicehive.client.service.*;
+import com.devicehive.client.service.Device;
 import com.devicehive.rest.api.JwtTokenApi;
 import com.devicehive.rest.model.*;
-import okhttp3.WebSocketListener;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import retrofit2.Response;
 
@@ -27,6 +27,8 @@ public class DeviceHive implements MainDeviceHive {
     private String url;
     private DeviceCommandService deviceCommandService;
     private DeviceNotificationService notificationService;
+    private DeviceNotificationsCallback notificationPollManyCallback;
+    private DeviceCommandsCallback deviceCommandsPollManyCallback;
 
     private DeviceHive() {
     }
@@ -129,20 +131,27 @@ public class DeviceHive implements MainDeviceHive {
         return configurationService.removeProperty(name);
     }
 
-    public void subscribeCommands(List<String> ids, WebSocketListener callback, CommandFilter commandFilter) {
+    public void subscribeCommands(List<String> ids, CommandFilter commandFilter, DeviceCommandsCallback deviceCommandsPollManyCallback) {
+        String deviceIds = StringUtils.join(ids, ",");
+        this.deviceCommandsPollManyCallback = deviceCommandsPollManyCallback;
+        deviceCommandService.pollManyCommands(deviceIds, commandFilter, true, deviceCommandsPollManyCallback);
 
     }
 
-    public void subscribeNotifications(List<String> ids, WebSocketListener callback, NotificationFilter notificationFilter) {
-
+    public void subscribeNotifications(List<String> ids, NotificationFilter notificationFilter, DeviceNotificationsCallback notificationPollManyCallback) {
+        String deviceIds = StringUtils.join(ids, ",");
+        this.notificationPollManyCallback = notificationPollManyCallback;
+        notificationService.pollManyNotifications(deviceIds, notificationFilter, true, notificationPollManyCallback);
     }
 
     public void unsubscribeCommands(List<String> ids, CommandFilter commandFilter) {
-
+        String deviceIds = StringUtils.join(ids, ",");
+        deviceCommandService.pollManyCommands(deviceIds, commandFilter, true, deviceCommandsPollManyCallback);
     }
 
     public void unsubscribeNotifications(List<String> ids, NotificationFilter notificationFilter) {
-
+        String deviceIds = StringUtils.join(ids, ",");
+        notificationService.pollManyNotifications(deviceIds, notificationFilter, true, notificationPollManyCallback);
     }
 
     public DHResponse<List<Network>> listNetworks(NetworkFilter filter) throws IOException {
@@ -176,10 +185,6 @@ public class DeviceHive implements MainDeviceHive {
 
     public DHResponse<Void> putDevice(String id, String name) {
         return deviceService.createDevice(id, name);
-    }
-
-    public DeviceService getDeviceService() {
-        return deviceService;
     }
 
     public NetworkService getNetworkService() {

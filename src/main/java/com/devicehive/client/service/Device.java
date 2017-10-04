@@ -23,7 +23,7 @@ public class Device implements DeviceInterface {
 
     private Boolean isBlocked = false;
     private DeviceCommandsCallback commandCallback;
-    private DeviceNotificationCallback notificationCallback;
+    private DeviceNotificationsCallback notificationCallback;
 
     private Device() {
     }
@@ -80,7 +80,7 @@ public class Device implements DeviceInterface {
         DeviceHive.getInstance().getDeviceCommandService().pollCommands(id, commandFilter, true, commandCallback);
     }
 
-    public void subscribeNotifications(NotificationFilter notificationFilter, DeviceNotificationCallback notificationCallback) {
+    public void subscribeNotifications(NotificationFilter notificationFilter, DeviceNotificationsCallback notificationCallback) {
         this.notificationCallback = notificationCallback;
         DeviceHive.getInstance().getDeviceNotificationService().pollNotifications(id, notificationFilter, true, notificationCallback);
     }

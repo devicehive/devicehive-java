@@ -1,10 +1,9 @@
 package com.devicehive.client.api;
 
 import com.devicehive.client.model.*;
-import com.devicehive.client.service.Device;
 import com.devicehive.client.model.Network;
+import com.devicehive.client.service.Device;
 import com.devicehive.rest.model.*;
-import okhttp3.WebSocketListener;
 import org.joda.time.DateTime;
 
 import java.io.IOException;
@@ -26,9 +25,9 @@ public interface MainDeviceHive {
 
     DHResponse<Void> removeProperty(String name) throws IOException;
 
-    void subscribeCommands(List<String> ids, WebSocketListener callback, CommandFilter commandFilter);
+    void subscribeCommands(List<String> ids, CommandFilter commandFilter, DeviceCommandsCallback deviceCommandsPollManyCallback);
 
-    void subscribeNotifications(List<String> ids, WebSocketListener callback, NotificationFilter notificationFilter);
+    void subscribeNotifications(List<String> ids, NotificationFilter notificationFilter, DeviceNotificationsCallback notificationPollManyCallback);
 
     void unsubscribeCommands(List<String> ids, CommandFilter commandFilter);
 

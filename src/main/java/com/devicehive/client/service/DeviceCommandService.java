@@ -20,6 +20,7 @@ public class DeviceCommandService extends BaseService {
     private Call<List<com.devicehive.rest.model.DeviceCommand>> pollCall;
     private boolean isSubscribed = false;
     private Callback<List<com.devicehive.rest.model.DeviceCommand>> pollCommandsCallback;
+    private Call<List<com.devicehive.rest.model.DeviceCommand>> pollManyCall;
 
 
     public DHResponse<List<DeviceCommand>> getDeviceCommands(String deviceId, DateTime startTimestamp,
@@ -123,6 +124,60 @@ public class DeviceCommandService extends BaseService {
                         System.out.println("AUTH");
                         authorize();
                         pollCommands(deviceId, filter, false, commandsCallback);
+                    } else {
+                        commandsCallback.onFail(createFailData(response.code(), parseErrorMessage(response)));
+                        unsubscribeAll();
+                    }
+                }
+
+                public void onFailure(Call<List<com.devicehive.rest.model.DeviceCommand>> call, Throwable t) {
+                    if (!t.getMessage().equals(CANCELED)) {
+                        commandsCallback.onFail(new FailureData(FailureData.NO_CODE, t.getMessage()));
+                        unsubscribeAll();
+                    }
+
+                }
+            };
+        }
+        return pollCommandsCallback;
+    }
+
+    public void pollManyCommands(String deviceIds, CommandFilter filter, boolean isAuthNeeded,
+                                 DeviceCommandsCallback commandsCallback) {
+        isSubscribed = true;
+        deviceCommandApi = createService(DeviceCommandApi.class);
+        Period period = new Period(filter.getStartTimestamp(), filter.getEndTimestamp());
+        if (pollManyCall != null && pollManyCall.isExecuted()) {
+            pollManyCall.cancel();
+            pollManyCall = null;
+        }
+        pollManyCall = deviceCommandApi.pollMany(deviceIds, filter.getCommandNames(), filter.getStartTimestamp().toString(), (long) period.toStandardSeconds().getSeconds(), filter.getMaxNumber());
+
+        pollManyCall.enqueue(getCommandsAllCallback(deviceIds, filter, isAuthNeeded, commandsCallback));
+
+    }
+
+
+    private Callback<List<com.devicehive.rest.model.DeviceCommand>> getCommandsAllCallback(
+            final String deviceIds, final CommandFilter filter, final boolean isAuthNeeded,
+            final DeviceCommandsCallback commandsCallback) {
+        if (pollCommandsCallback == null) {
+            pollCommandsCallback = new Callback<List<com.devicehive.rest.model.DeviceCommand>>() {
+                public void onResponse(Call<List<com.devicehive.rest.model.DeviceCommand>> call,
+                                       Response<List<com.devicehive.rest.model.DeviceCommand>> response) {
+                    if (response.isSuccessful()) {
+                        List<DeviceCommand> notifications = new ArrayList<DeviceCommand>();
+                        notifications.addAll(DeviceCommand.createList(response.body()));
+                        commandsCallback.onSuccess(notifications);
+                        if (isSubscribed) {
+                            filter.setStartTimestamp(DateTime.now());
+                            filter.setEndTimestamp(DateTime.now().plusSeconds(30));
+                            pollManyCommands(deviceIds, filter, false, commandsCallback);
+                        }
+                    } else if (response.code() == 401 && isAuthNeeded) {
+                        System.out.println("AUTH");
+                        authorize();
+                        pollManyCommands(deviceIds, filter, false, commandsCallback);
                     } else {
                         commandsCallback.onFail(createFailData(response.code(), parseErrorMessage(response)));
                         unsubscribeAll();

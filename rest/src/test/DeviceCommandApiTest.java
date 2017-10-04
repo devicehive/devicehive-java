@@ -3,6 +3,7 @@ import com.devicehive.rest.model.DeviceCommand;
 import com.devicehive.rest.model.DeviceCommandWrapper;
 import com.devicehive.rest.model.JsonStringWrapper;
 import com.google.gson.Gson;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.json.JSONObject;
 import org.junit.Assert;
@@ -124,9 +125,10 @@ public class DeviceCommandApiTest extends TestHelper {
         String timestamp = currentTimestamp.toString();
 
 
-        List<String> deviceIds = new ArrayList<>();
-        deviceIds.add(deviceId1);
-        deviceIds.add(deviceId2);
+        List<String> list = new ArrayList<>();
+        list.add(deviceId1);
+        list.add(deviceId2);
+        String deviceIds = StringUtils.join(list, ",");
 
         Response<List<DeviceCommand>> pollResponse = commandApi.pollMany(
                 deviceIds,
