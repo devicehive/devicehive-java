@@ -85,7 +85,7 @@ public class DeviceTest {
             public void onFail(FailureData failureData) {
             }
         });
-        ScheduledExecutorService service = Executors.newScheduledThreadPool(3);
+        ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
         service.schedule(new Thread(new Runnable() {
             public void run() {
                 commandFilter.setCommandNames(COM_Z);
@@ -149,7 +149,7 @@ public class DeviceTest {
             public void onFail(FailureData failureData) {
             }
         });
-        ScheduledExecutorService service = Executors.newScheduledThreadPool(3);
+        ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
         service.schedule(new Thread(new Runnable() {
             public void run() {
                 notificationFilter.setNotificationNames(NOTIFICATION_Z);
