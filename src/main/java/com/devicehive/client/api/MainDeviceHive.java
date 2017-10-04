@@ -25,9 +25,9 @@ public interface MainDeviceHive {
 
     DHResponse<Void> removeProperty(String name) throws IOException;
 
-    void subscribeCommands(List<String> ids, CommandFilter commandFilter, DeviceCommandsCallback deviceCommandsPollManyCallback);
+    void subscribeCommands(List<String> ids, CommandFilter commandFilter, DeviceCommandsCallback commandsCallback);
 
-    void subscribeNotifications(List<String> ids, NotificationFilter notificationFilter, DeviceNotificationsCallback notificationPollManyCallback);
+    void subscribeNotifications(List<String> ids, NotificationFilter notificationFilter, DeviceNotificationsCallback notificationsCallback);
 
     void unsubscribeCommands(List<String> ids, CommandFilter commandFilter);
 

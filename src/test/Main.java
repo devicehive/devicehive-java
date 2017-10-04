@@ -292,7 +292,7 @@ public class Main {
             public void run() {
                 System.out.println("SUBSCRIBED FOR notificationZ");
                 notificationFilter.setNotificationNames("notificationZ");
-                deviceHive.unsubscribeNotifications(ids,notificationFilter);
+                deviceHive.unsubscribeNotifications(ids, notificationFilter);
             }
         }), 30, TimeUnit.SECONDS);
         latch.await();
@@ -311,6 +311,12 @@ public class Main {
 
         DHResponse<DeviceNotification> response = device.sendNotification("NOTIFICATION MESSAGE", parameters);
         Assert.assertTrue(response.isSuccessful());
+    }
+
+    @Test
+    public void getDevices() {
+        DHResponse<List<Device>> devices = deviceHive.listDevices(new DeviceFilter());
+
     }
 
     @Test

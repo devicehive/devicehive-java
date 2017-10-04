@@ -7,6 +7,8 @@ import lombok.Data;
 import org.joda.time.DateTime;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -28,7 +30,7 @@ public class Device implements DeviceInterface {
     private Device() {
     }
 
-    static Device createDeviceFromRestResponse(com.devicehive.rest.model.Device device) {
+    static Device create(com.devicehive.rest.model.Device device) {
         if (device == null) {
             return null;
         }
@@ -41,12 +43,25 @@ public class Device implements DeviceInterface {
         return result;
     }
 
+    static List<Device> list(List<com.devicehive.rest.model.Device> devices) {
+        List<Device> list = new ArrayList<Device>();
+        if (devices == null) {
+            return Collections.emptyList();
+        }
+        for (com.devicehive.rest.model.Device device :
+                devices) {
+            list.add(Device.create(device));
+
+        }
+        return list;
+    }
+
     public void save() {
         DeviceHive.getInstance().putDevice(id, name);
     }
 
     public List<DeviceCommand> getCommands(DateTime startTimestamp, DateTime endTimestamp, int maxNumber) throws IOException {
-        return DeviceHive.getInstance().getDeviceCommandService()
+        return DeviceHive.getInstance().getCommandService()
                 .getDeviceCommands(this.id, startTimestamp, endTimestamp, maxNumber).getData();
     }
 
@@ -65,7 +80,7 @@ public class Device implements DeviceInterface {
 
             }
         };
-        DeviceHive.getInstance().getDeviceCommandService()
+        DeviceHive.getInstance().getCommandService()
                 .sendCommand(id, command, parameters, resultCallback);
         return resultCallback;
     }
@@ -77,7 +92,7 @@ public class Device implements DeviceInterface {
 
     public void subscribeCommands(CommandFilter commandFilter, DeviceCommandsCallback commandCallback) {
         this.commandCallback = commandCallback;
-        DeviceHive.getInstance().getDeviceCommandService().pollCommands(id, commandFilter, true, commandCallback);
+        DeviceHive.getInstance().getCommandService().pollCommands(id, commandFilter, true, commandCallback);
     }
 
     public void subscribeNotifications(NotificationFilter notificationFilter, DeviceNotificationsCallback notificationCallback) {
@@ -86,11 +101,11 @@ public class Device implements DeviceInterface {
     }
 
     public void unsubscribeCommands(CommandFilter commandFilter) {
-        DeviceHive.getInstance().getDeviceCommandService().pollCommands(id, commandFilter, true, commandCallback);
+        DeviceHive.getInstance().getCommandService().pollCommands(id, commandFilter, true, commandCallback);
     }
 
     public void unsubscribeAll() {
-        DeviceHive.getInstance().getDeviceCommandService().unsubscribeAll();
+        DeviceHive.getInstance().getCommandService().unsubscribeAll();
         DeviceHive.getInstance().getDeviceNotificationService().unsubscribeAll();
     }
 
