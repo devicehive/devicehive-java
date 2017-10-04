@@ -1,10 +1,8 @@
 import com.devicehive.client.DeviceHive;
 import com.devicehive.client.callback.ResponseCallback;
 import com.devicehive.client.model.*;
-import com.devicehive.client.service.Device;
-import com.devicehive.client.model.DeviceCommand;
-import com.devicehive.client.model.DeviceNotification;
 import com.devicehive.client.model.Network;
+import com.devicehive.client.service.Device;
 import com.devicehive.rest.model.*;
 import org.joda.time.DateTime;
 import org.junit.Assert;
@@ -18,18 +16,16 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class Main {
+public class DeviceHiveTest {
 
     private static final String URL = "http://playground.dev.devicehive.com/api/rest/";
-    private static final String DEVICE_ID = "271990123";
-    public static final String DEVICE_NAME = "JAVA LIB TEST";
-    public static final String COMMAND_NAME = "TEST_COMMAND";
-    public static final String PROP = "TEST_PROP";
-    public static final String VALUE = "TEST_VALUE";
     private String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTM2OTI1MTA2NDM1LCJ0b2tlblR5cGUiOiJBQ0NFU1MifX0.DVRKVgrtnv35MWwxR1T8bLm83-RJCfloYuoEjvYPQ4s";
     private String refreshToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTM2OTI1MTA2NDM1LCJ0b2tlblR5cGUiOiJSRUZSRVNIIn19.7alYTD5kb_imglE7NyRhjQBFqXhqpfJJs-ZA68yJZiQ";
+
+    private static final String DEVICE_ID = "271990123";
+    private static final String DEVICE_ID2 = "271990";
+
     private DeviceHive deviceHive = DeviceHive.getInstance().setup(URL, new TokenAuth(refreshToken, accessToken));
-    private Device device = deviceHive.getDevice(DEVICE_ID);
 
     @Test
     public void apiInfoTest() throws InterruptedException {
@@ -175,96 +171,6 @@ public class Main {
 
     }
 
-    @Test
-    public void createDevice() throws IOException {
-    }
-
-    @Test
-    public void getCommands() throws IOException {
-        ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
-        service.schedule(new Thread(new Runnable() {
-            public void run() {
-                try {
-                    List<Parameter> parameters = new ArrayList<Parameter>();
-
-                    parameters.add(new Parameter("Param 1", "Value 1"));
-                    parameters.add(new Parameter("Param 2", "Value 2"));
-                    parameters.add(new Parameter("Param 3", "Value 3"));
-                    parameters.add(new Parameter("Param 4", "Value 4"));
-                    device.sendCommand("Command TEST", parameters);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }), 5, TimeUnit.SECONDS);
-        System.out.println(device);
-
-        List<DeviceCommand> list =
-                device.getCommands(DateTime.now(), DateTime.now().plusMinutes(1), 30);
-        System.out.println(list.get(0).getCommandName());
-
-    }
-
-    @Test
-    public void subscribeCommands() throws IOException, InterruptedException {
-        final CountDownLatch latch = new CountDownLatch(1);
-
-        final CommandFilter commandFilter = new CommandFilter();
-        commandFilter.setCommandNames("comA", "comB");
-        commandFilter.setStartTimestamp(DateTime.now());
-        commandFilter.setEndTimestamp(DateTime.now().plusSeconds(10));
-        commandFilter.setMaxNumber(30);
-
-        device.subscribeCommands(commandFilter, new DeviceCommandsCallback() {
-            public void onSuccess(List<DeviceCommand> command) {
-                System.out.println(DateTime.now().toString());
-                System.out.println(command);
-            }
-
-            public void onFail(FailureData failureData) {
-                System.out.println(failureData);
-            }
-        });
-        ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
-        service.schedule(new Thread(new Runnable() {
-            public void run() {
-                System.out.println("SUBSCRIBED FOR comZ");
-                commandFilter.setCommandNames("comZ");
-                device.unsubscribeCommands(commandFilter);
-            }
-        }), 30, TimeUnit.SECONDS);
-        latch.await();
-    }
-
-    @Test
-    public void subscribeNotifications() throws IOException, InterruptedException {
-        final CountDownLatch latch = new CountDownLatch(1);
-
-        final NotificationFilter notificationFilter = new NotificationFilter();
-        notificationFilter.setNotificationNames("notificationA", "notificationB");
-        notificationFilter.setStartTimestamp(DateTime.now());
-        notificationFilter.setEndTimestamp(DateTime.now().plusSeconds(10));
-
-        device.subscribeNotifications(notificationFilter, new DeviceNotificationsCallback() {
-            public void onSuccess(List<DeviceNotification> command) {
-                System.out.println(DateTime.now().toString());
-                System.out.println(command);
-            }
-
-            public void onFail(FailureData failureData) {
-                System.out.println(failureData);
-            }
-        });
-        ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
-        service.schedule(new Thread(new Runnable() {
-            public void run() {
-                System.out.println("SUBSCRIBED FOR notificationZ");
-                notificationFilter.setNotificationNames("notificationZ");
-                device.unsubscribeNotifications(notificationFilter);
-            }
-        }), 30, TimeUnit.SECONDS);
-        latch.await();
-    }
 
     @Test
     public void subscribeManyNotifications() throws IOException, InterruptedException {
@@ -276,11 +182,11 @@ public class Main {
         notificationFilter.setEndTimestamp(DateTime.now().plusSeconds(10));
         final List<String> ids = new ArrayList<String>();
         ids.add(DEVICE_ID);
-        ids.add("271990");
+        ids.add(DEVICE_ID2);
         deviceHive.subscribeNotifications(ids, notificationFilter, new DeviceNotificationsCallback() {
-            public void onSuccess(List<DeviceNotification> command) {
+            public void onSuccess(List<com.devicehive.client.model.DeviceNotification> notifications) {
                 System.out.println(DateTime.now().toString());
-                System.out.println(command);
+                System.out.println(notifications);
             }
 
             public void onFail(FailureData failureData) {
@@ -299,47 +205,8 @@ public class Main {
     }
 
     @Test
-    public void sendNotification() throws IOException {
-
-
-        List<Parameter> parameters = new ArrayList<Parameter>();
-
-        parameters.add(new Parameter("Param 1", "Value 1"));
-        parameters.add(new Parameter("Param 2", "Value 2"));
-        parameters.add(new Parameter("Param 3", "Value 3"));
-        parameters.add(new Parameter("Param 4", "Value 4"));
-
-        DHResponse<DeviceNotification> response = device.sendNotification("NOTIFICATION MESSAGE", parameters);
-        Assert.assertTrue(response.isSuccessful());
-    }
-
-    @Test
     public void getDevices() {
         DHResponse<List<Device>> devices = deviceHive.listDevices(new DeviceFilter());
     }
 
-    @Test
-    public void getNotification() throws IOException {
-
-        ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
-        service.schedule(new Thread(new Runnable() {
-            public void run() {
-                try {
-                    List<Parameter> parameters = new ArrayList<Parameter>();
-
-                    parameters.add(new Parameter("Param 1", "Value 1"));
-                    parameters.add(new Parameter("Param 2", "Value 2"));
-                    parameters.add(new Parameter("Param 3", "Value 3"));
-                    parameters.add(new Parameter("Param 4", "Value 4"));
-                    device.sendNotification("NOTIFICATION MESSAGE", parameters);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }), 5, TimeUnit.SECONDS);
-
-        List<DeviceNotification> response = device.getNotifications(DateTime.now(), DateTime.now().plusMinutes(1));
-        System.out.println(response);
-        Assert.assertTrue(response.size() > 0);
-    }
 }

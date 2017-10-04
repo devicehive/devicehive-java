@@ -5,11 +5,9 @@ import com.devicehive.rest.api.ConfigurationApi;
 import com.devicehive.rest.model.Configuration;
 import com.devicehive.rest.model.ValueProperty;
 
-import java.io.IOException;
-
 public class ConfigurationService extends BaseService {
 
-    public DHResponse<Configuration> getProperty(String name) throws IOException {
+    public DHResponse<Configuration> getProperty(String name) {
         ConfigurationApi configurationApi = createService(ConfigurationApi.class);
         DHResponse<Configuration> response = execute(configurationApi.get(name));
         if (response.isSuccessful()) {
@@ -23,7 +21,7 @@ public class ConfigurationService extends BaseService {
         }
     }
 
-    public DHResponse<Configuration> setProperty(String name, String value) throws IOException {
+    public DHResponse<Configuration> setProperty(String name, String value) {
         ConfigurationApi configurationApi = apiClient.createService(ConfigurationApi.class);
         ValueProperty body = new ValueProperty();
         body.setValue(value);
@@ -39,7 +37,7 @@ public class ConfigurationService extends BaseService {
         }
     }
 
-    public DHResponse<Void> removeProperty(String name) throws IOException {
+    public DHResponse<Void> removeProperty(String name) {
         ConfigurationApi configurationApi = createService(ConfigurationApi.class);
 
         DHResponse<Void> response = execute(configurationApi.deleteProperty(name));

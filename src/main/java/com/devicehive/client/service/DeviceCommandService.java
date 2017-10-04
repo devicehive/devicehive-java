@@ -9,7 +9,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,13 +23,13 @@ public class DeviceCommandService extends BaseService {
 
 
     public DHResponse<List<DeviceCommand>> getDeviceCommands(String deviceId, DateTime startTimestamp,
-                                                             DateTime endTimestamp, int maxNumber) throws IOException {
+                                                             DateTime endTimestamp, int maxNumber)  {
         return getDeviceCommands(deviceId, null, startTimestamp, endTimestamp, maxNumber);
     }
 
     private DHResponse<List<DeviceCommand>> getDeviceCommands(String deviceId, String deviceIds,
                                                               DateTime startTimestamp, DateTime endTimestamp,
-                                                              int maxNumber) throws IOException {
+                                                              int maxNumber)  {
 
         deviceCommandApi = createService(DeviceCommandApi.class);
 
@@ -60,7 +59,7 @@ public class DeviceCommandService extends BaseService {
 
     }
 
-    public DHResponse<DeviceCommand> sendCommand(String deviceId, String command, List<Parameter> parameters, DeviceCommandCallback resultCallback) throws IOException {
+    public DHResponse<DeviceCommand> sendCommand(String deviceId, String command, List<Parameter> parameters, DeviceCommandCallback resultCallback) {
         deviceCommandApi = createService(DeviceCommandApi.class);
         DHResponse<DeviceCommand> response;
         DeviceCommandWrapper wrapper = createDeviceCommandWrapper(command, parameters);
