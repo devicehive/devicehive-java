@@ -6,7 +6,6 @@ import com.devicehive.rest.model.JsonStringWrapper;
 import lombok.Data;
 import org.joda.time.DateTime;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -60,12 +59,12 @@ public class Device implements DeviceInterface {
         DeviceHive.getInstance().putDevice(id, name);
     }
 
-    public List<DeviceCommand> getCommands(DateTime startTimestamp, DateTime endTimestamp, int maxNumber)  {
+    public List<DeviceCommand> getCommands(DateTime startTimestamp, DateTime endTimestamp, int maxNumber) {
         return DeviceHive.getInstance().getCommandService()
                 .getDeviceCommands(this.id, startTimestamp, endTimestamp, maxNumber).getData();
     }
 
-    public List<DeviceNotification> getNotifications(DateTime startTimestamp, DateTime endTimestamp)  {
+    public List<DeviceNotification> getNotifications(DateTime startTimestamp, DateTime endTimestamp) {
         return DeviceHive.getInstance().getDeviceNotificationService().getDeviceNotifications(id, startTimestamp, endTimestamp).getData();
     }
 
@@ -85,7 +84,7 @@ public class Device implements DeviceInterface {
         return resultCallback;
     }
 
-    public DHResponse<DeviceNotification> sendNotification(String notification, List<Parameter> parameters)  {
+    public DHResponse<DeviceNotification> sendNotification(String notification, List<Parameter> parameters) {
         return DeviceHive.getInstance().getDeviceNotificationService().sendNotification(id, notification,
                 parameters);
     }
@@ -104,9 +103,12 @@ public class Device implements DeviceInterface {
         DeviceHive.getInstance().getCommandService().pollCommands(id, commandFilter, true, commandCallback);
     }
 
-    public void unsubscribeAll() {
-        DeviceHive.getInstance().getCommandService().unsubscribeAll();
+    public void unsubscribeNotifications() {
         DeviceHive.getInstance().getDeviceNotificationService().unsubscribeAll();
+    }
+
+    public void unsubscribeCommands() {
+        DeviceHive.getInstance().getCommandService().unsubscribe();
     }
 
     public void unsubscribeNotifications(NotificationFilter notificationFilter) {
