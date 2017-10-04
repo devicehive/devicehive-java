@@ -201,7 +201,7 @@ public class DeviceHiveTest {
                 deviceHive.unsubscribeNotifications(ids, notificationFilter);
             }
         }), 30, TimeUnit.SECONDS);
-        latch.await();
+        latch.await(60, TimeUnit.SECONDS);
     }
 
     @Test
