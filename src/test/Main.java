@@ -316,7 +316,6 @@ public class Main {
     @Test
     public void getDevices() {
         DHResponse<List<Device>> devices = deviceHive.listDevices(new DeviceFilter());
-
     }
 
     @Test
