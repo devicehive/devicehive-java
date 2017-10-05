@@ -3,6 +3,12 @@ package com.devicehive.client.service;
 import com.devicehive.client.DeviceHive;
 import com.devicehive.client.model.*;
 import com.devicehive.rest.model.JsonStringWrapper;
+import com.devicehive.websocket.api.CommandWS;
+import com.devicehive.websocket.listener.CommandListener;
+import com.devicehive.websocket.model.repsonse.CommandInsertResponse;
+import com.devicehive.websocket.model.repsonse.CommandSubscribeResponse;
+import com.devicehive.websocket.model.repsonse.ErrorResponse;
+import com.devicehive.websocket.model.repsonse.ResponseAction;
 import lombok.Data;
 import org.joda.time.DateTime;
 
@@ -14,6 +20,7 @@ import java.util.List;
 public class Device implements DeviceInterface {
 
 
+    private CommandWS commandWS;
     private String id = null;
 
     private String name = null;
@@ -25,8 +32,29 @@ public class Device implements DeviceInterface {
     private Boolean isBlocked = false;
     private DeviceCommandsCallback commandCallback;
     private DeviceNotificationsCallback notificationCallback;
+    public String subscriptionId;
+    private CommandListener commandListener = new CommandListener() {
+
+
+        @Override
+        public void onInsert(CommandInsertResponse response) {
+            commandCallback.onSuccess(DeviceCommand.create(response.getCommand()));
+        }
+
+        public void onSubscribe(CommandSubscribeResponse response) {
+            subscriptionId = response.getSubscriptionId();
+        }
+
+        public void onUnsubscribe(ResponseAction response) {
+        }
+
+        public void onError(ErrorResponse error) {
+            FailureData.create(error);
+        }
+    };
 
     private Device() {
+        commandWS = DeviceHive.getInstance().getWsClient().createCommandWS(commandListener);
     }
 
     static Device create(com.devicehive.rest.model.Device device) {
@@ -89,9 +117,15 @@ public class Device implements DeviceInterface {
                 parameters);
     }
 
-    public void subscribeCommands(CommandFilter commandFilter, DeviceCommandsCallback commandCallback) {
+    public void subscribeCommands(CommandFilter commandFilter, final DeviceCommandsCallback commandCallback) {
         this.commandCallback = commandCallback;
-        DeviceHive.getInstance().getCommandService().pollCommands(id, commandFilter, true, commandCallback);
+        commandWS.subscribe(null,
+                commandFilter.getCommandNames(),
+                id,
+                null,
+                commandFilter.getStartTimestamp(),
+                commandFilter.getMaxNumber());
+
     }
 
     public void subscribeNotifications(NotificationFilter notificationFilter, DeviceNotificationsCallback notificationCallback) {
@@ -100,16 +134,24 @@ public class Device implements DeviceInterface {
     }
 
     public void unsubscribeCommands(CommandFilter commandFilter) {
-        DeviceHive.getInstance().getCommandService().pollCommands(id, commandFilter, true, commandCallback);
+        commandWS.subscribe(null,
+                commandFilter.getCommandNames(),
+                id,
+                null,
+                commandFilter.getStartTimestamp(),
+                commandFilter.getMaxNumber());
+    }
+
+    public void unsubscribeAllCommands() {
+        if (commandWS != null && subscriptionId != null) {
+            commandWS.unsubscribe(null, subscriptionId, Collections.singletonList(id));
+        }
     }
 
     public void unsubscribeNotifications() {
         DeviceHive.getInstance().getDeviceNotificationService().unsubscribeAll();
     }
 
-    public void unsubscribeCommands() {
-        DeviceHive.getInstance().getCommandService().unsubscribe();
-    }
 
     public void unsubscribeNotifications(NotificationFilter notificationFilter) {
         DeviceHive.getInstance().getDeviceNotificationService().pollNotifications(id, notificationFilter, true, notificationCallback);

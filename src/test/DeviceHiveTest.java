@@ -19,13 +19,14 @@ import java.util.concurrent.TimeUnit;
 public class DeviceHiveTest {
 
     private static final String URL = "http://playground.dev.devicehive.com/api/rest/";
+    private static final String WS_URL = "ws://playground.dev.devicehive.com/api/websocket";
     private String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTM2OTI1MTA2NDM1LCJ0b2tlblR5cGUiOiJBQ0NFU1MifX0.DVRKVgrtnv35MWwxR1T8bLm83-RJCfloYuoEjvYPQ4s";
     private String refreshToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTM2OTI1MTA2NDM1LCJ0b2tlblR5cGUiOiJSRUZSRVNIIn19.7alYTD5kb_imglE7NyRhjQBFqXhqpfJJs-ZA68yJZiQ";
 
     private static final String DEVICE_ID = "271990123";
     private static final String DEVICE_ID2 = "271990";
 
-    private DeviceHive deviceHive = DeviceHive.getInstance().setup(URL, new TokenAuth(refreshToken, accessToken));
+    private DeviceHive deviceHive = DeviceHive.getInstance().setup(URL, WS_URL, new TokenAuth(refreshToken, accessToken));
 
     @Test
     public void apiInfoTest() throws InterruptedException {

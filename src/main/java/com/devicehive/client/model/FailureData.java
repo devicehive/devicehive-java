@@ -1,5 +1,6 @@
 package com.devicehive.client.model;
 
+import com.devicehive.websocket.model.repsonse.ErrorResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -12,5 +13,9 @@ public class FailureData {
 
     private int code;
     private String message;
+
+    public static FailureData create(ErrorResponse response) {
+        return new FailureData(response.getCode(), response.getError());
+    }
 
 }

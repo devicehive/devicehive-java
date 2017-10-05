@@ -1,7 +1,9 @@
 package com.devicehive.websocket.model.repsonse;
 
 import com.google.gson.annotations.SerializedName;
+import lombok.Data;
 
+@Data
 public class CommandSubscribeResponse extends ResponseAction {
     @SerializedName("subscriptionId")
     String subscriptionId;

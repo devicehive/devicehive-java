@@ -8,12 +8,11 @@ import com.devicehive.client.service.*;
 import com.devicehive.client.service.Device;
 import com.devicehive.rest.api.JwtTokenApi;
 import com.devicehive.rest.model.*;
+import com.devicehive.websocket.api.WebSocketClient;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import retrofit2.Response;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.List;
 
@@ -29,6 +28,7 @@ public class DeviceHive implements MainDeviceHive {
     private DeviceNotificationService notificationService;
     private DeviceNotificationsCallback notificationsCallback;
     private DeviceCommandsCallback commandsCallback;
+    private String wsUrl;
 
     private DeviceHive() {
     }
@@ -41,13 +41,22 @@ public class DeviceHive implements MainDeviceHive {
         return url;
     }
 
+    String getWSUrl() {
+        return wsUrl;
+    }
+
+    public WebSocketClient getWsClient() {
+        return WSHelper.getInstance().getWebSocketClient();
+    }
+
     public static DeviceHive getInstance() {
         return DeviceHive.InstanceHolder.INSTANCE;
     }
 
 
-    public DeviceHive setup(@Nonnull String url, @Nonnull TokenAuth tokenAuth) {
+    public DeviceHive setup(String url, String wsUrl, TokenAuth tokenAuth) {
         this.url = url;
+        this.wsUrl = wsUrl;
         this.setAuth(tokenAuth.getAccessToken(), tokenAuth.getRefreshToken());
         this.createServices();
         return this;
@@ -134,7 +143,7 @@ public class DeviceHive implements MainDeviceHive {
     public void subscribeCommands(List<String> ids, CommandFilter commandFilter, DeviceCommandsCallback commandsCallback) {
         String deviceIds = StringUtils.join(ids, ",");
         this.commandsCallback = commandsCallback;
-        commandService.pollManyCommands(deviceIds, commandFilter, true, commandsCallback);
+//        commandService.pollManyCommands(deviceIds, commandFilter, true, commandsCallback);
 
     }
 
@@ -146,7 +155,7 @@ public class DeviceHive implements MainDeviceHive {
 
     public void unsubscribeCommands(List<String> ids, CommandFilter commandFilter) {
         String deviceIds = StringUtils.join(ids, ",");
-        commandService.pollManyCommands(deviceIds, commandFilter, true, commandsCallback);
+//        commandService.pollManyCommands(deviceIds, commandFilter, true, commandsCallback);
     }
 
     public void unsubscribeNotifications(List<String> ids, NotificationFilter notificationFilter) {
@@ -178,7 +187,6 @@ public class DeviceHive implements MainDeviceHive {
         return deviceService.removeDevice(id);
     }
 
-    @Nullable
     public Device getDevice(String id) {
         return deviceService.getDevice(id);
     }

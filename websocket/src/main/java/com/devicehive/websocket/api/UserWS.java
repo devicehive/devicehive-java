@@ -1,6 +1,5 @@
 package com.devicehive.websocket.api;
 
-import com.devicehive.websocket.adapter.JsonStringWrapperAdapterFactory;
 import com.devicehive.websocket.listener.UserListener;
 import com.devicehive.websocket.model.RoleEnum;
 import com.devicehive.websocket.model.SortOrder;
@@ -9,8 +8,6 @@ import com.devicehive.websocket.model.repsonse.*;
 import com.devicehive.websocket.model.request.*;
 import com.devicehive.websocket.model.request.data.User;
 import com.devicehive.websocket.model.request.data.UserUpdate;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import okhttp3.WebSocket;
 
 import javax.annotation.Nullable;
@@ -36,9 +33,6 @@ public class UserWS extends BaseWebSocketApi implements UserApi {
     @Override
     public void onSuccess(String message) {
         ResponseAction action = getResponseAction(message);
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapterFactory(new JsonStringWrapperAdapterFactory())
-                .create();
         if (action.compareAction(USER_LIST)) {
             UserListResponse response = gson.fromJson(message, UserListResponse.class);
             listener.onList(response);
@@ -68,7 +62,7 @@ public class UserWS extends BaseWebSocketApi implements UserApi {
     }
 
     @Override
-    public void list(@Nullable Long requestId, String login, String loginPattern, StatusEnum status, RoleEnum role, String sortField, SortOrder sortOrder, Integer take, Integer skip) {
+    public void list( Long requestId, String login, String loginPattern, StatusEnum status, RoleEnum role, String sortField, SortOrder sortOrder, Integer take, Integer skip) {
         UserListAction action = new UserListAction();
         action.setRequestId(requestId);
         action.setLogin(login);
@@ -83,7 +77,7 @@ public class UserWS extends BaseWebSocketApi implements UserApi {
     }
 
     @Override
-    public void get(@Nullable Long requestId, Long userId) {
+    public void get( Long requestId, Long userId) {
         UserGetAction action = new UserGetAction();
         action.setRequestId(requestId);
         action.setUserId(userId);
@@ -91,7 +85,7 @@ public class UserWS extends BaseWebSocketApi implements UserApi {
     }
 
     @Override
-    public void insert(@Nullable Long requestId, User user) {
+    public void insert( Long requestId, User user) {
         UserInsertAction action = new UserInsertAction();
         action.setRequestId(requestId);
         action.setUser(user);
@@ -99,7 +93,7 @@ public class UserWS extends BaseWebSocketApi implements UserApi {
     }
 
     @Override
-    public void update(@Nullable Long requestId, Long userId, UserUpdate user) {
+    public void update( Long requestId, Long userId, UserUpdate user) {
         UserUpdateAction action = new UserUpdateAction();
         action.setRequestId(requestId);
         action.setUserId(userId);
@@ -108,7 +102,7 @@ public class UserWS extends BaseWebSocketApi implements UserApi {
     }
 
     @Override
-    public void delete(@Nullable Long requestId, Long userId) {
+    public void delete( Long requestId, Long userId) {
         UserDeleteAction action = new UserDeleteAction();
         action.setRequestId(requestId);
         action.setUserId(userId);
@@ -116,14 +110,14 @@ public class UserWS extends BaseWebSocketApi implements UserApi {
     }
 
     @Override
-    public void getCurrent(@Nullable Long requestId) {
+    public void getCurrent( Long requestId) {
         UserGetCurrentAction action = new UserGetCurrentAction();
         action.setRequestId(requestId);
         send(action);
     }
 
     @Override
-    public void updateCurrent(@Nullable Long requestId, UserUpdate user) {
+    public void updateCurrent( Long requestId, UserUpdate user) {
         UserUpdateCurrentAction action = new UserUpdateCurrentAction();
         action.setRequestId(requestId);
         action.setUser(user);
@@ -131,7 +125,7 @@ public class UserWS extends BaseWebSocketApi implements UserApi {
     }
 
     @Override
-    public void getNetwork(@Nullable Long requestId, Long userId, Long networkId) {
+    public void getNetwork( Long requestId, Long userId, Long networkId) {
         UserGetNetworkAction action = new UserGetNetworkAction();
         action.setRequestId(requestId);
         action.setUserId(userId);
@@ -140,7 +134,7 @@ public class UserWS extends BaseWebSocketApi implements UserApi {
     }
 
     @Override
-    public void assignNetwork(@Nullable Long requestId, Long userId, Long networkId) {
+    public void assignNetwork( Long requestId, Long userId, Long networkId) {
         UserAssignNetworkAction action = new UserAssignNetworkAction();
         action.setRequestId(requestId);
         action.setUserId(userId);
@@ -149,7 +143,7 @@ public class UserWS extends BaseWebSocketApi implements UserApi {
     }
 
     @Override
-    public void unassignNetwork(@Nullable Long requestId, Long userId, Long networkId) {
+    public void unassignNetwork( Long requestId, Long userId, Long networkId) {
         UserUnassignNetworkAction action = new UserUnassignNetworkAction();
         action.setRequestId(requestId);
         action.setUserId(userId);

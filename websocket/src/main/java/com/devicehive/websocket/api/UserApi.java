@@ -10,25 +10,25 @@ import javax.annotation.Nullable;
 
 interface UserApi {
 
-    void list(@Nullable Long requestId, String login, String loginPattern, StatusEnum status, RoleEnum role,
+    void list( Long requestId, String login, String loginPattern, StatusEnum status, RoleEnum role,
               String sortField, SortOrder sortOrder, Integer take, Integer skip);
 
-    void get(@Nullable Long requestId, Long userId);
+    void get( Long requestId, Long userId);
 
-    void insert(@Nullable Long requestId, User user);
+    void insert( Long requestId, User user);
 
-    void update(@Nullable Long requestId, Long userId, UserUpdate user);
+    void update( Long requestId, Long userId, UserUpdate user);
 
-    void delete(@Nullable Long requestId, Long userId);
+    void delete( Long requestId, Long userId);
 
-    void getCurrent(@Nullable Long requestId);
+    void getCurrent( Long requestId);
 
-    void updateCurrent(@Nullable Long requestId, UserUpdate user);
+    void updateCurrent( Long requestId, UserUpdate user);
 
-    void getNetwork(@Nullable Long requestId, Long userId, Long networkId);
+    void getNetwork( Long requestId, Long userId, Long networkId);
 
-    void assignNetwork(@Nullable Long requestId, Long userId, Long networkId);
+    void assignNetwork( Long requestId, Long userId, Long networkId);
 
-    void unassignNetwork(@Nullable Long requestId, Long userId, Long networkId);
+    void unassignNetwork( Long requestId, Long userId, Long networkId);
 
 }

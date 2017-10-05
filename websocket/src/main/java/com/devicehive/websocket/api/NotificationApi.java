@@ -9,14 +9,14 @@ import java.util.List;
 
  interface NotificationApi {
 
-    void list(@Nullable Long requestId, String deviceId, String notification, DateTime start, DateTime end,
+    void list( Long requestId, String deviceId, String notification, DateTime start, DateTime end,
               String sortField, SortOrder sortOrder, int take, int skip);
 
-    void get(@Nullable Long requestId, String deviceId, Long notificationId);
+    void get( Long requestId, String deviceId, Long notificationId);
 
-    void insert(@Nullable Long requestId, String deviceId, DeviceNotificationWrapper notification);
+    void insert( Long requestId, String deviceId, DeviceNotificationWrapper notification);
 
-    void subscribe(@Nullable Long requestId, String deviceId, List<String> deviceIds, List<String> names);
+    void subscribe( Long requestId, String deviceId, List<String> deviceIds, List<String> names);
 
-    void unsubscribe(@Nullable Long requestId, List<String> deviceIds, String subscriptionId);
+    void unsubscribe( Long requestId, List<String> deviceIds, String subscriptionId);
 }
