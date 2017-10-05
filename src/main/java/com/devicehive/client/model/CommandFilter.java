@@ -1,24 +1,27 @@
 package com.devicehive.client.model;
 
-import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class CommandFilter {
 
-    private String commandNames;
+    public List<String> getCommandNames() {
+        return commandNames;
+    }
+
+    public void setCommandNames(String... commandNames) {
+        this.commandNames = Arrays.asList(commandNames);
+    }
+
+    private List<String> commandNames;
     private DateTime startTimestamp;
     private DateTime endTimestamp;
     private SortOrder sortOrder;
     private SortField sortField;
     private int maxNumber;
 
-    public void setCommandNames(String... commandNames) {
-        this.commandNames = StringUtils.join(commandNames, ",");
-    }
-
-    public String getCommandNames() {
-        return commandNames;
-    }
 
     public SortOrder getSortOrder() {
         return sortOrder;

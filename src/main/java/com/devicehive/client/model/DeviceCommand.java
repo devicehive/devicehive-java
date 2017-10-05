@@ -1,6 +1,6 @@
 package com.devicehive.client.model;
 
-import com.devicehive.rest.model.JsonStringWrapper;
+import com.devicehive.websocket.model.repsonse.data.JsonStringWrapper;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -27,6 +27,18 @@ public class DeviceCommand {
 
     private JsonStringWrapper parameters = null;
 
+    public static DeviceCommand create(com.devicehive.websocket.model.repsonse.data.DeviceCommand command) {
+        if (command == null) {
+            return null;
+        }
+        DeviceCommand deviceCommand = new DeviceCommand();
+        deviceCommand.commandName = command.getCommandName();
+        deviceCommand.id = command.getId();
+        deviceCommand.deviceId = command.getDeviceId();
+        deviceCommand.parameters = command.getParameters();
+        return deviceCommand;
+    }
+
     public static DeviceCommand create(com.devicehive.rest.model.DeviceCommand command) {
         if (command == null) {
             return null;
@@ -35,16 +47,16 @@ public class DeviceCommand {
         deviceCommand.commandName = command.getCommand();
         deviceCommand.id = command.getId();
         deviceCommand.deviceId = command.getDeviceId();
-        deviceCommand.parameters = command.getParameters();
+//        deviceCommand.parameters = command.getParameters().toString();
         return deviceCommand;
     }
 
-    public static List<DeviceCommand> createList(List<com.devicehive.rest.model.DeviceCommand> commands) {
+    public static List<DeviceCommand> createList(List<com.devicehive.websocket.model.repsonse.data.DeviceCommand> commands) {
         List<DeviceCommand> list = new ArrayList<DeviceCommand>();
         if (commands == null) {
             return Collections.emptyList();
         }
-        for (com.devicehive.rest.model.DeviceCommand deviceCommand :
+        for (com.devicehive.websocket.model.repsonse.data.DeviceCommand deviceCommand :
                 commands) {
             list.add(DeviceCommand.create(deviceCommand));
 

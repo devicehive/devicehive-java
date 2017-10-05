@@ -18,6 +18,7 @@ public class DeviceTest {
     private static final String DEVICE_ID = "271990123";
 
     private static final String URL = "***REMOVED***/";
+    private static final String WS_URL = "ws://playground.dev.devicehive.com/api/websocket";
     public static final String NOTIFICATION_A = "notificationA";
     public static final String NOTIFICATION_B = "notificationB";
     public static final String NOTIFICATION_Z = "notificationZ";
@@ -28,7 +29,7 @@ public class DeviceTest {
     private String refreshToken = "***REMOVED***";
 
 
-    private DeviceHive deviceHive = DeviceHive.getInstance().setup(URL, new TokenAuth(refreshToken, accessToken));
+    private DeviceHive deviceHive = DeviceHive.getInstance().setup(URL, WS_URL, new TokenAuth(refreshToken, accessToken));
     private Device device = deviceHive.getDevice(DEVICE_ID);
 
 
@@ -57,7 +58,7 @@ public class DeviceTest {
 
     @Test
     public void subscribeCommands() throws IOException, InterruptedException {
-        final CountDownLatch latch = new CountDownLatch(1);
+        final CountDownLatch latch = new CountDownLatch(3);
 
         final CommandFilter commandFilter = new CommandFilter();
         commandFilter.setCommandNames(COM_A, COM_B);
@@ -65,27 +66,7 @@ public class DeviceTest {
         commandFilter.setEndTimestamp(DateTime.now().plusSeconds(10));
         commandFilter.setMaxNumber(30);
 
-        device.subscribeCommands(commandFilter, new DeviceCommandsCallback() {
-            public void onSuccess(List<DeviceCommand> commands) {
-                for (DeviceCommand command : commands) {
-                    if (command.getCommandName().equals(COM_A)) {
-                        latch.countDown();
-                        Assert.assertTrue(true);
-                    } else if (command.getCommandName().equals(COM_B)) {
-                        Assert.assertTrue(true);
-                        latch.countDown();
-                    } else if (command.getCommandName().equals(COM_Z)) {
-                        Assert.assertTrue(true);
-                        latch.countDown();
-                    }
-                }
-
-            }
-
-            public void onFail(FailureData failureData) {
-            }
-        });
-        ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
+        ScheduledExecutorService service = Executors.newScheduledThreadPool(4);
         service.schedule(new Thread(new Runnable() {
             public void run() {
                 commandFilter.setCommandNames(COM_Z);
@@ -111,13 +92,33 @@ public class DeviceTest {
                 parameters.add(new Parameter("Param 2", "Value 2"));
                 parameters.add(new Parameter("Param 3", "Value 3"));
                 parameters.add(new Parameter("Param 4", "Value 4"));
-                device.sendNotification(COM_A, parameters);
-                device.sendNotification(COM_B, parameters);
-                device.sendNotification(COM_Z, parameters);
+                device.sendCommand(COM_A, parameters);
+                device.sendCommand(COM_B, parameters);
+                device.sendCommand(COM_Z, parameters);
             }
         }), 10, TimeUnit.SECONDS);
+        device.subscribeCommands(commandFilter, new DeviceCommandsCallback() {
+            public void onSuccess(DeviceCommand command) {
+                if (command.getCommandName().equals(COM_A)) {
+                    latch.countDown();
+                    Assert.assertTrue(true);
+                } else if (command.getCommandName().equals(COM_B)) {
+                    Assert.assertTrue(true);
+                    latch.countDown();
+                } else if (command.getCommandName().equals(COM_Z)) {
+                    Assert.assertTrue(true);
+                    latch.countDown();
+                }
+            }
+
+            public void onFail(FailureData failureData) {
+            }
+        });
+
         latch.await(60, TimeUnit.SECONDS);
         Assert.assertTrue(latch.getCount() == 0);
+        device.unsubscribeAllCommands();
+        latch.await(3, TimeUnit.SECONDS);
     }
 
     @Test

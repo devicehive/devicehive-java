@@ -6,13 +6,13 @@ import javax.annotation.Nullable;
 
 interface NetworkApi {
 
-    void list(@Nullable Long requestId, String name, String namePattern, String sortField, Boolean sortOrderAsc, Integer take, Integer skip);
+    void list( Long requestId, String name, String namePattern, String sortField, Boolean sortOrderAsc, Integer take, Integer skip);
 
-    void get(@Nullable Long requestId, Long id);
+    void get( Long requestId, Long id);
 
-    void insert(@Nullable Long requestId, NetworkUpdate networkUpdate);
+    void insert( Long requestId, NetworkUpdate networkUpdate);
 
-    void update(@Nullable Long requestId, NetworkUpdate networkUpdate);
+    void update( Long requestId, NetworkUpdate networkUpdate);
 
-    void delete(@Nullable Long requestId, Long id);
+    void delete( Long requestId, Long id);
 }

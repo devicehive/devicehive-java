@@ -2,18 +2,30 @@ package com.devicehive.websocket.listener;
 
 import com.devicehive.websocket.model.repsonse.*;
 
-public interface CommandListener extends ErrorListener {
+public class CommandListener implements ErrorListener {
 
 
-    void onInsert(CommandInsertResponse response);
+    public void onInsert(CommandInsertResponse response) {
 
-    void onUpdate(ResponseAction response);
+    }
 
-    void onList(CommandListResponse response);
+    public void onUpdate(ResponseAction response) {
+    }
 
-    void onGet(CommandGetResponse response);
+    public void onList(CommandListResponse response) {
+    }
 
-    void onSubscribe(CommandSubscribeResponse response);
+    public void onGet(CommandGetResponse response) {
+    }
 
-    void onUnsubscribe(ResponseAction response);
+    public void onSubscribe(CommandSubscribeResponse response) {
+    }
+
+    public void onUnsubscribe(ResponseAction response) {
+    }
+
+    @Override
+    public void onError(ErrorResponse error) {
+
+    }
 }

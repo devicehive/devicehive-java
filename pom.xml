@@ -9,6 +9,43 @@
     <prerequisites>
         <maven>2.2.0</maven>
     </prerequisites>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>
+            <!-- attach test jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jar</goal>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
     <modules>
         <module>rest</module>
         <module>websocket</module>
@@ -30,11 +67,6 @@
             <version>RELEASE</version>
         </dependency>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>RELEASE</version>
-        </dependency>
-        <dependency>
             <groupId>com.devicehive</groupId>
             <artifactId>rest</artifactId>
             <version>1.0.0</version>
@@ -43,6 +75,11 @@
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>com.devicehive</groupId>
+            <artifactId>websocket</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 </project>

@@ -15,7 +15,6 @@ package com.devicehive.websocket.model.repsonse.data;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
-import org.joda.time.DateTime;
 
 /**
  * DeviceCommand
@@ -23,28 +22,16 @@ import org.joda.time.DateTime;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
 @Data
 public class DeviceCommandInsert implements Comparable<DeviceCommandInsert> {
-    @SerializedName("id")
-    private Long id = null;
 
-    @SerializedName("timestamp")
-    private DateTime timestamp = null;
+    @SerializedName("command")
+    DeviceCommand command;
+    @SerializedName("subscriptionId")
+    private Long subscriptionId;
 
-    @SerializedName("userId")
-    private Long userId = null;
 
     @Override
-    public String toString() {
-        return "{\n\"DeviceCommand\":{\n"
-                + "\"id\":\"" + id + "\""
-                + ",\n \"timestamp\":" + timestamp
-                + ",\n \"userId\":\"" + userId + "\""
-                + "}\n}";
+    public int compareTo(DeviceCommandInsert o) {
+        return this.command.getTimestamp().compareTo(o.command.getTimestamp());
     }
-
-    @Override
-    public int compareTo(DeviceCommandInsert deviceCommand) {
-        return getTimestamp().compareTo(deviceCommand.getTimestamp());
-    }
-
 }
 

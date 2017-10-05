@@ -2,7 +2,9 @@ package com.devicehive.websocket.api;
 
 import com.devicehive.websocket.listener.*;
 import com.devicehive.websocket.model.repsonse.ResponseAction;
+import com.devicehive.websocket.model.repsonse.TokenRefreshResponse;
 import com.devicehive.websocket.model.request.AuthenticateAction;
+import com.devicehive.websocket.model.request.TokenRefreshAction;
 import com.google.gson.Gson;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -17,12 +19,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.devicehive.websocket.model.ActionConstant.AUTHENTICATE;
+import static com.devicehive.websocket.model.ActionConstant.TOKEN_REFRESH;
 import static com.devicehive.websocket.model.repsonse.ErrorResponse.ERROR;
+import static com.devicehive.websocket.model.repsonse.ResponseAction.SUCCESS;
 
 public class WebSocketClient extends WebSocketListener implements WebSocketCreator, Closeable {
 
     private Request request;
     private OkHttpClient client;
+    private String refreshToken;
     private WebSocket ws;
     private Map<String, BaseWebSocketApi> map = new HashMap<>();
     private Gson gson = new Gson();
@@ -36,7 +41,8 @@ public class WebSocketClient extends WebSocketListener implements WebSocketCreat
 
     public static class Builder {
         private Request request;
-        private String token = null;
+        private String accessToken = null;
+        private String refreshToken = null;
 
         public Builder url(String url) {
             if (url == null) throw new NullPointerException("url == null");
@@ -44,29 +50,49 @@ public class WebSocketClient extends WebSocketListener implements WebSocketCreat
             return this;
         }
 
-        public Builder token(@Nonnull String token) {
-            this.token = token;
+        public Builder token( String accessToken) {
+            this.accessToken = accessToken;
+            return this;
+        }
+
+        public Builder refreshToken( String refreshToken) {
+            this.refreshToken = refreshToken;
             return this;
         }
 
         public WebSocketClient build() {
             WebSocketClient webSocketClient = new WebSocketClient(this);
-            if (token != null) {
-                webSocketClient.authenticate(token);
+            webSocketClient.setRefreshToken(refreshToken);
+            if (accessToken != null) {
+                webSocketClient.authenticate(accessToken);
             }
             return webSocketClient;
         }
 
     }
 
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
     @Override
     public void onMessage(WebSocket webSocket, String text) {
         ResponseAction action = getResponseAction(text);
         String actionName = action.getAction();
-        if (actionName.startsWith(AUTHENTICATE) && action.getStatus().equalsIgnoreCase(ERROR)) {
+        if (actionName.startsWith(TOKEN_REFRESH) && action.getStatus().equalsIgnoreCase(SUCCESS)) {
+            authenticate(((TokenRefreshResponse) action).getAccessToken());
+
+        } else if (actionName.startsWith(AUTHENTICATE) && action.getStatus().equalsIgnoreCase(ERROR)) {
             for (BaseWebSocketApi a : map.values()) {
                 a.onMessage(text);
             }
+            TokenRefreshAction refreshAction = new TokenRefreshAction();
+            refreshAction.setRefreshToken(refreshToken);
+            ws.send(gson.toJson(refreshAction));
             return;
         }
         BaseWebSocketApi api = getBaseWebSocketApi(actionName);
@@ -80,8 +106,8 @@ public class WebSocketClient extends WebSocketListener implements WebSocketCreat
         return gson.fromJson(text, ResponseAction.class);
     }
 
-    @Nullable
-    private BaseWebSocketApi getBaseWebSocketApi(@Nonnull String actionName) {
+
+    private BaseWebSocketApi getBaseWebSocketApi( String actionName) {
         BaseWebSocketApi api = null;
         if (actionName.startsWith(DeviceWS.TAG)) {
             api = map.get(DeviceWS.TAG);

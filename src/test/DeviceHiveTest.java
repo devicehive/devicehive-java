@@ -19,13 +19,14 @@ import java.util.concurrent.TimeUnit;
 public class DeviceHiveTest {
 
     private static final String URL = "***REMOVED***/";
+    private static final String WS_URL = "ws://playground.dev.devicehive.com/api/websocket";
     private String accessToken = "***REMOVED***";
     private String refreshToken = "***REMOVED***";
 
     private static final String DEVICE_ID = "271990123";
     private static final String DEVICE_ID2 = "271990";
 
-    private DeviceHive deviceHive = DeviceHive.getInstance().setup(URL, new TokenAuth(refreshToken, accessToken));
+    private DeviceHive deviceHive = DeviceHive.getInstance().setup(URL, WS_URL, new TokenAuth(refreshToken, accessToken));
 
     @Test
     public void apiInfoTest() throws InterruptedException {

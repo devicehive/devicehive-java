@@ -210,7 +210,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${project-lombok}</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
     <properties>
