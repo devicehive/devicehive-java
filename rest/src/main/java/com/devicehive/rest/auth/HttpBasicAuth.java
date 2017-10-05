@@ -1,12 +1,12 @@
 package com.devicehive.rest.auth;
 
 
-import java.io.IOException;
-
 import okhttp3.Credentials;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
+
+import java.io.IOException;
 
 public class HttpBasicAuth implements Interceptor {
 
@@ -44,6 +44,7 @@ public class HttpBasicAuth implements Interceptor {
 
             request = request.newBuilder()
                     .addHeader("Authorization", credentials)
+                    .addHeader("Accept", "application/json")
                     .build();
             System.out.println(request.headers("Authorization"));
             System.out.println(request.url());

@@ -76,6 +76,7 @@ public class ApiKeyAuth implements Interceptor {
         } else if (location.equals("header")) {
             request = request.newBuilder()
                     .addHeader(paramName, KEY_AUTH_SCHEMA + apiKey)
+                    .addHeader("Accept", "application/json")
                     .build();
         }
         return chain.proceed(request);
