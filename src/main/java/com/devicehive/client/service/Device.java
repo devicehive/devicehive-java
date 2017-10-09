@@ -4,11 +4,10 @@ import com.devicehive.client.DeviceHive;
 import com.devicehive.client.model.*;
 import com.devicehive.rest.model.JsonStringWrapper;
 import com.devicehive.websocket.api.CommandWS;
+import com.devicehive.websocket.api.NotificationWS;
 import com.devicehive.websocket.listener.CommandListener;
-import com.devicehive.websocket.model.repsonse.CommandInsertResponse;
-import com.devicehive.websocket.model.repsonse.CommandSubscribeResponse;
-import com.devicehive.websocket.model.repsonse.ErrorResponse;
-import com.devicehive.websocket.model.repsonse.ResponseAction;
+import com.devicehive.websocket.listener.NotificationListener;
+import com.devicehive.websocket.model.repsonse.*;
 import lombok.Data;
 import org.joda.time.DateTime;
 
@@ -20,6 +19,7 @@ import java.util.List;
 public class Device implements DeviceInterface {
 
 
+    private final NotificationWS notificationWS;
     private CommandWS commandWS;
     private String id = null;
 
@@ -31,10 +31,9 @@ public class Device implements DeviceInterface {
 
     private Boolean isBlocked = false;
     private DeviceCommandsCallback commandCallback;
-    private DeviceNotificationsCallback notificationCallback;
-    public String subscriptionId;
+    private DeviceNotificationCallback notificationCallback;
+    public String commandSubscriptionId;
     private CommandListener commandListener = new CommandListener() {
-
 
         @Override
         public void onInsert(CommandInsertResponse response) {
@@ -42,19 +41,43 @@ public class Device implements DeviceInterface {
         }
 
         public void onSubscribe(CommandSubscribeResponse response) {
-            subscriptionId = response.getSubscriptionId();
+            commandSubscriptionId = response.getSubscriptionId();
         }
 
         public void onUnsubscribe(ResponseAction response) {
+            System.out.println(response);
         }
 
         public void onError(ErrorResponse error) {
             FailureData.create(error);
         }
     };
+    private NotificationListener notificationListener = new NotificationListener() {
+        @Override
+        public void onInsert(NotificationInsertResponse response) {
+            notificationCallback.onSuccess(DeviceNotification.create(response.getNotification()));
+        }
+
+        @Override
+        public void onSubscribe(NotificationSubscribeResponse response) {
+            notificationSubscriptionId = response.getSubscriptionId();
+        }
+
+        @Override
+        public void onUnsubscribe(ResponseAction response) {
+            System.out.println(response);
+        }
+
+        @Override
+        public void onError(ErrorResponse error) {
+            System.out.println(error);
+        }
+    };
+    private String notificationSubscriptionId;
 
     private Device() {
         commandWS = DeviceHive.getInstance().getWsClient().createCommandWS(commandListener);
+        notificationWS = DeviceHive.getInstance().getWsClient().createNotificationWS(notificationListener);
     }
 
     static Device create(com.devicehive.rest.model.Device device) {
@@ -96,20 +119,19 @@ public class Device implements DeviceInterface {
         return DeviceHive.getInstance().getDeviceNotificationService().getDeviceNotifications(id, startTimestamp, endTimestamp).getData();
     }
 
-    public DeviceCommandCallback sendCommand(String command, List<Parameter> parameters) {
-        DeviceCommandCallback resultCallback = new DeviceCommandCallback() {
+    public void sendCommand(String command, List<Parameter> parameters, DeviceCommandCallback resultCallback) {
+        DHResponse<DeviceCommand> response = DeviceHive.getInstance().getCommandService()
+                .sendCommand(id, command, parameters);
 
-            public void onSuccess(DeviceCommand command) {
+        if (resultCallback == null) {
+            return;
+        }
 
-            }
-
-            public void onFail(FailureData failureData) {
-
-            }
-        };
-        DeviceHive.getInstance().getCommandService()
-                .sendCommand(id, command, parameters, resultCallback);
-        return resultCallback;
+        if (response.isSuccessful()) {
+            resultCallback.onSuccess(response.getData());
+        } else {
+            resultCallback.onFail(response.getFailureData());
+        }
     }
 
     public DHResponse<DeviceNotification> sendNotification(String notification, List<Parameter> parameters) {
@@ -119,8 +141,7 @@ public class Device implements DeviceInterface {
 
     public void subscribeCommands(CommandFilter commandFilter, final DeviceCommandsCallback commandCallback) {
         this.commandCallback = commandCallback;
-        commandWS.subscribe(null,
-                commandFilter.getCommandNames(),
+        commandWS.subscribe(commandFilter.getCommandNames(),
                 id,
                 null,
                 commandFilter.getStartTimestamp(),
@@ -128,14 +149,13 @@ public class Device implements DeviceInterface {
 
     }
 
-    public void subscribeNotifications(NotificationFilter notificationFilter, DeviceNotificationsCallback notificationCallback) {
+    public void subscribeNotifications(NotificationFilter notificationFilter, DeviceNotificationCallback notificationCallback) {
         this.notificationCallback = notificationCallback;
-        DeviceHive.getInstance().getDeviceNotificationService().pollNotifications(id, notificationFilter, true, notificationCallback);
+        notificationWS.subscribe(id, null, notificationFilter.getNotificationNames());
     }
 
     public void unsubscribeCommands(CommandFilter commandFilter) {
-        commandWS.subscribe(null,
-                commandFilter.getCommandNames(),
+        commandWS.subscribe(commandFilter.getCommandNames(),
                 id,
                 null,
                 commandFilter.getStartTimestamp(),
@@ -143,17 +163,19 @@ public class Device implements DeviceInterface {
     }
 
     public void unsubscribeAllCommands() {
-        if (commandWS != null && subscriptionId != null) {
-            commandWS.unsubscribe(null, subscriptionId, Collections.singletonList(id));
+        if (commandWS != null && commandSubscriptionId != null) {
+            commandWS.unsubscribe(commandSubscriptionId, Collections.singletonList(id));
         }
     }
 
     public void unsubscribeNotifications() {
-        DeviceHive.getInstance().getDeviceNotificationService().unsubscribeAll();
+        if (notificationWS != null && notificationSubscriptionId != null) {
+            notificationWS.unsubscribe(notificationSubscriptionId, Collections.singletonList(id));
+        }
     }
 
 
     public void unsubscribeNotifications(NotificationFilter notificationFilter) {
-        DeviceHive.getInstance().getDeviceNotificationService().pollNotifications(id, notificationFilter, true, notificationCallback);
+        notificationWS.subscribe(null, id, null, notificationFilter.getNotificationNames());
     }
 }

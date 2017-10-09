@@ -9,7 +9,6 @@ import com.google.gson.JsonSyntaxException;
 import okhttp3.WebSocket;
 import org.joda.time.DateTime;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 import static com.devicehive.websocket.model.ActionConstant.*;
@@ -57,8 +56,33 @@ public class CommandWS extends BaseWebSocketApi implements CommandApi {
 
     }
 
+    public void get(String deviceId, Long commandId) {
+        get(null, deviceId, commandId);
+    }
+
+    public void list(String deviceId, DateTime start, DateTime end, String commandName, String status,
+                     SortOrder sortOrder, Integer take, Integer skip) {
+        list(null, deviceId, start, end, commandName, status, sortOrder, take, skip);
+    }
+
+    public void insert(String deviceId, DeviceCommandWrapper wrapper) {
+        insert(null, deviceId, wrapper);
+    }
+
+    public void update(String deviceId, String commandId, DeviceCommandWrapper wrapper) {
+        update(null, deviceId, commandId, wrapper);
+    }
+
+    public void subscribe(List<String> names, String deviceId, List<String> deviceIds, DateTime timestamp, Integer limit) {
+        subscribe(null, names, deviceId, deviceIds, timestamp, limit);
+    }
+
+    public void unsubscribe(String subscriptionId, List<String> deviceIds) {
+        unsubscribe(null, subscriptionId, deviceIds);
+    }
+
     @Override
-    public void get( Long requestId, String deviceId, Long commandId) {
+    public void get(Long requestId, String deviceId, Long commandId) {
         DeviceGetAction action = new DeviceGetAction();
         action.setDeviceId(deviceId);
         action.setCommandId(commandId);
@@ -67,7 +91,7 @@ public class CommandWS extends BaseWebSocketApi implements CommandApi {
     }
 
     @Override
-    public void list( Long requestId, String deviceId, DateTime start, DateTime end, String commandName, String status, SortOrder sortOrder, Integer take, Integer skip) {
+    public void list(Long requestId, String deviceId, DateTime start, DateTime end, String commandName, String status, SortOrder sortOrder, Integer take, Integer skip) {
         CommandListAction action = new CommandListAction();
         action.setDeviceId(deviceId);
         action.setStart(start);
@@ -82,7 +106,7 @@ public class CommandWS extends BaseWebSocketApi implements CommandApi {
     }
 
     @Override
-    public void insert( Long requestId, String deviceId, DeviceCommandWrapper wrapper) {
+    public void insert(Long requestId, String deviceId, DeviceCommandWrapper wrapper) {
         CommandInsertAction action = new CommandInsertAction();
         action.setCommand(wrapper);
         action.setDeviceId(deviceId);
@@ -91,7 +115,7 @@ public class CommandWS extends BaseWebSocketApi implements CommandApi {
     }
 
     @Override
-    public void update( Long requestId, String deviceId, String commandId, DeviceCommandWrapper wrapper) {
+    public void update(Long requestId, String deviceId, String commandId, DeviceCommandWrapper wrapper) {
         CommandUpdateAction action = new CommandUpdateAction();
         action.setDeviceId(deviceId);
         action.setCommandId(commandId);
@@ -101,8 +125,9 @@ public class CommandWS extends BaseWebSocketApi implements CommandApi {
     }
 
     @Override
-    public void subscribe( Long requestId, List<String> names, String deviceId, List<String> deviceIds, DateTime timestamp, Integer limit) {
+    public void subscribe(Long requestId, List<String> names, String deviceId, List<String> deviceIds, DateTime timestamp, Integer limit) {
         CommandSubscribeAction action = new CommandSubscribeAction();
+
         action.setNames(names);
         action.setDeviceId(deviceId);
         action.setDeviceIds(deviceIds);
@@ -113,7 +138,7 @@ public class CommandWS extends BaseWebSocketApi implements CommandApi {
     }
 
     @Override
-    public void unsubscribe( Long requestId, String subscriptionId, List<String> deviceIds) {
+    public void unsubscribe(Long requestId, String subscriptionId, List<String> deviceIds) {
         CommandUnsubscribeAction action = new CommandUnsubscribeAction();
         action.setSubscriptionId(subscriptionId);
         action.setDeviceIds(deviceIds);

@@ -1,4 +1,5 @@
 import com.devicehive.rest.api.DeviceCommandApi;
+import com.devicehive.rest.model.CommandInsert;
 import com.devicehive.rest.model.DeviceCommand;
 import com.devicehive.rest.model.DeviceCommandWrapper;
 import com.devicehive.rest.model.JsonStringWrapper;
@@ -48,7 +49,7 @@ public class DeviceCommandApiTest extends TestHelper {
         DeviceCommandWrapper deviceCommandWrapper = getCommandWrapper();
         DeviceCommandApi commandApi = client.createService(DeviceCommandApi.class);
 
-        Response<DeviceCommand> response = commandApi.insert(deviceId, deviceCommandWrapper).execute();
+        Response<CommandInsert> response = commandApi.insert(deviceId, deviceCommandWrapper).execute();
         Assert.assertTrue(response.isSuccessful());
         Assert.assertTrue(deleteDevices(deviceId));
     }
@@ -65,19 +66,19 @@ public class DeviceCommandApiTest extends TestHelper {
 
         DeviceCommandApi commandApi = client.createService(DeviceCommandApi.class);
 
-        Response<DeviceCommand> response = commandApi.insert(deviceId, deviceCommandWrapper).execute();
+        Response<CommandInsert> response = commandApi.insert(deviceId, deviceCommandWrapper).execute();
 
         Assert.assertTrue(response.body() != null);
-        DeviceCommand command = response.body();
+        CommandInsert command = response.body();
         assert command != null;
-        String commandId = String.valueOf(command.getId());
+        String commandId = String.valueOf(command.getCommandId());
         Assert.assertTrue(commandId != null);
 
         Response<DeviceCommand> getResponse = commandApi.get(deviceId, commandId).execute();
         DeviceCommand getCommand = getResponse.body();
         Assert.assertTrue(getResponse.isSuccessful());
         assert getCommand != null;
-        Assert.assertTrue(getCommand.getId().equals(command.getId()));
+        Assert.assertTrue(getCommand.getId().equals(command.getCommandId()));
         Assert.assertTrue(deleteDevices(deviceId));
     }
 
@@ -171,14 +172,15 @@ public class DeviceCommandApiTest extends TestHelper {
 
         DeviceCommandApi commandApi = client.createService(DeviceCommandApi.class);
         DeviceCommandWrapper wrapper = getCommandWrapper();
-        Response<DeviceCommand> response = commandApi.insert(deviceId, wrapper).execute();
+        Response<CommandInsert> response = commandApi.insert(deviceId, wrapper).execute();
         Assert.assertTrue(response.isSuccessful());
+        Response<DeviceCommand> getResponse = commandApi.get(deviceId, String.valueOf(response.body().getCommandId())).execute();
 
-        long id = response.body().getId();
+        long id = response.body().getCommandId();
 
-        wrapper.setResult(response.body().getResult());
+        wrapper.setResult(getResponse.body().getResult());
         wrapper.setCommand(UPDATED_COMMAND_NAME);
-        wrapper.setLifetime(response.body().getLifetime());
+        wrapper.setLifetime(getResponse.body().getLifetime());
         Response<Void> updatedResponse = commandApi.update(deviceId, id, wrapper).execute();
         Assert.assertTrue(updatedResponse.isSuccessful());
         Assert.assertTrue(deleteDevices(deviceId));
@@ -195,20 +197,21 @@ public class DeviceCommandApiTest extends TestHelper {
         final DeviceCommandApi commandApi = client.createService(DeviceCommandApi.class);
         final DeviceCommandWrapper wrapper = getCommandWrapper();
 
-        final Response<DeviceCommand> response = commandApi.insert(deviceId, wrapper).execute();
+        final Response<CommandInsert> response = commandApi.insert(deviceId, wrapper).execute();
+        final Response<DeviceCommand> getResponse = commandApi.get(deviceId, String.valueOf(response.body().getCommandId())).execute();
         final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
                 try {
-                    commandApi.update(deviceId, response.body().getId(), wrapper).execute();
+                    commandApi.update(deviceId, getResponse.body().getId(), wrapper).execute();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }, 0, 1, TimeUnit.SECONDS);
 
-        Response<DeviceCommand> updatedResponse = commandApi.wait(deviceId, response.body().getId(), 60L).execute();
+        Response<DeviceCommand> updatedResponse = commandApi.wait(deviceId, getResponse.body().getId(), 60L).execute();
         Assert.assertTrue(response.isSuccessful());
         Assert.assertTrue(updatedResponse.isSuccessful());
         Assert.assertTrue(deleteDevices(deviceId));

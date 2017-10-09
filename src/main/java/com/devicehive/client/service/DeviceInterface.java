@@ -27,7 +27,7 @@ interface DeviceInterface {
 
     List<DeviceNotification> getNotifications(DateTime startTimestamp, DateTime endTimestamp) throws IOException;
 
-    DeviceCommandCallback sendCommand(String command, List<Parameter> parameters) throws IOException;
+    void sendCommand(String command, List<Parameter> parameters, DeviceCommandCallback commandCallback) throws IOException;
 
     DHResponse<DeviceNotification> sendNotification(String notification, List<Parameter> parameters) throws IOException;
 
@@ -35,7 +35,7 @@ interface DeviceInterface {
 
     void subscribeCommands(CommandFilter commandFilter, DeviceCommandsCallback commandsCallback);
 
-    void subscribeNotifications(NotificationFilter notificationFilter, DeviceNotificationsCallback notificationCallback);
+    void subscribeNotifications(NotificationFilter notificationFilter, DeviceNotificationCallback notificationCallback);
 
     void unsubscribeCommands(CommandFilter commandFilter);
 

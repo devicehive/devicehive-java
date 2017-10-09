@@ -1,21 +1,24 @@
 package com.devicehive.client.model;
 
-import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class NotificationFilter {
 
-    private String notificationNames;
+    private List<String> notificationNames;
     private DateTime startTimestamp;
     private DateTime endTimestamp;
     private SortOrder sortOrder;
     private SortField sortField;
 
     public void setNotificationNames(String... notificationNames) {
-        this.notificationNames = StringUtils.join(notificationNames, ",");
+        this.notificationNames = Arrays.asList(notificationNames);
+
     }
 
-    public String getNotificationNames() {
+    public List<String> getNotificationNames() {
         return notificationNames;
     }
 
