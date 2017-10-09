@@ -1,5 +1,6 @@
 package com.devicehive.rest.api;
 
+import com.devicehive.rest.model.CommandInsert;
 import com.devicehive.rest.model.DeviceCommand;
 import com.devicehive.rest.model.DeviceCommandWrapper;
 import retrofit2.Call;
@@ -39,7 +40,7 @@ public interface DeviceCommandApi {
             "Content-Type:application/json"
     })
     @POST("device/{deviceId}/command")
-    Call<DeviceCommand> insert(
+    Call<CommandInsert> insert(
             @Path("deviceId") String deviceId, @Body DeviceCommandWrapper body
     );
 

@@ -4,6 +4,7 @@ import com.devicehive.client.model.*;
 import com.devicehive.rest.api.DeviceNotificationApi;
 import com.devicehive.rest.model.DeviceNotificationWrapper;
 import com.devicehive.rest.model.InsertNotification;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
 import retrofit2.Call;
@@ -103,7 +104,8 @@ public class DeviceNotificationService extends BaseService {
             pollCall.cancel();
             pollCall = null;
         }
-        pollCall = notificationApi.poll(deviceId, filter.getNotificationNames(), filter.getStartTimestamp().toString(),
+        pollCall = notificationApi.poll(deviceId, StringUtils.join(filter.getNotificationNames(),","),
+                filter.getStartTimestamp().toString(),
                 (long) period.toStandardSeconds().getSeconds());
 
         pollCall.enqueue(getNotificationsCallback(deviceId, filter, isAuthNeeded, notificationsCallback));
@@ -157,7 +159,8 @@ public class DeviceNotificationService extends BaseService {
             pollManyCall.cancel();
             pollManyCall = null;
         }
-        pollManyCall = notificationApi.pollMany((long) period.toStandardSeconds().getSeconds(), deviceIds, filter.getNotificationNames(), filter.getStartTimestamp().toString());
+        pollManyCall = notificationApi.pollMany((long) period.toStandardSeconds().getSeconds(), deviceIds,
+                StringUtils.join(filter.getNotificationNames(),","), filter.getStartTimestamp().toString());
 
         pollManyCall.enqueue(getNotificationsAllCallback(deviceIds, filter, isAuthNeeded, notificationsCallback));
 

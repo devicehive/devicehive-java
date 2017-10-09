@@ -27,6 +27,19 @@ public class DeviceCommand {
 
     private JsonStringWrapper parameters = null;
 
+    public static DeviceCommand create(com.devicehive.rest.model.CommandInsert command, String commandName,
+                                       String deviceId, com.devicehive.rest.model.JsonStringWrapper parameters) {
+        if (command == null) {
+            return null;
+        }
+        DeviceCommand deviceCommand = new DeviceCommand();
+        deviceCommand.commandName = commandName;
+        deviceCommand.id = command.getCommandId();
+        deviceCommand.deviceId = deviceId;
+        deviceCommand.parameters = new JsonStringWrapper(parameters.getJsonString());;
+        return deviceCommand;
+    }
+
     public static DeviceCommand create(com.devicehive.websocket.model.repsonse.data.DeviceCommand command) {
         if (command == null) {
             return null;
@@ -47,7 +60,8 @@ public class DeviceCommand {
         deviceCommand.commandName = command.getCommand();
         deviceCommand.id = command.getId();
         deviceCommand.deviceId = command.getDeviceId();
-//        deviceCommand.parameters = command.getParameters().toString();
+        System.out.println(command.getParameters());
+        deviceCommand.parameters = new JsonStringWrapper(command.getParameters().getJsonString());
         return deviceCommand;
     }
 
@@ -57,6 +71,20 @@ public class DeviceCommand {
             return Collections.emptyList();
         }
         for (com.devicehive.websocket.model.repsonse.data.DeviceCommand deviceCommand :
+                commands) {
+            list.add(DeviceCommand.create(deviceCommand));
+
+        }
+        return list;
+
+    }
+
+    public static List<DeviceCommand> createListFromRest(List<com.devicehive.rest.model.DeviceCommand> commands) {
+        List<DeviceCommand> list = new ArrayList<DeviceCommand>();
+        if (commands == null) {
+            return Collections.emptyList();
+        }
+        for (com.devicehive.rest.model.DeviceCommand deviceCommand :
                 commands) {
             list.add(DeviceCommand.create(deviceCommand));
 
