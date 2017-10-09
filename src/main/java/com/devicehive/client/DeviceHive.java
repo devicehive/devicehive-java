@@ -8,7 +8,12 @@ import com.devicehive.client.service.*;
 import com.devicehive.client.service.Device;
 import com.devicehive.rest.api.JwtTokenApi;
 import com.devicehive.rest.model.*;
+import com.devicehive.websocket.api.CommandWS;
+import com.devicehive.websocket.api.NotificationWS;
 import com.devicehive.websocket.api.WebSocketClient;
+import com.devicehive.websocket.listener.CommandListener;
+import com.devicehive.websocket.listener.NotificationListener;
+import com.devicehive.websocket.model.repsonse.*;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import retrofit2.Response;
@@ -29,6 +34,16 @@ public class DeviceHive implements MainDeviceHive {
     private DeviceNotificationsCallback notificationsCallback;
     private DeviceCommandsCallback commandsCallback;
     private String wsUrl;
+    private NotificationWS notificationWS;
+    private CommandWS commandWS;
+
+    private CommandListener commandListener = new CommandListener() {
+        @Override
+        public void onList(CommandListResponse response) {
+
+        }
+
+    };
 
     private DeviceHive() {
     }
@@ -54,11 +69,40 @@ public class DeviceHive implements MainDeviceHive {
     }
 
 
-    public DeviceHive setup(String url, String wsUrl, TokenAuth tokenAuth) {
+    public DeviceHive init(String url, TokenAuth tokenAuth) {
+        if (url == null || url.length() == 0) {
+            throw new NullPointerException("Server url cannot be empty");
+        }
         this.url = url;
+        this.wsUrl = createWSUrl(url);
+        System.out.println(wsUrl);
+        this.setAuth(tokenAuth.getAccessToken(), tokenAuth.getRefreshToken());
+        this.createServices();
+        this.createWsServices();
+        return this;
+    }
+
+    private String createWSUrl(String httpUrl) {
+        String wsUrl = httpUrl.replace("http", "ws")
+                .replace("rest", "websocket");
+        if (wsUrl.endsWith("/")) {
+            wsUrl = wsUrl.substring(0,wsUrl.length() - 1);
+        }
+        return wsUrl;
+    }
+
+    public DeviceHive init(String url, String wsUrl, TokenAuth tokenAuth) {
+        if (url == null || url.length() == 0) {
+            throw new NullPointerException("Server url cannot be empty");
+        }
+        this.url = url;
+        if (wsUrl == null || wsUrl.length() == 0) {
+            throw new NullPointerException("Server ws url cannot be empty");
+        }
         this.wsUrl = wsUrl;
         this.setAuth(tokenAuth.getAccessToken(), tokenAuth.getRefreshToken());
         this.createServices();
+        this.createWsServices();
         return this;
     }
 
@@ -77,6 +121,50 @@ public class DeviceHive implements MainDeviceHive {
         deviceService = new DeviceService();
         commandService = new DeviceCommandService();
         notificationService = new DeviceNotificationService();
+    }
+
+    private DeviceHive createWsServices() {
+        notificationWS = DeviceHive.getInstance().getWsClient().createNotificationWS(new NotificationListener() {
+            @Override
+            public void onError(ErrorResponse error) {
+            }
+
+            @Override
+            public void onList(NotificationListResponse response) {
+
+            }
+
+            @Override
+            public void onSubscribe(NotificationSubscribeResponse response) {
+            }
+
+            @Override
+            public void onUnsubscribe(ResponseAction response) {
+            }
+
+            @Override
+            public void onInsert(NotificationInsertResponse response) {
+            }
+        });
+        commandWS = DeviceHive.getInstance().getWsClient().createCommandWS(new CommandListener() {
+            @Override
+            public void onInsert(CommandInsertResponse response) {
+            }
+
+            @Override
+            public void onSubscribe(CommandSubscribeResponse response) {
+            }
+
+            @Override
+            public void onUnsubscribe(ResponseAction response) {
+            }
+
+            @Override
+            public void onError(ErrorResponse error) {
+
+            }
+        });
+        return this;
     }
 
 
@@ -150,6 +238,7 @@ public class DeviceHive implements MainDeviceHive {
     public void subscribeNotifications(List<String> ids, NotificationFilter notificationFilter, DeviceNotificationsCallback notificationsCallback) {
         String deviceIds = StringUtils.join(ids, ",");
         this.notificationsCallback = notificationsCallback;
+
         notificationService.pollManyNotifications(deviceIds, notificationFilter, true, notificationsCallback);
     }
 

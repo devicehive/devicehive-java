@@ -32,7 +32,6 @@ public class CommandWS extends BaseWebSocketApi implements CommandApi {
     @Override
     public void onSuccess(String message) {
         ResponseAction action = getResponseAction(message);
-        System.out.println(message);
         if (action.compareAction(COMMAND_LIST)) {
             CommandListResponse response = gson.fromJson(message, CommandListResponse.class);
             listener.onList(response);

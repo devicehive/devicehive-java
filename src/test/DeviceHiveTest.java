@@ -26,7 +26,7 @@ public class DeviceHiveTest {
     private static final String DEVICE_ID = "271990123";
     private static final String DEVICE_ID2 = "271990";
 
-    private DeviceHive deviceHive = DeviceHive.getInstance().setup(URL, WS_URL, new TokenAuth(refreshToken, accessToken));
+    private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, new TokenAuth(refreshToken, accessToken));
 
     @Test
     public void apiInfoTest() throws InterruptedException {
