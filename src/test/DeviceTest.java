@@ -29,7 +29,8 @@ public class DeviceTest {
     private String refreshToken = "***REMOVED***";
 
 
-    private DeviceHive deviceHive = DeviceHive.getInstance().setup(URL, WS_URL, new TokenAuth(refreshToken, accessToken));
+    private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, WS_URL, new TokenAuth(refreshToken, accessToken));
+
     private Device device = deviceHive.getDevice(DEVICE_ID);
 
 
