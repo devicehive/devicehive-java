@@ -42,6 +42,7 @@ public class Device implements DeviceInterface {
 
         public void onSubscribe(CommandSubscribeResponse response) {
             commandSubscriptionId = response.getSubscriptionId();
+            System.out.println(response);
         }
 
         public void onUnsubscribe(ResponseAction response) {

@@ -127,6 +127,7 @@ public class DeviceTest {
                     latch.countDown();
                 } else if (command.getCommandName().equals(COM_Z)) {
                     Assert.assertTrue(true);
+
                     latchZ.countDown();
                 }
             }
@@ -142,6 +143,7 @@ public class DeviceTest {
         device.unsubscribeCommands(commandFilter);
         latchZ.await(60, TimeUnit.SECONDS);
         Assert.assertTrue(latchZ.getCount() == 0);
+        device.unsubscribeAllCommands();
     }
 
     @Test
