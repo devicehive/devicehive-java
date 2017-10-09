@@ -42,15 +42,13 @@ public class Device implements DeviceInterface {
 
         public void onSubscribe(CommandSubscribeResponse response) {
             commandSubscriptionId = response.getSubscriptionId();
-            System.out.println(response);
         }
 
         public void onUnsubscribe(ResponseAction response) {
-            System.out.println(response);
         }
 
         public void onError(ErrorResponse error) {
-            FailureData.create(error);
+            commandCallback.onFail(FailureData.create(error));
         }
     };
     private NotificationListener notificationListener = new NotificationListener() {
@@ -66,12 +64,11 @@ public class Device implements DeviceInterface {
 
         @Override
         public void onUnsubscribe(ResponseAction response) {
-            System.out.println(response);
         }
 
         @Override
         public void onError(ErrorResponse error) {
-            System.out.println(error);
+            notificationCallback.onFail(FailureData.create(error));
         }
     };
     private String notificationSubscriptionId;
