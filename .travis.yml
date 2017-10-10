@@ -4,4 +4,4 @@ sudo: false
 jdk:
     - oraclejdk8
     - openjdk7
-script: maven package
+script: mvn test -B
