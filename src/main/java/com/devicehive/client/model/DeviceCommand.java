@@ -1,5 +1,7 @@
 package com.devicehive.client.model;
 
+import com.devicehive.client.DeviceHive;
+import com.devicehive.rest.model.DeviceCommandWrapper;
 import com.devicehive.websocket.model.repsonse.data.JsonStringWrapper;
 import lombok.Data;
 
@@ -7,16 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Class DeviceCommand, constructor is private
- * |fields:commandName,parameters,id,deviceid,name,parameters
- * |--getName(),getParameters(),getDeviceId(),getId()
- * |--subscribeUpdates(callback)->callback_proto(deviceCommand)
- * |--updateCommand()
- * |--save()
- * |--fetchCommandStatus()
- * \--fetchCommandResult()
- */
 @Data
 public class DeviceCommand {
     private Long id = null;
@@ -26,6 +18,9 @@ public class DeviceCommand {
     private String deviceId = null;
 
     private JsonStringWrapper parameters = null;
+
+    private String status;
+    private JsonStringWrapper result;
 
     private DeviceCommand() {
 
@@ -99,4 +94,30 @@ public class DeviceCommand {
     }
 
 
+    public boolean updateCommand() {
+        DeviceCommandWrapper wrapper = new DeviceCommandWrapper();
+        wrapper.setCommand(commandName);
+        if (parameters != null) {
+            wrapper.setParameters(new com.devicehive.rest.model.JsonStringWrapper(parameters.getJsonString()));
+        }
+        return DeviceHive.getInstance().getCommandService().updateCommand(deviceId, id, wrapper).isSuccessful();
+    }
+
+    public DHResponse<String> fetchCommandStatus() {
+        DHResponse<com.devicehive.rest.model.DeviceCommand> deviceCommand =
+                DeviceHive.getInstance().getCommandService().getCommand(deviceId, id);
+        status = deviceCommand.isSuccessful() ? deviceCommand.getData().getStatus() : null;
+        return new DHResponse<>(status, deviceCommand.getFailureData());
+    }
+
+    public DHResponse<JsonStringWrapper> fetchCommandResult() {
+        DHResponse<com.devicehive.rest.model.DeviceCommand> deviceCommand =
+                DeviceHive.getInstance().getCommandService().getCommand(deviceId, id);
+        if (deviceCommand.isSuccessful()) {
+            if (deviceCommand.getData().getResult() != null) {
+                result = new JsonStringWrapper(deviceCommand.getData().getResult().getJsonString());
+            }
+        }
+        return new DHResponse<>(result, deviceCommand.getFailureData());
+    }
 }
