@@ -1,3 +1,5 @@
+package com.devicehive.websocket;
+
 import com.devicehive.websocket.api.CommandWS;
 import com.devicehive.websocket.api.TokenWS;
 import com.devicehive.websocket.api.WebSocketClient;
@@ -70,7 +72,7 @@ public class Main {
                         System.out.println(response);
                     }
                 });
-                commandWS.subscribe(null,null, "271990123", null, DateTime.now(), 30);
+                commandWS.subscribe(null, null, "271990123", null, DateTime.now(), 30);
             }
         }).start();
 

@@ -1,3 +1,5 @@
+package com.devicehive.rest;
+
 import com.devicehive.rest.api.JwtTokenApi;
 import com.devicehive.rest.model.JwtRequest;
 import com.devicehive.rest.model.JwtToken;
@@ -7,7 +9,7 @@ import retrofit2.Response;
 
 import java.io.IOException;
 
-public class JwtTokenApiTest extends TestHelper {
+public class JwtTokenApiTest extends Helper {
 
 
     @Test

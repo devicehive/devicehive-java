@@ -1,3 +1,5 @@
+package com.devicehive.rest;
+
 import com.devicehive.rest.api.DeviceApi;
 import com.devicehive.rest.model.Device;
 import org.junit.Assert;
@@ -8,7 +10,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-public class DeviceApiTest extends TestHelper {
+public class DeviceApiTest extends Helper {
     @Test
     public void registerDevice() throws IOException {
         String deviceId = UUID.randomUUID().toString();

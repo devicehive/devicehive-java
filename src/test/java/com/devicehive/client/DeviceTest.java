@@ -1,4 +1,5 @@
-import com.devicehive.client.DeviceHive;
+package com.devicehive.client;
+
 import com.devicehive.client.model.*;
 import com.devicehive.client.service.Device;
 import org.joda.time.DateTime;
