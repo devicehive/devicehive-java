@@ -31,20 +31,21 @@ public class Device implements DeviceInterface {
 
     private Boolean isBlocked = false;
     private DeviceCommandsCallback commandCallback;
-    private DeviceNotificationCallback notificationCallback;
+    private DeviceNotificationsCallback notificationCallback;
     public String commandSubscriptionId;
     private CommandListener commandListener = new CommandListener() {
+        @Override
+        public void onList(CommandListResponse response) {
+            commandCallback.onSuccess(DeviceCommand.createList(response.getCommands()));
+        }
 
         @Override
         public void onInsert(CommandInsertResponse response) {
-            commandCallback.onSuccess(DeviceCommand.create(response.getCommand()));
+            commandCallback.onSuccess(Collections.singletonList(DeviceCommand.create(response.getCommand())));
         }
 
         public void onSubscribe(CommandSubscribeResponse response) {
             commandSubscriptionId = response.getSubscriptionId();
-        }
-
-        public void onUnsubscribe(ResponseAction response) {
         }
 
         public void onError(ErrorResponse error) {
@@ -53,17 +54,18 @@ public class Device implements DeviceInterface {
     };
     private NotificationListener notificationListener = new NotificationListener() {
         @Override
+        public void onList(NotificationListResponse response) {
+            notificationCallback.onSuccess(DeviceNotification.createListFromWS(response.getNotifications()));
+        }
+
+        @Override
         public void onInsert(NotificationInsertResponse response) {
-            notificationCallback.onSuccess(DeviceNotification.create(response.getNotification()));
+            notificationCallback.onSuccess(Collections.singletonList(DeviceNotification.create(response.getNotification())));
         }
 
         @Override
         public void onSubscribe(NotificationSubscribeResponse response) {
             notificationSubscriptionId = response.getSubscriptionId();
-        }
-
-        @Override
-        public void onUnsubscribe(ResponseAction response) {
         }
 
         @Override
@@ -147,7 +149,7 @@ public class Device implements DeviceInterface {
 
     }
 
-    public void subscribeNotifications(NotificationFilter notificationFilter, DeviceNotificationCallback notificationCallback) {
+    public void subscribeNotifications(NotificationFilter notificationFilter, DeviceNotificationsCallback notificationCallback) {
         this.notificationCallback = notificationCallback;
         notificationWS.subscribe(id, null, notificationFilter.getNotificationNames());
     }
