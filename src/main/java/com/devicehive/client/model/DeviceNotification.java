@@ -51,5 +51,16 @@ public class DeviceNotification {
         return result;
     }
 
+    public static List<DeviceNotification> createListFromWS(List<com.devicehive.websocket.model.repsonse.data.DeviceNotification> notifications) {
+        if (notifications == null) {
+            return null;
+        }
+        List<DeviceNotification> result = new ArrayList<DeviceNotification>(notifications.size());
+        for (com.devicehive.websocket.model.repsonse.data.DeviceNotification n : notifications) {
+            result.add(create(n));
+        }
+        return result;
+    }
+
 
 }
