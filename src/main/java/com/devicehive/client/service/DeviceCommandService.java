@@ -94,4 +94,30 @@ public class DeviceCommandService extends BaseService {
 
     }
 
+    public DHResponse<com.devicehive.rest.model.DeviceCommand> getCommand(String deviceId, long commandId) {
+        deviceCommandApi = createService(DeviceCommandApi.class);
+        DHResponse<com.devicehive.rest.model.DeviceCommand> response = execute(deviceCommandApi.get(deviceId, String.valueOf(commandId)));
+        if (response.isSuccessful()) {
+            return new DHResponse<>(response.getData(), response.getFailureData());
+        } else if (response.getFailureData().getCode() == 401) {
+            authorize();
+            return execute(deviceCommandApi.get(deviceId, String.valueOf(commandId)));
+        } else {
+            return response;
+        }
+    }
+
+    public DHResponse<Void> updateCommand(String deviceId, long commandId, DeviceCommandWrapper body) {
+        deviceCommandApi = createService(DeviceCommandApi.class);
+        DHResponse<Void> response = execute(deviceCommandApi.update(deviceId, commandId, body));
+        if (response.isSuccessful()) {
+            return response;
+        } else if (response.getFailureData().getCode() == 401) {
+            authorize();
+            return execute(deviceCommandApi.update(deviceId, commandId, body));
+        } else {
+            return response;
+        }
+    }
+
 }
