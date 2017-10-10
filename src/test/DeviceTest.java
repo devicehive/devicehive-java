@@ -19,12 +19,12 @@ public class DeviceTest {
 
     private static final String URL = "***REMOVED***/";
     private static final String WS_URL = "ws://playground.dev.devicehive.com/api/websocket";
-    public static final String NOTIFICATION_A = "notificationA";
-    public static final String NOTIFICATION_B = "notificationB";
-    public static final String NOTIFICATION_Z = "notificationZ";
-    public static final String COM_A = "comA";
-    public static final String COM_B = "comB";
-    public static final String COM_Z = "comZ";
+    private static final String NOTIFICATION_A = "notificationA";
+    private static final String NOTIFICATION_B = "notificationB";
+    private static final String NOTIFICATION_Z = "notificationZ";
+    private static final String COM_A = "comA";
+    private static final String COM_B = "comB";
+    private static final String COM_Z = "comZ";
     private String accessToken = "***REMOVED***";
     private String refreshToken = "***REMOVED***";
 
