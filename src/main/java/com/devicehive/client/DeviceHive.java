@@ -69,7 +69,6 @@ public class DeviceHive implements MainDeviceHive {
         }
         this.url = url;
         this.wsUrl = createWSUrl(url);
-        System.out.println(wsUrl);
         this.setAuth(tokenAuth.getAccessToken(), tokenAuth.getRefreshToken());
         this.createServices();
         this.createWsServices();

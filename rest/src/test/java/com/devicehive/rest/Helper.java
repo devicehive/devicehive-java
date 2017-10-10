@@ -1,4 +1,5 @@
-import com.devicehive.rest.ApiClient;
+package com.devicehive.rest;
+
 import com.devicehive.rest.api.DeviceApi;
 import com.devicehive.rest.api.JwtTokenApi;
 import com.devicehive.rest.api.NetworkApi;
@@ -15,7 +16,7 @@ import java.io.IOException;
 import java.util.List;
 
 
-class TestHelper {
+class Helper {
 
     private static final String LOGIN = "***REMOVED***";
     private static final String PASSWORD = "***REMOVED***";

@@ -1,3 +1,5 @@
+package com.devicehive.rest;
+
 import com.devicehive.rest.api.DeviceCommandApi;
 import com.devicehive.rest.model.CommandInsert;
 import com.devicehive.rest.model.DeviceCommand;
@@ -19,7 +21,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class DeviceCommandApiTest extends TestHelper {
+public class DeviceCommandApiTest extends Helper {
 
     private static final String COMMAND_NAME = "TEST COMMAND";
     private static final String TEST_PROP = "testProp";
