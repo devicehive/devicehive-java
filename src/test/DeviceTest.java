@@ -119,17 +119,20 @@ public class DeviceTest {
         }), 5, TimeUnit.SECONDS);
 
         device.subscribeCommands(commandFilter, new DeviceCommandsCallback() {
-            public void onSuccess(DeviceCommand command) {
-                if (command.getCommandName().equals(COM_A)) {
-                    latch.countDown();
-                    Assert.assertTrue(true);
-                } else if (command.getCommandName().equals(COM_B)) {
-                    Assert.assertTrue(true);
-                    latch.countDown();
-                } else if (command.getCommandName().equals(COM_Z)) {
-                    Assert.assertTrue(true);
+            public void onSuccess(List<DeviceCommand> commands) {
+                for (DeviceCommand command :
+                        commands) {
+                    if (command.getCommandName().equals(COM_A)) {
+                        latch.countDown();
+                        Assert.assertTrue(true);
+                    } else if (command.getCommandName().equals(COM_B)) {
+                        Assert.assertTrue(true);
+                        latch.countDown();
+                    } else if (command.getCommandName().equals(COM_Z)) {
+                        Assert.assertTrue(true);
 
-                    latchZ.countDown();
+                        latchZ.countDown();
+                    }
                 }
             }
 
@@ -157,18 +160,21 @@ public class DeviceTest {
         notificationFilter.setEndTimestamp(DateTime.now().plusSeconds(10));
 
 
-        device.subscribeNotifications(notificationFilter, new DeviceNotificationCallback() {
+        device.subscribeNotifications(notificationFilter, new DeviceNotificationsCallback() {
 
-            public void onSuccess(DeviceNotification notification) {
-                if (notification.getNotification().equals(NOTIFICATION_A)) {
-                    latch.countDown();
-                    Assert.assertTrue(true);
-                } else if (notification.getNotification().equals(NOTIFICATION_B)) {
-                    Assert.assertTrue(true);
-                    latch.countDown();
-                } else if (notification.getNotification().equals(NOTIFICATION_Z)) {
-                    Assert.assertTrue(true);
-                    latch.countDown();
+            public void onSuccess(List<DeviceNotification> notifications) {
+                for (DeviceNotification notification :
+                        notifications) {
+                    if (notification.getNotification().equals(NOTIFICATION_A)) {
+                        latch.countDown();
+                        Assert.assertTrue(true);
+                    } else if (notification.getNotification().equals(NOTIFICATION_B)) {
+                        Assert.assertTrue(true);
+                        latch.countDown();
+                    } else if (notification.getNotification().equals(NOTIFICATION_Z)) {
+                        Assert.assertTrue(true);
+                        latch.countDown();
+                    }
                 }
             }
 
