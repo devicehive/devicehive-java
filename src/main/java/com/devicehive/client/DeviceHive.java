@@ -3,6 +3,8 @@ package com.devicehive.client;
 import com.devicehive.client.api.MainDeviceHive;
 import com.devicehive.client.callback.ResponseCallback;
 import com.devicehive.client.model.*;
+import com.devicehive.client.model.DeviceCommand;
+import com.devicehive.client.model.DeviceNotification;
 import com.devicehive.client.model.Network;
 import com.devicehive.client.service.*;
 import com.devicehive.client.service.Device;
@@ -14,11 +16,11 @@ import com.devicehive.websocket.api.WebSocketClient;
 import com.devicehive.websocket.listener.CommandListener;
 import com.devicehive.websocket.listener.NotificationListener;
 import com.devicehive.websocket.model.repsonse.*;
-import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import retrofit2.Response;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 public class DeviceHive implements MainDeviceHive {
@@ -36,14 +38,6 @@ public class DeviceHive implements MainDeviceHive {
     private String wsUrl;
     private NotificationWS notificationWS;
     private CommandWS commandWS;
-
-    private CommandListener commandListener = new CommandListener() {
-        @Override
-        public void onList(CommandListResponse response) {
-
-        }
-
-    };
 
     private DeviceHive() {
     }
@@ -86,7 +80,7 @@ public class DeviceHive implements MainDeviceHive {
         String wsUrl = httpUrl.replace("http", "ws")
                 .replace("rest", "websocket");
         if (wsUrl.endsWith("/")) {
-            wsUrl = wsUrl.substring(0,wsUrl.length() - 1);
+            wsUrl = wsUrl.substring(0, wsUrl.length() - 1);
         }
         return wsUrl;
     }
@@ -123,48 +117,39 @@ public class DeviceHive implements MainDeviceHive {
         notificationService = new DeviceNotificationService();
     }
 
-    private DeviceHive createWsServices() {
+    private void createWsServices() {
         notificationWS = DeviceHive.getInstance().getWsClient().createNotificationWS(new NotificationListener() {
             @Override
             public void onError(ErrorResponse error) {
+                notificationsCallback.onFail(FailureData.create(error));
             }
 
             @Override
             public void onList(NotificationListResponse response) {
-
-            }
-
-            @Override
-            public void onSubscribe(NotificationSubscribeResponse response) {
-            }
-
-            @Override
-            public void onUnsubscribe(ResponseAction response) {
+                notificationsCallback.onSuccess(DeviceNotification.createListFromWS(response.getNotifications()));
             }
 
             @Override
             public void onInsert(NotificationInsertResponse response) {
+                notificationsCallback.onSuccess(Collections.singletonList(DeviceNotification.create(response.getNotification())));
             }
         });
         commandWS = DeviceHive.getInstance().getWsClient().createCommandWS(new CommandListener() {
             @Override
+            public void onList(CommandListResponse response) {
+                commandsCallback.onSuccess(DeviceCommand.createList(response.getCommands()));
+            }
+
+            @Override
             public void onInsert(CommandInsertResponse response) {
-            }
-
-            @Override
-            public void onSubscribe(CommandSubscribeResponse response) {
-            }
-
-            @Override
-            public void onUnsubscribe(ResponseAction response) {
+                commandsCallback.onSuccess(Collections.singletonList(DeviceCommand.create(response.getCommand())));
             }
 
             @Override
             public void onError(ErrorResponse error) {
-
+                commandsCallback.onFail(FailureData.create(error));
             }
         });
-        return this;
     }
 
 
@@ -229,27 +214,23 @@ public class DeviceHive implements MainDeviceHive {
     }
 
     public void subscribeCommands(List<String> ids, CommandFilter commandFilter, DeviceCommandsCallback commandsCallback) {
-        String deviceIds = StringUtils.join(ids, ",");
         this.commandsCallback = commandsCallback;
-//        commandService.pollManyCommands(deviceIds, commandFilter, true, commandsCallback);
-
+        commandWS.subscribe(commandFilter.getCommandNames(), null,
+                ids, commandFilter.getStartTimestamp(), commandFilter.getMaxNumber());
     }
 
     public void subscribeNotifications(List<String> ids, NotificationFilter notificationFilter, DeviceNotificationsCallback notificationsCallback) {
-        String deviceIds = StringUtils.join(ids, ",");
         this.notificationsCallback = notificationsCallback;
-
-        notificationService.pollManyNotifications(deviceIds, notificationFilter, true, notificationsCallback);
+        notificationWS.subscribe(null, ids, notificationFilter.getNotificationNames());
     }
 
     public void unsubscribeCommands(List<String> ids, CommandFilter commandFilter) {
-        String deviceIds = StringUtils.join(ids, ",");
-//        commandService.pollManyCommands(deviceIds, commandFilter, true, commandsCallback);
+        commandWS.subscribe(commandFilter.getCommandNames(), null,
+                ids, commandFilter.getStartTimestamp(), commandFilter.getMaxNumber());
     }
 
     public void unsubscribeNotifications(List<String> ids, NotificationFilter notificationFilter) {
-        String deviceIds = StringUtils.join(ids, ",");
-        notificationService.pollManyNotifications(deviceIds, notificationFilter, true, notificationsCallback);
+        notificationWS.subscribe(null, ids, notificationFilter.getNotificationNames());
     }
 
     public DHResponse<List<Network>> listNetworks(NetworkFilter filter) {
@@ -280,6 +261,7 @@ public class DeviceHive implements MainDeviceHive {
         return deviceService.getDevice(id);
     }
 
+    //GET SERVICES
     public DHResponse<Void> putDevice(String id, String name) {
         return deviceService.createDevice(id, name);
     }
