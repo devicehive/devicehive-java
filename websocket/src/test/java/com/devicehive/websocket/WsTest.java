@@ -16,7 +16,7 @@ import org.junit.Test;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-public class Main {
+public class WsTest {
     private static final String URL = "ws://playground.dev.devicehive.com/api/websocket";
     private static final String LOGIN = "dhadmin";
     private static final String PASSWORD = "dhadmin_#911";
@@ -36,7 +36,6 @@ public class Main {
             public void onGet(TokenGetResponse response) {
                 Assert.assertTrue(response.getAccessToken() != null);
                 Assert.assertTrue(response.getAccessToken().length() > 0);
-                System.out.println(response);
                 latch.countDown();
             }
 
@@ -77,7 +76,7 @@ public class Main {
         }).start();
 
         try {
-            latch.await(2, TimeUnit.MINUTES);
+            latch.await(30, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
