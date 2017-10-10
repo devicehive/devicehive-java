@@ -38,6 +38,7 @@ public class DeviceHive implements MainDeviceHive {
     private String wsUrl;
     private NotificationWS notificationWS;
     private CommandWS commandWS;
+    private UserService userService;
 
     private DeviceHive() {
     }
@@ -114,6 +115,7 @@ public class DeviceHive implements MainDeviceHive {
         deviceService = new DeviceService();
         commandService = new DeviceCommandService();
         notificationService = new DeviceNotificationService();
+        userService = new UserService();
     }
 
     private void createWsServices() {
@@ -271,6 +273,9 @@ public class DeviceHive implements MainDeviceHive {
 
     public DeviceCommandService getCommandService() {
         return commandService;
+    }
+    public UserService getUserService() {
+        return userService;
     }
 
     public DeviceNotificationService getDeviceNotificationService() {

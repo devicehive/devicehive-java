@@ -26,7 +26,7 @@ public class UserUpdate {
   private String login = null;
 
   @SerializedName("role")
-  private Integer role = null;
+  private User.RoleEnum role = null;
 
   @SerializedName("status")
   private Integer status = null;

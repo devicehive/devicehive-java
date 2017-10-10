@@ -1,6 +1,8 @@
 package com.devicehive.client.service;
 
+import com.devicehive.client.DeviceHive;
 import com.devicehive.rest.model.JsonStringWrapper;
+import com.devicehive.rest.model.UserUpdate;
 import com.devicehive.rest.model.UserVO;
 import com.devicehive.rest.model.UserWithNetwork;
 
@@ -55,17 +57,30 @@ public class User {
     }
 
     public void save() {
+        UserUpdate body = new UserUpdate();
+        body.setData(data);
+        if (password != null && password.length() > 0) {
+            body.setPassword(password);
+        }
+        body.setRole(role);
+        if (login != null && login.length() > 0) {
+            body.setLogin(login);
+        }
+        DeviceHive.getInstance().getUserService().updateUser(id, body);
     }
 
 
     public void getNetworks() {
+        DeviceHive.getInstance().getUserService().listNetworks();
     }
 
 
     public void unassignNetwork(long networkId) {
+        DeviceHive.getInstance().getUserService().unassignNetwork(id, networkId);
     }
 
     public void assignNetwork(long networkId) {
+        DeviceHive.getInstance().getUserService().assignNetwork(id, networkId);
     }
 
 
