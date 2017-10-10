@@ -33,7 +33,6 @@ public class DeviceTest {
 
     private Device device = deviceHive.getDevice(DEVICE_ID);
 
-
     @Test
     public void createDevice() throws IOException {
     }

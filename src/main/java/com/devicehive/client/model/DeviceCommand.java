@@ -27,6 +27,10 @@ public class DeviceCommand {
 
     private JsonStringWrapper parameters = null;
 
+    private DeviceCommand() {
+
+    }
+
     public static DeviceCommand create(com.devicehive.rest.model.CommandInsert command, String commandName,
                                        String deviceId, com.devicehive.rest.model.JsonStringWrapper parameters) {
         if (command == null) {
@@ -36,7 +40,8 @@ public class DeviceCommand {
         deviceCommand.commandName = commandName;
         deviceCommand.id = command.getCommandId();
         deviceCommand.deviceId = deviceId;
-        deviceCommand.parameters = new JsonStringWrapper(parameters.getJsonString());;
+        deviceCommand.parameters = new JsonStringWrapper(parameters.getJsonString());
+        ;
         return deviceCommand;
     }
 

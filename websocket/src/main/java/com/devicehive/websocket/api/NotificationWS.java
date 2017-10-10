@@ -117,7 +117,6 @@ public class NotificationWS extends BaseWebSocketApi implements NotificationApi 
         action.setDeviceId(deviceId);
         action.setDeviceIds(deviceIds);
         action.setNames(names);
-        System.out.println(gson.toJson(action));
         send(action);
     }
 
