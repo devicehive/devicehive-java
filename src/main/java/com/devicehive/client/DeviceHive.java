@@ -8,6 +8,7 @@ import com.devicehive.client.model.DeviceNotification;
 import com.devicehive.client.model.Network;
 import com.devicehive.client.service.*;
 import com.devicehive.client.service.Device;
+import com.devicehive.client.service.User;
 import com.devicehive.rest.api.JwtTokenApi;
 import com.devicehive.rest.model.*;
 import com.devicehive.websocket.api.CommandWS;
@@ -262,6 +263,22 @@ public class DeviceHive implements MainDeviceHive {
         return deviceService.getDevice(id);
     }
 
+    public DHResponse<User> getCurrentUser() {
+        return userService.getCurrentUser();
+    }
+
+    public DHResponse<List<User>> getUsers(UserFilter filter) {
+        return userService.listUsers(filter);
+    }
+
+    public DHResponse<User> createUser(String login, String password, com.devicehive.rest.model.User.RoleEnum role, JsonStringWrapper data) {
+        return userService.createUser(login, role, password, data);
+    }
+
+    public DHResponse<Void> removeUser(long id) {
+        return userService.removeUser(id);
+    }
+
     //GET SERVICES
     public DHResponse<Void> putDevice(String id, String name) {
         return deviceService.createDevice(id, name);
@@ -274,6 +291,7 @@ public class DeviceHive implements MainDeviceHive {
     public DeviceCommandService getCommandService() {
         return commandService;
     }
+
     public UserService getUserService() {
         return userService;
     }

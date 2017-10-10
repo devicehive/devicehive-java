@@ -2,6 +2,7 @@ package com.devicehive.client.service;
 
 import com.devicehive.client.model.DHResponse;
 import com.devicehive.client.model.Network;
+import com.devicehive.client.model.UserFilter;
 import com.devicehive.rest.api.UserApi;
 import com.devicehive.rest.model.JsonStringWrapper;
 import com.devicehive.rest.model.UserUpdate;
@@ -138,6 +139,26 @@ public class UserService extends BaseService {
         } else if (response.getFailureData().getCode() == 401) {
             authorize();
             return execute(userApi.assignNetwork(userId, networkId));
+        } else {
+            return response;
+        }
+    }
+
+    public DHResponse<List<User>> listUsers(UserFilter filter) {
+        userApi = createService(UserApi.class);
+        DHResponse<List<User>> response;
+        DHResponse<List<UserVO>> result = execute(userApi.list(filter.getLogin(), filter.getLoginPattern(),
+                filter.getRole().getValue(), filter.getStatus().getValue(),
+                filter.getSortField().sortField(), filter.getSortOrder().sortOrder(), filter.getTake(), filter.getSkip()));
+        response = DHResponse.create(User.createList(result.getData()), result.getFailureData());
+        if (response.isSuccessful()) {
+            return response;
+        } else if (response.getFailureData().getCode() == 401) {
+            authorize();
+            result = execute(userApi.list(filter.getLogin(), filter.getLoginPattern(),
+                    filter.getRole().getValue(), filter.getStatus().getValue(),
+                    filter.getSortField().sortField(), filter.getSortOrder().sortOrder(), filter.getTake(), filter.getSkip()));
+            return DHResponse.create(User.createList(result.getData()), result.getFailureData());
         } else {
             return response;
         }
