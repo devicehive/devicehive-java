@@ -4,4 +4,4 @@ sudo: false
 jdk:
     - oraclejdk8
     - openjdk7
-script: mvn test -B
+script: mvn clean verify
