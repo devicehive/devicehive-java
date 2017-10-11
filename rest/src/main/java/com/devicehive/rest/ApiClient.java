@@ -88,7 +88,7 @@ public class ApiClient {
                         typeAdapter)
                 .create();
 //        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        // set your desired log level
+//         set your desired log level
 //        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         okClient = new OkHttpClient().newBuilder()
@@ -150,15 +150,10 @@ public class ApiClient {
      * @param authorization
      */
     public void addAuthorization(String authName, Interceptor authorization) {
-        if (apiAuthorizations.containsKey(authName)) {
-//            throw new RuntimeException("auth name \"" + authName + "\" already in api authorizations");
-            apiAuthorizations.remove(authName);
-        }
         apiAuthorizations.put(authName, authorization);
         okClient = okClient.newBuilder()
                 .addInterceptor(authorization)
                 .build();
-
         adapterBuilder.client(okClient);
     }
 
