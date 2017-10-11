@@ -55,43 +55,43 @@ public class UserService extends BaseService {
 
     public DHResponse<User> createUser(String login, String password, com.devicehive.rest.model.User.RoleEnum role, StatusEnum statusEnum, JsonStringWrapper data) {
         UserApi userApi = createService(UserApi.class);
+        UserUpdate userUpdate = createUserBody(login, password, role, statusEnum, data);
+        DHResponse<User> response;
+        DHResponse<UserVO> result = execute(userApi.insertUser(userUpdate));
+        response = DHResponse.create(User.create(result.getData()), result.getFailureData());
+        if (response.isSuccessful()) {
+            updateUser(response, login, role, data);
+            return response;
+        } else if (response.getFailureData().getCode() == 401) {
+            authorize();
+            userApi = createService(UserApi.class);
+            result = execute(userApi.insertUser(userUpdate));
+            response = DHResponse.create(User.create(result.getData()), result.getFailureData());
+            updateUser(response, login, role, data);
+            return response;
+        } else {
+            updateUser(response, login, role, data);
+            return response;
+        }
+    }
+
+    private void updateUser(DHResponse<User> response, String login, com.devicehive.rest.model.User.RoleEnum role, JsonStringWrapper data) {
+        if (response.isSuccessful()) {
+            User user = response.getData();
+            user.setLogin(login);
+            user.setRole(role);
+            user.setData(data);
+        }
+    }
+
+    private UserUpdate createUserBody(String login, String password, com.devicehive.rest.model.User.RoleEnum role, StatusEnum statusEnum, JsonStringWrapper data) {
         UserUpdate userUpdate = new UserUpdate();
         userUpdate.setLogin(login);
         userUpdate.setRole(role);
         userUpdate.setStatus(statusEnum != null ? statusEnum.getValue() : 0);
         userUpdate.setPassword(password);
         userUpdate.setData(data);
-        DHResponse<User> response;
-        DHResponse<UserVO> result = execute(userApi.insertUser(userUpdate));
-        response = DHResponse.create(User.create(result.getData()), result.getFailureData());
-        if (response.isSuccessful()) {
-            User user = response.getData();
-            user.setLogin(login);
-            user.setRole(role);
-            user.setData(data);
-            return response;
-        } else if (response.getFailureData().getCode() == 401) {
-            authorize();
-            userApi = createService(UserApi.class);
-            result = execute(userApi.insertUser(userUpdate));
-            System.out.println(result);
-            response = DHResponse.create(User.create(result.getData()), result.getFailureData());
-            if (response.isSuccessful()) {
-                User user = response.getData();
-                user.setLogin(login);
-                user.setRole(role);
-                user.setData(data);
-            }
-            return response;
-        } else {
-            if (response.isSuccessful()) {
-                User user = response.getData();
-                user.setLogin(login);
-                user.setRole(role);
-                user.setData(data);
-            }
-            return response;
-        }
+        return userUpdate;
     }
 
     public DHResponse<Void> updateUser(long userId, UserUpdate body) {
