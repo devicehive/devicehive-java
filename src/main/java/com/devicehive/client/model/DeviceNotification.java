@@ -1,6 +1,6 @@
 package com.devicehive.client.model;
 
-import com.devicehive.websocket.model.repsonse.data.JsonStringWrapper;
+import com.devicehive.rest.model.JsonStringWrapper;
 import lombok.Builder;
 import lombok.Data;
 import org.joda.time.DateTime;

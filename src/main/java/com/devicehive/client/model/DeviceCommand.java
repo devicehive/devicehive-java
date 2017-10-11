@@ -2,7 +2,7 @@ package com.devicehive.client.model;
 
 import com.devicehive.client.DeviceHive;
 import com.devicehive.rest.model.DeviceCommandWrapper;
-import com.devicehive.websocket.model.repsonse.data.JsonStringWrapper;
+import com.devicehive.rest.model.JsonStringWrapper;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -35,8 +35,9 @@ public class DeviceCommand {
         deviceCommand.commandName = commandName;
         deviceCommand.id = command.getCommandId();
         deviceCommand.deviceId = deviceId;
-        deviceCommand.parameters = new JsonStringWrapper(parameters.getJsonString());
-        ;
+        if (parameters != null) {
+            deviceCommand.parameters = new JsonStringWrapper(parameters.getJsonString());
+        }
         return deviceCommand;
     }
 

@@ -13,6 +13,7 @@
 
 package com.devicehive.websocket.model.repsonse.data;
 
+import com.devicehive.rest.model.JsonStringWrapper;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import org.joda.time.DateTime;

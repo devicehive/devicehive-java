@@ -1,8 +1,8 @@
 package com.devicehive.websocket.model;
 
+import com.devicehive.rest.adapters.DateTimeTypeAdapter;
+import com.devicehive.rest.adapters.JsonStringWrapperAdapterFactory;
 import com.devicehive.websocket.Const;
-import com.devicehive.websocket.adapter.DateTimeTypeAdapter;
-import com.devicehive.websocket.adapter.JsonStringWrapperAdapterFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.joda.time.DateTime;
