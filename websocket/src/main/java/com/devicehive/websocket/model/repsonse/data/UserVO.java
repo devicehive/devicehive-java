@@ -13,6 +13,7 @@
 
 package com.devicehive.websocket.model.repsonse.data;
 
+import com.devicehive.rest.model.JsonStringWrapper;
 import com.devicehive.websocket.model.RoleEnum;
 import com.devicehive.websocket.model.StatusEnum;
 import com.google.gson.annotations.SerializedName;

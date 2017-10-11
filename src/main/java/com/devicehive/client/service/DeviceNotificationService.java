@@ -43,7 +43,9 @@ public class DeviceNotificationService extends BaseService {
         DeviceNotificationWrapper notificationWrapper = new DeviceNotificationWrapper();
         notificationWrapper.setNotification(notification);
         notificationWrapper.setTimestamp(DateTime.now());
-        notificationWrapper.setParameters(wrapParameters(parameters));
+        if (parameters != null) {
+            notificationWrapper.setParameters(wrapParameters(parameters));
+        }
         return notificationWrapper;
 
     }

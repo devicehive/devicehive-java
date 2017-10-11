@@ -89,7 +89,9 @@ public class DeviceCommandService extends BaseService {
         DeviceCommandWrapper commandWrapper = new DeviceCommandWrapper();
         commandWrapper.setCommand(command);
         commandWrapper.setTimestamp(DateTime.now());
-        commandWrapper.setParameters(wrapParameters(parameters));
+        if (parameters != null) {
+            commandWrapper.setParameters(wrapParameters(parameters));
+        }
         return commandWrapper;
 
     }
