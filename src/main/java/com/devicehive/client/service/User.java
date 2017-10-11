@@ -1,6 +1,7 @@
 package com.devicehive.client.service;
 
 import com.devicehive.client.DeviceHive;
+import com.devicehive.client.model.DHResponse;
 import com.devicehive.client.model.Network;
 import com.devicehive.rest.model.JsonStringWrapper;
 import com.devicehive.rest.model.UserUpdate;
@@ -79,12 +80,13 @@ public class User {
     }
 
 
-    public void unassignNetwork(long networkId) {
-        DeviceHive.getInstance().getUserService().unassignNetwork(id, networkId);
+    public boolean unassignNetwork(long networkId) {
+        return DeviceHive.getInstance().getUserService().unassignNetwork(id, networkId).isSuccessful();
     }
 
-    public void assignNetwork(long networkId) {
-        DeviceHive.getInstance().getUserService().assignNetwork(id, networkId);
+    public boolean assignNetwork(long networkId) {
+        DHResponse<Void> response = DeviceHive.getInstance().getUserService().assignNetwork(id, networkId);
+        return response.isSuccessful();
     }
 
 

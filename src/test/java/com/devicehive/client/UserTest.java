@@ -1,6 +1,8 @@
 package com.devicehive.client;
 
+import com.devicehive.client.model.DHResponse;
 import com.devicehive.client.model.Network;
+import com.devicehive.client.model.NetworkFilter;
 import com.devicehive.client.model.TokenAuth;
 import com.devicehive.client.service.User;
 import com.devicehive.rest.model.JsonStringWrapper;
@@ -34,12 +36,19 @@ public class UserTest {
     }
 
     @Test
-    public void test() {
+    public void updateUser() {
         JsonStringWrapper data = currentUser.getData();
         JsonStringWrapper newData = new JsonStringWrapper();
         newData.setJsonString("BLABLA");
         currentUser.setData(newData);
         Assert.assertTrue(currentUser.save());
-        System.out.println(deviceHive.getCurrentUser());
+    }
+
+    @Test
+    public void assignNetwork() {
+        DHResponse<List<Network>> listDHResponse = deviceHive.listNetworks(new NetworkFilter());
+        Assert.assertTrue(listDHResponse.isSuccessful());
+        Assert.assertTrue(currentUser.assignNetwork(listDHResponse.getData().get(1).getId()));
+        Assert.assertTrue(currentUser.unassignNetwork(listDHResponse.getData().get(1).getId()));
     }
 }
