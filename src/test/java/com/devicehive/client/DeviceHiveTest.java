@@ -207,9 +207,17 @@ public class DeviceHiveTest {
     public void createAndDeleteUser() {
         DHResponse<User> user = deviceHive.createUser("javaLibTest", "123456",
                 com.devicehive.rest.model.User.RoleEnum.NUMBER_0, StatusEnum.ACTIVE, null);
-        System.out.println(user);
         Assert.assertTrue(user.isSuccessful());
-        DHResponse<Void> delete = deviceHive.removeUser(user.getData().getId());
+        deleteUser(user.getData().getId());
+    }
+
+    private void deleteUser(long userId) {
+        DHResponse<Void> delete = deviceHive.removeUser(userId);
         Assert.assertTrue(delete.isSuccessful());
+    }
+    @Test
+    public void getCurrentUser(){
+        DHResponse<User> userDHResponse=deviceHive.getCurrentUser();
+        Assert.assertTrue(userDHResponse.isSuccessful());
     }
 }
