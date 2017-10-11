@@ -1,10 +1,12 @@
 package com.devicehive.client.service;
 
 import com.devicehive.client.DeviceHive;
+import com.devicehive.client.model.Network;
 import com.devicehive.rest.model.JsonStringWrapper;
 import com.devicehive.rest.model.UserUpdate;
 import com.devicehive.rest.model.UserVO;
 import com.devicehive.rest.model.UserWithNetwork;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,9 +58,11 @@ public class User {
         return result;
     }
 
-    public void save() {
+    public boolean save() {
         UserUpdate body = new UserUpdate();
-        body.setData(data);
+        if (data != null) {
+            body.setData(new JsonStringWrapper(new Gson().toJson(data)));
+        }
         if (password != null && password.length() > 0) {
             body.setPassword(password);
         }
@@ -66,12 +70,12 @@ public class User {
         if (login != null && login.length() > 0) {
             body.setLogin(login);
         }
-        DeviceHive.getInstance().getUserService().updateUser(id, body);
+        return DeviceHive.getInstance().getUserService().updateUser(body).isSuccessful();
     }
 
 
-    public void getNetworks() {
-        DeviceHive.getInstance().getUserService().listNetworks();
+    public List<Network> getNetworks() {
+        return DeviceHive.getInstance().getUserService().listNetworks().getData();
     }
 
 

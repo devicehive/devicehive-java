@@ -200,6 +200,7 @@ public class DeviceHiveTest {
     public void getUsers() {
         UserFilter filter = new UserFilter();
         DHResponse<List<User>> users = deviceHive.getUsers(filter);
+        System.out.println(users);
         Assert.assertTrue(users.isSuccessful());
     }
 

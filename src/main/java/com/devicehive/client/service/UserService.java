@@ -94,15 +94,15 @@ public class UserService extends BaseService {
         return userUpdate;
     }
 
-    public DHResponse<Void> updateUser(long userId, UserUpdate body) {
+    public DHResponse<Void> updateUser( UserUpdate body) {
         UserApi userApi = createService(UserApi.class);
-        DHResponse<Void> response = execute(userApi.updateUser(body, userId));
+        DHResponse<Void> response = execute(userApi.updateCurrentUser(body));
         if (response.isSuccessful()) {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
             authorize();
             userApi = createService(UserApi.class);
-            return execute(userApi.updateUser(body, userId));
+            return execute(userApi.updateCurrentUser(body));
         } else {
             return response;
         }
