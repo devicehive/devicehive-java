@@ -1,6 +1,5 @@
 package com.devicehive.client.service;
 
-import com.devicehive.client.TokenHelper;
 import com.devicehive.client.model.DHResponse;
 import com.devicehive.rest.api.JwtTokenApi;
 import com.devicehive.rest.model.JwtAccessToken;
@@ -11,10 +10,10 @@ import org.joda.time.DateTime;
 
 import java.util.List;
 
-public class JwtTokenService extends BaseService {
+class JwtTokenService extends BaseService {
 
 
-    public DHResponse<JwtToken> createToken(List<String> actions, Long userId, List<String> networkIds, List<String> deviceIds, DateTime expiration) {
+    DHResponse<JwtToken> createToken(List<String> actions, Long userId, List<String> networkIds, List<String> deviceIds, DateTime expiration) {
         JwtTokenApi jwtService = createService(JwtTokenApi.class);
         JwtPayload payload = new JwtPayload();
         payload.setActions(actions);
@@ -40,7 +39,7 @@ public class JwtTokenService extends BaseService {
         }
     }
 
-    public DHResponse<JwtAccessToken> getRefreshToken() {
+    DHResponse<JwtAccessToken> getRefreshToken() {
         JwtTokenApi jwtService = createService(JwtTokenApi.class);
 
         JwtRefreshToken refreshToken = new JwtRefreshToken();

@@ -1,9 +1,10 @@
 package com.devicehive.client;
 
 import com.devicehive.client.model.DHResponse;
-import com.devicehive.client.model.Network;
+import com.devicehive.client.service.Network;
 import com.devicehive.client.model.NetworkFilter;
 import com.devicehive.client.model.TokenAuth;
+import com.devicehive.client.service.DeviceHive;
 import com.devicehive.client.service.User;
 import com.devicehive.rest.model.JsonStringWrapper;
 import org.junit.Assert;

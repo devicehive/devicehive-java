@@ -1,7 +1,6 @@
 package com.devicehive.client.service;
 
 import com.devicehive.client.model.DHResponse;
-import com.devicehive.client.model.DeviceCommand;
 import com.devicehive.client.model.Parameter;
 import com.devicehive.rest.api.DeviceCommandApi;
 import com.devicehive.rest.model.DeviceCommandWrapper;
@@ -13,7 +12,7 @@ import retrofit2.Callback;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
-public class DeviceCommandService extends BaseService {
+class DeviceCommandService extends BaseService {
 
     public static final String CANCELED = "Canceled";
     private Call<List<com.devicehive.rest.model.DeviceCommand>> pollCall;
@@ -24,8 +23,8 @@ public class DeviceCommandService extends BaseService {
     private CountDownLatch pollLatch = new CountDownLatch(1);
 
 
-    public DHResponse<List<DeviceCommand>> getDeviceCommands(String deviceId, DateTime startTimestamp,
-                                                             DateTime endTimestamp, int maxNumber) {
+    DHResponse<List<DeviceCommand>> getDeviceCommands(String deviceId, DateTime startTimestamp,
+                                                      DateTime endTimestamp, int maxNumber) {
         return getDeviceCommands(deviceId, null, startTimestamp, endTimestamp, maxNumber);
     }
 
@@ -60,7 +59,7 @@ public class DeviceCommandService extends BaseService {
         }
     }
 
-    public DHResponse<DeviceCommand> sendCommand(String deviceId, String command, List<Parameter> parameters) {
+    DHResponse<DeviceCommand> sendCommand(String deviceId, String command, List<Parameter> parameters) {
         DeviceCommandApi deviceCommandApi = createService(DeviceCommandApi.class);
         DHResponse<DeviceCommand> response;
 
@@ -96,7 +95,7 @@ public class DeviceCommandService extends BaseService {
 
     }
 
-    public DHResponse<com.devicehive.rest.model.DeviceCommand> getCommand(String deviceId, long commandId) {
+    DHResponse<com.devicehive.rest.model.DeviceCommand> getCommand(String deviceId, long commandId) {
         DeviceCommandApi deviceCommandApi = createService(DeviceCommandApi.class);
         DHResponse<com.devicehive.rest.model.DeviceCommand> response = execute(deviceCommandApi.get(deviceId, String.valueOf(commandId)));
         if (response.isSuccessful()) {
@@ -110,7 +109,7 @@ public class DeviceCommandService extends BaseService {
         }
     }
 
-    public DHResponse<Void> updateCommand(String deviceId, long commandId, DeviceCommandWrapper body) {
+    DHResponse<Void> updateCommand(String deviceId, long commandId, DeviceCommandWrapper body) {
         DeviceCommandApi deviceCommandApi = createService(DeviceCommandApi.class);
         DHResponse<Void> response = execute(deviceCommandApi.update(deviceId, commandId, body));
         if (response.isSuccessful()) {

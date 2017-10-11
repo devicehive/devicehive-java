@@ -2,8 +2,9 @@ package com.devicehive.client;
 
 import com.devicehive.client.callback.ResponseCallback;
 import com.devicehive.client.model.*;
-import com.devicehive.client.model.Network;
 import com.devicehive.client.service.Device;
+import com.devicehive.client.service.DeviceHive;
+import com.devicehive.client.service.Network;
 import com.devicehive.client.service.User;
 import com.devicehive.rest.model.*;
 import com.devicehive.websocket.model.StatusEnum;
@@ -12,6 +13,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -200,8 +203,14 @@ public class DeviceHiveTest {
     public void getUsers() {
         UserFilter filter = new UserFilter();
         DHResponse<List<User>> users = deviceHive.getUsers(filter);
-        System.out.println(users);
         Assert.assertTrue(users.isSuccessful());
+        Method[] allMethods = Device.class.getDeclaredMethods();
+        for (Method method : allMethods) {
+            if (Modifier.isPublic(method.getModifiers())) {
+                System.out.println(method.getName());
+                // use the method
+            }
+        }
     }
 
     @Test

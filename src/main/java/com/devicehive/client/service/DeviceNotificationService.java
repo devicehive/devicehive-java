@@ -14,7 +14,7 @@ import retrofit2.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DeviceNotificationService extends BaseService {
+class DeviceNotificationService extends BaseService {
 
     private static final String CANCELED = "Canceled";
     private DeviceNotificationApi notificationApi;
@@ -23,7 +23,7 @@ public class DeviceNotificationService extends BaseService {
     private Call<List<com.devicehive.rest.model.DeviceNotification>> pollCall;
     private Call<List<com.devicehive.rest.model.DeviceNotification>> pollManyCall;
 
-    public DHResponse<DeviceNotification> sendNotification(String deviceId, String notification, List<Parameter> parameters) {
+    DHResponse<DeviceNotification> sendNotification(String deviceId, String notification, List<Parameter> parameters) {
         notificationApi = createService(DeviceNotificationApi.class);
 
         DeviceNotificationWrapper notificationWrapper = createDeviceNotificationWrapper(notification, parameters);
@@ -67,8 +67,8 @@ public class DeviceNotificationService extends BaseService {
         }
     }
 
-    public DHResponse<List<DeviceNotification>> getDeviceNotifications(String deviceId, DateTime startTimestamp,
-                                                                       DateTime endTimestamp) {
+    DHResponse<List<DeviceNotification>> getDeviceNotifications(String deviceId, DateTime startTimestamp,
+                                                                DateTime endTimestamp) {
         notificationApi = createService(DeviceNotificationApi.class);
 
         Period period = new Period(startTimestamp, endTimestamp);

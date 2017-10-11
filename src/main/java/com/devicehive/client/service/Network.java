@@ -11,9 +11,8 @@
  */
 
 
-package com.devicehive.client.model;
+package com.devicehive.client.service;
 
-import com.devicehive.client.DeviceHive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -40,7 +39,7 @@ public class Network {
         DeviceHive.getInstance().getNetworkService().updateNetwork(id, name, description);
     }
 
-    public static Network create(com.devicehive.rest.model.Network network) {
+    static Network create(com.devicehive.rest.model.Network network) {
         if (network == null) return null;
         return Network.builder()
                 .id(network.getId())
@@ -49,7 +48,7 @@ public class Network {
                 .build();
     }
 
-    public static Network create(com.devicehive.rest.model.NetworkVO network) {
+    static Network create(com.devicehive.rest.model.NetworkVO network) {
         if (network == null) return null;
         return Network.builder()
                 .id(network.getId())
@@ -58,7 +57,7 @@ public class Network {
                 .build();
     }
 
-    public static List<Network> createList(List<com.devicehive.rest.model.Network> list) {
+    static List<Network> createList(List<com.devicehive.rest.model.Network> list) {
         if (list == null) return null;
         List<Network> result = new ArrayList<Network>(list.size());
         for (com.devicehive.rest.model.Network n : list) {
@@ -67,7 +66,7 @@ public class Network {
         return result;
     }
 
-    public static List<Network> createListVO(List<com.devicehive.rest.model.NetworkVO> list) {
+    static List<Network> createListVO(List<com.devicehive.rest.model.NetworkVO> list) {
         if (list == null) return null;
         List<Network> result = new ArrayList<Network>(list.size());
         for (com.devicehive.rest.model.NetworkVO n : list) {

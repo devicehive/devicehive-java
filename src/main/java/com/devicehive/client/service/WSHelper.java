@@ -1,9 +1,9 @@
-package com.devicehive.client;
+package com.devicehive.client.service;
 
 import com.devicehive.client.model.TokenAuth;
 import com.devicehive.websocket.api.WebSocketClient;
 
-public class WSHelper {
+class WSHelper {
     private final WebSocketClient webSocketClient;
 
     private WSHelper() {
@@ -23,11 +23,11 @@ public class WSHelper {
         static final WSHelper INSTANCE = new WSHelper();
     }
 
-    public static WSHelper getInstance() {
+    static WSHelper getInstance() {
         return WSHelper.InstanceHolder.INSTANCE;
     }
 
-    public WebSocketClient getWebSocketClient() {
+    WebSocketClient getWebSocketClient() {
         return webSocketClient;
     }
 }

@@ -1,7 +1,6 @@
 package com.devicehive.client.service;
 
 import com.devicehive.client.model.DHResponse;
-import com.devicehive.client.model.Network;
 import com.devicehive.client.model.UserFilter;
 import com.devicehive.rest.api.UserApi;
 import com.devicehive.rest.model.JsonStringWrapper;

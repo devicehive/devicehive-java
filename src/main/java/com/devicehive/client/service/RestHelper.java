@@ -1,8 +1,8 @@
-package com.devicehive.client;
+package com.devicehive.client.service;
 
 import com.devicehive.rest.ApiClient;
 
-public class RestHelper {
+class RestHelper {
     private final ApiClient apiClient;
 
     private RestHelper() {
@@ -16,11 +16,11 @@ public class RestHelper {
         static final RestHelper INSTANCE = new RestHelper();
     }
 
-    public static RestHelper getInstance() {
+    static RestHelper getInstance() {
         return RestHelper.InstanceHolder.INSTANCE;
     }
 
-    public ApiClient getApiClient() {
+    ApiClient getApiClient() {
         return apiClient;
     }
 }

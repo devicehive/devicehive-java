@@ -1,10 +1,11 @@
 package com.devicehive.client;
 
-import com.devicehive.client.model.DeviceCommand;
+import com.devicehive.client.service.DeviceCommand;
 import com.devicehive.client.model.DeviceCommandCallback;
 import com.devicehive.client.model.FailureData;
 import com.devicehive.client.model.TokenAuth;
 import com.devicehive.client.service.Device;
+import com.devicehive.client.service.DeviceHive;
 import com.devicehive.rest.model.JsonStringWrapper;
 import org.junit.Assert;
 import org.junit.Test;

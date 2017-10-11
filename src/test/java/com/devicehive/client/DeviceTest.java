@@ -2,6 +2,8 @@ package com.devicehive.client;
 
 import com.devicehive.client.model.*;
 import com.devicehive.client.service.Device;
+import com.devicehive.client.service.DeviceCommand;
+import com.devicehive.client.service.DeviceHive;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;

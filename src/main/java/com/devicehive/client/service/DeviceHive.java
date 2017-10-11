@@ -1,14 +1,9 @@
-package com.devicehive.client;
+package com.devicehive.client.service;
 
 import com.devicehive.client.api.MainDeviceHive;
 import com.devicehive.client.callback.ResponseCallback;
 import com.devicehive.client.model.*;
-import com.devicehive.client.model.DeviceCommand;
 import com.devicehive.client.model.DeviceNotification;
-import com.devicehive.client.model.Network;
-import com.devicehive.client.service.*;
-import com.devicehive.client.service.Device;
-import com.devicehive.client.service.User;
 import com.devicehive.rest.api.JwtTokenApi;
 import com.devicehive.rest.model.*;
 import com.devicehive.websocket.api.CommandWS;
@@ -57,7 +52,7 @@ public class DeviceHive implements MainDeviceHive {
         return wsUrl;
     }
 
-    public WebSocketClient getWsClient() {
+    WebSocketClient getWsClient() {
         return WSHelper.getInstance().getWebSocketClient();
     }
 
@@ -273,7 +268,7 @@ public class DeviceHive implements MainDeviceHive {
     }
 
     public DHResponse<User> createUser(String login, String password, com.devicehive.rest.model.User.RoleEnum role, StatusEnum status, JsonStringWrapper data) {
-        return userService.createUser(login, password,role,status, data);
+        return userService.createUser(login, password, role, status, data);
     }
 
     public DHResponse<Void> removeUser(long id) {
@@ -285,19 +280,19 @@ public class DeviceHive implements MainDeviceHive {
         return deviceService.createDevice(id, name);
     }
 
-    public NetworkService getNetworkService() {
+    NetworkService getNetworkService() {
         return networkService;
     }
 
-    public DeviceCommandService getCommandService() {
+    DeviceCommandService getCommandService() {
         return commandService;
     }
 
-    public UserService getUserService() {
+    UserService getUserService() {
         return userService;
     }
 
-    public DeviceNotificationService getDeviceNotificationService() {
+    DeviceNotificationService getDeviceNotificationService() {
         return notificationService;
     }
 }

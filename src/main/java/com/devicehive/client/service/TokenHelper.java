@@ -1,11 +1,11 @@
-package com.devicehive.client;
+package com.devicehive.client.service;
 
 import com.devicehive.client.model.TokenAuth;
 
-public class TokenHelper {
+class TokenHelper {
     private final TokenAuth tokenAuth;
 
-    private TokenHelper() {
+    TokenHelper() {
         tokenAuth = new TokenAuth();
     }
 
@@ -13,11 +13,11 @@ public class TokenHelper {
         static final TokenHelper INSTANCE = new TokenHelper();
     }
 
-    public static TokenHelper getInstance() {
+    static TokenHelper getInstance() {
         return TokenHelper.InstanceHolder.INSTANCE;
     }
 
-    public TokenAuth getTokenAuth() {
+    TokenAuth getTokenAuth() {
         return tokenAuth;
     }
 }
