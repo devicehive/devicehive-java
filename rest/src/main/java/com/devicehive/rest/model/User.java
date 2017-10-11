@@ -1,103 +1,153 @@
 package com.devicehive.rest.model;
 
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import lombok.Data;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Data
-public class User   {
-  
-  @SerializedName("id")
-  private Long id = null;
+public class User {
 
-  @SerializedName("login")
-  private String login = null;
+    @SerializedName("id")
+    private Long id = null;
 
-  @SerializedName("passwordHash")
-  private String passwordHash = null;
+    @SerializedName("login")
+    private String login = null;
 
-  @SerializedName("passwordSalt")
-  private String passwordSalt = null;
+    @SerializedName("passwordHash")
+    private String passwordHash = null;
 
-  @SerializedName("loginAttempts")
-  private Integer loginAttempts = null;
+    @SerializedName("passwordSalt")
+    private String passwordSalt = null;
+
+    @SerializedName("loginAttempts")
+    private Integer loginAttempts = null;
+
+    @JsonAdapter(RoleEnum.Adapter.class)
+    public enum RoleEnum {
+        NUMBER_0(0),
+
+        NUMBER_1(1);
+
+        private Integer value;
+
+        RoleEnum(Integer value) {
+            this.value = value;
+        }
+
+        public Integer getValue() {
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return String.valueOf(value);
+        }
+
+        public static RoleEnum fromValue(String text) {
+            for (RoleEnum b : RoleEnum.values()) {
+                if (String.valueOf(b.value).equals(text)) {
+                    return b;
+                }
+            }
+            return null;
+        }
+
+        public static class Adapter extends TypeAdapter<RoleEnum> {
+            @Override
+            public void write(final JsonWriter jsonWriter, final RoleEnum enumeration) throws IOException {
+                jsonWriter.value(enumeration.getValue());
+            }
+
+            @Override
+            public RoleEnum read(final JsonReader jsonReader) throws IOException {
+                Integer value = jsonReader.nextInt();
+                return RoleEnum.fromValue(String.valueOf(value));
+            }
+        }
+    }
+
+    @SerializedName("role")
+    private RoleEnum role = null;
 
 
-public enum RoleEnum {
-  @SerializedName("ADMIN")
-  ADMIN("ADMIN"),
+    @JsonAdapter(StatusEnum.Adapter.class)
+    public enum StatusEnum {
+        NUMBER_0(0),
 
-  @SerializedName("CLIENT")
-  CLIENT("CLIENT");
+        NUMBER_1(1),
 
-  private String value;
+        NUMBER_2(2);
 
-  RoleEnum(String value) {
-    this.value = value;
-  }
+        private Integer value;
 
-  @Override
-  public String toString() {
-    return value;
-  }
-}
+        StatusEnum(Integer value) {
+            this.value = value;
+        }
 
-  @SerializedName("role")
-  private RoleEnum role = null;
+        public Integer getValue() {
+            return value;
+        }
 
+        @Override
+        public String toString() {
+            return String.valueOf(value);
+        }
 
-public enum StatusEnum {
-  @SerializedName("ACTIVE")
-  ACTIVE("ACTIVE"),
+        public static StatusEnum fromValue(String text) {
+            for (StatusEnum b : StatusEnum.values()) {
+                if (String.valueOf(b.value).equals(text)) {
+                    return b;
+                }
+            }
+            return null;
+        }
 
-  @SerializedName("LOCKED_OUT")
-  LOCKED_OUT("LOCKED_OUT"),
+        public static class Adapter extends TypeAdapter<StatusEnum> {
+            @Override
+            public void write(final JsonWriter jsonWriter, final StatusEnum enumeration) throws IOException {
+                jsonWriter.value(enumeration.getValue());
+            }
 
-  @SerializedName("DISABLED")
-  DISABLED("DISABLED"),
+            @Override
+            public StatusEnum read(final JsonReader jsonReader) throws IOException {
+                Integer value = jsonReader.nextInt();
+                return StatusEnum.fromValue(String.valueOf(value));
+            }
+        }
+    }
 
-  @SerializedName("DELETED")
-  DELETED("DELETED");
+    @SerializedName("status")
+    private StatusEnum status = null;
 
-  private String value;
+    @SerializedName("networks")
+    private List<NetworkVO> networks = new ArrayList<NetworkVO>();
 
-  StatusEnum(String value) {
-    this.value = value;
-  }
+    @SerializedName("lastLogin")
+    private Date lastLogin = null;
 
-  @Override
-  public String toString() {
-    return value;
-  }
-}
+    @SerializedName("googleLogin")
+    private String googleLogin = null;
 
-  @SerializedName("status")
-  private StatusEnum status = null;
+    @SerializedName("facebookLogin")
+    private String facebookLogin = null;
 
-  @SerializedName("networks")
-  private List<NetworkVO> networks = new ArrayList<NetworkVO>();
+    @SerializedName("githubLogin")
+    private String githubLogin = null;
 
-  @SerializedName("lastLogin")
-  private Date lastLogin = null;
+    @SerializedName("entityVersion")
+    private Long entityVersion = null;
 
-  @SerializedName("googleLogin")
-  private String googleLogin = null;
+    @SerializedName("data")
+    private JsonStringWrapper data = null;
 
-  @SerializedName("facebookLogin")
-  private String facebookLogin = null;
-
-  @SerializedName("githubLogin")
-  private String githubLogin = null;
-
-  @SerializedName("entityVersion")
-  private Long entityVersion = null;
-
-  @SerializedName("data")
-  private JsonStringWrapper data = null;
-
-  @SerializedName("admin")
-  private Boolean admin = false;
+    @SerializedName("admin")
+    private Boolean admin = false;
 }

@@ -14,7 +14,6 @@ public interface UserApi {
    * Associates network with the user.
    * @param id User identifier. (required)
    * @param networkId Network identifier. (required)
-   * @param authorization Authorization token (required)
    * @return Call&lt;Void&gt;
    */
   @Headers({
@@ -22,14 +21,13 @@ public interface UserApi {
   })
   @PUT("user/{id}/network/{networkId}")
   Call<Void> assignNetwork(
-          @Path("id") Long id, @Path("networkId") Long networkId, @Header("Authorization") String authorization
+          @Path("id") Long id, @Path("networkId") Long networkId
   );
 
   /**
    * Delete user
    * Deletes an existing user.
    * @param id User identifier. (required)
-   * @param authorization Authorization token (required)
    * @return Call&lt;Void&gt;
    */
   @Headers({
@@ -37,22 +35,19 @@ public interface UserApi {
   })
   @DELETE("user/{id}")
   Call<Void> deleteUser(
-          @Path("id") Long id, @Header("Authorization") String authorization
+          @Path("id") Long id
   );
 
   /**
    * Get current user
    * Get information about the current user.
-   * @param authorization Authorization token (required)
    * @return Call&lt;UserWithNetwork&gt;
    */
   @Headers({
     "Content-Type:application/json"
   })
   @GET("user/current")
-  Call<UserWithNetwork> getCurrent(
-          @Header("Authorization") String authorization
-  );
+  Call<UserWithNetwork> getCurrent();
 
   /**
    * Get user&#39;s network
@@ -74,7 +69,6 @@ public interface UserApi {
    * Get user
    * Gets information about user and its assigned networks. Only administrators are allowed to get information about any user. User-level accounts can only retrieve information about themselves.
    * @param id User identifier. (required)
-   * @param authorization Authorization token (required)
    * @return Call&lt;UserResponse&gt;
    */
   @Headers({
@@ -82,14 +76,13 @@ public interface UserApi {
   })
   @GET("user/{id}")
   Call<UserResponse> getUser(
-          @Path("id") Long id, @Header("Authorization") String authorization
+          @Path("id") Long id
   );
 
   /**
    * Create user
    * Creates new user.
    * @param body User body (required)
-   * @param authorization Authorization token (required)
    * @return Call&lt;UserVO&gt;
    */
   @Headers({
@@ -97,13 +90,12 @@ public interface UserApi {
   })
   @POST("user")
   Call<UserVO> insertUser(
-          @Body UserUpdate body, @Header("Authorization") String authorization
+          @Body UserUpdate body
   );
 
   /**
    * List users
    * Gets list of users.
-   * @param authorization Authorization token (required)
    * @param login Filter by user login. (optional)
    * @param loginPattern Filter by user login pattern. (optional)
    * @param role Filter by user role. 0 is Administrator, 1 is Client. (optional)
@@ -119,7 +111,7 @@ public interface UserApi {
   })
   @GET("user")
   Call<List<UserVO>> list(
-          @Header("Authorization") String authorization, @Query("login") String login, @Query("loginPattern") String loginPattern, @Query("role") Integer role, @Query("status") Integer status, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip
+         @Query("login") String login, @Query("loginPattern") String loginPattern, @Query("role") Integer role, @Query("status") Integer status, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip
   );
 
   /**
@@ -127,7 +119,6 @@ public interface UserApi {
    * Removes association between network and user.
    * @param id User identifier. (required)
    * @param networkId Network identifier. (required)
-   * @param authorization Authorization token (required)
    * @return Call&lt;Void&gt;
    */
   @Headers({
@@ -135,14 +126,13 @@ public interface UserApi {
   })
   @DELETE("user/{id}/network/{networkId}")
   Call<Void> unassignNetwork(
-          @Path("id") Long id, @Path("networkId") Long networkId, @Header("Authorization") String authorization
+          @Path("id") Long id, @Path("networkId") Long networkId
   );
 
   /**
    * Update current user
    * Updates an existing user.  Only administrators are allowed to update any property of any user. User-level accounts can only change their own password in case: 1. They already have a password. 2. They provide a valid current password in the &#39;oldPassword&#39; property.
    * @param body User body (required)
-   * @param authorization Authorization token (required)
    * @return Call&lt;Void&gt;
    */
   @Headers({
@@ -150,7 +140,7 @@ public interface UserApi {
   })
   @PUT("user/current")
   Call<Void> updateCurrentUser(
-          @Body UserUpdate body, @Header("Authorization") String authorization
+          @Body UserUpdate body
   );
 
   /**
@@ -158,7 +148,6 @@ public interface UserApi {
    *
    * @param body User body (required)
    * @param id User identifier. (required)
-   * @param authorization Authorization token (required)
    * @return Call&lt;Void&gt;
    */
   @Headers({
@@ -166,7 +155,7 @@ public interface UserApi {
   })
   @PUT("user/{id}")
   Call<Void> updateUser(
-          @Body UserUpdate body, @Path("id") Long id, @Header("Authorization") String authorization
+          @Body UserUpdate body, @Path("id") Long id
   );
 
 }

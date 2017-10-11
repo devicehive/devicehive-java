@@ -49,10 +49,28 @@ public class Network {
                 .build();
     }
 
+    public static Network create(com.devicehive.rest.model.NetworkVO network) {
+        if (network == null) return null;
+        return Network.builder()
+                .id(network.getId())
+                .name(network.getName())
+                .description(network.getDescription())
+                .build();
+    }
+
     public static List<Network> createList(List<com.devicehive.rest.model.Network> list) {
         if (list == null) return null;
         List<Network> result = new ArrayList<Network>(list.size());
         for (com.devicehive.rest.model.Network n : list) {
+            result.add(create(n));
+        }
+        return result;
+    }
+
+    public static List<Network> createListVO(List<com.devicehive.rest.model.NetworkVO> list) {
+        if (list == null) return null;
+        List<Network> result = new ArrayList<Network>(list.size());
+        for (com.devicehive.rest.model.NetworkVO n : list) {
             result.add(create(n));
         }
         return result;

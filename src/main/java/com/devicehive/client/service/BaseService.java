@@ -45,7 +45,7 @@ public class BaseService {
         }
     }
 
-    void authorizeViaToken() {
+    private void authorizeViaToken() {
         ApiKeyAuth apiKeyAuth = ApiKeyAuth.newInstance();
         apiKeyAuth.setApiKey(getTokenAuth().getAccessToken());
         apiClient.addAuthorization(ApiClient.AUTH_API_KEY, apiKeyAuth);
