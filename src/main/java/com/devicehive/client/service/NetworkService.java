@@ -1,7 +1,6 @@
 package com.devicehive.client.service;
 
 import com.devicehive.client.model.DHResponse;
-import com.devicehive.client.model.Network;
 import com.devicehive.client.model.NetworkFilter;
 import com.devicehive.rest.api.NetworkApi;
 import com.devicehive.rest.model.NetworkId;
@@ -10,9 +9,9 @@ import com.devicehive.rest.model.NetworkVO;
 
 import java.util.List;
 
-public class NetworkService extends BaseService {
+class NetworkService extends BaseService {
 
-    public DHResponse<List<Network>> listNetworks(NetworkFilter filter) {
+    DHResponse<List<Network>> listNetworks(NetworkFilter filter) {
         NetworkApi api = createService(NetworkApi.class);
         DHResponse<List<Network>> dhResponse;
 
@@ -35,7 +34,7 @@ public class NetworkService extends BaseService {
         }
     }
 
-    public DHResponse<NetworkVO> getNetwork(long id) {
+    DHResponse<NetworkVO> getNetwork(long id) {
         NetworkApi api = createService(NetworkApi.class);
         DHResponse<NetworkVO> response = execute(api.get(id));
         if (response.isSuccessful()) {
@@ -49,7 +48,7 @@ public class NetworkService extends BaseService {
         }
     }
 
-    public DHResponse<Void> removeNetwork(long id) {
+    DHResponse<Void> removeNetwork(long id) {
         NetworkApi api = createService(NetworkApi.class);
         DHResponse<Void> response = execute(api.delete(id));
         if (response.isSuccessful()) {
@@ -63,7 +62,7 @@ public class NetworkService extends BaseService {
         }
     }
 
-    public DHResponse<Network> createNetwork(String name, String description) {
+    DHResponse<Network> createNetwork(String name, String description) {
 
         NetworkVO network = createCreateBody(name, description);
 
@@ -110,7 +109,7 @@ public class NetworkService extends BaseService {
         return dhResponse;
     }
 
-    public void updateNetwork(long id, String name, String description) {
+    void updateNetwork(long id, String name, String description) {
         NetworkApi api = createService(NetworkApi.class);
         NetworkUpdate body = createUpdateBody(name, description);
         System.out.println(body);

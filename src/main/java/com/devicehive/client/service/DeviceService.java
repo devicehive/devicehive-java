@@ -7,11 +7,11 @@ import com.devicehive.rest.model.DeviceUpdate;
 
 import java.util.List;
 
-public class DeviceService extends BaseService {
+class DeviceService extends BaseService {
     private DeviceApi deviceApi;
 
 
-    public DHResponse<Void> createDevice(String id, String name) {
+    DHResponse<Void> createDevice(String id, String name) {
         deviceApi = createService(DeviceApi.class);
         DeviceUpdate device = new DeviceUpdate();
         device.setId(id);
@@ -28,7 +28,7 @@ public class DeviceService extends BaseService {
         }
     }
 
-    public Device getDevice(String id) {
+    Device getDevice(String id) {
         deviceApi = createService(DeviceApi.class);
         DHResponse<Device> response;
         DHResponse<com.devicehive.rest.model.Device> result;
@@ -57,7 +57,7 @@ public class DeviceService extends BaseService {
         }
     }
 
-    public DHResponse<List<Device>> getDevices(DeviceFilter filter) {
+    DHResponse<List<Device>> getDevices(DeviceFilter filter) {
         deviceApi = createService(DeviceApi.class);
         DHResponse<List<Device>> response;
         DHResponse<List<com.devicehive.rest.model.Device>> result;
@@ -81,7 +81,7 @@ public class DeviceService extends BaseService {
         }
     }
 
-    public DHResponse<Void> removeDevice(String deviceId) {
+    DHResponse<Void> removeDevice(String deviceId) {
         deviceApi = createService(DeviceApi.class);
         DHResponse<Void> response = execute(deviceApi.delete(deviceId));
         if (response.isSuccessful()) {

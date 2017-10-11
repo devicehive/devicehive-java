@@ -1,7 +1,7 @@
 package com.devicehive.client.api;
 
 import com.devicehive.client.model.*;
-import com.devicehive.client.model.Network;
+import com.devicehive.client.service.Network;
 import com.devicehive.client.service.Device;
 import com.devicehive.rest.model.*;
 import org.joda.time.DateTime;

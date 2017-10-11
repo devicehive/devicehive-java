@@ -1,6 +1,6 @@
-package com.devicehive.client.model;
+package com.devicehive.client.service;
 
-import com.devicehive.client.DeviceHive;
+import com.devicehive.client.model.DHResponse;
 import com.devicehive.rest.model.DeviceCommandWrapper;
 import com.devicehive.rest.model.JsonStringWrapper;
 import lombok.Data;
@@ -26,8 +26,8 @@ public class DeviceCommand {
 
     }
 
-    public static DeviceCommand create(com.devicehive.rest.model.CommandInsert command, String commandName,
-                                       String deviceId, com.devicehive.rest.model.JsonStringWrapper parameters) {
+    static DeviceCommand create(com.devicehive.rest.model.CommandInsert command, String commandName,
+                                String deviceId, com.devicehive.rest.model.JsonStringWrapper parameters) {
         if (command == null) {
             return null;
         }
@@ -41,7 +41,7 @@ public class DeviceCommand {
         return deviceCommand;
     }
 
-    public static DeviceCommand create(com.devicehive.websocket.model.repsonse.data.DeviceCommand command) {
+    static DeviceCommand create(com.devicehive.websocket.model.repsonse.data.DeviceCommand command) {
         if (command == null) {
             return null;
         }
@@ -53,7 +53,7 @@ public class DeviceCommand {
         return deviceCommand;
     }
 
-    public static DeviceCommand create(com.devicehive.rest.model.DeviceCommand command) {
+    static DeviceCommand create(com.devicehive.rest.model.DeviceCommand command) {
         if (command == null) {
             return null;
         }
@@ -66,7 +66,7 @@ public class DeviceCommand {
         return deviceCommand;
     }
 
-    public static List<DeviceCommand> createList(List<com.devicehive.websocket.model.repsonse.data.DeviceCommand> commands) {
+    static List<DeviceCommand> createList(List<com.devicehive.websocket.model.repsonse.data.DeviceCommand> commands) {
         List<DeviceCommand> list = new ArrayList<DeviceCommand>();
         if (commands == null) {
             return Collections.emptyList();
@@ -80,7 +80,7 @@ public class DeviceCommand {
 
     }
 
-    public static List<DeviceCommand> createListFromRest(List<com.devicehive.rest.model.DeviceCommand> commands) {
+    static List<DeviceCommand> createListFromRest(List<com.devicehive.rest.model.DeviceCommand> commands) {
         List<DeviceCommand> list = new ArrayList<DeviceCommand>();
         if (commands == null) {
             return Collections.emptyList();

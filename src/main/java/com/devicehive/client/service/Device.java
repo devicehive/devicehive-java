@@ -1,6 +1,5 @@
 package com.devicehive.client.service;
 
-import com.devicehive.client.DeviceHive;
 import com.devicehive.client.model.*;
 import com.devicehive.rest.model.JsonStringWrapper;
 import com.devicehive.websocket.api.CommandWS;

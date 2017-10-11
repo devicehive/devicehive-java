@@ -1,7 +1,5 @@
 package com.devicehive.client.service;
 
-import com.devicehive.client.RestHelper;
-import com.devicehive.client.TokenHelper;
 import com.devicehive.client.callback.ResponseCallback;
 import com.devicehive.client.model.DHResponse;
 import com.devicehive.client.model.FailureData;
