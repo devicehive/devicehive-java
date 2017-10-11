@@ -16,7 +16,6 @@ import java.util.concurrent.CountDownLatch;
 public class DeviceCommandService extends BaseService {
 
     public static final String CANCELED = "Canceled";
-    private DeviceCommandApi deviceCommandApi;
     private Call<List<com.devicehive.rest.model.DeviceCommand>> pollCall;
     private boolean isSubscribed = false;
     private boolean isSubscribedMany = false;
@@ -34,7 +33,7 @@ public class DeviceCommandService extends BaseService {
                                                               DateTime startTimestamp, DateTime endTimestamp,
                                                               int maxNumber) {
 
-        deviceCommandApi = createService(DeviceCommandApi.class);
+        DeviceCommandApi deviceCommandApi = createService(DeviceCommandApi.class);
 
         Period period = new Period(startTimestamp, endTimestamp);
 
@@ -62,7 +61,7 @@ public class DeviceCommandService extends BaseService {
     }
 
     public DHResponse<DeviceCommand> sendCommand(String deviceId, String command, List<Parameter> parameters) {
-        deviceCommandApi = createService(DeviceCommandApi.class);
+        DeviceCommandApi deviceCommandApi = createService(DeviceCommandApi.class);
         DHResponse<DeviceCommand> response;
 
         DeviceCommandWrapper wrapper = createDeviceCommandWrapper(command, parameters);
@@ -75,6 +74,7 @@ public class DeviceCommandService extends BaseService {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
             authorize();
+            deviceCommandApi = createService(DeviceCommandApi.class);
             result = execute(deviceCommandApi.insert(deviceId, wrapper));
             return new DHResponse<DeviceCommand>(DeviceCommand.create(result.getData(), command, deviceId,
                     wrapper.getParameters()), result.getFailureData());
@@ -95,12 +95,13 @@ public class DeviceCommandService extends BaseService {
     }
 
     public DHResponse<com.devicehive.rest.model.DeviceCommand> getCommand(String deviceId, long commandId) {
-        deviceCommandApi = createService(DeviceCommandApi.class);
+        DeviceCommandApi deviceCommandApi = createService(DeviceCommandApi.class);
         DHResponse<com.devicehive.rest.model.DeviceCommand> response = execute(deviceCommandApi.get(deviceId, String.valueOf(commandId)));
         if (response.isSuccessful()) {
             return new DHResponse<>(response.getData(), response.getFailureData());
         } else if (response.getFailureData().getCode() == 401) {
             authorize();
+            deviceCommandApi = createService(DeviceCommandApi.class);
             return execute(deviceCommandApi.get(deviceId, String.valueOf(commandId)));
         } else {
             return response;
@@ -108,12 +109,13 @@ public class DeviceCommandService extends BaseService {
     }
 
     public DHResponse<Void> updateCommand(String deviceId, long commandId, DeviceCommandWrapper body) {
-        deviceCommandApi = createService(DeviceCommandApi.class);
+        DeviceCommandApi deviceCommandApi = createService(DeviceCommandApi.class);
         DHResponse<Void> response = execute(deviceCommandApi.update(deviceId, commandId, body));
         if (response.isSuccessful()) {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
             authorize();
+            deviceCommandApi = createService(DeviceCommandApi.class);
             return execute(deviceCommandApi.update(deviceId, commandId, body));
         } else {
             return response;

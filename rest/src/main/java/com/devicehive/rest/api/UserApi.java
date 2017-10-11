@@ -111,7 +111,9 @@ public interface UserApi {
   })
   @GET("user")
   Call<List<UserVO>> list(
-         @Query("login") String login, @Query("loginPattern") String loginPattern, @Query("role") Integer role, @Query("status") Integer status, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip
+         @Query("login") String login, @Query("loginPattern") String loginPattern, @Query("role") Integer role,
+         @Query("status") Integer status, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder,
+         @Query("take") Integer take, @Query("skip") Integer skip
   );
 
   /**

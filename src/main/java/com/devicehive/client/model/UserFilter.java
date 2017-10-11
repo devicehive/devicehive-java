@@ -11,7 +11,7 @@ public class UserFilter {
     String loginPattern;
     RoleEnum role;
     StatusEnum status;
-    SortField sortField;
+    SortField sortField = SortField.ID;
     SortOrder sortOrder = SortOrder.DESC;
     Integer take = 30;
     Integer skip = 0;

@@ -4,7 +4,9 @@ import com.devicehive.client.callback.ResponseCallback;
 import com.devicehive.client.model.*;
 import com.devicehive.client.model.Network;
 import com.devicehive.client.service.Device;
+import com.devicehive.client.service.User;
 import com.devicehive.rest.model.*;
+import com.devicehive.websocket.model.StatusEnum;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,7 +29,8 @@ public class DeviceHiveTest {
     private static final String DEVICE_ID = "271990123";
     private static final String DEVICE_ID2 = "271990";
 
-    private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, new TokenAuth(refreshToken, accessToken));
+    private DeviceHive deviceHive = DeviceHive.getInstance()
+            .init(URL, new TokenAuth(refreshToken, accessToken));
 
     @Test
     public void apiInfoTest() throws InterruptedException {
@@ -85,6 +88,7 @@ public class DeviceHiveTest {
     @Test
     public void getConfigurationProperty() throws IOException {
         DHResponse<Configuration> response = deviceHive.getProperty("jwt.secret");
+        System.out.println(response);
         Assert.assertTrue(response.isSuccessful());
     }
 
@@ -191,4 +195,21 @@ public class DeviceHiveTest {
         DHResponse<List<Device>> devices = deviceHive.listDevices(new DeviceFilter());
     }
 
+
+    @Test
+    public void getUsers() {
+        UserFilter filter = new UserFilter();
+        DHResponse<List<User>> users = deviceHive.getUsers(filter);
+        Assert.assertTrue(users.isSuccessful());
+    }
+
+    @Test
+    public void createAndDeleteUser() {
+        DHResponse<User> user = deviceHive.createUser("javaLibTest", "123456",
+                com.devicehive.rest.model.User.RoleEnum.NUMBER_0, StatusEnum.ACTIVE, null);
+        System.out.println(user);
+        Assert.assertTrue(user.isSuccessful());
+        DHResponse<Void> delete = deviceHive.removeUser(user.getData().getId());
+        Assert.assertTrue(delete.isSuccessful());
+    }
 }

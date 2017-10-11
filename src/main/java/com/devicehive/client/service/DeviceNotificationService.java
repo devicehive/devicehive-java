@@ -35,7 +35,7 @@ public class DeviceNotificationService extends BaseService {
             result = execute(notificationApi.insert(deviceId, notificationWrapper));
             return getNotification(deviceId, result.getData().getId());
         } else {
-            return new DHResponse<DeviceNotification>(null, result.getFailureData());
+            return DHResponse.create(null, result.getFailureData());
         }
     }
 
@@ -52,16 +52,16 @@ public class DeviceNotificationService extends BaseService {
         DHResponse<com.devicehive.rest.model.DeviceNotification> result = execute(notificationApi.get(deviceId,
                 notificationId));
         if (result.isSuccessful()) {
-            return new DHResponse<DeviceNotification>(DeviceNotification.create(result.getData()),
+            return DHResponse.create(DeviceNotification.create(result.getData()),
                     result.getFailureData());
         } else if (result.getFailureData().getCode() == 401) {
             authorize();
             result = execute(notificationApi.get(deviceId,
                     notificationId));
-            return new DHResponse<DeviceNotification>(DeviceNotification.create(result.getData()),
+            return DHResponse.create(DeviceNotification.create(result.getData()),
                     result.getFailureData());
         } else {
-            return new DHResponse<DeviceNotification>(null, result.getFailureData());
+            return DHResponse.create(null, result.getFailureData());
         }
     }
 
@@ -104,7 +104,7 @@ public class DeviceNotificationService extends BaseService {
             pollCall.cancel();
             pollCall = null;
         }
-        pollCall = notificationApi.poll(deviceId, StringUtils.join(filter.getNotificationNames(),","),
+        pollCall = notificationApi.poll(deviceId, StringUtils.join(filter.getNotificationNames(), ","),
                 filter.getStartTimestamp().toString(),
                 (long) period.toStandardSeconds().getSeconds());
 
@@ -160,7 +160,7 @@ public class DeviceNotificationService extends BaseService {
             pollManyCall = null;
         }
         pollManyCall = notificationApi.pollMany((long) period.toStandardSeconds().getSeconds(), deviceIds,
-                StringUtils.join(filter.getNotificationNames(),","), filter.getStartTimestamp().toString());
+                StringUtils.join(filter.getNotificationNames(), ","), filter.getStartTimestamp().toString());
 
         pollManyCall.enqueue(getNotificationsAllCallback(deviceIds, filter, isAuthNeeded, notificationsCallback));
 
