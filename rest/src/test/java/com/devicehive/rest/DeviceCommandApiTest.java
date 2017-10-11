@@ -99,7 +99,7 @@ public class DeviceCommandApiTest extends Helper {
         for (int i = 0; i < 5; i++) {
             commandApi.insert(deviceId, deviceCommandWrapper).execute();
         }
-        String timestamp = currentTimestamp.toString();
+        String timestamp = currentTimestamp.withMillis(0).toString();
         Response<List<DeviceCommand>> pollResponse = commandApi.poll(deviceId, COMMAND_NAME,
                 timestamp, 30L, 10).execute();
         Assert.assertTrue(pollResponse.isSuccessful());
@@ -121,18 +121,17 @@ public class DeviceCommandApiTest extends Helper {
 
         DeviceCommandWrapper deviceCommandWrapper = getCommandWrapper();
         DateTime currentTimestamp = DateTime.now();
+        String timestamp = currentTimestamp.withMillis(0).toString();
         for (int i = 0; i < 5; i++) {
             commandApi.insert(deviceId1, deviceCommandWrapper).execute();
             commandApi.insert(deviceId2, deviceCommandWrapper).execute();
         }
-        String timestamp = currentTimestamp.toString();
 
 
         List<String> list = new ArrayList<>();
         list.add(deviceId1);
         list.add(deviceId2);
         String deviceIds = StringUtils.join(list, ",");
-
         Response<List<DeviceCommand>> pollResponse = commandApi.pollMany(
                 deviceIds,
                 COMMAND_NAME,
@@ -155,7 +154,7 @@ public class DeviceCommandApiTest extends Helper {
         for (int i = 1; i <= 5; i++) {
             commandApi.insert(deviceId, deviceCommandWrapper).execute();
         }
-        String current = currentTimestamp.toString();
+        String current = currentTimestamp.withMillis(0).toString();
         String endTimestamp = currentTimestamp.plusMinutes(2).toString();
         Response<List<DeviceCommand>> response = commandApi.query(deviceId, current, endTimestamp, COMMAND_NAME,
                 null, null, null, 10, 0).execute();
