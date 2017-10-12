@@ -34,7 +34,7 @@ public class NetworkVO {
     private String description = null;
 
     @SerializedName("devices")
-    private List<DeviceVO> devices = null;
+    private List<Device> devices = null;
 
 }
 

@@ -3,7 +3,7 @@ package com.devicehive.websocket.model.repsonse;
 import com.google.gson.annotations.SerializedName;
 
 public class ResponseAction {
-
+    public static final String SUCCESS = "success";
     @SerializedName("action")
     String action;
     @SerializedName("requestId")
@@ -32,7 +32,7 @@ public class ResponseAction {
                 + "}\n}";
     }
 
-    public boolean compareAction(String actionName){
+    public boolean compareAction(String actionName) {
         return action.equalsIgnoreCase(actionName);
     }
 }

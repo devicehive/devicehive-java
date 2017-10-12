@@ -1,6 +1,6 @@
 package com.devicehive.rest.api;
 
-import com.devicehive.rest.model.ApiInfoVO;
+import com.devicehive.rest.model.ApiInfo;
 import com.devicehive.rest.model.exceptions.HiveException;
 
 /**
@@ -16,7 +16,7 @@ public interface HiveClient extends AutoCloseable {
      *
      * @return API info
      */
-    ApiInfoVO getInfo() throws HiveException;
+    ApiInfo getInfo() throws HiveException;
 
     /**
      * Authenticates a client as a user (by login and password). Permissions will be determined by user's role.

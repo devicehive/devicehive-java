@@ -1,6 +1,5 @@
 package com.devicehive.websocket.api;
 
-import com.devicehive.websocket.adapter.JsonStringWrapperAdapterFactory;
 import com.devicehive.websocket.listener.NetworkListener;
 import com.devicehive.websocket.model.repsonse.NetworkGetResponse;
 import com.devicehive.websocket.model.repsonse.NetworkInsertResponse;
@@ -8,8 +7,6 @@ import com.devicehive.websocket.model.repsonse.NetworkListResponse;
 import com.devicehive.websocket.model.repsonse.ResponseAction;
 import com.devicehive.websocket.model.request.*;
 import com.devicehive.websocket.model.request.data.NetworkUpdate;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import okhttp3.WebSocket;
 
 import javax.annotation.Nullable;
@@ -35,9 +32,6 @@ public class NetworkWS extends BaseWebSocketApi implements NetworkApi {
     @Override
     public void onSuccess(String message) {
         ResponseAction action = getResponseAction(message);
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapterFactory(new JsonStringWrapperAdapterFactory())
-                .create();
         String actionName = action.getAction();
 
         if (actionName.equalsIgnoreCase(NETWORK_LIST)) {
@@ -58,7 +52,7 @@ public class NetworkWS extends BaseWebSocketApi implements NetworkApi {
     }
 
     @Override
-    public void list(@Nullable Long requestId, String name, String namePattern, String sortField, Boolean sortOrderAsc, Integer take, Integer skip) {
+    public void list( Long requestId, String name, String namePattern, String sortField, Boolean sortOrderAsc, Integer take, Integer skip) {
         NetworkListAction action = new NetworkListAction();
         action.setName(name);
         action.setNamePattern(namePattern);
@@ -71,7 +65,7 @@ public class NetworkWS extends BaseWebSocketApi implements NetworkApi {
     }
 
     @Override
-    public void get(@Nullable Long requestId, Long id) {
+    public void get( Long requestId, Long id) {
         NetworkGetAction action = new NetworkGetAction();
         action.setId(id);
         action.setRequestId(requestId);
@@ -79,7 +73,7 @@ public class NetworkWS extends BaseWebSocketApi implements NetworkApi {
     }
 
     @Override
-    public void insert(@Nullable Long requestId, NetworkUpdate networkUpdate) {
+    public void insert( Long requestId, NetworkUpdate networkUpdate) {
         NetworkInsertAction action = new NetworkInsertAction();
         action.setNetwork(networkUpdate);
         action.setRequestId(requestId);
@@ -87,7 +81,7 @@ public class NetworkWS extends BaseWebSocketApi implements NetworkApi {
     }
 
     @Override
-    public void update(@Nullable Long requestId, NetworkUpdate networkUpdate) {
+    public void update( Long requestId, NetworkUpdate networkUpdate) {
         NetworkUpdateAction action = new NetworkUpdateAction();
         action.setNetwork(networkUpdate);
         action.setRequestId(requestId);
@@ -95,7 +89,7 @@ public class NetworkWS extends BaseWebSocketApi implements NetworkApi {
     }
 
     @Override
-    public void delete(@Nullable Long requestId, Long id) {
+    public void delete( Long requestId, Long id) {
         NetworkDeleteAction action = new NetworkDeleteAction();
         action.setId(id);
         action.setRequestId(requestId);

@@ -2,12 +2,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.devicehive</groupId>
-    <artifactId>client-library</artifactId>
+    <artifactId>java-client</artifactId>
     <packaging>pom</packaging>
-    <name>devicehive-client-library</name>
+    <name>com.devicehive-java-library</name>
     <version>1.0.0</version>
+    <prerequisites>
+        <maven>2.2.0</maven>
+    </prerequisites>
     <modules>
         <module>rest</module>
         <module>websocket</module>
+        <module>client</module>
     </modules>
 </project>

@@ -1,5 +1,6 @@
 package com.devicehive.rest.api;
 
+import com.devicehive.rest.model.CommandInsert;
 import com.devicehive.rest.model.DeviceCommand;
 import com.devicehive.rest.model.DeviceCommandWrapper;
 import retrofit2.Call;
@@ -39,7 +40,7 @@ public interface DeviceCommandApi {
             "Content-Type:application/json"
     })
     @POST("device/{deviceId}/command")
-    Call<DeviceCommand> insert(
+    Call<CommandInsert> insert(
             @Path("deviceId") String deviceId, @Body DeviceCommandWrapper body
     );
 
@@ -78,7 +79,7 @@ public interface DeviceCommandApi {
     })
     @GET("device/command/poll")
     Call<List<DeviceCommand>> pollMany(
-            @Query("deviceId") List<String> deviceIds, @Query("names") String names, @Query("timestamp") String timestamp, @Query("waitTimeout") Long waitTimeout, @Query("limit") Integer limit
+            @Query("deviceId") String deviceIds, @Query("names") String names, @Query("timestamp") String timestamp, @Query("waitTimeout") Long waitTimeout, @Query("limit") Integer limit
     );
 
     /**

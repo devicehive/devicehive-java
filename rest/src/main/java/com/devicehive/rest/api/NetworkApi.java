@@ -1,6 +1,7 @@
 package com.devicehive.rest.api;
 
 import com.devicehive.rest.model.Network;
+import com.devicehive.rest.model.NetworkId;
 import com.devicehive.rest.model.NetworkUpdate;
 import com.devicehive.rest.model.NetworkVO;
 import retrofit2.Call;
@@ -48,7 +49,7 @@ public interface NetworkApi {
     "Content-Type:application/json"
   })
   @POST("network")
-  Call<NetworkVO> insert(
+  Call<NetworkId> insert(
           @Body NetworkVO body
   );
 
@@ -76,7 +77,6 @@ public interface NetworkApi {
    * Updates an existing device network.
    * @param body Network body (required)
    * @param id Network identifier. (required)
-   * @param authorization Authorization token (required)
    * @return Call&lt;Void&gt;
    */
   @Headers({
@@ -84,7 +84,6 @@ public interface NetworkApi {
   })
   @PUT("network/{id}")
   Call<Void> update(
-          @Body NetworkUpdate body, @Path("id") Long id, @Header("Authorization") String authorization
-  );
+          @Body NetworkUpdate body, @Path("id") Long id);
 
 }
