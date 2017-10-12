@@ -131,7 +131,6 @@ class DeviceNotificationService extends BaseService {
                             pollNotifications(deviceId, filter, false, notificationCallback);
                         }
                     } else if (response.code() == 401 && isAuthNeeded) {
-                        System.out.println("AUTH");
                         authorize();
                         pollNotifications(deviceId, filter, false, notificationCallback);
                     } else {
@@ -186,7 +185,6 @@ class DeviceNotificationService extends BaseService {
                             pollManyNotifications(deviceIds, filter, false, notificationCallback);
                         }
                     } else if (response.code() == 401 && isAuthNeeded) {
-                        System.out.println("AUTH");
                         authorize();
                         pollManyNotifications(deviceIds, filter, false, notificationCallback);
                     } else {
