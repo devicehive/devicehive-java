@@ -94,7 +94,6 @@ public class DeviceTest {
             }
 
             public void onFail(FailureData failureData) {
-                System.out.println(failureData);
             }
         });
         ScheduledExecutorService service = Executors.newScheduledThreadPool(3);
@@ -122,7 +121,6 @@ public class DeviceTest {
         }), 20, TimeUnit.SECONDS);
 
         latch.await(60, TimeUnit.SECONDS);
-        System.out.println(latch.getCount());
         Assert.assertTrue(latch.getCount() == 0);
         commandFilter.setCommandNames(COM_Z);
         device.unsubscribeCommands(commandFilter);
