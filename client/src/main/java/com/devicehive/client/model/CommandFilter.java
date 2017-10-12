@@ -41,7 +41,7 @@ public class CommandFilter {
 
 
     public DateTime getStartTimestamp() {
-        return startTimestamp;
+        return startTimestamp.withMillis(0);
     }
 
     public void setStartTimestamp(DateTime startTimestamp) {

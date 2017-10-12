@@ -124,7 +124,7 @@ public class DeviceHive implements MainDeviceHive {
 
             @Override
             public void onList(NotificationListResponse response) {
-                notificationsCallback.onSuccess(DeviceNotification.createListFromWS(response.getNotifications()));
+                notificationsCallback.onSuccess(com.devicehive.client.model.DeviceNotification.createListFromWS(response.getNotifications()));
             }
 
             @Override
