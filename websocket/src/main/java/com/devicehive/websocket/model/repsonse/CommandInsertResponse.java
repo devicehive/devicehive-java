@@ -1,6 +1,6 @@
 package com.devicehive.websocket.model.repsonse;
 
-import com.devicehive.websocket.model.repsonse.data.DeviceCommandInsert;
+import com.devicehive.websocket.model.repsonse.data.DeviceCommand;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
@@ -8,7 +8,9 @@ import lombok.Data;
 public class CommandInsertResponse extends ResponseAction {
 
     @SerializedName("command")
-    DeviceCommandInsert command;
+    DeviceCommand command;
+    @SerializedName("subscriptionId")
+    private Long subscriptionId;
 
     @Override
     public String toString() {

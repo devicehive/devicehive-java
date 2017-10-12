@@ -2,15 +2,20 @@ package com.devicehive.websocket.listener;
 
 import com.devicehive.websocket.model.repsonse.*;
 
-public interface NotificationListener extends ErrorListener {
+public class NotificationListener implements ErrorListener {
 
-    void onList(NotificationListResponse response);
+    public  void onList(NotificationListResponse response){}
 
-    void onGet(NotificationGetResponse response);
+    public void onGet(NotificationGetResponse response){}
 
-    void onInsert(NotificationInsertResponse response);
+    public void onInsert(NotificationInsertResponse response){}
 
-    void onSubscribe(NotificationSubscribeResponse response);
+    public void onSubscribe(NotificationSubscribeResponse response){}
 
-    void onUnsubscribe(ResponseAction response);
+    public void onUnsubscribe(ResponseAction response){}
+
+    @Override
+    public void onError(ErrorResponse error) {
+
+    }
 }

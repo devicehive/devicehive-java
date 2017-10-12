@@ -13,6 +13,7 @@
 
 package com.devicehive.websocket.model.repsonse.data;
 
+import com.devicehive.rest.model.JsonStringWrapper;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import org.joda.time.DateTime;
@@ -27,7 +28,7 @@ public class DeviceCommand implements Comparable<DeviceCommand> {
     private Long id = null;
 
     @SerializedName("command")
-    private String command = null;
+    private String commandName = null;
 
     @SerializedName("timestamp")
     private DateTime timestamp = null;
@@ -57,7 +58,7 @@ public class DeviceCommand implements Comparable<DeviceCommand> {
     public String toString() {
         return "{\n\"DeviceCommand\":{\n"
                 + "\"id\":\"" + id + "\""
-                + ",\n \"command\":\"" + command + "\""
+                + ",\n \"command\":\"" + commandName + "\""
                 + ",\n \"timestamp\":" + timestamp
                 + ",\n \"userId\":\"" + userId + "\""
                 + ",\n \"deviceId\":\"" + deviceId + "\""

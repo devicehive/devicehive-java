@@ -15,13 +15,11 @@ public interface DeviceNotificationApi {
    * Returns notification by device deviceId and notification id
    * @param deviceId Device ID (required)
    * @param id Notification id (required)
-   * @param authorization Authorization token (required)
    * @return Call&lt;DeviceNotification&gt;
    */
   @GET("device/{deviceId}/notification/{id}")
   Call<DeviceNotification> get(
-          @Path("deviceId") String deviceId, @Path("id") Long id, @Header("Authorization") String authorization
-  );
+          @Path("deviceId") String deviceId, @Path("id") Long id);
 
   /**
    * Create notification

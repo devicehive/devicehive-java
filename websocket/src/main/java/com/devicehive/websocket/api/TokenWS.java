@@ -1,6 +1,5 @@
 package com.devicehive.websocket.api;
 
-import com.devicehive.websocket.adapter.JsonStringWrapperAdapterFactory;
 import com.devicehive.websocket.listener.TokenListener;
 import com.devicehive.websocket.model.repsonse.ResponseAction;
 import com.devicehive.websocket.model.repsonse.TokenGetResponse;
@@ -9,8 +8,6 @@ import com.devicehive.websocket.model.request.TokenCreateAction;
 import com.devicehive.websocket.model.request.TokenGetAction;
 import com.devicehive.websocket.model.request.TokenRefreshAction;
 import com.devicehive.websocket.model.request.data.JwtPayload;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import okhttp3.WebSocket;
 
 import javax.annotation.Nullable;
@@ -33,8 +30,6 @@ public class TokenWS extends BaseWebSocketApi implements TokenApi {
 
     @Override
     public void onSuccess(String message) {
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapterFactory(new JsonStringWrapperAdapterFactory()).create();
         ResponseAction action = getResponseAction(message);
         String actionName = action.getAction();
         if (actionName.equalsIgnoreCase(TOKEN_GET)) {
@@ -52,7 +47,7 @@ public class TokenWS extends BaseWebSocketApi implements TokenApi {
     }
 
     @Override
-    public void get(@Nullable Long requestId, String login, String password) {
+    public void get( Long requestId, String login, String password) {
         TokenGetAction action = new TokenGetAction();
         action.setLogin(login);
         action.setPassword(password);
@@ -61,7 +56,7 @@ public class TokenWS extends BaseWebSocketApi implements TokenApi {
     }
 
     @Override
-    public void create(@Nullable Long requestId, JwtPayload payload) {
+    public void create( Long requestId, JwtPayload payload) {
         TokenCreateAction action = new TokenCreateAction();
         action.setRequestId(requestId);
         action.setPayload(payload);
@@ -69,7 +64,7 @@ public class TokenWS extends BaseWebSocketApi implements TokenApi {
     }
 
     @Override
-    public void refresh(@Nullable Long requestId, String refreshToken) {
+    public void refresh( Long requestId, String refreshToken) {
         TokenRefreshAction action = new TokenRefreshAction();
         action.setRefreshToken(refreshToken);
         action.setRequestId(requestId);

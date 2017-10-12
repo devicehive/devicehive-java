@@ -13,15 +13,10 @@
 
 package com.devicehive.rest.model;
 
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 import lombok.Data;
 import org.joda.time.DateTime;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -36,107 +31,12 @@ public class UserResponse {
   @SerializedName("login")
   private String login = null;
 
-  /**
-   * Gets or Sets role
-   */
-  @JsonAdapter(RoleEnum.Adapter.class)
-  public enum RoleEnum {
-    NUMBER_0(0),
-    
-    NUMBER_1(1);
-
-    private Integer value;
-
-    RoleEnum(Integer value) {
-      this.value = value;
-    }
-
-    public Integer getValue() {
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    public static RoleEnum fromValue(String text) {
-      for (RoleEnum b : RoleEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-
-    public static class Adapter extends TypeAdapter<RoleEnum> {
-      @Override
-      public void write(final JsonWriter jsonWriter, final RoleEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
-      }
-
-      @Override
-      public RoleEnum read(final JsonReader jsonReader) throws IOException {
-        Integer value = jsonReader.nextInt();
-        return RoleEnum.fromValue(String.valueOf(value));
-      }
-    }
-  }
 
   @SerializedName("role")
-  private RoleEnum role = null;
-
-  /**
-   * Gets or Sets status
-   */
-  @JsonAdapter(StatusEnum.Adapter.class)
-  public enum StatusEnum {
-    NUMBER_0(0),
-    
-    NUMBER_1(1),
-    
-    NUMBER_2(2);
-
-    private Integer value;
-
-    StatusEnum(Integer value) {
-      this.value = value;
-    }
-
-    public Integer getValue() {
-      return value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    public static StatusEnum fromValue(String text) {
-      for (StatusEnum b : StatusEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-
-    public static class Adapter extends TypeAdapter<StatusEnum> {
-      @Override
-      public void write(final JsonWriter jsonWriter, final StatusEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
-      }
-
-      @Override
-      public StatusEnum read(final JsonReader jsonReader) throws IOException {
-        Integer value = jsonReader.nextInt();
-        return StatusEnum.fromValue(String.valueOf(value));
-      }
-    }
-  }
+  private User.RoleEnum role = null;
 
   @SerializedName("status")
-  private StatusEnum status = null;
+  private User.StatusEnum status = null;
 
   @SerializedName("networks")
   private List<UserNetworkResponse> networks = null;
