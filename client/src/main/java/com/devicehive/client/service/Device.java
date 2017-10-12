@@ -118,19 +118,10 @@ public class Device implements DeviceInterface {
         return DeviceHive.getInstance().getDeviceNotificationService().getDeviceNotifications(id, startTimestamp, endTimestamp).getData();
     }
 
-    public void sendCommand(String command, List<Parameter> parameters, DeviceCommandCallback resultCallback) {
+    public DHResponse<DeviceCommand> sendCommand(String command, List<Parameter> parameters) {
         DHResponse<DeviceCommand> response = DeviceHive.getInstance().getCommandService()
                 .sendCommand(id, command, parameters);
-
-        if (resultCallback == null) {
-            return;
-        }
-
-        if (response.isSuccessful()) {
-            resultCallback.onSuccess(response.getData());
-        } else {
-            resultCallback.onFail(response.getFailureData());
-        }
+        return response;
     }
 
     public DHResponse<DeviceNotification> sendNotification(String notification, List<Parameter> parameters) {
