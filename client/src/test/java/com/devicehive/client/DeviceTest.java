@@ -38,6 +38,9 @@ public class DeviceTest {
 
     @Test
     public void createDevice() throws IOException {
+        Device device=deviceHive.getDevice("newTestId");
+        Assert.assertTrue(device!=null);
+        Assert.assertTrue(deviceHive.removeDevice("newTestId").isSuccessful());
     }
 
     @Test
@@ -72,22 +75,57 @@ public class DeviceTest {
         final CountDownLatch latch = new CountDownLatch(2);
         final CountDownLatch latchZ = new CountDownLatch(1);
 
-        final CommandFilter commandFilter = new CommandFilter();
+        CommandFilter commandFilter = new CommandFilter();
+
         commandFilter.setCommandNames(COM_A, COM_B);
         commandFilter.setStartTimestamp(DateTime.now());
-        commandFilter.setEndTimestamp(DateTime.now().plusSeconds(10));
         commandFilter.setMaxNumber(30);
 
+        device.subscribeCommands(commandFilter, new DeviceCommandsCallback() {
+            public void onSuccess(List<DeviceCommand> commands) {
+                for (DeviceCommand command : commands) {
+                    switch (command.getCommandName()) {
+                        case COM_A:
+                            latch.countDown();
+                            Assert.assertTrue(true);
+                            break;
+                        case COM_B:
+                            Assert.assertTrue(true);
+                            latch.countDown();
+                            break;
+                        case COM_Z:
+                            Assert.assertTrue(true);
+                            latchZ.countDown();
+                            break;
+                    }
+                }
+            }
+
+            public void onFail(FailureData failureData) {
+                System.out.println(failureData);
+            }
+        });
         ScheduledExecutorService service = Executors.newScheduledThreadPool(3);
+        //Prepare Command A and Command B
         service.schedule(new Thread(new Runnable() {
             public void run() {
                 List<Parameter> parameters = new ArrayList<Parameter>();
-
                 parameters.add(new Parameter("Param 1", "Value 1"));
                 parameters.add(new Parameter("Param 2", "Value 2"));
                 parameters.add(new Parameter("Param 3", "Value 3"));
                 parameters.add(new Parameter("Param 4", "Value 4"));
-                device.sendCommand(COM_Z, parameters, new DeviceCommandCallback() {
+
+                device.sendCommand(COM_A, parameters, new DeviceCommandCallback() {
+                    @Override
+                    public void onSuccess(DeviceCommand command) {
+                    }
+
+                    @Override
+                    public void onFail(FailureData failureData) {
+                        System.out.println(failureData);
+                    }
+                });
+                device.sendCommand(COM_B, parameters, new DeviceCommandCallback() {
                     public void onSuccess(DeviceCommand command) {
                     }
 
@@ -97,18 +135,13 @@ public class DeviceTest {
                 });
             }
         }), 10, TimeUnit.SECONDS);
-
+        //Prepare Command Z
         service.schedule(new Thread(new Runnable() {
             public void run() {
-                List<Parameter> parameters = new ArrayList<Parameter>();
-
+                List<Parameter> parameters = new ArrayList<>();
                 parameters.add(new Parameter("Param 1", "Value 1"));
-                parameters.add(new Parameter("Param 2", "Value 2"));
                 parameters.add(new Parameter("Param 3", "Value 3"));
-                parameters.add(new Parameter("Param 4", "Value 4"));
-
-                device.sendCommand(COM_A, parameters, null);
-                device.sendCommand(COM_B, parameters, new DeviceCommandCallback() {
+                device.sendCommand(COM_Z, parameters, new DeviceCommandCallback() {
                     public void onSuccess(DeviceCommand command) {
                     }
 
@@ -116,34 +149,11 @@ public class DeviceTest {
                         System.out.println(failureData);
                     }
                 });
-                device.sendCommand(COM_Z, parameters, null);
             }
-        }), 5, TimeUnit.SECONDS);
-
-        device.subscribeCommands(commandFilter, new DeviceCommandsCallback() {
-            public void onSuccess(List<DeviceCommand> commands) {
-                for (DeviceCommand command :
-                        commands) {
-                    if (command.getCommandName().equals(COM_A)) {
-                        latch.countDown();
-                        Assert.assertTrue(true);
-                    } else if (command.getCommandName().equals(COM_B)) {
-                        Assert.assertTrue(true);
-                        latch.countDown();
-                    } else if (command.getCommandName().equals(COM_Z)) {
-                        Assert.assertTrue(true);
-
-                        latchZ.countDown();
-                    }
-                }
-            }
-
-            public void onFail(FailureData failureData) {
-                System.out.println(failureData);
-            }
-        });
+        }), 20, TimeUnit.SECONDS);
 
         latch.await(60, TimeUnit.SECONDS);
+        System.out.println(latch.getCount());
         Assert.assertTrue(latch.getCount() == 0);
         commandFilter.setCommandNames(COM_Z);
         device.unsubscribeCommands(commandFilter);
@@ -167,15 +177,19 @@ public class DeviceTest {
             public void onSuccess(List<DeviceNotification> notifications) {
                 for (DeviceNotification notification :
                         notifications) {
-                    if (notification.getNotification().equals(NOTIFICATION_A)) {
-                        latch.countDown();
-                        Assert.assertTrue(true);
-                    } else if (notification.getNotification().equals(NOTIFICATION_B)) {
-                        Assert.assertTrue(true);
-                        latch.countDown();
-                    } else if (notification.getNotification().equals(NOTIFICATION_Z)) {
-                        Assert.assertTrue(true);
-                        latch.countDown();
+                    switch (notification.getNotification()) {
+                        case NOTIFICATION_A:
+                            latch.countDown();
+                            Assert.assertTrue(true);
+                            break;
+                        case NOTIFICATION_B:
+                            Assert.assertTrue(true);
+                            latch.countDown();
+                            break;
+                        case NOTIFICATION_Z:
+                            Assert.assertTrue(true);
+                            latch.countDown();
+                            break;
                     }
                 }
             }

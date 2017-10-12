@@ -2,7 +2,6 @@ package com.devicehive.client.api;
 
 import com.devicehive.client.model.*;
 import com.devicehive.client.service.Network;
-import com.devicehive.client.service.Device;
 import com.devicehive.rest.model.*;
 import org.joda.time.DateTime;
 
@@ -40,11 +39,11 @@ public interface MainDeviceHive {
 
     DHResponse<Network> createNetwork(String name, String description) ;
 
-    DHResponse<List<Device>> listDevices(DeviceFilter filter);
+    DHResponse<List<com.devicehive.client.service.Device>> listDevices(DeviceFilter filter);
 
     DHResponse<Void> removeDevice(String id);
 
-    Device getDevice(String id) ;
+    com.devicehive.client.service.Device getDevice(String id) ;
 
     DHResponse<Void> putDevice(String id, String name) ;
 }
