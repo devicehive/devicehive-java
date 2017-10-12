@@ -19,7 +19,6 @@ to interface with devices connected to it. Leave communications to DeviceHive
 and focus on actual product and innovation.
 
 # devicehive-java-client
-========================
 ## Creating client
 >Creating a client with a new version of library is very simple. First of all you need to initiate `DeviceHive` client:
 ```java
