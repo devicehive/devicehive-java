@@ -3,7 +3,6 @@ package com.devicehive.client.service;
 import com.devicehive.client.model.*;
 import org.joda.time.DateTime;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -21,17 +20,15 @@ import java.util.List;
  */
 interface DeviceInterface {
 
-    void save() throws IOException;
+    void save();
 
-    List<DeviceCommand> getCommands(DateTime startTimestamp, DateTime endTimestamp, int maxNumber) throws IOException;
+    List<DeviceCommand> getCommands(DateTime startTimestamp, DateTime endTimestamp, int maxNumber);
 
-    List<DeviceNotification> getNotifications(DateTime startTimestamp, DateTime endTimestamp) throws IOException;
+    List<DeviceNotification> getNotifications(DateTime startTimestamp, DateTime endTimestamp);
 
-    DHResponse<DeviceCommand> sendCommand(String command, List<Parameter> parameters) throws IOException;
+    DHResponse<DeviceCommand> sendCommand(String command, List<Parameter> parameters);
 
-    DHResponse<DeviceNotification> sendNotification(String notification, List<Parameter> parameters) throws IOException;
-
-    //TODO Find callback that is needed
+    DHResponse<DeviceNotification> sendNotification(String notification, List<Parameter> parameters);
 
     void subscribeCommands(CommandFilter commandFilter, DeviceCommandsCallback commandsCallback);
 

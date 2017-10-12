@@ -7,28 +7,34 @@ import com.devicehive.websocket.api.NotificationWS;
 import com.devicehive.websocket.listener.CommandListener;
 import com.devicehive.websocket.listener.NotificationListener;
 import com.devicehive.websocket.model.repsonse.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Data
 public class Device implements DeviceInterface {
 
 
     private final NotificationWS notificationWS;
     private CommandWS commandWS;
+    @Getter
     private String id = null;
-
+    @Getter
+    @Setter
     private String name = null;
-
+    @Getter
+    @Setter
     private JsonStringWrapper data = null;
-
+    @Getter
+    @Setter
     private Long networkId = null;
-
+    @Getter
+    @Setter
     private Boolean isBlocked = false;
+
     private DeviceCommandsCallback commandCallback;
     private DeviceNotificationsCallback notificationCallback;
     public String commandSubscriptionId;
@@ -119,9 +125,8 @@ public class Device implements DeviceInterface {
     }
 
     public DHResponse<DeviceCommand> sendCommand(String command, List<Parameter> parameters) {
-        DHResponse<DeviceCommand> response = DeviceHive.getInstance().getCommandService()
+        return DeviceHive.getInstance().getCommandService()
                 .sendCommand(id, command, parameters);
-        return response;
     }
 
     public DHResponse<DeviceNotification> sendNotification(String notification, List<Parameter> parameters) {

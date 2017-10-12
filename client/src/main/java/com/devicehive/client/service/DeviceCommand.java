@@ -3,23 +3,28 @@ package com.devicehive.client.service;
 import com.devicehive.client.model.DHResponse;
 import com.devicehive.rest.model.DeviceCommandWrapper;
 import com.devicehive.rest.model.JsonStringWrapper;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Data
+
 public class DeviceCommand {
+    @Getter
     private Long id = null;
-
+    @Getter
     private String commandName = null;
-
+    @Getter
     private String deviceId = null;
-
+    @Getter
     private JsonStringWrapper parameters = null;
-
+    @Getter
+    @Setter
     private String status;
+    @Getter
+    @Setter
     private JsonStringWrapper result;
 
     private DeviceCommand() {
@@ -61,7 +66,6 @@ public class DeviceCommand {
         deviceCommand.commandName = command.getCommand();
         deviceCommand.id = command.getId();
         deviceCommand.deviceId = command.getDeviceId();
-        System.out.println(command.getParameters());
         deviceCommand.parameters = new JsonStringWrapper(command.getParameters().getJsonString());
         return deviceCommand;
     }
