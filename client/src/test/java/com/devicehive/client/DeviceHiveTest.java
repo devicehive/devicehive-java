@@ -13,8 +13,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -91,7 +89,6 @@ public class DeviceHiveTest {
     @Test
     public void getConfigurationProperty() throws IOException {
         DHResponse<Configuration> response = deviceHive.getProperty("jwt.secret");
-        System.out.println(response);
         Assert.assertTrue(response.isSuccessful());
     }
 
@@ -204,13 +201,6 @@ public class DeviceHiveTest {
         UserFilter filter = new UserFilter();
         DHResponse<List<User>> users = deviceHive.getUsers(filter);
         Assert.assertTrue(users.isSuccessful());
-        Method[] allMethods = Device.class.getDeclaredMethods();
-        for (Method method : allMethods) {
-            if (Modifier.isPublic(method.getModifiers())) {
-                System.out.println(method.getName());
-                // use the method
-            }
-        }
     }
 
     @Test
