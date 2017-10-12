@@ -1,17 +1,13 @@
 package com.devicehive.client;
 
-import com.devicehive.client.service.DeviceCommand;
-import com.devicehive.client.model.DeviceCommandCallback;
-import com.devicehive.client.model.FailureData;
+import com.devicehive.client.model.DHResponse;
 import com.devicehive.client.model.TokenAuth;
 import com.devicehive.client.service.Device;
+import com.devicehive.client.service.DeviceCommand;
 import com.devicehive.client.service.DeviceHive;
 import com.devicehive.rest.model.JsonStringWrapper;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 public class CommandTest {
     private static final String DEVICE_ID = "271990123";
@@ -27,21 +23,11 @@ public class CommandTest {
 
     @Test
     public void createAndUpdate() throws InterruptedException {
-        final CountDownLatch latch = new CountDownLatch(1);
-        device.sendCommand(COM_A, null, new DeviceCommandCallback() {
-            @Override
-            public void onSuccess(DeviceCommand command) {
-                command.setResult(new JsonStringWrapper("SUCCESS"));
-                command.updateCommand();
-                Assert.assertTrue(command.fetchCommandResult().getData() != null);
-                latch.countDown();
-            }
-
-            @Override
-            public void onFail(FailureData failureData) {
-
-            }
-        });
-        latch.await(30, TimeUnit.SECONDS);
+        DHResponse<DeviceCommand> response = device.sendCommand(COM_A, null);
+        Assert.assertTrue(response.isSuccessful());
+        DeviceCommand command = response.getData();
+        command.setResult(new JsonStringWrapper("SUCCESS"));
+        command.updateCommand();
+        Assert.assertTrue(command.fetchCommandResult().getData() != null);
     }
 }

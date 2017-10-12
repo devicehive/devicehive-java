@@ -38,8 +38,8 @@ public class DeviceTest {
 
     @Test
     public void createDevice() throws IOException {
-        Device device=deviceHive.getDevice("newTestId");
-        Assert.assertTrue(device!=null);
+        Device device = deviceHive.getDevice("newTestId");
+        Assert.assertTrue(device != null);
         Assert.assertTrue(deviceHive.removeDevice("newTestId").isSuccessful());
     }
 
@@ -54,15 +54,7 @@ public class DeviceTest {
                 parameters.add(new Parameter("Param 2", "Value 2"));
                 parameters.add(new Parameter("Param 3", "Value 3"));
                 parameters.add(new Parameter("Param 4", "Value 4"));
-                device.sendCommand("Command TEST", parameters, new DeviceCommandCallback() {
-                    public void onSuccess(DeviceCommand command) {
-                        System.out.println(command);
-                    }
-
-                    public void onFail(FailureData failureData) {
-                        System.out.println(failureData);
-                    }
-                });
+                device.sendCommand("Command TEST", parameters);
             }
         }), 5, TimeUnit.SECONDS);
 
@@ -115,24 +107,8 @@ public class DeviceTest {
                 parameters.add(new Parameter("Param 3", "Value 3"));
                 parameters.add(new Parameter("Param 4", "Value 4"));
 
-                device.sendCommand(COM_A, parameters, new DeviceCommandCallback() {
-                    @Override
-                    public void onSuccess(DeviceCommand command) {
-                    }
-
-                    @Override
-                    public void onFail(FailureData failureData) {
-                        System.out.println(failureData);
-                    }
-                });
-                device.sendCommand(COM_B, parameters, new DeviceCommandCallback() {
-                    public void onSuccess(DeviceCommand command) {
-                    }
-
-                    public void onFail(FailureData failureData) {
-                        System.out.println(failureData);
-                    }
-                });
+                device.sendCommand(COM_A, parameters);
+                device.sendCommand(COM_B, parameters);
             }
         }), 10, TimeUnit.SECONDS);
         //Prepare Command Z
@@ -141,14 +117,7 @@ public class DeviceTest {
                 List<Parameter> parameters = new ArrayList<>();
                 parameters.add(new Parameter("Param 1", "Value 1"));
                 parameters.add(new Parameter("Param 3", "Value 3"));
-                device.sendCommand(COM_Z, parameters, new DeviceCommandCallback() {
-                    public void onSuccess(DeviceCommand command) {
-                    }
-
-                    public void onFail(FailureData failureData) {
-                        System.out.println(failureData);
-                    }
-                });
+                device.sendCommand(COM_Z, parameters);
             }
         }), 20, TimeUnit.SECONDS);
 
