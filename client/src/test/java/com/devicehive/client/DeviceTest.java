@@ -105,7 +105,6 @@ public class DeviceTest {
                         latch.countDown();
                     } else if ((command.getCommandName().equals(commandName3))) {
                         Assert.assertTrue(true);
-                        System.out.println("Z");
                         latchZ.countDown();
                     }
 
