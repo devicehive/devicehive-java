@@ -83,8 +83,7 @@ public class DeviceTest {
                 device.sendCommand(commandName2, parameters);
             }
         }), 5, TimeUnit.SECONDS);
-        final CountDownLatch latch = new CountDownLatch(2);
-        final CountDownLatch latchZ = new CountDownLatch(1);
+        final CountDownLatch latch = new CountDownLatch(3);
 
 
         final CommandFilter commandFilter = new CommandFilter();
@@ -102,7 +101,7 @@ public class DeviceTest {
                     } else if (command.getCommandName().equals(commandName2)) {
                         latch.countDown();
                     } else if ((command.getCommandName().equals(commandName3))) {
-                        latchZ.countDown();
+                        latch.countDown();
                     }
 
                     if (latch.getCount() == 0) {
@@ -128,8 +127,6 @@ public class DeviceTest {
 
         latch.await(60, TimeUnit.SECONDS);
         Assert.assertTrue(latch.getCount() == 0);
-        latchZ.await(60, TimeUnit.SECONDS);
-        Assert.assertTrue(latchZ.getCount() == 0);
         device.unsubscribeAllCommands();
         deviceHive.removeDevice("subscribeCommandsTest");
     }
