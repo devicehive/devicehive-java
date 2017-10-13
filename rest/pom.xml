@@ -227,5 +227,6 @@
         <json-simple>1.1.1</json-simple>
         <appache-commons>3.4</appache-commons>
         <project-lombok>1.16.16</project-lombok>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 </project>

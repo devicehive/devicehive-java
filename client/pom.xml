@@ -137,5 +137,6 @@
     <properties>
         <junit-version>4.12</junit-version>
         <mojo-maven-plugin>1.12</mojo-maven-plugin>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 </project>
