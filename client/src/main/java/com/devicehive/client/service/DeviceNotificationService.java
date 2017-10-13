@@ -3,7 +3,7 @@ package com.devicehive.client.service;
 import com.devicehive.client.model.*;
 import com.devicehive.rest.api.DeviceNotificationApi;
 import com.devicehive.rest.model.DeviceNotificationWrapper;
-import com.devicehive.rest.model.InsertNotification;
+import com.devicehive.rest.model.NotificationInsert;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
@@ -27,7 +27,7 @@ class DeviceNotificationService extends BaseService {
         notificationApi = createService(DeviceNotificationApi.class);
 
         DeviceNotificationWrapper notificationWrapper = createDeviceNotificationWrapper(notification, parameters);
-        DHResponse<InsertNotification> result = execute(notificationApi.insert(deviceId, notificationWrapper));
+        DHResponse<NotificationInsert> result = execute(notificationApi.insert(deviceId, notificationWrapper));
         if (result.isSuccessful()) {
             return getNotification(deviceId, result.getData().getId());
         } else if (result.getFailureData().getCode() == 401) {
