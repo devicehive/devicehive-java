@@ -99,12 +99,9 @@ public class DeviceTest {
                 for (DeviceCommand command : commands) {
                     if (command.getCommandName().equals(commandName1)) {
                         latch.countDown();
-                        Assert.assertTrue(true);
                     } else if (command.getCommandName().equals(commandName2)) {
-                        Assert.assertTrue(true);
                         latch.countDown();
                     } else if ((command.getCommandName().equals(commandName3))) {
-                        Assert.assertTrue(true);
                         latchZ.countDown();
                     }
 
