@@ -96,7 +96,6 @@ public class DeviceTest {
         device.subscribeCommands(commandFilter, new DeviceCommandsCallback() {
             public void onSuccess(List<DeviceCommand> commands) {
                 for (DeviceCommand command : commands) {
-                    System.out.println(command.getCommandName());
                     if (command.getCommandName().equals(commandName1)) {
                         latch.countDown();
                     } else if (command.getCommandName().equals(commandName2)) {
