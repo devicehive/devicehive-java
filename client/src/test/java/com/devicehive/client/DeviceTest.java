@@ -65,7 +65,8 @@ public class DeviceTest {
 
     @Test
     public void subscribeCommands() throws InterruptedException {
-        final Device device = deviceHive.getDevice("subscribeCommandsTest");
+        String deviceId = "subscribeCommandsTest" + new Random().nextInt();
+        final Device device = deviceHive.getDevice(deviceId);
         final ScheduledExecutorService service = Executors.newScheduledThreadPool(2);
         final String commandName1 = COM_A + new Random().nextInt();
         final String commandName2 = COM_B + new Random().nextInt();
@@ -128,7 +129,7 @@ public class DeviceTest {
         latch.await(60, TimeUnit.SECONDS);
         Assert.assertTrue(latch.getCount() == 0);
         device.unsubscribeAllCommands();
-        deviceHive.removeDevice("subscribeCommandsTest");
+        deviceHive.removeDevice(deviceId);
     }
 
     @Test
