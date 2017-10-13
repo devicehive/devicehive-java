@@ -96,15 +96,11 @@ public class DeviceTest {
         device.subscribeCommands(commandFilter, new DeviceCommandsCallback() {
             public void onSuccess(List<DeviceCommand> commands) {
                 for (DeviceCommand command : commands) {
+                    System.out.println(command.getCommandName());
                     if (command.getCommandName().equals(commandName1)) {
                         latch.countDown();
                     } else if (command.getCommandName().equals(commandName2)) {
                         latch.countDown();
-                    } else if ((command.getCommandName().equals(commandName3))) {
-                        latch.countDown();
-                    }
-
-                    if (latch.getCount() == 0) {
                         commandFilter.setCommandNames(commandName3);
                         device.unsubscribeCommands(commandFilter);
 
@@ -116,7 +112,12 @@ public class DeviceTest {
                                 device.sendCommand(commandName3, parameters);
                             }
                         }), 3, TimeUnit.SECONDS);
+
+                    } else if ((command.getCommandName().equals(commandName3))) {
+                        latch.countDown();
+                        return;
                     }
+
 
                 }
             }
