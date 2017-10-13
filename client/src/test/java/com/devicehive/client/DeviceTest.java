@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -19,7 +20,6 @@ import java.util.concurrent.TimeUnit;
 
 public class DeviceTest {
 
-    private static final String DEVICE_ID = "271990123";
 
     private static final String URL = "***REMOVED***/";
     private static final String WS_URL = "ws://playground.dev.devicehive.com/api/websocket";
@@ -35,17 +35,19 @@ public class DeviceTest {
 
     private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, WS_URL, new TokenAuth(refreshToken, accessToken));
 
-    private Device device = deviceHive.getDevice(DEVICE_ID);
 
     @Test
     public void createDevice() throws IOException {
-        Device device = deviceHive.getDevice("newTestId");
+        String deviceId = UUID.randomUUID().toString();
+        Device device = deviceHive.getDevice(deviceId);
         Assert.assertTrue(device != null);
-        Assert.assertTrue(deviceHive.removeDevice("newTestId").isSuccessful());
+        Assert.assertTrue(deviceHive.removeDevice(deviceId).isSuccessful());
     }
 
     @Test
     public void getCommands() throws IOException {
+        String deviceId = UUID.randomUUID().toString();
+        final Device device = deviceHive.getDevice(deviceId);
         ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
         service.schedule(new Thread(new Runnable() {
             public void run() {
@@ -61,11 +63,13 @@ public class DeviceTest {
 
         List<DeviceCommand> list =
                 device.getCommands(DateTime.now(), DateTime.now().plusMinutes(1), 30);
+        Assert.assertTrue(list.size() > 0);
+        Assert.assertTrue(deviceHive.removeDevice(deviceId).isSuccessful());
     }
 
     @Test
     public void subscribeCommands() throws InterruptedException {
-        String deviceId = "subscribeCommandsTest" + new Random().nextInt();
+        String deviceId = UUID.randomUUID().toString();
         final Device device = deviceHive.getDevice(deviceId);
         final ScheduledExecutorService service = Executors.newScheduledThreadPool(2);
         final String commandName1 = COM_A + new Random().nextInt();
@@ -126,14 +130,16 @@ public class DeviceTest {
             }
         });
 
-        latch.await(60, TimeUnit.SECONDS);
+        latch.await(10, TimeUnit.SECONDS);
         Assert.assertTrue(latch.getCount() == 0);
         device.unsubscribeAllCommands();
-        deviceHive.removeDevice(deviceId);
+        Assert.assertTrue(deviceHive.removeDevice(deviceId).isSuccessful());
     }
 
     @Test
     public void subscribeNotifications() throws IOException, InterruptedException {
+        String deviceId = UUID.randomUUID().toString();
+        final Device device = deviceHive.getDevice(deviceId);
         final CountDownLatch latch = new CountDownLatch(3);
         final String notificationName1 = NOTIFICATION_A + new Random().nextInt();
         final String notificationName2 = NOTIFICATION_B + new Random().nextInt();
@@ -171,7 +177,7 @@ public class DeviceTest {
                 notificationFilter.setNotificationNames(notificationName3);
                 device.unsubscribeNotifications(notificationFilter);
             }
-        }), 20, TimeUnit.SECONDS);
+        }), 2, TimeUnit.SECONDS);
         service.schedule(new Thread(new Runnable() {
             public void run() {
                 List<Parameter> parameters = new ArrayList<Parameter>();
@@ -182,7 +188,7 @@ public class DeviceTest {
                 parameters.add(new Parameter("Param 4", "Value 4"));
                 device.sendNotification(notificationName3, parameters);
             }
-        }), 25, TimeUnit.SECONDS);
+        }), 5, TimeUnit.SECONDS);
         service.schedule(new Thread(new Runnable() {
             public void run() {
                 List<Parameter> parameters = new ArrayList<Parameter>();
@@ -194,15 +200,17 @@ public class DeviceTest {
                 device.sendNotification(notificationName1, parameters);
                 device.sendNotification(notificationName2, parameters);
             }
-        }), 10, TimeUnit.SECONDS);
-        latch.await(60, TimeUnit.SECONDS);
+        }), 7, TimeUnit.SECONDS);
+        latch.await(12, TimeUnit.SECONDS);
         Assert.assertTrue(latch.getCount() == 0);
+        Assert.assertTrue(deviceHive.removeDevice(deviceId).isSuccessful());
     }
 
 
     @Test
     public void getNotification() throws IOException {
-
+        String deviceId = UUID.randomUUID().toString();
+        final Device device = deviceHive.getDevice(deviceId);
         ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
         service.schedule(new Thread(new Runnable() {
             public void run() {
@@ -218,11 +226,13 @@ public class DeviceTest {
 
         List<DeviceNotification> response = device.getNotifications(DateTime.now(), DateTime.now().plusMinutes(1));
         Assert.assertTrue(response.size() > 0);
+        Assert.assertTrue(deviceHive.removeDevice(deviceId).isSuccessful());
     }
 
     @Test
     public void sendNotification() throws IOException {
-
+        String deviceId = UUID.randomUUID().toString();
+        Device device = deviceHive.getDevice(deviceId);
 
         List<Parameter> parameters = new ArrayList<Parameter>();
 
@@ -233,6 +243,7 @@ public class DeviceTest {
 
         DHResponse<DeviceNotification> response = device.sendNotification("NOTIFICATION MESSAGE", parameters);
         Assert.assertTrue(response.isSuccessful());
+        Assert.assertTrue(deviceHive.removeDevice(deviceId).isSuccessful());
     }
 
 
