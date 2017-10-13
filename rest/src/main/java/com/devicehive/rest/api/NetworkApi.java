@@ -50,7 +50,7 @@ public interface NetworkApi {
   })
   @POST("network")
   Call<NetworkId> insert(
-          @Body NetworkVO body
+          @Body NetworkUpdate body
   );
 
   /**
@@ -84,6 +84,6 @@ public interface NetworkApi {
   })
   @PUT("network/{id}")
   Call<Void> update(
-          @Body NetworkUpdate body, @Path("id") Long id);
+          @Path("id") Long id, @Body NetworkUpdate body);
 
 }
