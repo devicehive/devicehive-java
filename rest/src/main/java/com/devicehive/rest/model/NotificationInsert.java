@@ -17,11 +17,11 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
 /**
- * InsertNotification
+ * NotificationInsert
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
 @Data
-public class InsertNotification {
+public class NotificationInsert {
     @SerializedName("id")
     private Long id = null;
 
