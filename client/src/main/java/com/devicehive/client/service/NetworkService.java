@@ -64,7 +64,9 @@ class NetworkService extends BaseService {
 
     DHResponse<Network> createNetwork(String name, String description) {
 
-        NetworkVO network = createCreateBody(name, description);
+        NetworkUpdate network = new NetworkUpdate();
+        network.setName(name);
+        network.setDescription(description);
 
         NetworkApi api = createService(NetworkApi.class);
 
@@ -113,12 +115,12 @@ class NetworkService extends BaseService {
         NetworkApi api = createService(NetworkApi.class);
         NetworkUpdate body = createUpdateBody(name, description);
         System.out.println(body);
-        DHResponse<Void> restResponse = execute(api.update(body, id));
+        DHResponse<Void> restResponse = execute(api.update(id, body));
         if (!restResponse.isSuccessful()) {
             if (restResponse.getFailureData().getCode() == 401) {
                 authorize();
                 api = createService(NetworkApi.class);
-                execute(api.update(body, id));
+                execute(api.update(id, body));
             }
         }
 
