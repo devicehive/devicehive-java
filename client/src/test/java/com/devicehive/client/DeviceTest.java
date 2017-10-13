@@ -66,7 +66,7 @@ public class DeviceTest {
     @Test
     public void subscribeCommands() throws InterruptedException {
         final Device device = deviceHive.getDevice("subscribeCommandsTest");
-        ScheduledExecutorService service = Executors.newScheduledThreadPool(2);
+        final ScheduledExecutorService service = Executors.newScheduledThreadPool(2);
         final String commandName1 = COM_A + new Random().nextInt();
         final String commandName2 = COM_B + new Random().nextInt();
         final String commandName3 = COM_Z + new Random().nextInt();
@@ -79,26 +79,15 @@ public class DeviceTest {
                 parameters.add(new Parameter("Param 2", "Value 2"));
                 parameters.add(new Parameter("Param 3", "Value 3"));
                 parameters.add(new Parameter("Param 4", "Value 4"));
-
                 device.sendCommand(commandName1, parameters);
                 device.sendCommand(commandName2, parameters);
             }
         }), 5, TimeUnit.SECONDS);
-        //Prepare Command Z
-        service.schedule(new Thread(new Runnable() {
-            public void run() {
-                List<Parameter> parameters = new ArrayList<>();
-                parameters.add(new Parameter("Param 1", "Value 1"));
-                parameters.add(new Parameter("Param 3", "Value 3"));
-                device.sendCommand(commandName3, parameters);
-            }
-        }), 10, TimeUnit.SECONDS);
-
         final CountDownLatch latch = new CountDownLatch(2);
         final CountDownLatch latchZ = new CountDownLatch(1);
 
 
-        CommandFilter commandFilter = new CommandFilter();
+        final CommandFilter commandFilter = new CommandFilter();
 
         commandFilter.setCommandNames(commandName1, commandName2);
         commandFilter.setStartTimestamp(DateTime.now());
@@ -116,8 +105,24 @@ public class DeviceTest {
                         latch.countDown();
                     } else if ((command.getCommandName().equals(commandName3))) {
                         Assert.assertTrue(true);
+                        System.out.println("Z");
                         latchZ.countDown();
                     }
+
+                    if (latch.getCount() == 0) {
+                        commandFilter.setCommandNames(commandName3);
+                        device.unsubscribeCommands(commandFilter);
+
+                        service.schedule(new Thread(new Runnable() {
+                            public void run() {
+                                List<Parameter> parameters = new ArrayList<>();
+                                parameters.add(new Parameter("Param 1", "Value 1"));
+                                parameters.add(new Parameter("Param 3", "Value 3"));
+                                device.sendCommand(commandName3, parameters);
+                            }
+                        }), 3, TimeUnit.SECONDS);
+                    }
+
                 }
             }
 
@@ -127,9 +132,6 @@ public class DeviceTest {
 
         latch.await(60, TimeUnit.SECONDS);
         Assert.assertTrue(latch.getCount() == 0);
-
-        commandFilter.setCommandNames(commandName3);
-        device.unsubscribeCommands(commandFilter);
         latchZ.await(60, TimeUnit.SECONDS);
         Assert.assertTrue(latchZ.getCount() == 0);
         device.unsubscribeAllCommands();
