@@ -2,7 +2,7 @@ package com.devicehive.rest.api;
 
 import com.devicehive.rest.model.DeviceNotification;
 import com.devicehive.rest.model.DeviceNotificationWrapper;
-import com.devicehive.rest.model.InsertNotification;
+import com.devicehive.rest.model.NotificationInsert;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -26,13 +26,13 @@ public interface DeviceNotificationApi {
    * Creates notification
    * @param deviceId Device ID (required)
    * @param body Notification body (required)
-   * @return Call&lt;InsertNotification&gt;
+   * @return Call&lt;NotificationInsert&gt;
    */
   @Headers({
     "Content-Type:application/json"
   })
   @POST("device/{deviceId}/notification")
-  Call<InsertNotification> insert(
+  Call<NotificationInsert> insert(
           @Path("deviceId") String deviceId, @Body DeviceNotificationWrapper body
   );
 
@@ -78,7 +78,7 @@ public interface DeviceNotificationApi {
    * @return Call&lt;DeviceNotification&gt;
    */
   @GET("device/{deviceId}/notification")
-  Call<DeviceNotification> query(
+  Call<List<DeviceNotification>> query(
           @Path("deviceId") String deviceId,  @Query("start") String start, @Query("end") String end, @Query("notification") String notification, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip
   );
 
