@@ -25,9 +25,9 @@ class DeviceNotificationService extends BaseService {
 
     DHResponse<DeviceNotification> sendNotification(String deviceId, String notification, List<Parameter> parameters) {
         notificationApi = createService(DeviceNotificationApi.class);
-
         DeviceNotificationWrapper notificationWrapper = createDeviceNotificationWrapper(notification, parameters);
         DHResponse<NotificationInsert> result = execute(notificationApi.insert(deviceId, notificationWrapper));
+
         if (result.isSuccessful()) {
             return getNotification(deviceId, result.getData().getId());
         } else if (result.getFailureData().getCode() == 401) {

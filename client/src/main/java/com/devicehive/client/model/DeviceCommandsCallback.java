@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface DeviceCommandsCallback {
 
-    void onSuccess(List<DeviceCommand> command);
+    void onSuccess(List<DeviceCommand> commands);
 
     void onFail(FailureData failureData);
 }

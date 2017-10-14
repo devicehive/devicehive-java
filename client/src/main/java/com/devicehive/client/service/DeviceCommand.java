@@ -125,4 +125,16 @@ public class DeviceCommand {
         }
         return new DHResponse<>(result, deviceCommand.getFailureData());
     }
+
+    @Override
+    public String toString() {
+        return "{\n\"DeviceCommand\":{\n"
+                + "\"id\":\"" + id + "\""
+                + ",\n \"commandName\":\"" + commandName + "\""
+                + ",\n \"deviceId\":\"" + deviceId + "\""
+                + ",\n \"parameters\":" + parameters
+                + ",\n \"status\":\"" + status + "\""
+                + ",\n \"result\":" + result
+                + "}\n}";
+    }
 }

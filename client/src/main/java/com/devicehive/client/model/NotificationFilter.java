@@ -40,7 +40,7 @@ public class NotificationFilter {
 
 
     public DateTime getStartTimestamp() {
-        return startTimestamp;
+        return startTimestamp == null ? null : startTimestamp.withMillis(0);
     }
 
     public void setStartTimestamp(DateTime startTimestamp) {
