@@ -68,4 +68,17 @@ class Helper {
         }
         return count == ids.length;
     }
+
+    boolean deleteNetworks(Long... ids) throws IOException {
+        int count = 0;
+        NetworkApi networkApi = client.createService(NetworkApi.class);
+        for (Long id : ids) {
+            if (networkApi.delete(id).execute().isSuccessful()) {
+                count++;
+            } else {
+                return false;
+            }
+        }
+        return count == ids.length;
+    }
 }
