@@ -2,6 +2,7 @@ package com.devicehive.websocket.model.request;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
+import org.joda.time.DateTime;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class CommandSubscribeAction extends RequestAction {
 
 
     @SerializedName("timestamp")
-    String timestamp;
+    DateTime timestamp;
     @SerializedName("deviceId")
     String deviceId;
     @SerializedName("deviceIds")
