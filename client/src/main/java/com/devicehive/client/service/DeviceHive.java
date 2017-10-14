@@ -36,6 +36,7 @@ public class DeviceHive implements MainDeviceHive {
     private NotificationWS notificationWS;
     private CommandWS commandWS;
     private UserService userService;
+    private WebSocketClient wsClient;
 
     private DeviceHive() {
     }
@@ -50,10 +51,6 @@ public class DeviceHive implements MainDeviceHive {
 
     String getWSUrl() {
         return wsUrl;
-    }
-
-    WebSocketClient getWsClient() {
-        return WSHelper.getInstance().getWebSocketClient();
     }
 
     public static DeviceHive getInstance() {
@@ -115,8 +112,16 @@ public class DeviceHive implements MainDeviceHive {
         userService = new UserService();
     }
 
+    private void createWSClient() {
+        wsClient = new WebSocketClient.Builder().url(wsUrl)
+                .refreshToken(TokenHelper.getInstance().getTokenAuth().getRefreshToken())
+                .token(TokenHelper.getInstance().getTokenAuth().getAccessToken())
+                .build();
+    }
+
     private void createWsServices() {
-        notificationWS = DeviceHive.getInstance().getWsClient().createNotificationWS(new NotificationListener() {
+        createWSClient();
+        notificationWS = wsClient.createNotificationWS(new NotificationListener() {
             @Override
             public void onError(ErrorResponse error) {
                 notificationsCallback.onFail(FailureData.create(error));
@@ -128,11 +133,16 @@ public class DeviceHive implements MainDeviceHive {
             }
 
             @Override
+            public void onSubscribe(NotificationSubscribeResponse response) {
+            }
+
+            @Override
             public void onInsert(NotificationInsertResponse response) {
+                System.out.println("insert");
                 notificationsCallback.onSuccess(Collections.singletonList(DeviceNotification.create(response.getNotification())));
             }
         });
-        commandWS = DeviceHive.getInstance().getWsClient().createCommandWS(new CommandListener() {
+        commandWS = wsClient.createCommandWS(new CommandListener() {
             @Override
             public void onList(CommandListResponse response) {
                 commandsCallback.onSuccess(DeviceCommand.createList(response.getCommands()));
@@ -149,16 +159,6 @@ public class DeviceHive implements MainDeviceHive {
             }
         });
     }
-
-
-    public TokenAuth getTokenAuthService() {
-        return jwtTokenService.getTokenAuth();
-    }
-
-    public TokenAuth getTokenConfigurationService() {
-        return configurationService.getTokenAuth();
-    }
-
     public void login(String username, String password) throws IOException {
         JwtRequest body = new JwtRequest();
         body.setLogin(username);
