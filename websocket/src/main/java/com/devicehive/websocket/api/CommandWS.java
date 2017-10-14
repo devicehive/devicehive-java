@@ -130,7 +130,7 @@ public class CommandWS extends BaseWebSocketApi implements CommandApi {
         action.setNames(names);
         action.setDeviceId(deviceId);
         action.setDeviceIds(deviceIds);
-        action.setTimestamp(timestamp.toString());
+        action.setTimestamp(timestamp);
         action.setLimit(limit);
         action.setRequestId(requestId);
         send(action);

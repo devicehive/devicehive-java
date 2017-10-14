@@ -4,6 +4,7 @@ import com.devicehive.client.model.*;
 import com.devicehive.rest.model.JsonStringWrapper;
 import com.devicehive.websocket.api.CommandWS;
 import com.devicehive.websocket.api.NotificationWS;
+import com.devicehive.websocket.api.WebSocketClient;
 import com.devicehive.websocket.listener.CommandListener;
 import com.devicehive.websocket.listener.NotificationListener;
 import com.devicehive.websocket.model.repsonse.*;
@@ -19,6 +20,7 @@ public class Device implements DeviceInterface {
 
 
     private final NotificationWS notificationWS;
+    private final WebSocketClient wsClient;
     private CommandWS commandWS;
     @Getter
     private String id = null;
@@ -81,8 +83,12 @@ public class Device implements DeviceInterface {
     private String notificationSubscriptionId;
 
     private Device() {
-        commandWS = DeviceHive.getInstance().getWsClient().createCommandWS(commandListener);
-        notificationWS = DeviceHive.getInstance().getWsClient().createNotificationWS(notificationListener);
+        wsClient = new WebSocketClient.Builder().url(DeviceHive.getInstance().getWSUrl())
+                .refreshToken(TokenHelper.getInstance().getTokenAuth().getRefreshToken())
+                .token(TokenHelper.getInstance().getTokenAuth().getAccessToken())
+                .build();
+        commandWS = wsClient.createCommandWS(commandListener);
+        notificationWS = wsClient.createNotificationWS(notificationListener);
     }
 
     static Device create(com.devicehive.rest.model.Device device) {
@@ -172,5 +178,16 @@ public class Device implements DeviceInterface {
 
     public void unsubscribeNotifications(NotificationFilter notificationFilter) {
         notificationWS.subscribe(null, id, null, notificationFilter.getNotificationNames());
+    }
+
+    @Override
+    public String toString() {
+        return "{\n\"Device\":{\n"
+                + "\"id\":\"" + id + "\""
+                + ",\n \"name\":\"" + name + "\""
+                + ",\n \"data\":" + data
+                + ",\n \"networkId\":\"" + networkId + "\""
+                + ",\n \"isBlocked\":\"" + isBlocked + "\""
+                + "}\n}";
     }
 }
