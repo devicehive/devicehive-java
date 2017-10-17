@@ -42,7 +42,7 @@ class DeviceCommandService extends BaseService {
                 execute(deviceCommandApi.poll(deviceId, deviceIds, startTimestamp.toString(),
                         (long) period.toStandardSeconds().getSeconds(), maxNumber));
 
-        response = new DHResponse<List<DeviceCommand>>(
+        response = new DHResponse<>(
                 DeviceCommand.createListFromRest(result.getData()),
                 result.getFailureData());
         if (response.isSuccessful()) {
@@ -52,7 +52,7 @@ class DeviceCommandService extends BaseService {
             deviceCommandApi = createService(DeviceCommandApi.class);
             result = execute(deviceCommandApi.poll(deviceId, null, startTimestamp.toString(),
                     30L, maxNumber));
-            return new DHResponse<List<DeviceCommand>>(DeviceCommand.createListFromRest(result.getData()),
+            return new DHResponse<>(DeviceCommand.createListFromRest(result.getData()),
                     result.getFailureData());
         } else {
             return response;
@@ -66,7 +66,7 @@ class DeviceCommandService extends BaseService {
         DeviceCommandWrapper wrapper = createDeviceCommandWrapper(command, parameters);
         DHResponse<com.devicehive.rest.model.CommandInsert> result = execute(deviceCommandApi.insert(deviceId, wrapper));
 
-        response = new DHResponse<DeviceCommand>(DeviceCommand.create(result.getData(), command, deviceId,
+        response = new DHResponse<>(DeviceCommand.create(result.getData(), command, deviceId,
                 wrapper.getParameters()), result.getFailureData());
 
         if (response.isSuccessful()) {
@@ -75,7 +75,7 @@ class DeviceCommandService extends BaseService {
             authorize();
             deviceCommandApi = createService(DeviceCommandApi.class);
             result = execute(deviceCommandApi.insert(deviceId, wrapper));
-            return new DHResponse<DeviceCommand>(DeviceCommand.create(result.getData(), command, deviceId,
+            return new DHResponse<>(DeviceCommand.create(result.getData(), command, deviceId,
                     wrapper.getParameters()), result.getFailureData());
 
         } else {
