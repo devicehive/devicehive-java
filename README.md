@@ -131,12 +131,12 @@ To subscribe on notifications you just need to create `NotificationFilter` where
 <details>
  <summary><b>DeviceNotification class properties</b></summary>
  
- `DeviceNotification` contains such properties:
-*`device_id` (read only)
-*`id` (read only)
-*`notification` (read only)
-*`parameters` (read only)
-*`timestamp` (read only)
+`DeviceNotification` contains such properties:
+* `device_id` (read only)
+* `id` (read only)
+* `notification` (read only)
+* `parameters` (read only)
+* `timestamp` (read only)
 
  </details>
  
