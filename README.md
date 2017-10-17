@@ -21,12 +21,17 @@ and focus on actual product and innovation.
 # devicehive-java-client
 ## Creating client
 Creating a client with a new version of library is very simple. First of all you need to initiate `DeviceHive` client:
+<details>
+ <summary>Summary</summary>
+ 
 ```java
     DeviceHive deviceHive = DeviceHive.getInstance()
         .init("http://devicehive.server.rest.url", 
         "ws://devicehive.server.websocket.url",
         new TokenAuth("refreshToken", "accessToken"));
 ```
+
+</details>
 or you can initiate the client without Websocket url. In this case `DeviceHive` will create the default url based on rest url:
 ```java
     DeviceHive deviceHive = DeviceHive.getInstance()
@@ -132,4 +137,4 @@ is included. This also means you don't have to contribute the end product or
 modified sources back to Open Source, but if you feel like sharing, you are
 highly encouraged to do so!
 
-&copy; Copyright 2017 DataArt Apps &copy; All Rights Reserved
+&copy; Copyright 2013 DataArt Apps &copy; All Rights Reserved
