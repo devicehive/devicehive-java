@@ -236,7 +236,7 @@ dependencies {
 ```
 DeviceHive Server
 ------------------
-Java Server code was moved to a separate repository: https://github.com/devicehive/devicehive-java
+Java Server code was moved to a separate repository: https://github.com/devicehive/devicehive-java-server
 
 
 DeviceHive license
