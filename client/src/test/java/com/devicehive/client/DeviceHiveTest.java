@@ -206,7 +206,7 @@ public class DeviceHiveTest {
     @Test
     public void createAndDeleteUser() {
         DHResponse<User> user = deviceHive.createUser("javaLibTest", "123456",
-                com.devicehive.rest.model.User.RoleEnum.NUMBER_0, StatusEnum.ACTIVE, null);
+                com.devicehive.rest.model.User.RoleEnum.ADMIN, StatusEnum.ACTIVE, null);
         Assert.assertTrue(user.isSuccessful());
         deleteUser(user.getData().getId());
     }
