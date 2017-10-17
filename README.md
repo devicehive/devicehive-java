@@ -35,7 +35,7 @@ or you can initiate the client without Websocket url. In this case `DeviceHive` 
 ```
 
 <details>
- <summary>##DeviceHive</summary>
+ <summary>DeviceHive class methods</summary>
  
 * `getInfo()` - gets server info
 * `getClusterInfo()` - gets cluster info
@@ -85,7 +85,10 @@ To subscribe on commands you just need to create `CommandFilter` where you can s
             }
         });
 ```
-### Device Command
+
+<details>
+ <summary>DeviceCommand class methods</summary>
+ 
 `DeviceCommand` contains such properties:
 * `id` (read only)
 * `user_id` (read only)
@@ -101,7 +104,8 @@ To subscribe on commands you just need to create `CommandFilter` where you can s
 * `updateCommand` - updates current command
 * `fetchCommandStatus` - gets command status
 * `fetchCommandResult` - gets command result
-    
+
+</details>
 
 ### Working with Device Notifications
 There us the same logic regarding `DeviceNotification` to create `notification` you just need to call 
