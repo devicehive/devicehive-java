@@ -2,23 +2,27 @@ package com.devicehive.client.model;
 
 import com.devicehive.rest.model.JsonStringWrapper;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
 @Builder
 public class DeviceNotification {
+    @Getter
     private Long id = null;
 
+    @Getter
     private String notification = null;
 
+    @Getter
     private String deviceId = null;
 
+    @Getter
     private DateTime timestamp = null;
 
+    @Getter
     private JsonStringWrapper parameters = null;
 
     public static DeviceNotification create(com.devicehive.rest.model.DeviceNotification notification) {
