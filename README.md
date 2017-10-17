@@ -163,7 +163,7 @@ To subscribe on notifications you just need to create `NotificationFilter` where
  </details>
  
  
- ###Working with Network
+ ### Working with Network
  To create `Network` you just need to call  `createNetwork(String name, String description)`  method of  `DeviceHive` class
  
  ```java
