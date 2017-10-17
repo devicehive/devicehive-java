@@ -140,7 +140,7 @@ public class Device implements DeviceInterface {
                 parameters);
     }
 
-    public void subscribeCommands(CommandFilter commandFilter, final DeviceCommandsCallback commandCallback) {
+    public void subscribeCommands(CommandFilter commandFilter, DeviceCommandsCallback commandCallback) {
         this.commandCallback = commandCallback;
         commandWS.subscribe(commandFilter.getCommandNames(),
                 id,
@@ -169,7 +169,7 @@ public class Device implements DeviceInterface {
         }
     }
 
-    public void unsubscribeNotifications() {
+    public void unsubscribeAllNotifications() {
         if (notificationWS != null && notificationSubscriptionId != null) {
             notificationWS.unsubscribe(notificationSubscriptionId, Collections.singletonList(id));
         }

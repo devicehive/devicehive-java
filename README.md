@@ -58,6 +58,31 @@ To create device you just need an instance of `DeviceHive` and `getDevice(String
 ```java
     Device device = deviceHive.getDevice("example-device-Id");
 ```
+
+<details>
+ <summary><b>Device class propeties and methods</b></summary>
+ `Device` contains such properties and methods:
+ Properties:
+* `id` (read only)
+* `name`
+* `data`
+* `network_id`
+* `is_blocked`
+
+Methods:
+* `save()` - updates Device
+* `getCommands(startTimestamp, endTimestamp,  maxNumber)` - gets Device's DeviceCommands
+* `getNotifications(startTimestamp, endTimestamp)` -  gets Device's DeviceNotifications
+* `sendCommand(command, List parameters)` - sends DeviceCommand
+* `sendNotification(notification, List parameters)` - sends DeviceNotification
+* `subscribeCommandss(commandFilter, deviceCommandsCallback)` - subscribes for DeviceCommands
+* `subscribeNotifications(notificationFilter, deviceNotificationsCallback)` - subscribes for DeviceNotifications
+* `unsubscribeCommands(commandFilter)` - unsubscribes from DeviceCommands that are not meeting filter criteria
+* `unsubscribeAllCommands()` - subscribes from all DeviceCommands
+* `unsubscribeNotifications()` - subscribes for DeviceNotifications that are not meeting filter criteria
+* `unsubscribeAllNotifications(notificationFilter)` - subscribes from all DeviceNotifications
+ 
+ </details>
 ### Working with Device Commands
 To create command you just need to call 
 `sendCommand(String command, List<Parameter> parameters)` method that will return `DHResponse<DeviceCommand>` with `DeviceCommand` in case of success or `FailureData` with error message and HTTP response code in case of failure:
