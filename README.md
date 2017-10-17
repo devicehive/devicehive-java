@@ -215,6 +215,7 @@ To subscribe on notifications you just need to create `NotificationFilter` where
  * `unassignNetwork(long networkId)` - unassigns Network to this user
  
  </details>
+ 
 ## Download
 Add the JitPack repository to your `project build` file
 
