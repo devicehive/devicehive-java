@@ -187,7 +187,34 @@ To subscribe on notifications you just need to create `NotificationFilter` where
  
  </details>
  
+ ### Working with User
+ To create `User` you just need to call  `createUser(String login, String password, com.devicehive.rest.model.User.RoleEnum role, StatusEnum status, JsonStringWrapper data)`  method of  `DeviceHive` class
  
+ ```java
+ DHResponse<User> response = deviceHive.createUser("javaLibTest", "123456", RoleEnum.ADMIN, StatusEnum.ACTIVE, null);
+ ```
+ also you can get  `User`  by critria  `deviceHive.getUsers(UserFilter filter)` or just get current  `User`  `deviceHive.getCurrentUser()`
+ 
+ ```java
+ DHResponse<User> response = deviceHive.getCurrentUser();
+ ```
+ <details>
+ <summary><b>User class properties and methods</b></summary>
+ 
+ Properties:
+ * `id` (read only)
+ * `login`
+ * `role`
+ * `password` (write only)
+ * `data`
+ 
+ Methods:
+ * `save()`  - updates `User`
+ * `getNetworks()` - gets list of Networks assigned to this user
+ * `assignNetwork(long networkId)` - assigns Network to this user
+ * `unassignNetwork(long networkId)` - unassigns Network to this user
+ 
+ </details>
  
  
 DeviceHive Server

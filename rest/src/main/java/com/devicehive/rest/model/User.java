@@ -32,9 +32,9 @@ public class User {
 
     @JsonAdapter(RoleEnum.Adapter.class)
     public enum RoleEnum {
-        NUMBER_0(0),
+        ADMIN(0),
 
-        NUMBER_1(1);
+        CLIENT(1);
 
         private Integer value;
 
