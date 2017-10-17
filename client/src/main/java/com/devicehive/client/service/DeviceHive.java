@@ -138,7 +138,6 @@ public class DeviceHive implements MainDeviceHive {
 
             @Override
             public void onInsert(NotificationInsertResponse response) {
-                System.out.println("insert");
                 notificationsCallback.onSuccess(Collections.singletonList(DeviceNotification.create(response.getNotification())));
             }
         });
