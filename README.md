@@ -81,8 +81,9 @@ Methods:
 * `unsubscribeAllCommands()` - subscribes from all DeviceCommands
 * `unsubscribeNotifications(NotificationFilter notificationFilter)` - subscribes for DeviceNotifications that are not meeting filter criteria
 * `unsubscribeAllNotifications()` - subscribes from all DeviceNotifications
- 
+
  </details>
+
 ### Working with Device Commands
 To create command you just need to call 
 `sendCommand(String command, List<Parameter> parameters)` method that will return `DHResponse<DeviceCommand>` with `DeviceCommand` in case of success or `FailureData` with error message and HTTP response code in case of failure:
