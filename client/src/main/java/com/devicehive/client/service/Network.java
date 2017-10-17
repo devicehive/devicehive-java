@@ -15,21 +15,25 @@ package com.devicehive.client.service;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
 @Builder
 @AllArgsConstructor
 public class Network {
 
+    @Getter
     private Long id = null;
 
+    @Getter
+    @Setter
     private String name = null;
-
+    @Getter
+    @Setter
     private String description = null;
 
     private Network() {

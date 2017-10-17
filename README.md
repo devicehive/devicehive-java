@@ -162,6 +162,34 @@ To subscribe on notifications you just need to create `NotificationFilter` where
 
  </details>
  
+ 
+ ###Working with Network
+ To create `Network` you just need to call  `createNetwork(String name, String description)`  method of  `DeviceHive` class
+ 
+ ```java
+ DHResponse<Network> response = deviceHive.createNetwork("My Network's name", "My network's description");
+ ```
+ also you can get  `Network`  by id  `deviceHive.getNetwork(long id)` or get list of  `Network`  with `deviceHive. listNetworks(NetworkFilter filter)`
+ 
+ ```java
+ DHResponse<NetworkVO> response = deviceHive.getNetwork(response.getData().getId());
+ ```
+ <details>
+ <summary><b>Network class properties and methods</b></summary>
+ 
+ Properties:
+ * `id` (read only)
+ * `name`
+ * `description`
+ 
+ Methods:
+ * `save()`  - updates `Network`
+ 
+ </details>
+ 
+ 
+ 
+ 
 DeviceHive Server
 ------------------
 Java Server code was moved to a separate repository: https://github.com/devicehive/devicehive-java
