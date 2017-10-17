@@ -1,77 +1,91 @@
+/*
+ *
+ *
+ *   DeviceNotification.java
+ *
+ *   Copyright (C) 2017 DataArt
+ *
+ *   Licensed under the Apache License, Version 2.0 (the "License");
+ *   you may not use this file except in compliance with the License.
+ *   You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *   Unless required by applicable law or agreed to in writing, software
+ *   distributed under the License is distributed on an "AS IS" BASIS,
+ *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *   See the License for the specific language governing permissions and
+ *   limitations under the License.
+ *
+ */
+
 package com.devicehive.client.model;
 
-import com.devicehive.client.impl.json.strategies.JsonPolicyDef;
+import com.devicehive.rest.model.JsonStringWrapper;
+import lombok.Builder;
+import lombok.Getter;
+import org.joda.time.DateTime;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.sql.Timestamp;
+@Builder
+public class DeviceNotification {
+    @Getter
+    private Long id = null;
 
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.NOTIFICATION_FROM_DEVICE;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.NOTIFICATION_TO_CLIENT;
-import static com.devicehive.client.impl.json.strategies.JsonPolicyDef.Policy.NOTIFICATION_TO_DEVICE;
+    @Getter
+    private String notification = null;
 
-/**
- * Represents a device notification, a unit of information dispatched from devices. For more details see <a
- * href="http://www.devicehive.com/restful#Reference/DeviceNotification">Device Notification</a>
- */
-public class DeviceNotification implements HiveMessage {
+    @Getter
+    private String deviceId = null;
 
-    private static final long serialVersionUID = 8704321978956225955L;
-    @JsonPolicyDef({NOTIFICATION_TO_CLIENT, NOTIFICATION_TO_DEVICE})
-    private Long id;
+    @Getter
+    private DateTime timestamp = null;
 
-    @JsonPolicyDef({NOTIFICATION_TO_CLIENT, NOTIFICATION_TO_DEVICE})
-    private Timestamp timestamp;
+    @Getter
+    private JsonStringWrapper parameters = null;
 
-    @JsonPolicyDef({NOTIFICATION_TO_CLIENT, NOTIFICATION_FROM_DEVICE})
-    private String notification;
-
-    @JsonPolicyDef({NOTIFICATION_TO_CLIENT, NOTIFICATION_FROM_DEVICE})
-    private JsonStringWrapper parameters;
-
-    public DeviceNotification() {
+    public static DeviceNotification create(com.devicehive.rest.model.DeviceNotification notification) {
+        return DeviceNotification.builder()
+                .id(notification.getId())
+                .notification(notification.getNotification())
+                .deviceId(notification.getDeviceId())
+                .timestamp(notification.getTimestamp())
+                .parameters(new JsonStringWrapper(notification.getParameters().getJsonString()))
+                .build();
+    }
+    public static DeviceNotification create(com.devicehive.websocket.model.repsonse.data.DeviceNotification notification) {
+        return DeviceNotification.builder()
+                .id(notification.getId())
+                .notification(notification.getNotification())
+                .deviceId(notification.getDeviceId())
+                .timestamp(notification.getTimestamp())
+                .parameters(notification.getParameters())
+                .build();
     }
 
-    public JsonStringWrapper getParameters() {
-        return parameters;
+    public static List<DeviceNotification> createList(List<com.devicehive.rest.model.DeviceNotification> notifications) {
+        if (notifications == null) {
+            return null;
+        }
+        List<DeviceNotification> result = new ArrayList<DeviceNotification>(notifications.size());
+        for (com.devicehive.rest.model.DeviceNotification n : notifications) {
+            result.add(create(n));
+        }
+        return result;
     }
 
-    public void setParameters(JsonStringWrapper parameters) {
-        this.parameters = parameters;
+    public static List<DeviceNotification> createListFromWS(List<com.devicehive.websocket.model.repsonse.data.DeviceNotification> notifications) {
+        if (notifications == null) {
+            return null;
+        }
+        List<DeviceNotification> result = new ArrayList<DeviceNotification>(notifications.size());
+        for (com.devicehive.websocket.model.repsonse.data.DeviceNotification n : notifications) {
+            result.add(create(n));
+        }
+        return result;
     }
 
-    public String getNotification() {
-        return notification;
-    }
 
-    public void setNotification(String notification) {
-        this.notification = notification;
-    }
-
-    public Timestamp getTimestamp() {
-        return ObjectUtils.cloneIfPossible(timestamp);
-    }
-
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = ObjectUtils.cloneIfPossible(timestamp);
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("DeviceNotification{");
-        sb.append("id=").append(id);
-        sb.append(", timestamp=").append(timestamp);
-        sb.append(", notification='").append(notification).append('\'');
-        sb.append(", parameters=").append(parameters);
-        sb.append('}');
-        return sb.toString();
-    }
 }
