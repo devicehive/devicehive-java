@@ -5,18 +5,12 @@ DeviceHive Java Client Library & Examples
 
 [DeviceHive]: http://devicehive.com "DeviceHive framework"
 [DataArt]: http://dataart.com "DataArt"
+DeviceHive Client Library is an open source project based on Java. It can be used to build `Android` or `Java` applications.
 
 DeviceHive turns any connected device into the part of Internet of Things.
 It provides the communication layer, control software and multi-platform
 libraries to bootstrap development of smart energy, home automation, remote
 sensing, telemetry, remote control and monitoring software and much more.
-
-Connect embedded Linux using Python or C++ libraries and JSON protocol or
-connect AVR, Microchip devices using lightweight C libraries and BINARY protocol.
-Develop client applications using HTML5/JavaScript, iOS and Android libraries.
-For solutions involving gateways, there is also gateway middleware that allows
-to interface with devices connected to it. Leave communications to DeviceHive
-and focus on actual product and innovation.
 
 # devicehive-java-client
 ## Creating client
@@ -155,4 +149,4 @@ is included. This also means you don't have to contribute the end product or
 modified sources back to Open Source, but if you feel like sharing, you are
 highly encouraged to do so!
 
-&copy; Copyright 2013 DataArt Apps &copy; All Rights Reserved
+&copy; Copyright 2017 DataArt Apps &copy; All Rights Reserved
