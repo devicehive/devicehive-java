@@ -61,8 +61,9 @@ To create device you just need an instance of `DeviceHive` and `getDevice(String
 
 <details>
  <summary><b>Device class propeties and methods</b></summary>
- `Device` contains such properties and methods:
- Properties:
+`Device` contains such properties and methods:
+
+Properties:
 * `id` (read only)
 * `name`
 * `data`
