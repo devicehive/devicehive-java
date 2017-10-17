@@ -5,18 +5,12 @@ DeviceHive Java Client Library & Examples
 
 [DeviceHive]: http://devicehive.com "DeviceHive framework"
 [DataArt]: http://dataart.com "DataArt"
+DeviceHive Client Library is an open source project based on Java. It can be used to build `Android` or `Java` applications.
 
 DeviceHive turns any connected device into the part of Internet of Things.
 It provides the communication layer, control software and multi-platform
 libraries to bootstrap development of smart energy, home automation, remote
 sensing, telemetry, remote control and monitoring software and much more.
-
-Connect embedded Linux using Python or C++ libraries and JSON protocol or
-connect AVR, Microchip devices using lightweight C libraries and BINARY protocol.
-Develop client applications using HTML5/JavaScript, iOS and Android libraries.
-For solutions involving gateways, there is also gateway middleware that allows
-to interface with devices connected to it. Leave communications to DeviceHive
-and focus on actual product and innovation.
 
 # devicehive-java-client
 ## Creating client
@@ -33,7 +27,10 @@ or you can initiate the client without Websocket url. In this case `DeviceHive` 
         .init("http://devicehive.server.rest.url", 
         new TokenAuth("refreshToken", "accessToken"));
 ```
-## DeviceHive 
+
+<details>
+ <summary><b>DeviceHive class methods</b></summary>
+ 
 * `getInfo()` - gets server info
 * `getClusterInfo()` - gets cluster info
 * `createToken(List<String> actions, Long userId, List<String> networkIds, List<String> deviceIds, DateTime expiration)` - creates token
@@ -53,11 +50,42 @@ or you can initiate the client without Websocket url. In this case `DeviceHive` 
 * `removeDevice(String id)` - removes `Device` by id
 * `getDevice(String id)` - gets existing `Device` by id or creates new `Device`
 * `putDevice(String id, String name)` - creates `Device`
+
+</details>
+
 ## Creating device
 To create device you just need an instance of `DeviceHive` and `getDevice(String deviceId)` method:
 ```java
     Device device = deviceHive.getDevice("example-device-Id");
 ```
+
+<details>
+ <summary><b>Device class propeties and methods</b></summary>
+    
+`Device` contains such properties and methods:
+
+Properties:
+* `id` (read only)
+* `name`
+* `data`
+* `network_id`
+* `is_blocked`
+
+Methods:
+* `save()` - updates Device
+* `getCommands(DateTime startTimestamp, DateTime endTimestamp, int maxNumber) ` - gets Device's DeviceCommands
+* `getNotifications(DateTime startTimestamp, DateTime endTimestamp)` -  gets Device's DeviceNotifications
+* `sendCommand(String command, List<Parameter> parameters) ` - sends DeviceCommand
+* `sendNotification(String notification, List<Parameter> parameters) ` - sends DeviceNotification
+* `subscribeCommands(CommandFilter commandFilter, DeviceCommandsCallback commandCallback)` - subscribes for DeviceCommands
+* `subscribeNotifications(NotificationFilter notificationFilter, DeviceNotificationsCallback notificationCallback)` - subscribes for DeviceNotifications
+* `unsubscribeCommands(CommandFilter commandFilter)` - unsubscribes from DeviceCommands that are not meeting filter criteria
+* `unsubscribeAllCommands()` - subscribes from all DeviceCommands
+* `unsubscribeNotifications(NotificationFilter notificationFilter)` - subscribes for DeviceNotifications that are not meeting filter criteria
+* `unsubscribeAllNotifications()` - subscribes from all DeviceNotifications
+
+ </details>
+
 ### Working with Device Commands
 To create command you just need to call 
 `sendCommand(String command, List<Parameter> parameters)` method that will return `DHResponse<DeviceCommand>` with `DeviceCommand` in case of success or `FailureData` with error message and HTTP response code in case of failure:
@@ -79,7 +107,10 @@ To subscribe on commands you just need to create `CommandFilter` where you can s
             }
         });
 ```
-### Device Command
+
+<details>
+ <summary><b>DeviceCommand class properties and methods</b></summary>
+ 
 `DeviceCommand` contains such properties:
 * `id` (read only)
 * `user_id` (read only)
@@ -95,7 +126,8 @@ To subscribe on commands you just need to create `CommandFilter` where you can s
 * `updateCommand` - updates current command
 * `fetchCommandStatus` - gets command status
 * `fetchCommandResult` - gets command result
-    
+
+</details>
 
 ### Working with Device Notifications
 There us the same logic regarding `DeviceNotification` to create `notification` you just need to call 
@@ -117,6 +149,74 @@ To subscribe on notifications you just need to create `NotificationFilter` where
             }
         });
 ```
+
+<details>
+ <summary><b>DeviceNotification class properties</b></summary>
+ 
+`DeviceNotification` contains such properties:
+* `device_id` (read only)
+* `id` (read only)
+* `notification` (read only)
+* `parameters` (read only)
+* `timestamp` (read only)
+
+ </details>
+ 
+ 
+ ### Working with Network
+ To create `Network` you just need to call  `createNetwork(String name, String description)`  method of  `DeviceHive` class
+ 
+ ```java
+ DHResponse<Network> response = deviceHive.createNetwork("My Network's name", "My network's description");
+ ```
+ also you can get  `Network`  by id  `deviceHive.getNetwork(long id)` or get list of  `Network`  with `deviceHive. listNetworks(NetworkFilter filter)`
+ 
+ ```java
+ DHResponse<NetworkVO> response = deviceHive.getNetwork(response.getData().getId());
+ ```
+ <details>
+ <summary><b>Network class properties and methods</b></summary>
+ 
+ Properties:
+ * `id` (read only)
+ * `name`
+ * `description`
+ 
+ Methods:
+ * `save()`  - updates `Network`
+ 
+ </details>
+ 
+ ### Working with User
+ To create `User` you just need to call  `createUser(String login, String password, com.devicehive.rest.model.User.RoleEnum role, StatusEnum status, JsonStringWrapper data)`  method of  `DeviceHive` class
+ 
+ ```java
+ DHResponse<User> response = deviceHive.createUser("javaLibTest", "123456", RoleEnum.ADMIN, StatusEnum.ACTIVE, null);
+ ```
+ also you can get  `User`  by critria  `deviceHive.getUsers(UserFilter filter)` or just get current  `User`  `deviceHive.getCurrentUser()`
+ 
+ ```java
+ DHResponse<User> response = deviceHive.getCurrentUser();
+ ```
+ <details>
+ <summary><b>User class properties and methods</b></summary>
+ 
+ Properties:
+ * `id` (read only)
+ * `login`
+ * `role`
+ * `password` (write only)
+ * `data`
+ 
+ Methods:
+ * `save()`  - updates `User`
+ * `getNetworks()` - gets list of Networks assigned to this user
+ * `assignNetwork(long networkId)` - assigns Network to this user
+ * `unassignNetwork(long networkId)` - unassigns Network to this user
+ 
+ </details>
+ 
+ 
 DeviceHive Server
 ------------------
 Java Server code was moved to a separate repository: https://github.com/devicehive/devicehive-java
