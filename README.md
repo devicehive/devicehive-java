@@ -21,22 +21,24 @@ and focus on actual product and innovation.
 # devicehive-java-client
 ## Creating client
 Creating a client with a new version of library is very simple. First of all you need to initiate `DeviceHive` client:
+<details>
+ <summary>Summary</summary>
+ 
 ```java
     DeviceHive deviceHive = DeviceHive.getInstance()
         .init("http://devicehive.server.rest.url", 
         "ws://devicehive.server.websocket.url",
         new TokenAuth("refreshToken", "accessToken"));
 ```
+
+</details>
 or you can initiate the client without Websocket url. In this case `DeviceHive` will create the default url based on rest url:
 ```java
     DeviceHive deviceHive = DeviceHive.getInstance()
         .init("http://devicehive.server.rest.url", 
         new TokenAuth("refreshToken", "accessToken"));
 ```
-
-<details>
- <summary>##DeviceHive</summary>
- 
+## DeviceHive 
 * `getInfo()` - gets server info
 * `getClusterInfo()` - gets cluster info
 * `createToken(List<String> actions, Long userId, List<String> networkIds, List<String> deviceIds, DateTime expiration)` - creates token
@@ -56,9 +58,6 @@ or you can initiate the client without Websocket url. In this case `DeviceHive` 
 * `removeDevice(String id)` - removes `Device` by id
 * `getDevice(String id)` - gets existing `Device` by id or creates new `Device`
 * `putDevice(String id, String name)` - creates `Device`
-
-</details>
-
 ## Creating device
 To create device you just need an instance of `DeviceHive` and `getDevice(String deviceId)` method:
 ```java
