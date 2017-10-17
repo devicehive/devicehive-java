@@ -87,7 +87,7 @@ To subscribe on commands you just need to create `CommandFilter` where you can s
 ```
 
 <details>
- <summary><b>DeviceCommand class methods</b></summary>
+ <summary><b>DeviceCommand class properties and methods</b></summary>
  
 `DeviceCommand` contains such properties:
 * `id` (read only)
@@ -127,6 +127,19 @@ To subscribe on notifications you just need to create `NotificationFilter` where
             }
         });
 ```
+
+<details>
+ <summary><b>DeviceNotification class properties</b></summary>
+ 
+ `DeviceNotification` contains such properties:
+*`device_id` (read only)
+*`id` (read only)
+*`notification` (read only)
+*`parameters` (read only)
+*`timestamp` (read only)
+
+ </details>
+ 
 DeviceHive Server
 ------------------
 Java Server code was moved to a separate repository: https://github.com/devicehive/devicehive-java
