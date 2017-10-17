@@ -35,7 +35,7 @@ or you can initiate the client without Websocket url. In this case `DeviceHive` 
 ```
 
 <details>
- <summary>DeviceHive class methods</summary>
+ <summary><b>DeviceHive class methods</b></summary>
  
 * `getInfo()` - gets server info
 * `getClusterInfo()` - gets cluster info
@@ -87,7 +87,7 @@ To subscribe on commands you just need to create `CommandFilter` where you can s
 ```
 
 <details>
- <summary>DeviceCommand class methods</summary>
+ <summary><b>DeviceCommand class methods</b></summary>
  
 `DeviceCommand` contains such properties:
 * `id` (read only)
