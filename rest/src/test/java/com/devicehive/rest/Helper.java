@@ -3,11 +3,14 @@ package com.devicehive.rest;
 import com.devicehive.rest.api.DeviceApi;
 import com.devicehive.rest.api.JwtTokenApi;
 import com.devicehive.rest.api.NetworkApi;
+import com.devicehive.rest.api.UserApi;
 import com.devicehive.rest.auth.ApiKeyAuth;
 import com.devicehive.rest.model.DeviceUpdate;
 import com.devicehive.rest.model.JwtRequest;
 import com.devicehive.rest.model.JwtToken;
 import com.devicehive.rest.model.Network;
+import com.devicehive.rest.model.NetworkId;
+import com.devicehive.rest.model.NetworkUpdate;
 import com.devicehive.rest.utils.Const;
 import retrofit2.Response;
 
@@ -56,6 +59,15 @@ class Helper {
         }
     }
 
+    NetworkId createNetwork(@Nonnull String networkName) throws IOException {
+        NetworkApi networkApi = client.createService(NetworkApi.class);
+        NetworkUpdate networkUpdate = new NetworkUpdate();
+        networkUpdate.setName(networkName);
+
+        Response<NetworkId> insertResponse = networkApi.insert(networkUpdate).execute();
+        return insertResponse.body();
+    }
+
     boolean deleteDevices(String... ids) throws IOException {
         int count = 0;
         DeviceApi api = client.createService(DeviceApi.class);
@@ -74,6 +86,19 @@ class Helper {
         NetworkApi networkApi = client.createService(NetworkApi.class);
         for (Long id : ids) {
             if (networkApi.delete(id).execute().isSuccessful()) {
+                count++;
+            } else {
+                return false;
+            }
+        }
+        return count == ids.length;
+    }
+
+    boolean deleteUsers(Long... ids) throws IOException {
+        int count = 0;
+        UserApi userApi = client.createService(UserApi.class);
+        for (Long id : ids) {
+            if (userApi.deleteUser(id).execute().isSuccessful()) {
                 count++;
             } else {
                 return false;

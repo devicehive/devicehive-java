@@ -54,7 +54,6 @@ public interface UserApi {
    * Gets information about user/network association.
    * @param id User identifier. (required)
    * @param networkId Network identifier. (required)
-   * @param authorization Authorization token (required)
    * @return Call&lt;UserNetworkResponse&gt;
    */
   @Headers({
@@ -62,7 +61,7 @@ public interface UserApi {
   })
   @GET("user/{id}/network/{networkId}")
   Call<UserNetworkResponse> getNetwork(
-          @Path("id") Long id, @Path("networkId") Long networkId, @Header("Authorization") String authorization
+          @Path("id") Long id, @Path("networkId") Long networkId
   );
 
   /**
@@ -157,7 +156,7 @@ public interface UserApi {
   })
   @PUT("user/{id}")
   Call<Void> updateUser(
-          @Body UserUpdate body, @Path("id") Long id
+          @Path("id") Long id, @Body UserUpdate body
   );
 
 }

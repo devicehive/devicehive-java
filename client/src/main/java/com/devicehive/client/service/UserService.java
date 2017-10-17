@@ -7,7 +7,8 @@ import com.devicehive.rest.model.JsonStringWrapper;
 import com.devicehive.rest.model.UserUpdate;
 import com.devicehive.rest.model.UserVO;
 import com.devicehive.rest.model.UserWithNetwork;
-import com.devicehive.websocket.model.StatusEnum;
+import com.devicehive.rest.model.User.StatusEnum;
+import com.devicehive.rest.model.User.RoleEnum;
 
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class UserService extends BaseService {
 
     }
 
-    public DHResponse<User> createUser(String login, String password, com.devicehive.rest.model.User.RoleEnum role, StatusEnum statusEnum, JsonStringWrapper data) {
+    public DHResponse<User> createUser(String login, String password, RoleEnum role, StatusEnum statusEnum, JsonStringWrapper data) {
         UserApi userApi = createService(UserApi.class);
         UserUpdate userUpdate = createUserBody(login, password, role, statusEnum, data);
         DHResponse<User> response;
@@ -74,7 +75,7 @@ public class UserService extends BaseService {
         }
     }
 
-    private void updateUser(DHResponse<User> response, String login, com.devicehive.rest.model.User.RoleEnum role, JsonStringWrapper data) {
+    private void updateUser(DHResponse<User> response, String login, RoleEnum role, JsonStringWrapper data) {
         if (response.isSuccessful()) {
             User user = response.getData();
             user.setLogin(login);
@@ -83,11 +84,11 @@ public class UserService extends BaseService {
         }
     }
 
-    private UserUpdate createUserBody(String login, String password, com.devicehive.rest.model.User.RoleEnum role, StatusEnum statusEnum, JsonStringWrapper data) {
+    private UserUpdate createUserBody(String login, String password, RoleEnum role, StatusEnum statusEnum, JsonStringWrapper data) {
         UserUpdate userUpdate = new UserUpdate();
         userUpdate.setLogin(login);
         userUpdate.setRole(role);
-        userUpdate.setStatus(statusEnum != null ? statusEnum.getValue() : 0);
+        userUpdate.setStatus(statusEnum);
         userUpdate.setPassword(password);
         userUpdate.setData(data);
         return userUpdate;
@@ -125,15 +126,15 @@ public class UserService extends BaseService {
         UserApi userApi = createService(UserApi.class);
         DHResponse<UserWithNetwork> result = execute(userApi.getCurrent());
         if (result.isSuccessful()) {
-            return DHResponse.create(Network.createListVO(result.getData().getNetworks()), result.getFailureData());
+            return DHResponse.create(Network.createList(result.getData().getNetworks()), result.getFailureData());
         } else if (result.getFailureData().getCode() == 401) {
             authorize();
             userApi = createService(UserApi.class);
             result = execute(userApi.getCurrent());
-            return DHResponse.create(Network.createListVO(result.getData().getNetworks()), result.getFailureData());
+            return DHResponse.create(Network.createList(result.getData().getNetworks()), result.getFailureData());
         } else {
             try {
-                return DHResponse.create(Network.createListVO(result.getData().getNetworks()), result.getFailureData());
+                return DHResponse.create(Network.createList(result.getData().getNetworks()), result.getFailureData());
             } catch (NullPointerException e) {
                 return DHResponse.create(null, result.getFailureData());
             }

@@ -23,6 +23,6 @@ import lombok.Data;
 @Data
 public class UserNetworkResponse {
   @SerializedName("network")
-  private NetworkVO network = null;
+  private Network network = null;
 }
 
