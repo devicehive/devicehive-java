@@ -6,12 +6,13 @@ import com.devicehive.client.model.*;
 import com.devicehive.client.model.DeviceNotification;
 import com.devicehive.rest.api.JwtTokenApi;
 import com.devicehive.rest.model.*;
+import com.devicehive.rest.model.User.RoleEnum;
+import com.devicehive.rest.model.User.StatusEnum;
 import com.devicehive.websocket.api.CommandWS;
 import com.devicehive.websocket.api.NotificationWS;
 import com.devicehive.websocket.api.WebSocketClient;
 import com.devicehive.websocket.listener.CommandListener;
 import com.devicehive.websocket.listener.NotificationListener;
-import com.devicehive.websocket.model.StatusEnum;
 import com.devicehive.websocket.model.repsonse.*;
 import org.joda.time.DateTime;
 import retrofit2.Response;
@@ -267,7 +268,7 @@ public class DeviceHive implements MainDeviceHive {
         return userService.listUsers(filter);
     }
 
-    public DHResponse<User> createUser(String login, String password, com.devicehive.rest.model.User.RoleEnum role, StatusEnum status, JsonStringWrapper data) {
+    public DHResponse<User> createUser(String login, String password, RoleEnum role, StatusEnum status, JsonStringWrapper data) {
         return userService.createUser(login, password, role, status, data);
     }
 
