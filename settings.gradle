@@ -1,0 +1,8 @@
+rootProject.name = 'devicehive-java'
+include ':devicehive-java-rest'
+include ':devicehive-java-websocket'
+include ':devicehive-java-client'
+
+project(':devicehive-java-rest').projectDir = "$rootDir/rest" as File
+project(':devicehive-java-websocket').projectDir = "$rootDir/websocket" as File
+project(':devicehive-java-client').projectDir = "$rootDir/client" as File
