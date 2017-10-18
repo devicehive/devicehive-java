@@ -1,10 +1,10 @@
 package example;
 
-import com.devicehive.client.model.*;
-import com.devicehive.client.service.Device;
-import com.devicehive.client.service.DeviceCommand;
-import com.devicehive.client.service.DeviceHive;
-import com.devicehive.rest.model.JsonStringWrapper;
+import com.github.devicehive.client.model.*;
+import com.github.devicehive.client.service.Device;
+import com.github.devicehive.client.service.DeviceCommand;
+import com.github.devicehive.client.service.DeviceHive;
+import com.github.devicehive.rest.model.JsonStringWrapper;
 import edu.emory.mathcs.backport.java.util.concurrent.Executors;
 import edu.emory.mathcs.backport.java.util.concurrent.ScheduledExecutorService;
 import edu.emory.mathcs.backport.java.util.concurrent.TimeUnit;
