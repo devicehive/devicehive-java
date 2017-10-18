@@ -1,26 +1,28 @@
-allprojects  {
-  apply plugin: 'maven'
+allprojects {
+    apply plugin: 'maven'
 
-  group = 'com.github.devicehive'
-version = '3.0.2'
+    group = 'com.github.devicehive'
+    version = '3.0.2'
 }
 
-task wrapper(type: Wrapper) {
-  gradleVersion = '3.3'
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.3'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
 }
 subprojects {
-  apply plugin: 'java'
-  sourceCompatibility = 1.7
-  targetCompatibility = 1.7
+    apply plugin: 'java'
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
 
-  
-  repositories {
-    mavenLocal()
-    
-    maven { url "http://repo.maven.apache.org/maven2" }
-  }
+    repositories {
+        mavenLocal()
 
-  
-  
-  
+        maven { url "http://repo.maven.apache.org/maven2" }
+    }
 }
