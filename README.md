@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/devicehive/devicehive-java.svg?branch=development)](https://travis-ci.org/devicehive/devicehive-java)
+[![Build Status](https://travis-ci.org/devicehive/devicehive-java.svg?branch=master)](https://travis-ci.org/devicehive/devicehive-java)
 
 DeviceHive Java Client Library & Examples
 =========================================
@@ -188,7 +188,7 @@ To subscribe on notifications you just need to create `NotificationFilter` where
  </details>
  
  ### Working with User
- To create `User` you just need to call  `createUser(String login, String password, com.devicehive.rest.model.User.RoleEnum role, StatusEnum status, JsonStringWrapper data)`  method of  `DeviceHive` class
+ To create `User` you just need to call  `createUser(String login, String password, User.RoleEnum role, StatusEnum status, JsonStringWrapper data)`  method of  `DeviceHive` class
  
  ```java
  DHResponse<User> response = deviceHive.createUser("javaLibTest", "123456", RoleEnum.ADMIN, StatusEnum.ACTIVE, null);
@@ -216,10 +216,27 @@ To subscribe on notifications you just need to create `NotificationFilter` where
  
  </details>
  
- 
+## Download
+Add the JitPack repository to your `project build` file
+
+ ```groovy
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+
+Gradle is the only supported build configuration, so just add the dependency to your project `build.gradle` file:
+ ```groovy
+dependencies {  
+   compile 'com.github.devicehive:devicehive-java:3.0.0'
+}
+```
 DeviceHive Server
 ------------------
-Java Server code was moved to a separate repository: https://github.com/devicehive/devicehive-java
+Java Server code was moved to a separate repository: https://github.com/devicehive/devicehive-java-server
 
 
 DeviceHive license
