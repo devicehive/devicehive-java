@@ -21,9 +21,10 @@
 
 package com.github.devicehive.rest.api;
 
+import com.github.devicehive.rest.model.UserNetworkResponse;
+import com.github.devicehive.rest.model.UserUpdate;
 import com.github.devicehive.rest.model.UserWithNetwork;
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.*;
 
 import java.util.List;
@@ -75,15 +76,14 @@ public interface UserApi {
    * Gets information about user/network association.
    * @param id User identifier. (required)
    * @param networkId Network identifier. (required)
-   * @param authorization Authorization token (required)
    * @return Call&lt;UserNetworkResponse&gt;
    */
   @Headers({
     "Content-Type:application/json"
   })
   @GET("user/{id}/network/{networkId}")
-  Call<com.github.devicehive.rest.model.UserNetworkResponse> getNetwork(
-          @Path("id") Long id, @Path("networkId") Long networkId, @Header("Authorization") String authorization
+  Call<UserNetworkResponse> getNetwork(
+          @Path("id") Long id, @Path("networkId") Long networkId
   );
 
   /**
@@ -178,7 +178,7 @@ public interface UserApi {
   })
   @PUT("user/{id}")
   Call<Void> updateUser(
-          @Body com.github.devicehive.rest.model.UserUpdate body, @Path("id") Long id
+          @Path("id") Long id, @Body UserUpdate body
   );
 
 }

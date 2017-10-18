@@ -50,7 +50,7 @@ public class UserUpdate {
   private User.RoleEnum role = null;
 
   @SerializedName("status")
-  private Integer status = null;
+  private User.StatusEnum status = null;
 
   @SerializedName("password")
   private String password = null;
