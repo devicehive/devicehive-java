@@ -6,7 +6,3 @@ jdk:
     - openjdk7
 script:
   - mvn --quiet clean verify
-  - ./gradlew build
-branches:
-  only:
-  - master
