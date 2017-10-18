@@ -101,11 +101,11 @@ public class User {
 
     @JsonAdapter(StatusEnum.Adapter.class)
     public enum StatusEnum {
-        NUMBER_0(0),
+        ACTIVE(0),
 
-        NUMBER_1(1),
+        LOCKED(1),
 
-        NUMBER_2(2);
+        DISABLED(2);
 
         private Integer value;
 

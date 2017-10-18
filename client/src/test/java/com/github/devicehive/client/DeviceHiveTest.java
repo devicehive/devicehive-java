@@ -22,12 +22,14 @@
 package com.github.devicehive.client;
 
 import com.github.devicehive.rest.model.*;
-import com.github.devicehive.websocket.model.StatusEnum;
 import com.github.devicehive.client.callback.ResponseCallback;
 import com.github.devicehive.client.model.*;
 import com.github.devicehive.client.model.DeviceNotification;
 import com.github.devicehive.client.service.Device;
+import com.github.devicehive.client.service.User;
 import com.github.devicehive.client.service.DeviceHive;
+import com.github.devicehive.rest.model.User.RoleEnum;
+import com.github.devicehive.rest.model.User.StatusEnum;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
@@ -225,8 +227,8 @@ public class DeviceHiveTest {
 
     @Test
     public void createAndDeleteUser() {
-        DHResponse<com.github.devicehive.client.service.User> user = deviceHive.createUser("javaLibTest", "123456",
-                com.github.devicehive.rest.model.User.RoleEnum.ADMIN, StatusEnum.ACTIVE, null);
+        DHResponse<User> user = deviceHive.createUser("javaLibTest", "123456",
+                RoleEnum.ADMIN, StatusEnum.ACTIVE, null);
         Assert.assertTrue(user.isSuccessful());
         deleteUser(user.getData().getId());
     }

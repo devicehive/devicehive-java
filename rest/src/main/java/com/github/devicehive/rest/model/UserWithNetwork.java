@@ -69,7 +69,7 @@ public class UserWithNetwork {
     private Boolean introReviewed = false;
 
     @SerializedName("networks")
-    private List<NetworkVO> networks = null;
+    private List<Network> networks = null;
 
     public UserWithNetwork id(Long id) {
         this.id = id;
