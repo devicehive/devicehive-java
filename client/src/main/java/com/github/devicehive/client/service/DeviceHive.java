@@ -21,21 +21,20 @@
 
 package com.github.devicehive.client.service;
 
+import com.github.devicehive.client.api.MainDeviceHive;
+import com.github.devicehive.client.callback.ResponseCallback;
+import com.github.devicehive.client.model.*;
+import com.github.devicehive.client.model.DeviceNotification;
 import com.github.devicehive.rest.api.JwtTokenApi;
 import com.github.devicehive.rest.model.*;
+import com.github.devicehive.rest.model.User.RoleEnum;
+import com.github.devicehive.rest.model.User.StatusEnum;
 import com.github.devicehive.websocket.api.CommandWS;
 import com.github.devicehive.websocket.api.NotificationWS;
 import com.github.devicehive.websocket.api.WebSocketClient;
 import com.github.devicehive.websocket.listener.CommandListener;
 import com.github.devicehive.websocket.listener.NotificationListener;
 import com.github.devicehive.websocket.model.repsonse.*;
-import com.github.devicehive.client.api.MainDeviceHive;
-import com.github.devicehive.client.callback.ResponseCallback;
-import com.github.devicehive.client.service.User;
-import com.github.devicehive.client.model.*;
-import com.github.devicehive.client.model.DeviceNotification;
-import com.github.devicehive.rest.model.User.RoleEnum;
-import com.github.devicehive.rest.model.User.StatusEnum;
 import org.joda.time.DateTime;
 import retrofit2.Response;
 
