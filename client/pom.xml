@@ -3,11 +3,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.devicehive</groupId>
-    <artifactId>client-library</artifactId>
+    <groupId>com.github.devicehive</groupId>
+    <artifactId>devicehive-java-client</artifactId>
     <packaging>jar</packaging>
-    <name>com.devicehive-client</name>
-    <version>1.0.0</version>
+    <name>devicehive-java</name>
+    <version>3.0.0</version>
     <prerequisites>
         <maven>2.2.0</maven>
     </prerequisites>
@@ -124,13 +124,13 @@
             <version>RELEASE</version>
         </dependency>
         <dependency>
-            <groupId>com.devicehive</groupId>
-            <artifactId>rest</artifactId>
+            <groupId>com.github.devicehive</groupId>
+            <artifactId>devicehive-java-rest</artifactId>
             <version>1.0.0</version>
         </dependency>
         <dependency>
-            <groupId>com.devicehive</groupId>
-            <artifactId>websocket</artifactId>
+            <groupId>com.github.devicehive</groupId>
+            <artifactId>devicehive-java-websocket</artifactId>
             <version>1.0.0</version>
         </dependency>
     </dependencies>

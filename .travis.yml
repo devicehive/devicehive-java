@@ -5,3 +5,6 @@ jdk:
     - oraclejdk8
     - openjdk7
 script: mvn --quiet clean verify
+branches:
+  only:
+  - master
