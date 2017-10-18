@@ -2,7 +2,7 @@ allprojects  {
   apply plugin: 'maven'
 
   group = 'com.github.devicehive'
-version = '3.0.0'
+version = '3.0.1'
 }
 
 subprojects {
