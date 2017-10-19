@@ -50,8 +50,8 @@ public class DeviceTest {
     private static final String COM_A = "comA";
     private static final String COM_B = "comB";
     private static final String COM_Z = "comZ";
-    private String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTA4NDI0NDQxOTgyLCJ0IjoxfX0.aw55Fzf_hGKoS9-wNFWVrXb0J6cNjdSqwLx5NxkiLZE";
-    private String refreshToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTI0MTQ3NDQxOTgyLCJ0IjowfX0.Z421s8zLb85OarAAsEc5koKBHj0DHH-S1YNWetooh7M";
+    private String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTA4NDI4MjAxMTA4LCJ0IjoxfX0.bYIkp2Gm_fMHcxcaFm6xqB91Fp8C2DdenmdGgsVNqcc";
+    private String refreshToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTI0MTUxMjAxMTA4LCJ0IjowfX0.2wfpmIjrHRtGBoSF3-T77aSAiUYPFSGtgBuGoVZtSxc";
 
     private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, WS_URL, new TokenAuth(refreshToken, accessToken));
 
@@ -150,7 +150,7 @@ public class DeviceTest {
             }
         });
 
-        latch.await(10, TimeUnit.SECONDS);
+        latch.await(20, TimeUnit.SECONDS);
         Assert.assertTrue(latch.getCount() == 0);
         device.unsubscribeAllCommands();
         Assert.assertTrue(deviceHive.removeDevice(deviceId).isSuccessful());
@@ -221,7 +221,7 @@ public class DeviceTest {
                 device.sendNotification(notificationName2, parameters);
             }
         }), 7, TimeUnit.SECONDS);
-        latch.await(12, TimeUnit.SECONDS);
+        latch.await(20, TimeUnit.SECONDS);
         Assert.assertTrue(latch.getCount() == 0);
         Assert.assertTrue(deviceHive.removeDevice(deviceId).isSuccessful());
     }

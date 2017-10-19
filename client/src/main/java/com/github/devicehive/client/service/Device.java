@@ -153,7 +153,7 @@ public class Device implements DeviceInterface {
 
     public DHResponse<DeviceCommand> sendCommand(String command, List<Parameter> parameters) {
         return DeviceHive.getInstance().getCommandService()
-                .sendCommand(id, command, parameters);
+                .sendCommand(id, networkId, command, parameters);
     }
 
     public DHResponse<DeviceNotification> sendNotification(String notification, List<Parameter> parameters) {

@@ -46,8 +46,8 @@ public class DeviceHiveTest {
 
     private static final String URL = "http://playground.dev.devicehive.com/";
     private static final String WS_URL = "ws://playground.dev.devicehive.com/api/websocket";
-    private String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTA4NDI0NDQxOTgyLCJ0IjoxfX0.aw55Fzf_hGKoS9-wNFWVrXb0J6cNjdSqwLx5NxkiLZE";
-    private String refreshToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTI0MTQ3NDQxOTgyLCJ0IjowfX0.Z421s8zLb85OarAAsEc5koKBHj0DHH-S1YNWetooh7M";
+    private String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTA4NDI4MjAxMTA4LCJ0IjoxfX0.bYIkp2Gm_fMHcxcaFm6xqB91Fp8C2DdenmdGgsVNqcc";
+    private String refreshToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTI0MTUxMjAxMTA4LCJ0IjowfX0.2wfpmIjrHRtGBoSF3-T77aSAiUYPFSGtgBuGoVZtSxc";
 
     private static final String DEVICE_ID = "271990123";
     private static final String DEVICE_ID2 = "271990";

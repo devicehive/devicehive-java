@@ -21,10 +21,11 @@
 
 package com.github.devicehive.websocket.api;
 
-import com.github.devicehive.websocket.model.SortOrder;
-import com.github.devicehive.websocket.model.repsonse.CommandListResponse;
-import com.github.devicehive.websocket.model.request.CommandInsertAction;
 import com.github.devicehive.websocket.model.ActionConstant;
+import com.github.devicehive.websocket.model.SortOrder;
+import com.github.devicehive.websocket.model.repsonse.*;
+import com.github.devicehive.websocket.model.request.*;
+import com.github.devicehive.websocket.model.request.data.DeviceCommandWrapper;
 import com.google.gson.JsonSyntaxException;
 import okhttp3.WebSocket;
 import org.joda.time.DateTime;
@@ -49,23 +50,23 @@ public class CommandWS extends BaseWebSocketApi implements CommandApi {
 
     @Override
     public void onSuccess(String message) {
-        com.github.devicehive.websocket.model.repsonse.ResponseAction action = getResponseAction(message);
+        ResponseAction action = getResponseAction(message);
         if (action.compareAction(ActionConstant.COMMAND_LIST)) {
-            com.github.devicehive.websocket.model.repsonse.CommandListResponse response = gson.fromJson(message, CommandListResponse.class);
+            CommandListResponse response = gson.fromJson(message, CommandListResponse.class);
             listener.onList(response);
         } else if (action.compareAction(ActionConstant.COMMAND_GET)) {
-            com.github.devicehive.websocket.model.repsonse.CommandGetResponse response = gson.fromJson(message, com.github.devicehive.websocket.model.repsonse.CommandGetResponse.class);
+            CommandGetResponse response = gson.fromJson(message, CommandGetResponse.class);
             listener.onGet(response);
         } else if (action.compareAction(ActionConstant.COMMAND_INSERT)) {
             try {
-                com.github.devicehive.websocket.model.repsonse.CommandInsertResponse response = gson.fromJson(message, com.github.devicehive.websocket.model.repsonse.CommandInsertResponse.class);
+                CommandInsertResponse response = gson.fromJson(message, CommandInsertResponse.class);
                 listener.onInsert(response);
             } catch (JsonSyntaxException e) {
                 e.printStackTrace();
             }
 
         } else if (action.compareAction(ActionConstant.COMMAND_SUBSCRIBE)) {
-            com.github.devicehive.websocket.model.repsonse.CommandSubscribeResponse response = gson.fromJson(message, com.github.devicehive.websocket.model.repsonse.CommandSubscribeResponse.class);
+            CommandSubscribeResponse response = gson.fromJson(message, CommandSubscribeResponse.class);
             listener.onSubscribe(response);
         } else if (action.compareAction(ActionConstant.COMMAND_UNSUBSCRIBE)) {
             listener.onUnsubscribe(action);
@@ -82,11 +83,11 @@ public class CommandWS extends BaseWebSocketApi implements CommandApi {
         list(null, deviceId, start, end, commandName, status, sortOrder, take, skip);
     }
 
-    public void insert(String deviceId, com.github.devicehive.websocket.model.request.data.DeviceCommandWrapper wrapper) {
+    public void insert(String deviceId, DeviceCommandWrapper wrapper) {
         insert(null, deviceId, wrapper);
     }
 
-    public void update(String deviceId, String commandId, com.github.devicehive.websocket.model.request.data.DeviceCommandWrapper wrapper) {
+    public void update(String deviceId, String commandId, DeviceCommandWrapper wrapper) {
         update(null, deviceId, commandId, wrapper);
     }
 
@@ -100,7 +101,7 @@ public class CommandWS extends BaseWebSocketApi implements CommandApi {
 
     @Override
     public void get(Long requestId, String deviceId, Long commandId) {
-        com.github.devicehive.websocket.model.request.DeviceGetAction action = new com.github.devicehive.websocket.model.request.DeviceGetAction();
+        DeviceGetAction action = new DeviceGetAction();
         action.setDeviceId(deviceId);
         action.setCommandId(commandId);
         action.setRequestId(requestId);
@@ -109,7 +110,7 @@ public class CommandWS extends BaseWebSocketApi implements CommandApi {
 
     @Override
     public void list(Long requestId, String deviceId, DateTime start, DateTime end, String commandName, String status, SortOrder sortOrder, Integer take, Integer skip) {
-        com.github.devicehive.websocket.model.request.CommandListAction action = new com.github.devicehive.websocket.model.request.CommandListAction();
+        CommandListAction action = new CommandListAction();
         action.setDeviceId(deviceId);
         action.setStart(start);
         action.setEnd(end);
@@ -123,8 +124,8 @@ public class CommandWS extends BaseWebSocketApi implements CommandApi {
     }
 
     @Override
-    public void insert(Long requestId, String deviceId, com.github.devicehive.websocket.model.request.data.DeviceCommandWrapper wrapper) {
-        com.github.devicehive.websocket.model.request.CommandInsertAction action = new CommandInsertAction();
+    public void insert(Long requestId, String deviceId, DeviceCommandWrapper wrapper) {
+        CommandInsertAction action = new CommandInsertAction();
         action.setCommand(wrapper);
         action.setDeviceId(deviceId);
         action.setRequestId(requestId);
@@ -132,8 +133,8 @@ public class CommandWS extends BaseWebSocketApi implements CommandApi {
     }
 
     @Override
-    public void update(Long requestId, String deviceId, String commandId, com.github.devicehive.websocket.model.request.data.DeviceCommandWrapper wrapper) {
-        com.github.devicehive.websocket.model.request.CommandUpdateAction action = new com.github.devicehive.websocket.model.request.CommandUpdateAction();
+    public void update(Long requestId, String deviceId, String commandId, DeviceCommandWrapper wrapper) {
+        CommandUpdateAction action = new CommandUpdateAction();
         action.setDeviceId(deviceId);
         action.setCommandId(commandId);
         action.setCommand(wrapper);
@@ -143,7 +144,7 @@ public class CommandWS extends BaseWebSocketApi implements CommandApi {
 
     @Override
     public void subscribe(Long requestId, List<String> names, String deviceId, List<String> deviceIds, DateTime timestamp, Integer limit) {
-        com.github.devicehive.websocket.model.request.CommandSubscribeAction action = new com.github.devicehive.websocket.model.request.CommandSubscribeAction();
+        CommandSubscribeAction action = new CommandSubscribeAction();
 
         action.setNames(names);
         action.setDeviceId(deviceId);
@@ -156,7 +157,7 @@ public class CommandWS extends BaseWebSocketApi implements CommandApi {
 
     @Override
     public void unsubscribe(Long requestId, String subscriptionId, List<String> deviceIds) {
-        com.github.devicehive.websocket.model.request.CommandUnsubscribeAction action = new com.github.devicehive.websocket.model.request.CommandUnsubscribeAction();
+        CommandUnsubscribeAction action = new CommandUnsubscribeAction();
         action.setSubscriptionId(subscriptionId);
         action.setDeviceIds(deviceIds);
         action.setRequestId(requestId);
