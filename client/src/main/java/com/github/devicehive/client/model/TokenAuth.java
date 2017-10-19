@@ -57,4 +57,12 @@ public class TokenAuth {
         this.refreshToken = refreshToken;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return "{\n\"TokenAuth\":{\n"
+                + "\"refreshToken\":\"" + refreshToken + "\""
+                + ",\n \"accessToken\":\"" + accessToken + "\""
+                + "}\n}";
+    }
 }

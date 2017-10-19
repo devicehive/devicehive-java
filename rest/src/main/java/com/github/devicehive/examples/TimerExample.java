@@ -22,7 +22,7 @@
 package com.github.devicehive.examples;
 
 import com.github.devicehive.rest.ApiClient;
-import com.github.devicehive.rest.api.JwtTokenApi;
+import com.github.devicehive.rest.api.AuthApi;
 import com.github.devicehive.rest.auth.ApiKeyAuth;
 import com.github.devicehive.rest.model.JwtRequest;
 import com.github.devicehive.rest.model.JwtToken;
@@ -36,7 +36,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class TimerExample {
-    public static final String URL = "***REMOVED***/";
+    public static final String URL = "***REMOVED***";
 
     public static void main(String[] args) {
         final ExecutorService executorService = Executors.newFixedThreadPool(2);
@@ -45,7 +45,7 @@ public class TimerExample {
         JwtRequest auth = new JwtRequest(Const.LOGIN, Const.PASSWORD);
         final ApiClient client = new ApiClient(URL);
 
-        client.createService(JwtTokenApi.class).login(auth).enqueue(new Callback<JwtToken>() {
+        client.createService(AuthApi.class).login(auth).enqueue(new Callback<JwtToken>() {
             @Override
             public void onResponse(Call<JwtToken> call, final Response<JwtToken> response) {
                 if (response.isSuccessful() && response.body() != null) {
