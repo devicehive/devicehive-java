@@ -40,6 +40,8 @@ public class DeviceCommand {
     @Getter
     private String deviceId = null;
     @Getter
+    private Long networkId = null;
+    @Getter
     private JsonStringWrapper parameters = null;
     @Getter
     @Setter
@@ -53,7 +55,7 @@ public class DeviceCommand {
     }
 
     static DeviceCommand create(com.github.devicehive.rest.model.CommandInsert command, String commandName,
-                                String deviceId, com.github.devicehive.rest.model.JsonStringWrapper parameters) {
+                                String deviceId, long networkId, com.github.devicehive.rest.model.JsonStringWrapper parameters) {
         if (command == null) {
             return null;
         }
@@ -61,6 +63,7 @@ public class DeviceCommand {
         deviceCommand.commandName = commandName;
         deviceCommand.id = command.getCommandId();
         deviceCommand.deviceId = deviceId;
+        deviceCommand.networkId = networkId;
         if (parameters != null) {
             deviceCommand.parameters = new JsonStringWrapper(parameters.getJsonString());
         }
@@ -76,6 +79,7 @@ public class DeviceCommand {
         deviceCommand.id = command.getId();
         deviceCommand.deviceId = command.getDeviceId();
         deviceCommand.parameters = command.getParameters();
+        deviceCommand.networkId = command.getNetworkId();
         return deviceCommand;
     }
 
@@ -87,6 +91,7 @@ public class DeviceCommand {
         deviceCommand.commandName = command.getCommand();
         deviceCommand.id = command.getId();
         deviceCommand.deviceId = command.getDeviceId();
+        deviceCommand.networkId = command.getNetworkId();
         deviceCommand.parameters = new JsonStringWrapper(command.getParameters().getJsonString());
         return deviceCommand;
     }
@@ -153,6 +158,7 @@ public class DeviceCommand {
                 + "\"id\":\"" + id + "\""
                 + ",\n \"commandName\":\"" + commandName + "\""
                 + ",\n \"deviceId\":\"" + deviceId + "\""
+                + ",\n \"networkId\":\"" + networkId + "\""
                 + ",\n \"parameters\":" + parameters
                 + ",\n \"status\":\"" + status + "\""
                 + ",\n \"result\":" + result

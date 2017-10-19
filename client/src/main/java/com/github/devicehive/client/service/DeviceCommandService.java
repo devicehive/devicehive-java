@@ -80,14 +80,14 @@ class DeviceCommandService extends BaseService {
         }
     }
 
-    DHResponse<DeviceCommand> sendCommand(String deviceId, String command, List<Parameter> parameters) {
+    DHResponse<DeviceCommand> sendCommand(String deviceId, long networkId, String command, List<Parameter> parameters) {
         DeviceCommandApi deviceCommandApi = createService(DeviceCommandApi.class);
         DHResponse<DeviceCommand> response;
 
         DeviceCommandWrapper wrapper = createDeviceCommandWrapper(command, parameters);
         DHResponse<com.github.devicehive.rest.model.CommandInsert> result = execute(deviceCommandApi.insert(deviceId, wrapper));
 
-        response = new DHResponse<>(DeviceCommand.create(result.getData(), command, deviceId,
+        response = new DHResponse<>(DeviceCommand.create(result.getData(), command, deviceId, networkId,
                 wrapper.getParameters()), result.getFailureData());
 
         if (response.isSuccessful()) {
@@ -96,7 +96,7 @@ class DeviceCommandService extends BaseService {
             authorize();
             deviceCommandApi = createService(DeviceCommandApi.class);
             result = execute(deviceCommandApi.insert(deviceId, wrapper));
-            return new DHResponse<>(DeviceCommand.create(result.getData(), command, deviceId,
+            return new DHResponse<>(DeviceCommand.create(result.getData(), command, deviceId, networkId,
                     wrapper.getParameters()), result.getFailureData());
 
         } else {
