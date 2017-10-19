@@ -41,7 +41,7 @@ public interface NetworkApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @DELETE("network/{id}")
+  @DELETE(Const.API_REST+"network/{id}")
   Call<Void> delete(
           @Path("id") Long id
   );
@@ -55,7 +55,7 @@ public interface NetworkApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @GET("network/{id}")
+  @GET(Const.API_REST+"network/{id}")
   Call<NetworkVO> get(
           @Path("id") Long id
   );
@@ -69,7 +69,7 @@ public interface NetworkApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @POST("network")
+  @POST(Const.API_REST+"network")
   Call<NetworkId> insert(
           @Body NetworkUpdate body
   );
@@ -88,7 +88,7 @@ public interface NetworkApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @GET("network")
+  @GET(Const.API_REST+"network")
   Call<List<Network>> list(
          @Query("name") String name, @Query("namePattern") String namePattern, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip
   );
@@ -103,7 +103,7 @@ public interface NetworkApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @PUT("network/{id}")
+  @PUT(Const.API_REST+"network/{id}")
   Call<Void> update(
           @Path("id") Long id, @Body NetworkUpdate body);
 
