@@ -27,7 +27,7 @@ import com.github.devicehive.client.model.FailureData;
 import com.github.devicehive.client.model.Parameter;
 import com.github.devicehive.client.model.TokenAuth;
 import com.github.devicehive.rest.ApiClient;
-import com.github.devicehive.rest.api.JwtTokenApi;
+import com.github.devicehive.rest.api.AuthApi;
 import com.github.devicehive.rest.auth.ApiKeyAuth;
 import com.github.devicehive.rest.model.JsonStringWrapper;
 import com.github.devicehive.rest.model.JwtAccessToken;
@@ -73,12 +73,14 @@ public class BaseService {
     private void refreshToken() {
         JwtRefreshToken refreshToken = new JwtRefreshToken();
         refreshToken.setRefreshToken(getTokenAuth().getRefreshToken());
-        JwtTokenApi jwtTokenApi = createService(JwtTokenApi.class);
+        AuthApi authApi = createService(AuthApi.class);
         Response<JwtAccessToken> response = null;
         try {
-            response = jwtTokenApi.refreshTokenRequest(refreshToken).execute();
-            JwtAccessToken accessToken = response.body();
-            getTokenAuth().setAccessToken(accessToken.getAccessToken());
+            response = authApi.refreshTokenRequest(refreshToken).execute();
+            if (response.isSuccessful()) {
+                JwtAccessToken accessToken = response.body();
+                getTokenAuth().setAccessToken(accessToken.getAccessToken());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
