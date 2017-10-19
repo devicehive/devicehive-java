@@ -38,6 +38,7 @@ public class CommandTest {
     private static final String COM_A = "comA";
     private String accessToken = "***REMOVED***";
     private String refreshToken = "***REMOVED***";
+
     private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, WS_URL, new TokenAuth(refreshToken, accessToken));
 
     private Device device = deviceHive.getDevice(DEVICE_ID);

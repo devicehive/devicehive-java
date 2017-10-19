@@ -150,7 +150,7 @@ public class DeviceTest {
             }
         });
 
-        latch.await(10, TimeUnit.SECONDS);
+        latch.await(20, TimeUnit.SECONDS);
         Assert.assertTrue(latch.getCount() == 0);
         device.unsubscribeAllCommands();
         Assert.assertTrue(deviceHive.removeDevice(deviceId).isSuccessful());
@@ -221,7 +221,7 @@ public class DeviceTest {
                 device.sendNotification(notificationName2, parameters);
             }
         }), 7, TimeUnit.SECONDS);
-        latch.await(12, TimeUnit.SECONDS);
+        latch.await(20, TimeUnit.SECONDS);
         Assert.assertTrue(latch.getCount() == 0);
         Assert.assertTrue(deviceHive.removeDevice(deviceId).isSuccessful());
     }

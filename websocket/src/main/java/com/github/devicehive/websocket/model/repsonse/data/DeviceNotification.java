@@ -54,6 +54,9 @@ public class DeviceNotification implements Comparable<DeviceNotification> {
     @SerializedName("deviceId")
     private String deviceId = null;
 
+    @SerializedName("networkId")
+    private Long networkId = null;
+
     @SerializedName("timestamp")
     private DateTime timestamp = null;
 
@@ -66,6 +69,7 @@ public class DeviceNotification implements Comparable<DeviceNotification> {
                 + "\"id\":\"" + id + "\""
                 + ",\n \"notification\":\"" + notification + "\""
                 + ",\n \"deviceId\":\"" + deviceId + "\""
+                + ",\n \"networkId\":\"" + networkId + "\""
                 + ",\n \"timestamp\":" + timestamp
                 + ",\n \"parameters\":" + parameters
                 + "}\n}";
