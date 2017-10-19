@@ -25,7 +25,6 @@ import com.github.devicehive.client.model.*;
 import com.github.devicehive.client.service.Device;
 import com.github.devicehive.client.service.DeviceCommand;
 import com.github.devicehive.client.service.DeviceHive;
-import com.github.devicehive.client.model.*;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
@@ -43,7 +42,7 @@ import java.util.concurrent.TimeUnit;
 public class DeviceTest {
 
 
-    private static final String URL = "***REMOVED***/";
+    private static final String URL = "***REMOVED***";
     private static final String WS_URL = "ws://playground.dev.devicehive.com/api/websocket";
     private static final String NOTIFICATION_A = "notificationA";
     private static final String NOTIFICATION_B = "notificationB";
@@ -53,7 +52,6 @@ public class DeviceTest {
     private static final String COM_Z = "comZ";
     private String accessToken = "***REMOVED***";
     private String refreshToken = "***REMOVED***";
-
 
     private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, WS_URL, new TokenAuth(refreshToken, accessToken));
 

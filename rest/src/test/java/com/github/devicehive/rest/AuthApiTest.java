@@ -21,6 +21,8 @@
 
 package com.github.devicehive.rest;
 
+import com.github.devicehive.rest.api.AuthApi;
+import com.github.devicehive.rest.model.JwtRequest;
 import com.github.devicehive.rest.model.JwtToken;
 import org.junit.Assert;
 import org.junit.Test;
@@ -28,17 +30,19 @@ import retrofit2.Response;
 
 import java.io.IOException;
 
-public class JwtTokenApiTest extends Helper {
+public class AuthApiTest extends Helper {
 
 
     @Test
     public void getToken() throws IOException {
-        com.github.devicehive.rest.api.JwtTokenApi api = client.createService(com.github.devicehive.rest.api.JwtTokenApi.class);
-        com.github.devicehive.rest.model.JwtRequest requestBody = new com.github.devicehive.rest.model.JwtRequest();
+        AuthApi api = client.createService(AuthApi.class);
+       JwtRequest requestBody = new JwtRequest();
         requestBody.setLogin("***REMOVED***");
         requestBody.setPassword("***REMOVED***");
 
+        System.out.println(api.login(requestBody).request().url());
         Response<JwtToken> response = api.login(requestBody).execute();
+
         Assert.assertTrue(response.isSuccessful());
         JwtToken tokenVO = response.body();
         Assert.assertTrue(tokenVO != null);
@@ -48,7 +52,7 @@ public class JwtTokenApiTest extends Helper {
 
     @Test
     public void getTokenIncorrectCredentials() throws IOException {
-        com.github.devicehive.rest.api.JwtTokenApi api = client.createService(com.github.devicehive.rest.api.JwtTokenApi.class);
+        AuthApi api = client.createService(AuthApi.class);
         com.github.devicehive.rest.model.JwtRequest requestBody = new com.github.devicehive.rest.model.JwtRequest();
         requestBody.setLogin("incorrectLogin");
         requestBody.setPassword("incorrectPassword");

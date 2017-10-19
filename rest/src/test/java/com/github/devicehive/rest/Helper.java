@@ -21,6 +21,7 @@
 
 package com.github.devicehive.rest;
 
+import com.github.devicehive.rest.api.AuthApi;
 import com.github.devicehive.rest.api.DeviceApi;
 import com.github.devicehive.rest.api.NetworkApi;
 import com.github.devicehive.rest.api.UserApi;
@@ -36,13 +37,13 @@ class Helper {
 
     private static final String LOGIN = "***REMOVED***";
     private static final String PASSWORD = "***REMOVED***";
-    private static final String URL = "***REMOVED***/";
+    private static final String URL = "***REMOVED***";
 
     ApiClient client = new ApiClient(URL);
 
     boolean authenticate() throws IOException {
-        com.github.devicehive.rest.api.JwtTokenApi api = client.createService(com.github.devicehive.rest.api.JwtTokenApi.class);
-        com.github.devicehive.rest.model.JwtRequest requestBody = new com.github.devicehive.rest.model.JwtRequest();
+        AuthApi api = client.createService(AuthApi.class);
+        JwtRequest requestBody = new JwtRequest();
         requestBody.setLogin(LOGIN);
         requestBody.setPassword(PASSWORD);
         Response<JwtToken> response = api.login(requestBody).execute();

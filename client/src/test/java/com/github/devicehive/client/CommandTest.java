@@ -33,7 +33,7 @@ import org.junit.Test;
 public class CommandTest {
     private static final String DEVICE_ID = "271990123";
 
-    private static final String URL = "***REMOVED***/";
+    private static final String URL = "***REMOVED***";
     private static final String WS_URL = "ws://playground.dev.devicehive.com/api/websocket";
     private static final String COM_A = "comA";
     private String accessToken = "***REMOVED***";
