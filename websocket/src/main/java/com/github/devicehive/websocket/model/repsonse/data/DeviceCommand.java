@@ -57,6 +57,9 @@ public class DeviceCommand implements Comparable<DeviceCommand> {
     @SerializedName("userId")
     private Long userId = null;
 
+    @SerializedName("networkId")
+    private Long networkId = null;
+
     @SerializedName("deviceId")
     private String deviceId = null;
 
@@ -79,9 +82,10 @@ public class DeviceCommand implements Comparable<DeviceCommand> {
     public String toString() {
         return "{\n\"DeviceCommand\":{\n"
                 + "\"id\":\"" + id + "\""
-                + ",\n \"command\":\"" + commandName + "\""
+                + ",\n \"commandName\":\"" + commandName + "\""
                 + ",\n \"timestamp\":" + timestamp
                 + ",\n \"userId\":\"" + userId + "\""
+                + ",\n \"networkId\":\"" + networkId + "\""
                 + ",\n \"deviceId\":\"" + deviceId + "\""
                 + ",\n \"parameters\":" + parameters
                 + ",\n \"lifetime\":\"" + lifetime + "\""

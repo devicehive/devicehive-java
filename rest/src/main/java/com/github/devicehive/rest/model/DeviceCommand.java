@@ -59,6 +59,9 @@ public class DeviceCommand implements Comparable<DeviceCommand> {
     @SerializedName("deviceId")
     private String deviceId = null;
 
+    @SerializedName("networkId")
+    private Long networkId = null;
+
     @SerializedName("parameters")
     private JsonStringWrapper parameters = null;
 
@@ -82,6 +85,7 @@ public class DeviceCommand implements Comparable<DeviceCommand> {
                 + ",\n \"timestamp\":" + timestamp
                 + ",\n \"userId\":\"" + userId + "\""
                 + ",\n \"deviceId\":\"" + deviceId + "\""
+                + ",\n \"networkId\":\"" + networkId + "\""
                 + ",\n \"parameters\":" + parameters
                 + ",\n \"lifetime\":\"" + lifetime + "\""
                 + ",\n \"status\":\"" + status + "\""

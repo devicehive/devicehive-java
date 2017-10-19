@@ -41,6 +41,9 @@ public class DeviceNotification {
     private String deviceId;
 
     @Getter
+    private Long networkId;
+
+    @Getter
     private DateTime timestamp;
 
     @Getter
@@ -51,6 +54,7 @@ public class DeviceNotification {
                 .id(notification.getId())
                 .notification(notification.getNotification())
                 .deviceId(notification.getDeviceId())
+                .networkId(notification.getNetworkId())
                 .timestamp(notification.getTimestamp())
                 .parameters(new JsonStringWrapper(notification.getParameters().getJsonString()))
                 .build();
@@ -61,6 +65,7 @@ public class DeviceNotification {
                 .id(notification.getId())
                 .notification(notification.getNotification())
                 .deviceId(notification.getDeviceId())
+                .networkId(notification.getNetworkId())
                 .timestamp(notification.getTimestamp())
                 .parameters(notification.getParameters())
                 .build();
@@ -88,5 +93,15 @@ public class DeviceNotification {
         return result;
     }
 
-
+    @Override
+    public String toString() {
+        return "{\n\"DeviceNotification\":{\n"
+                + "\"id\":\"" + id + "\""
+                + ",\n \"notification\":\"" + notification + "\""
+                + ",\n \"deviceId\":\"" + deviceId + "\""
+                + ",\n \"networkId\":\"" + networkId + "\""
+                + ",\n \"timestamp\":" + timestamp
+                + ",\n \"parameters\":" + parameters
+                + "}\n}";
+    }
 }
