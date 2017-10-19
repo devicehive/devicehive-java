@@ -33,11 +33,11 @@ import org.junit.Test;
 public class CommandTest {
     private static final String DEVICE_ID = "271990123";
 
-    private static final String URL = "http://playground.dev.devicehive.com/api/rest/";
+    private static final String URL = "http://playground.dev.devicehive.com";
     private static final String WS_URL = "ws://playground.dev.devicehive.com/api/websocket";
     private static final String COM_A = "comA";
-    private String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTM2OTI1MTA2NDM1LCJ0b2tlblR5cGUiOiJBQ0NFU1MifX0.DVRKVgrtnv35MWwxR1T8bLm83-RJCfloYuoEjvYPQ4s";
-    private String refreshToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTM2OTI1MTA2NDM1LCJ0b2tlblR5cGUiOiJSRUZSRVNIIn19.7alYTD5kb_imglE7NyRhjQBFqXhqpfJJs-ZA68yJZiQ";
+    private String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTA4NDI0NDQxOTgyLCJ0IjoxfX0.aw55Fzf_hGKoS9-wNFWVrXb0J6cNjdSqwLx5NxkiLZE";
+    private String refreshToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTI0MTQ3NDQxOTgyLCJ0IjowfX0.Z421s8zLb85OarAAsEc5koKBHj0DHH-S1YNWetooh7M";
     private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, WS_URL, new TokenAuth(refreshToken, accessToken));
 
     private Device device = deviceHive.getDevice(DEVICE_ID);

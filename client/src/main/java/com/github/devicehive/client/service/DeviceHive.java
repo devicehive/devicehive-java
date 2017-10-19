@@ -25,7 +25,7 @@ import com.github.devicehive.client.api.MainDeviceHive;
 import com.github.devicehive.client.callback.ResponseCallback;
 import com.github.devicehive.client.model.*;
 import com.github.devicehive.client.model.DeviceNotification;
-import com.github.devicehive.rest.api.JwtTokenApi;
+import com.github.devicehive.rest.api.AuthApi;
 import com.github.devicehive.rest.model.*;
 import com.github.devicehive.rest.model.User.RoleEnum;
 import com.github.devicehive.rest.model.User.StatusEnum;
@@ -185,9 +185,9 @@ public class DeviceHive implements MainDeviceHive {
         body.setLogin(username);
         body.setPassword(password);
 
-        JwtTokenApi jwtTokenApi = RestHelper.getInstance().getApiClient()
-                .createService(JwtTokenApi.class);
-        Response<JwtToken> response = jwtTokenApi.login(body).execute();
+        AuthApi authApi = RestHelper.getInstance().getApiClient()
+                .createService(AuthApi.class);
+        Response<JwtToken> response = authApi.login(body).execute();
         if (response.isSuccessful()) {
             JwtToken token = response.body();
             TokenHelper.getInstance().getTokenAuth().setAccessToken(token.getAccessToken());

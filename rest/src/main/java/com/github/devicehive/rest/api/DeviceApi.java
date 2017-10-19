@@ -39,7 +39,7 @@ public interface DeviceApi {
     @Headers({
             "Content-Type:application/json"
     })
-    @DELETE("device/{id}")
+    @DELETE(Const.API_REST+"device/{id}")
     Call<Void> delete(
             @Path("id") String id);
 
@@ -53,7 +53,7 @@ public interface DeviceApi {
     @Headers({
             "Content-Type:application/json"
     })
-    @GET("device/{id}")
+    @GET(Const.API_REST+"device/{id}")
     Call<com.github.devicehive.rest.model.Device> get(
             @Path("id") String id
     );
@@ -75,7 +75,7 @@ public interface DeviceApi {
     @Headers({
             "Content-Type:application/json"
     })
-    @GET("device")
+    @GET(Const.API_REST+"device")
     Call<List<com.github.devicehive.rest.model.Device>> list(
             @Query("name") String name,
             @Query("namePattern") String namePattern,
@@ -98,7 +98,7 @@ public interface DeviceApi {
     @Headers({
             "Content-Type:application/json"
     })
-    @PUT("device/{id}")
+    @PUT(Const.API_REST+"device/{id}")
     Call<Void> register(
             @Body DeviceUpdate body, @Path("id") String id
     );

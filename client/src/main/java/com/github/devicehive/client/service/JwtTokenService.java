@@ -22,7 +22,7 @@
 package com.github.devicehive.client.service;
 
 import com.github.devicehive.client.model.DHResponse;
-import com.github.devicehive.rest.api.JwtTokenApi;
+import com.github.devicehive.rest.api.AuthApi;
 import com.github.devicehive.rest.model.JwtAccessToken;
 import com.github.devicehive.rest.model.JwtPayload;
 import com.github.devicehive.rest.model.JwtRefreshToken;
@@ -35,7 +35,7 @@ class JwtTokenService extends BaseService {
 
 
     DHResponse<JwtToken> createToken(List<String> actions, Long userId, List<String> networkIds, List<String> deviceIds, DateTime expiration) {
-        JwtTokenApi jwtService = createService(JwtTokenApi.class);
+        AuthApi jwtService = createService(AuthApi.class);
         JwtPayload payload = new JwtPayload();
         payload.setActions(actions);
         payload.setUserId(userId);
@@ -48,7 +48,7 @@ class JwtTokenService extends BaseService {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
             authorize();
-            jwtService = createService(JwtTokenApi.class);
+            jwtService = createService(AuthApi.class);
             response = execute(jwtService.tokenRequest(payload));
             if (response.isSuccessful()) {
                 TokenHelper.getInstance().getTokenAuth().setRefreshToken(response.getData().getRefreshToken());
@@ -61,7 +61,7 @@ class JwtTokenService extends BaseService {
     }
 
     DHResponse<JwtAccessToken> getRefreshToken() {
-        JwtTokenApi jwtService = createService(JwtTokenApi.class);
+        AuthApi jwtService = createService(AuthApi.class);
 
         JwtRefreshToken refreshToken = new JwtRefreshToken();
         refreshToken.setRefreshToken(getTokenAuth().getRefreshToken());
@@ -70,7 +70,7 @@ class JwtTokenService extends BaseService {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
             authorize();
-            jwtService = createService(JwtTokenApi.class);
+            jwtService = createService(AuthApi.class);
             response = execute(jwtService.refreshTokenRequest(refreshToken));
             return response;
         } else {
