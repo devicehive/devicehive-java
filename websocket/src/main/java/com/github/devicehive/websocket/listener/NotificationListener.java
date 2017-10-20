@@ -23,20 +23,17 @@ package com.github.devicehive.websocket.listener;
 
 import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
 
-public class NotificationListener implements ErrorListener {
+public interface NotificationListener extends ErrorListener {
 
-    public  void onList(com.github.devicehive.websocket.model.repsonse.NotificationListResponse response){}
+    void onList(com.github.devicehive.websocket.model.repsonse.NotificationListResponse response);
 
-    public void onGet(com.github.devicehive.websocket.model.repsonse.NotificationGetResponse response){}
+    void onGet(com.github.devicehive.websocket.model.repsonse.NotificationGetResponse response);
 
-    public void onInsert(com.github.devicehive.websocket.model.repsonse.NotificationInsertResponse response){}
+    void onInsert(com.github.devicehive.websocket.model.repsonse.NotificationInsertResponse response);
 
-    public void onSubscribe(com.github.devicehive.websocket.model.repsonse.NotificationSubscribeResponse response){}
+    void onSubscribe(com.github.devicehive.websocket.model.repsonse.NotificationSubscribeResponse response);
 
-    public void onUnsubscribe(com.github.devicehive.websocket.model.repsonse.ResponseAction response){}
+    void onUnsubscribe(com.github.devicehive.websocket.model.repsonse.ResponseAction response);
 
-    @Override
-    public void onError(ErrorResponse error) {
-
-    }
+    void onError(ErrorResponse error);
 }
