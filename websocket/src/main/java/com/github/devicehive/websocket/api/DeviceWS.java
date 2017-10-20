@@ -29,7 +29,6 @@ import com.github.devicehive.websocket.model.repsonse.data.DeviceVO;
 import com.github.devicehive.websocket.model.request.DeviceDeleteAction;
 import com.github.devicehive.websocket.model.request.DeviceListAction;
 import com.github.devicehive.websocket.model.request.DeviceSaveAction;
-import okhttp3.WebSocket;
 
 import static com.github.devicehive.websocket.model.ActionConstant.*;
 
@@ -38,8 +37,8 @@ public class DeviceWS extends BaseWebSocketApi implements DeviceApi {
     static final String TAG = "device";
     private final DeviceListener listener;
 
-    DeviceWS(WebSocket ws, DeviceListener listener) {
-        super(ws, listener);
+    DeviceWS(WebSocketClient client, DeviceListener listener) {
+        super(client, listener);
         this.listener = listener;
     }
 

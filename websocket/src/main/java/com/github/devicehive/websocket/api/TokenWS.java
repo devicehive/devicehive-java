@@ -28,7 +28,6 @@ import com.github.devicehive.websocket.model.repsonse.TokenRefreshResponse;
 import com.github.devicehive.websocket.model.request.TokenCreateAction;
 import com.github.devicehive.websocket.model.request.TokenGetAction;
 import com.github.devicehive.websocket.model.request.data.JwtPayload;
-import okhttp3.WebSocket;
 
 import static com.github.devicehive.websocket.model.ActionConstant.*;
 
@@ -36,8 +35,8 @@ public class TokenWS extends BaseWebSocketApi implements TokenApi {
     static final String TAG = "token";
     private TokenListener tokenListener;
 
-    TokenWS(WebSocket ws, TokenListener listener) {
-        super(ws, listener);
+    TokenWS(WebSocketClient client, TokenListener listener) {
+        super(client, listener);
         this.tokenListener = listener;
     }
 
@@ -65,7 +64,7 @@ public class TokenWS extends BaseWebSocketApi implements TokenApi {
     }
 
     @Override
-    public void get( Long requestId, String login, String password) {
+    public void get(Long requestId, String login, String password) {
         TokenGetAction action = new TokenGetAction();
         action.setLogin(login);
         action.setPassword(password);
@@ -74,7 +73,7 @@ public class TokenWS extends BaseWebSocketApi implements TokenApi {
     }
 
     @Override
-    public void create( Long requestId, JwtPayload payload) {
+    public void create(Long requestId, JwtPayload payload) {
         TokenCreateAction action = new TokenCreateAction();
         action.setRequestId(requestId);
         action.setPayload(payload);
@@ -82,7 +81,7 @@ public class TokenWS extends BaseWebSocketApi implements TokenApi {
     }
 
     @Override
-    public void refresh( Long requestId, String refreshToken) {
+    public void refresh(Long requestId, String refreshToken) {
         com.github.devicehive.websocket.model.request.TokenRefreshAction action = new com.github.devicehive.websocket.model.request.TokenRefreshAction();
         action.setRefreshToken(refreshToken);
         action.setRequestId(requestId);

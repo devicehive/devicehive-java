@@ -155,7 +155,17 @@ public class DeviceHive implements MainDeviceHive {
             }
 
             @Override
+            public void onGet(NotificationGetResponse response) {
+
+            }
+
+            @Override
             public void onSubscribe(NotificationSubscribeResponse response) {
+            }
+
+            @Override
+            public void onUnsubscribe(ResponseAction response) {
+
             }
 
             @Override

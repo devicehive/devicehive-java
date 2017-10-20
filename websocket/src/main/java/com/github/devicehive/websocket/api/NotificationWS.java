@@ -23,10 +23,9 @@ package com.github.devicehive.websocket.api;
 
 import com.github.devicehive.websocket.listener.NotificationListener;
 import com.github.devicehive.websocket.model.SortOrder;
-import com.github.devicehive.websocket.model.repsonse.NotificationInsertResponse;
-import com.github.devicehive.websocket.model.request.NotificationUnsubscribeAction;
+import com.github.devicehive.websocket.model.repsonse.*;
+import com.github.devicehive.websocket.model.request.*;
 import com.github.devicehive.websocket.model.request.data.DeviceNotificationWrapper;
-import okhttp3.WebSocket;
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -38,8 +37,8 @@ public class NotificationWS extends BaseWebSocketApi implements NotificationApi 
     static final String TAG = "notification";
     private final NotificationListener listener;
 
-    NotificationWS(WebSocket ws, NotificationListener listener) {
-        super(ws, listener);
+    NotificationWS(WebSocketClient client, NotificationListener listener) {
+        super(client, listener);
         this.listener = listener;
     }
 
@@ -51,26 +50,21 @@ public class NotificationWS extends BaseWebSocketApi implements NotificationApi 
 
     @Override
     public void onSuccess(String message) {
-        com.github.devicehive.websocket.model.repsonse.ResponseAction action = getResponseAction(message);
+        ResponseAction action = getResponseAction(message);
         if (action.compareAction(NOTIFICATION_LIST)) {
-            com.github.devicehive.websocket.model.repsonse.NotificationListResponse response = gson.fromJson(message, com.github.devicehive.websocket.model.repsonse.NotificationListResponse.class);
+            NotificationListResponse response = gson.fromJson(message, NotificationListResponse.class);
             listener.onList(response);
         } else if (action.compareAction(NOTIFICATION_GET)) {
-            com.github.devicehive.websocket.model.repsonse.NotificationGetResponse response = gson.fromJson(message, com.github.devicehive.websocket.model.repsonse.NotificationGetResponse.class);
+            NotificationGetResponse response = gson.fromJson(message, NotificationGetResponse.class);
             listener.onGet(response);
         } else if (action.compareAction(NOTIFICATION_INSERT)) {
-            com.github.devicehive.websocket.model.repsonse.NotificationInsertResponse response = gson.fromJson(message, NotificationInsertResponse.class);
+            NotificationInsertResponse response = gson.fromJson(message, NotificationInsertResponse.class);
             listener.onInsert(response);
         } else if (action.compareAction(NOTIFICATION_SUBSCRIBE)) {
-            com.github.devicehive.websocket.model.repsonse.NotificationSubscribeResponse response = gson.fromJson(message, com.github.devicehive.websocket.model.repsonse.NotificationSubscribeResponse.class);
+            NotificationSubscribeResponse response = gson.fromJson(message, NotificationSubscribeResponse.class);
             listener.onSubscribe(response);
         } else if (action.compareAction(NOTIFICATION_UNSUBSCRIBE)) {
             listener.onUnsubscribe(action);
-        } else if (action.compareAction("authenticate")) {
-            com.github.devicehive.websocket.model.repsonse.ErrorResponse response = new com.github.devicehive.websocket.model.repsonse.ErrorResponse();
-
-            response.setError(message);
-            listener.onError(response);
         }
 
     }
@@ -100,7 +94,7 @@ public class NotificationWS extends BaseWebSocketApi implements NotificationApi 
     @Override
     public void list(Long requestId, String deviceId, String notification, DateTime start, DateTime end,
                      String sortField, SortOrder sortOrder, int take, int skip) {
-        com.github.devicehive.websocket.model.request.NotificationListAction action = new com.github.devicehive.websocket.model.request.NotificationListAction();
+        NotificationListAction action = new NotificationListAction();
         action.setRequestId(requestId);
         action.setDeviceId(deviceId);
         action.setNotification(notification);
@@ -115,7 +109,7 @@ public class NotificationWS extends BaseWebSocketApi implements NotificationApi 
 
     @Override
     public void get(Long requestId, String deviceId, Long notificationId) {
-        com.github.devicehive.websocket.model.request.NotificationGetAction action = new com.github.devicehive.websocket.model.request.NotificationGetAction();
+        NotificationGetAction action = new NotificationGetAction();
         action.setRequestId(requestId);
         action.setDeviceId(deviceId);
         action.setNotificationId(notificationId);
@@ -124,7 +118,7 @@ public class NotificationWS extends BaseWebSocketApi implements NotificationApi 
 
     @Override
     public void insert(Long requestId, String deviceId, DeviceNotificationWrapper notification) {
-        com.github.devicehive.websocket.model.request.NotificationInsertAction action = new com.github.devicehive.websocket.model.request.NotificationInsertAction();
+        NotificationInsertAction action = new NotificationInsertAction();
         action.setRequestId(requestId);
         action.setDeviceId(deviceId);
         action.setNotification(notification);
@@ -133,7 +127,7 @@ public class NotificationWS extends BaseWebSocketApi implements NotificationApi 
 
     @Override
     public void subscribe(Long requestId, String deviceId, List<String> deviceIds, List<String> names) {
-        com.github.devicehive.websocket.model.request.NotificationSubscribeAction action = new com.github.devicehive.websocket.model.request.NotificationSubscribeAction();
+        NotificationSubscribeAction action = new NotificationSubscribeAction();
         action.setRequestId(requestId);
         action.setDeviceId(deviceId);
         action.setDeviceIds(deviceIds);
@@ -143,7 +137,7 @@ public class NotificationWS extends BaseWebSocketApi implements NotificationApi 
 
     @Override
     public void unsubscribe(Long requestId, String subscriptionId, List<String> deviceIds) {
-        com.github.devicehive.websocket.model.request.NotificationUnsubscribeAction action = new NotificationUnsubscribeAction();
+        NotificationUnsubscribeAction action = new NotificationUnsubscribeAction();
         action.setRequestId(requestId);
         action.setDeviceIds(deviceIds);
         action.setSubscriptionId(subscriptionId);
