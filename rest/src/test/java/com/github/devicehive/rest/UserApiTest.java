@@ -237,6 +237,14 @@ public class UserApiTest extends Helper {
 
         UserApi userApi = client.createService(UserApi.class);
 
+        Response<List<UserVO>> getResponse = userApi.list(null, LOGIN + "%",
+                null, null, null, null, Integer.MAX_VALUE, 0).execute();
+        Assert.assertTrue(getResponse.isSuccessful());
+        List<UserVO> existingUsers = getResponse.body();
+        for (UserVO user: existingUsers) {
+            deleteUsers(user.getId());
+        }
+
         int userAmount = 5;
         Long[] userIds = new Long[userAmount];
         for (int j = 0; j < userAmount; ++j) {
