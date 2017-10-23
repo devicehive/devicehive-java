@@ -190,6 +190,7 @@ public class DeviceHive implements MainDeviceHive {
             }
         });
     }
+
     public void login(String username, String password) throws IOException {
         JwtRequest body = new JwtRequest();
         body.setLogin(username);

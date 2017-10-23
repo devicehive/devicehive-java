@@ -16,9 +16,10 @@ import java.util.List;
 public class Main {
 
     //DeviceHive settings
-    private static String accessToken = "***REMOVED***";
-    private static String refreshToken = "***REMOVED***";
-    private static final String URL = "***REMOVED***/";
+    private static final String accessToken = "***REMOVED***";
+    private static final String refreshToken = "***REMOVED***";
+
+    private static final String URL = "***REMOVED***";
     private static final String WS_URL = "ws://playground.dev.devicehive.com/api/websocket";
 
     //Constants
@@ -38,7 +39,6 @@ public class Main {
         String DEVICE_ID = "123456-example";
         //Device Initiating
         final Device device = deviceHive.getDevice(DEVICE_ID);
-
         //Creating filter to listen commands from the server
         CommandFilter commandFilter = new CommandFilter();
         commandFilter.setCommandNames(PING);
