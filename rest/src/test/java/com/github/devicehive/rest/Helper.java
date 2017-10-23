@@ -21,10 +21,7 @@
 
 package com.github.devicehive.rest;
 
-import com.github.devicehive.rest.api.AuthApi;
-import com.github.devicehive.rest.api.DeviceApi;
-import com.github.devicehive.rest.api.NetworkApi;
-import com.github.devicehive.rest.api.UserApi;
+import com.github.devicehive.rest.api.*;
 import com.github.devicehive.rest.auth.ApiKeyAuth;
 import com.github.devicehive.rest.model.*;
 import retrofit2.Response;
@@ -120,5 +117,18 @@ class Helper {
             }
         }
         return count == ids.length;
+    }
+
+    boolean deleteConfigurations(String... names) throws IOException {
+        int count = 0;
+        ConfigurationApi configurationApi = client.createService(ConfigurationApi.class);
+        for (String name : names) {
+            if (configurationApi.deleteProperty(name).execute().isSuccessful()) {
+                count++;
+            } else {
+                return false;
+            }
+        }
+        return count == names.length;
     }
 }
