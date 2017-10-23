@@ -1,7 +1,7 @@
 /*
  *
  *
- *   ErrorListener.java
+ *   TokenHelper.java
  *
  *   Copyright (C) 2017 DataArt
  *
@@ -19,11 +19,25 @@
  *
  */
 
-package com.github.devicehive.websocket.listener;
+package com.github.devicehive.websocket.api;
 
-import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
+class TokenHelper {
+    private final TokenAuth tokenAuth;
 
-public interface ErrorListener extends ServiceListener {
+    TokenHelper() {
+        tokenAuth = new TokenAuth();
+    }
 
-    void onError(ErrorResponse error);
+    private static class InstanceHolder {
+        static final TokenHelper INSTANCE = new TokenHelper();
+    }
+
+    static TokenHelper getInstance() {
+        return TokenHelper.InstanceHolder.INSTANCE;
+    }
+
+    TokenAuth getTokenAuth() {
+        return tokenAuth;
+    }
 }
+

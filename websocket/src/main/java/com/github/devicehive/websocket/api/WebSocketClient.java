@@ -21,9 +21,11 @@
 
 package com.github.devicehive.websocket.api;
 
-import com.github.devicehive.websocket.listener.ConfigurationListener;
+import com.github.devicehive.websocket.listener.*;
+import com.github.devicehive.websocket.model.repsonse.ResponseAction;
 import com.github.devicehive.websocket.model.repsonse.TokenRefreshResponse;
-import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
+import com.github.devicehive.websocket.model.request.AuthenticateAction;
+import com.github.devicehive.websocket.model.request.TokenRefreshAction;
 import com.google.gson.Gson;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -42,7 +44,6 @@ public class WebSocketClient extends WebSocketListener implements WebSocketCreat
 
     private Request request;
     private OkHttpClient client;
-    private String refreshToken;
     private WebSocket ws;
     private Map<String, BaseWebSocketApi> map = new HashMap<>();
     private Gson gson = new Gson();
@@ -65,64 +66,52 @@ public class WebSocketClient extends WebSocketListener implements WebSocketCreat
             return this;
         }
 
-        public Builder token( String accessToken) {
+        public Builder token(String accessToken) {
             this.accessToken = accessToken;
             return this;
         }
 
-        public Builder refreshToken( String refreshToken) {
+        public Builder refreshToken(String refreshToken) {
             this.refreshToken = refreshToken;
             return this;
         }
 
         public WebSocketClient build() {
             WebSocketClient webSocketClient = new WebSocketClient(this);
-            webSocketClient.setRefreshToken(refreshToken);
-            if (accessToken != null) {
-                webSocketClient.authenticate(accessToken);
-            }
+            TokenHelper.getInstance().getTokenAuth().setRefreshToken(refreshToken);
+            TokenHelper.getInstance().getTokenAuth().setAccessToken(accessToken);
             return webSocketClient;
         }
 
     }
 
-    public String getRefreshToken() {
-        return refreshToken;
-    }
-
-    public void setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-    }
-
     @Override
     public void onMessage(WebSocket webSocket, String text) {
-        com.github.devicehive.websocket.model.repsonse.ResponseAction action = getResponseAction(text);
+        ResponseAction action = getResponseAction(text);
         String actionName = action.getAction();
-        if (actionName.startsWith(TOKEN_REFRESH) && action.getStatus().equalsIgnoreCase(com.github.devicehive.websocket.model.repsonse.ResponseAction.SUCCESS)) {
-            authenticate(((TokenRefreshResponse) action).getAccessToken());
-
-        } else if (actionName.startsWith(AUTHENTICATE) && action.getStatus().equalsIgnoreCase(ErrorResponse.ERROR)) {
-            for (BaseWebSocketApi a : map.values()) {
-                a.onMessage(text);
+        if (actionName.equals(TOKEN_REFRESH) && action.getStatus().equalsIgnoreCase(ResponseAction.SUCCESS)) {
+            TokenRefreshResponse response = gson.fromJson(text, TokenRefreshResponse.class);
+            TokenHelper.getInstance().getTokenAuth().setAccessToken(response.getAccessToken());
+            authenticate(response.getAccessToken());
+            return;
+        } else if (actionName.equals(AUTHENTICATE) && action.getStatus().equals(ResponseAction.SUCCESS)) {
+            for (BaseWebSocketApi api : map.values()) {
+                api.repeatAction();
             }
-            com.github.devicehive.websocket.model.request.TokenRefreshAction refreshAction = new com.github.devicehive.websocket.model.request.TokenRefreshAction();
-            refreshAction.setRefreshToken(refreshToken);
-            ws.send(gson.toJson(refreshAction));
             return;
         }
         BaseWebSocketApi api = getBaseWebSocketApi(actionName);
         if (api != null) {
             api.onMessage(text);
         }
-
     }
 
-    private com.github.devicehive.websocket.model.repsonse.ResponseAction getResponseAction(String text) {
-        return gson.fromJson(text, com.github.devicehive.websocket.model.repsonse.ResponseAction.class);
+    private ResponseAction getResponseAction(String text) {
+        return gson.fromJson(text, ResponseAction.class);
     }
 
 
-    private BaseWebSocketApi getBaseWebSocketApi( String actionName) {
+    private BaseWebSocketApi getBaseWebSocketApi(String actionName) {
         BaseWebSocketApi api = null;
         if (actionName.startsWith(DeviceWS.TAG)) {
             api = map.get(DeviceWS.TAG);
@@ -149,57 +138,70 @@ public class WebSocketClient extends WebSocketListener implements WebSocketCreat
         ws.close(1000, null);
     }
 
-    public void authenticate(String token) {
-        com.github.devicehive.websocket.model.request.AuthenticateAction authAction = new com.github.devicehive.websocket.model.request.AuthenticateAction();
+    WebSocket getWebSocket() {
+        return ws;
+    }
+
+    void authenticate(String token) {
+        AuthenticateAction authAction = new AuthenticateAction();
         authAction.setToken(token);
         ws.send(gson.toJson(authAction));
     }
 
+    void refresh() {
+        TokenRefreshAction refreshAction = new TokenRefreshAction();
+        refreshAction.setRefreshToken(TokenHelper
+                .getInstance()
+                .getTokenAuth()
+                .getRefreshToken());
+        ws.send(gson.toJson(refreshAction));
+    }
+
     @Override
-    public DeviceWS createDeviceWS(com.github.devicehive.websocket.listener.DeviceListener listener) {
-        DeviceWS deviceWS = new DeviceWS(ws, listener);
+    public DeviceWS createDeviceWS(DeviceListener listener) {
+        DeviceWS deviceWS = new DeviceWS(this, listener);
         put(DeviceWS.TAG, deviceWS);
         return deviceWS;
     }
 
     @Override
-    public CommandWS createCommandWS(com.github.devicehive.websocket.listener.CommandListener listener) {
-        CommandWS commandWS = new CommandWS(ws, listener);
+    public CommandWS createCommandWS(CommandListener listener) {
+        CommandWS commandWS = new CommandWS(this, listener);
         put(CommandWS.TAG, commandWS);
         return commandWS;
     }
 
     @Override
     public ConfigurationWS createConfigurationWS(ConfigurationListener listener) {
-        ConfigurationWS configurationWS = new ConfigurationWS(ws, listener);
+        ConfigurationWS configurationWS = new ConfigurationWS(this, listener);
         put(ConfigurationWS.TAG, configurationWS);
         return configurationWS;
     }
 
     @Override
-    public NotificationWS createNotificationWS(com.github.devicehive.websocket.listener.NotificationListener listener) {
-        NotificationWS notificationWS = new NotificationWS(ws, listener);
+    public NotificationWS createNotificationWS(NotificationListener listener) {
+        NotificationWS notificationWS = new NotificationWS(this, listener);
         put(NotificationWS.TAG, notificationWS);
         return notificationWS;
     }
 
     @Override
-    public NetworkWS createNetworkWS(com.github.devicehive.websocket.listener.NetworkListener listener) {
-        NetworkWS networkWS = new NetworkWS(ws, listener);
+    public NetworkWS createNetworkWS(NetworkListener listener) {
+        NetworkWS networkWS = new NetworkWS(this, listener);
         put(NetworkWS.TAG, networkWS);
         return networkWS;
     }
 
     @Override
-    public TokenWS createTokenWS(com.github.devicehive.websocket.listener.TokenListener listener) {
-        TokenWS tokenWS = new TokenWS(ws, listener);
+    public TokenWS createTokenWS(TokenListener listener) {
+        TokenWS tokenWS = new TokenWS(this, listener);
         put(TokenWS.TAG, tokenWS);
         return tokenWS;
     }
 
     @Override
-    public UserWS createUserWS(com.github.devicehive.websocket.listener.UserListener listener) {
-        UserWS userWS = new UserWS(ws, listener);
+    public UserWS createUserWS(UserListener listener) {
+        UserWS userWS = new UserWS(this, listener);
         put(UserWS.TAG, userWS);
         return userWS;
     }

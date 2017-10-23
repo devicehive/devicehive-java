@@ -21,13 +21,13 @@
 
 package com.github.devicehive.websocket.api;
 
+import com.github.devicehive.websocket.listener.CommandListener;
 import com.github.devicehive.websocket.model.ActionConstant;
 import com.github.devicehive.websocket.model.SortOrder;
 import com.github.devicehive.websocket.model.repsonse.*;
 import com.github.devicehive.websocket.model.request.*;
 import com.github.devicehive.websocket.model.request.data.DeviceCommandWrapper;
 import com.google.gson.JsonSyntaxException;
-import okhttp3.WebSocket;
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -38,8 +38,8 @@ public class CommandWS extends BaseWebSocketApi implements CommandApi {
 
     private com.github.devicehive.websocket.listener.CommandListener listener;
 
-    CommandWS(WebSocket ws, com.github.devicehive.websocket.listener.CommandListener listener) {
-        super(ws, listener);
+    CommandWS(WebSocketClient client, CommandListener listener) {
+        super(client, listener);
         this.listener = listener;
     }
 
@@ -109,7 +109,8 @@ public class CommandWS extends BaseWebSocketApi implements CommandApi {
     }
 
     @Override
-    public void list(Long requestId, String deviceId, DateTime start, DateTime end, String commandName, String status, SortOrder sortOrder, Integer take, Integer skip) {
+    public void list(Long requestId, String deviceId, DateTime start, DateTime end, String commandName,
+                     String status, SortOrder sortOrder, Integer take, Integer skip) {
         CommandListAction action = new CommandListAction();
         action.setDeviceId(deviceId);
         action.setStart(start);
@@ -143,7 +144,8 @@ public class CommandWS extends BaseWebSocketApi implements CommandApi {
     }
 
     @Override
-    public void subscribe(Long requestId, List<String> names, String deviceId, List<String> deviceIds, DateTime timestamp, Integer limit) {
+    public void subscribe(Long requestId, List<String> names, String deviceId,
+                          List<String> deviceIds, DateTime timestamp, Integer limit) {
         CommandSubscribeAction action = new CommandSubscribeAction();
 
         action.setNames(names);

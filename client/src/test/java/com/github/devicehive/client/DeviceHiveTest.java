@@ -21,13 +21,13 @@
 
 package com.github.devicehive.client;
 
-import com.github.devicehive.rest.model.*;
 import com.github.devicehive.client.callback.ResponseCallback;
 import com.github.devicehive.client.model.*;
 import com.github.devicehive.client.model.DeviceNotification;
 import com.github.devicehive.client.service.Device;
-import com.github.devicehive.client.service.User;
 import com.github.devicehive.client.service.DeviceHive;
+import com.github.devicehive.client.service.User;
+import com.github.devicehive.rest.model.*;
 import com.github.devicehive.rest.model.User.RoleEnum;
 import com.github.devicehive.rest.model.User.StatusEnum;
 import org.joda.time.DateTime;
@@ -185,6 +185,7 @@ public class DeviceHiveTest {
 
     @Test
     public void subscribeManyNotifications() throws IOException, InterruptedException {
+        //Fixme add Asserts
         final CountDownLatch latch = new CountDownLatch(1);
 
         final NotificationFilter notificationFilter = new NotificationFilter();
@@ -208,8 +209,8 @@ public class DeviceHiveTest {
                 notificationFilter.setNotificationNames("notificationZ");
                 deviceHive.unsubscribeNotifications(ids, notificationFilter);
             }
-        }), 30, TimeUnit.SECONDS);
-        latch.await(60, TimeUnit.SECONDS);
+        }), 5, TimeUnit.SECONDS);
+        latch.await(1, TimeUnit.SECONDS);
     }
 
     @Test

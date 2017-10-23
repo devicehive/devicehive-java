@@ -21,43 +21,65 @@
 
 package com.github.devicehive.websocket.api;
 
+import com.github.devicehive.websocket.listener.ErrorListener;
 import com.github.devicehive.websocket.model.GsonHelper;
+import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
+import com.github.devicehive.websocket.model.repsonse.ResponseAction;
+import com.github.devicehive.websocket.model.request.RequestAction;
 import com.google.gson.Gson;
 import okhttp3.WebSocket;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class BaseWebSocketApi {
-    private final com.github.devicehive.websocket.listener.ErrorListener listener;
+    private final ErrorListener listener;
+    private final WebSocketClient client;
     private WebSocket ws;
     Gson gson = GsonHelper.getInstance().getGsonFactory();
+    private List<String> lastMessage = new ArrayList<>(1);
 
-    public BaseWebSocketApi(WebSocket ws, com.github.devicehive.websocket.listener.ErrorListener listener) {
-        this.ws = ws;
+    BaseWebSocketApi(WebSocketClient client, ErrorListener listener) {
         this.listener = listener;
+        this.client = client;
+        this.ws = client.getWebSocket();
     }
 
 
     public abstract String getKey();
 
-    com.github.devicehive.websocket.model.repsonse.ResponseAction getResponseAction(String text) {
-        return gson.fromJson(text, com.github.devicehive.websocket.model.repsonse.ResponseAction.class);
+    ResponseAction getResponseAction(String text) {
+        return gson.fromJson(text, ResponseAction.class);
     }
 
-    void send(com.github.devicehive.websocket.model.request.RequestAction action) {
-        ws.send(gson.toJson(action));
+    void send(RequestAction action) {
+        lastMessage.clear();
+        lastMessage.add(gson.toJson(action));
+        ws.send(lastMessage.get(0));
+    }
+
+    void repeatAction() {
+        if (lastMessage.size() == 1) {
+            ws.send(lastMessage.get(0));
+        }
     }
 
     public abstract void onSuccess(String message);
 
-    public void onMessage(String message) {
-        com.github.devicehive.websocket.model.repsonse.ResponseAction action = getResponseAction(message);
-        if (action.getStatus() == null || action.getStatus().equalsIgnoreCase(com.github.devicehive.websocket.model.repsonse.ResponseAction.SUCCESS)) {
+    void onMessage(String message) {
+        ResponseAction action = getResponseAction(message);
+        if (action.getStatus() == null || action.getStatus().equalsIgnoreCase(ResponseAction.SUCCESS)) {
             onSuccess(message);
-        } else if (action.getStatus().equalsIgnoreCase(com.github.devicehive.websocket.model.repsonse.ErrorResponse.ERROR)) {
-            com.github.devicehive.websocket.model.repsonse.ErrorResponse errorResponse = gson.fromJson(message, com.github.devicehive.websocket.model.repsonse.ErrorResponse.class);
-            listener.onError(errorResponse);
+        } else if (action.getStatus().equals(ErrorResponse.ERROR)) {
+            ErrorResponse errorResponse = gson.fromJson(message, ErrorResponse.class);
+            if (action.getStatus().equals(ErrorResponse.ERROR)) {
+                if (errorResponse.getCode() == 401) {
+                    client.refresh();
+                } else {
+                    listener.onError(errorResponse);
+                }
+            }
         }
-
-
     }
 
 }

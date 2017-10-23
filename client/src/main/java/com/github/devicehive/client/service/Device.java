@@ -87,6 +87,11 @@ public class Device implements DeviceInterface {
         }
 
         @Override
+        public void onGet(NotificationGetResponse response) {
+
+        }
+
+        @Override
         public void onInsert(NotificationInsertResponse response) {
             notificationCallback.onSuccess(Collections.singletonList(DeviceNotification.create(response.getNotification())));
         }
@@ -94,6 +99,11 @@ public class Device implements DeviceInterface {
         @Override
         public void onSubscribe(NotificationSubscribeResponse response) {
             notificationSubscriptionId = response.getSubscriptionId();
+        }
+
+        @Override
+        public void onUnsubscribe(ResponseAction response) {
+
         }
 
         @Override

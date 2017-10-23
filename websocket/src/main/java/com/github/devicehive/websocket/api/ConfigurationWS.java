@@ -23,7 +23,6 @@ package com.github.devicehive.websocket.api;
 
 import com.github.devicehive.websocket.listener.ConfigurationListener;
 import com.github.devicehive.websocket.model.request.ConfigurationGetAction;
-import okhttp3.WebSocket;
 
 import static com.github.devicehive.websocket.model.ActionConstant.*;
 
@@ -32,8 +31,8 @@ public class ConfigurationWS extends BaseWebSocketApi implements ConfigurationAp
     static final String TAG = "configuration";
     private ConfigurationListener listener;
 
-    ConfigurationWS(WebSocket ws, ConfigurationListener listener) {
-        super(ws, listener);
+    ConfigurationWS(WebSocketClient client, ConfigurationListener listener) {
+        super(client, listener);
         this.listener = listener;
     }
 
