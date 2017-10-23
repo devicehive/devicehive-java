@@ -16,9 +16,10 @@ import java.util.List;
 public class Main {
 
     //DeviceHive settings
-    private static String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTM2OTI1MTA2NDM1LCJ0b2tlblR5cGUiOiJBQ0NFU1MifX0.DVRKVgrtnv35MWwxR1T8bLm83-RJCfloYuoEjvYPQ4s";
-    private static String refreshToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTM2OTI1MTA2NDM1LCJ0b2tlblR5cGUiOiJSRUZSRVNIIn19.7alYTD5kb_imglE7NyRhjQBFqXhqpfJJs-ZA68yJZiQ";
-    private static final String URL = "http://playground.dev.devicehive.com/api/rest/";
+    private static final String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTA4NDI4MjAxMTA4LCJ0IjoxfX0.bYIkp2Gm_fMHcxcaFm6xqB91Fp8C2DdenmdGgsVNqcc";
+    private static final String refreshToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTI0MTUxMjAxMTA4LCJ0IjowfX0.2wfpmIjrHRtGBoSF3-T77aSAiUYPFSGtgBuGoVZtSxc";
+
+    private static final String URL = "http://playground.dev.devicehive.com";
     private static final String WS_URL = "ws://playground.dev.devicehive.com/api/websocket";
 
     //Constants
@@ -38,7 +39,6 @@ public class Main {
         String DEVICE_ID = "123456-example";
         //Device Initiating
         final Device device = deviceHive.getDevice(DEVICE_ID);
-
         //Creating filter to listen commands from the server
         CommandFilter commandFilter = new CommandFilter();
         commandFilter.setCommandNames(PING);

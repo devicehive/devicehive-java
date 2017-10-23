@@ -94,6 +94,7 @@ class DeviceCommandService extends BaseService {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
             authorize();
+            System.out.println(TokenHelper.getInstance().getTokenAuth().getAccessToken());
             deviceCommandApi = createService(DeviceCommandApi.class);
             result = execute(deviceCommandApi.insert(deviceId, wrapper));
             return new DHResponse<>(DeviceCommand.create(result.getData(), command, deviceId, networkId,
