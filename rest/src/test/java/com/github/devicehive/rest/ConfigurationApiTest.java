@@ -28,6 +28,40 @@ public class ConfigurationApiTest extends Helper{
         Assert.assertTrue(deleteConfigurations(CONFIGURATION_NAME));
     }
 
+    @Test
+    public void getConfigurationProperty() throws IOException {
+        boolean authenticated = authenticate();
+        Assert.assertTrue(authenticated);
 
+        ConfigurationApi configurationApi = client.createService(ConfigurationApi.class);
+        ValueProperty valueProperty = new ValueProperty();
+        valueProperty.setValue(CONFIGURATION_VALUE);
+
+        Response<Configuration> putResponse = configurationApi.setProperty(CONFIGURATION_NAME, valueProperty).execute();
+        Assert.assertTrue(putResponse.isSuccessful());
+
+        Response<Configuration> getResponse = configurationApi.get(CONFIGURATION_NAME).execute();
+        Assert.assertTrue(getResponse.isSuccessful());
+        Assert.assertNotNull(getResponse.body().getValue());
+        Assert.assertEquals(CONFIGURATION_VALUE, getResponse.body().getValue());
+
+        Assert.assertTrue(deleteConfigurations(CONFIGURATION_NAME));
+    }
+
+    @Test
+    public void deleteConfigurationProperty() throws IOException {
+        boolean authenticated = authenticate();
+        Assert.assertTrue(authenticated);
+
+        ConfigurationApi configurationApi = client.createService(ConfigurationApi.class);
+        ValueProperty valueProperty = new ValueProperty();
+        valueProperty.setValue(CONFIGURATION_VALUE);
+
+        Response<Configuration> putResponse = configurationApi.setProperty(CONFIGURATION_NAME, valueProperty).execute();
+        Assert.assertTrue(putResponse.isSuccessful());
+
+        Response<Void> deleteResponse = configurationApi.deleteProperty(CONFIGURATION_NAME).execute();
+        Assert.assertTrue(deleteResponse.isSuccessful());
+    }
 
 }
