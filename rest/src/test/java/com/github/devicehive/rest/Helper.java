@@ -25,6 +25,7 @@ import com.github.devicehive.rest.api.AuthApi;
 import com.github.devicehive.rest.api.DeviceApi;
 import com.github.devicehive.rest.api.NetworkApi;
 import com.github.devicehive.rest.api.UserApi;
+import com.github.devicehive.rest.auth.ApiKeyAuth;
 import com.github.devicehive.rest.model.*;
 import retrofit2.Response;
 
@@ -48,7 +49,7 @@ class Helper {
         requestBody.setPassword(PASSWORD);
         Response<JwtToken> response = api.login(requestBody).execute();
         if (response.isSuccessful()) {
-            client.addAuthorization(ApiClient.AUTH_API_KEY, com.github.devicehive.rest.auth.ApiKeyAuth.newInstance(response.body().getAccessToken()));
+            client.addAuthorization(ApiClient.AUTH_API_KEY, ApiKeyAuth.newInstance(response.body().getAccessToken()));
         }
         return response.isSuccessful();
     }
@@ -59,7 +60,7 @@ class Helper {
         device.setName(com.github.devicehive.rest.utils.Const.NAME);
         device.setId(deviceId);
         DeviceApi deviceApi = client.createService(DeviceApi.class);
-        com.github.devicehive.rest.api.NetworkApi networkApi = client.createService(com.github.devicehive.rest.api.NetworkApi.class);
+        NetworkApi networkApi = client.createService(NetworkApi.class);
         Response<List<Network>> networkResponse = networkApi.list(null, null, null,
                 null, null, null).execute();
         List<Network> networks = networkResponse.body();
@@ -97,7 +98,7 @@ class Helper {
 
     boolean deleteNetworks(Long... ids) throws IOException {
         int count = 0;
-        com.github.devicehive.rest.api.NetworkApi networkApi = client.createService(com.github.devicehive.rest.api.NetworkApi.class);
+        NetworkApi networkApi = client.createService(NetworkApi.class);
         for (Long id : ids) {
             if (networkApi.delete(id).execute().isSuccessful()) {
                 count++;
