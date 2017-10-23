@@ -25,7 +25,8 @@ import com.github.devicehive.websocket.listener.NetworkListener;
 import com.github.devicehive.websocket.model.ActionConstant;
 import com.github.devicehive.websocket.model.repsonse.NetworkInsertResponse;
 import com.github.devicehive.websocket.model.repsonse.NetworkListResponse;
-import com.github.devicehive.websocket.model.request.NetworkDeleteAction;
+import com.github.devicehive.websocket.model.request.*;
+import com.github.devicehive.websocket.model.request.data.NetworkUpdate;
 
 public class NetworkWS extends BaseWebSocketApi implements NetworkApi {
 
@@ -66,8 +67,8 @@ public class NetworkWS extends BaseWebSocketApi implements NetworkApi {
     }
 
     @Override
-    public void list( Long requestId, String name, String namePattern, String sortField, Boolean sortOrderAsc, Integer take, Integer skip) {
-        com.github.devicehive.websocket.model.request.NetworkListAction action = new com.github.devicehive.websocket.model.request.NetworkListAction();
+    public void list(Long requestId, String name, String namePattern, String sortField, Boolean sortOrderAsc, Integer take, Integer skip) {
+        NetworkListAction action = new NetworkListAction();
         action.setName(name);
         action.setNamePattern(namePattern);
         action.setSortField(sortField);
@@ -79,32 +80,33 @@ public class NetworkWS extends BaseWebSocketApi implements NetworkApi {
     }
 
     @Override
-    public void get( Long requestId, Long id) {
-        com.github.devicehive.websocket.model.request.NetworkGetAction action = new com.github.devicehive.websocket.model.request.NetworkGetAction();
+    public void get(Long requestId, Long id) {
+        NetworkGetAction action = new NetworkGetAction();
         action.setId(id);
         action.setRequestId(requestId);
         send(action);
     }
 
     @Override
-    public void insert( Long requestId, com.github.devicehive.websocket.model.request.data.NetworkUpdate networkUpdate) {
-        com.github.devicehive.websocket.model.request.NetworkInsertAction action = new com.github.devicehive.websocket.model.request.NetworkInsertAction();
+    public void insert(Long requestId, NetworkUpdate networkUpdate) {
+        NetworkInsertAction action = new NetworkInsertAction();
         action.setNetwork(networkUpdate);
         action.setRequestId(requestId);
         send(action);
     }
 
     @Override
-    public void update( Long requestId, com.github.devicehive.websocket.model.request.data.NetworkUpdate networkUpdate) {
-        com.github.devicehive.websocket.model.request.NetworkUpdateAction action = new com.github.devicehive.websocket.model.request.NetworkUpdateAction();
+    public void update(Long requestId, Long networkId, NetworkUpdate networkUpdate) {
+        NetworkUpdateAction action = new NetworkUpdateAction();
         action.setNetwork(networkUpdate);
+        action.setNetworkId(networkId);
         action.setRequestId(requestId);
         send(action);
     }
 
     @Override
-    public void delete( Long requestId, Long id) {
-        com.github.devicehive.websocket.model.request.NetworkDeleteAction action = new NetworkDeleteAction();
+    public void delete(Long requestId, Long id) {
+        NetworkDeleteAction action = new NetworkDeleteAction();
         action.setId(id);
         action.setRequestId(requestId);
         send(action);

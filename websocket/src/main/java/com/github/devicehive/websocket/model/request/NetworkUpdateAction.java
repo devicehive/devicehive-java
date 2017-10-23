@@ -22,6 +22,7 @@
 package com.github.devicehive.websocket.model.request;
 
 import com.github.devicehive.websocket.model.ActionConstant;
+import com.github.devicehive.websocket.model.request.data.NetworkUpdate;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,9 +31,10 @@ import lombok.EqualsAndHashCode;
 @Data
 public class NetworkUpdateAction extends RequestAction {
 
-    //TODO add networkId here, remove it from body
+    @SerializedName("networkId")
+    private Long networkId;
     @SerializedName("network")
-    private com.github.devicehive.websocket.model.request.data.NetworkUpdate network;
+    private NetworkUpdate network;
     
     public NetworkUpdateAction() {
         super(ActionConstant.NETWORK_UPDATE);
