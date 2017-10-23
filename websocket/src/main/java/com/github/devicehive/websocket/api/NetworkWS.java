@@ -22,11 +22,10 @@
 package com.github.devicehive.websocket.api;
 
 import com.github.devicehive.websocket.listener.NetworkListener;
+import com.github.devicehive.websocket.model.ActionConstant;
 import com.github.devicehive.websocket.model.repsonse.NetworkInsertResponse;
 import com.github.devicehive.websocket.model.repsonse.NetworkListResponse;
 import com.github.devicehive.websocket.model.request.NetworkDeleteAction;
-import com.github.devicehive.websocket.model.ActionConstant;
-import okhttp3.WebSocket;
 
 public class NetworkWS extends BaseWebSocketApi implements NetworkApi {
 
@@ -34,8 +33,8 @@ public class NetworkWS extends BaseWebSocketApi implements NetworkApi {
     private final NetworkListener listener;
 
 
-    NetworkWS(WebSocket ws, NetworkListener listener) {
-        super(ws, listener);
+    NetworkWS(WebSocketClient client, NetworkListener listener) {
+        super(client, listener);
         this.listener = listener;
     }
 

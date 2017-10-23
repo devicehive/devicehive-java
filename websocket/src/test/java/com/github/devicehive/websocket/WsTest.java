@@ -22,8 +22,11 @@
 package com.github.devicehive.websocket;
 
 import com.github.devicehive.websocket.api.CommandWS;
+import com.github.devicehive.websocket.api.TokenWS;
 import com.github.devicehive.websocket.api.WebSocketClient;
+import com.github.devicehive.websocket.listener.TokenListener;
 import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
+import com.github.devicehive.websocket.model.repsonse.TokenGetResponse;
 import com.github.devicehive.websocket.model.repsonse.TokenRefreshResponse;
 import org.joda.time.DateTime;
 import org.junit.Assert;
@@ -47,16 +50,16 @@ public class WsTest {
     public void getToken() throws InterruptedException {
         final CountDownLatch latch = new CountDownLatch(1);
 
-        com.github.devicehive.websocket.api.TokenWS tokenWS = client.createTokenWS(new com.github.devicehive.websocket.listener.TokenListener() {
+       TokenWS tokenWS = client.createTokenWS(new TokenListener() {
             @Override
-            public void onGet(com.github.devicehive.websocket.model.repsonse.TokenGetResponse response) {
+            public void onGet(TokenGetResponse response) {
                 Assert.assertTrue(response.getAccessToken() != null);
                 Assert.assertTrue(response.getAccessToken().length() > 0);
                 latch.countDown();
             }
 
             @Override
-            public void onCreate(com.github.devicehive.websocket.model.repsonse.TokenGetResponse response) {
+            public void onCreate(TokenGetResponse response) {
 
             }
 
