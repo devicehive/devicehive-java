@@ -24,6 +24,7 @@ package com.github.devicehive.rest;
 import com.github.devicehive.rest.api.*;
 import com.github.devicehive.rest.auth.ApiKeyAuth;
 import com.github.devicehive.rest.model.*;
+import com.github.devicehive.rest.utils.Const;
 import retrofit2.Response;
 
 import javax.annotation.Nonnull;
@@ -54,8 +55,7 @@ class Helper {
 
     boolean createDevice(@Nonnull String deviceId) throws IOException {
         DeviceUpdate device = new DeviceUpdate();
-        device.setName(com.github.devicehive.rest.utils.Const.NAME);
-        device.setId(deviceId);
+        device.setName(Const.NAME);
         DeviceApi deviceApi = client.createService(DeviceApi.class);
         NetworkApi networkApi = client.createService(NetworkApi.class);
         Response<List<Network>> networkResponse = networkApi.list(null, null, null,
