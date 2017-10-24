@@ -25,7 +25,6 @@ import com.github.devicehive.client.model.*;
 import com.github.devicehive.rest.api.DeviceNotificationApi;
 import com.github.devicehive.rest.model.DeviceNotificationWrapper;
 import com.github.devicehive.rest.model.NotificationInsert;
-import com.github.devicehive.client.model.*;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
@@ -182,8 +181,8 @@ class DeviceNotificationService extends BaseService {
             pollManyCall.cancel();
             pollManyCall = null;
         }
-        pollManyCall = notificationApi.pollMany((long) period.toStandardSeconds().getSeconds(), deviceIds,
-                StringUtils.join(filter.getNotificationNames(), ","), filter.getStartTimestamp().toString());
+        pollManyCall = notificationApi.pollMany(deviceIds, StringUtils.join(filter.getNotificationNames(), ","),
+                filter.getStartTimestamp().toString(), (long) period.toStandardSeconds().getSeconds());
 
         pollManyCall.enqueue(getNotificationsAllCallback(deviceIds, filter, isAuthNeeded, notificationsCallback));
 
