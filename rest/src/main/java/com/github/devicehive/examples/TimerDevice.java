@@ -147,7 +147,6 @@ class TimerDevice {
     private DeviceUpdate createDevice() {
         DeviceUpdate device = new DeviceUpdate();
         device.setName(Const.NAME);
-        device.setId(Const.DEVICE_ID);
 
         return device;
     }

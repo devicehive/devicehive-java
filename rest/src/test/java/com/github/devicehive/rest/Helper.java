@@ -21,11 +21,10 @@
 
 package com.github.devicehive.rest;
 
-import com.github.devicehive.rest.api.AuthApi;
-import com.github.devicehive.rest.api.DeviceApi;
-import com.github.devicehive.rest.api.NetworkApi;
-import com.github.devicehive.rest.api.UserApi;
+import com.github.devicehive.rest.api.*;
+import com.github.devicehive.rest.auth.ApiKeyAuth;
 import com.github.devicehive.rest.model.*;
+import com.github.devicehive.rest.utils.Const;
 import retrofit2.Response;
 
 import javax.annotation.Nonnull;
@@ -48,7 +47,7 @@ class Helper {
         requestBody.setPassword(PASSWORD);
         Response<JwtToken> response = api.login(requestBody).execute();
         if (response.isSuccessful()) {
-            client.addAuthorization(ApiClient.AUTH_API_KEY, com.github.devicehive.rest.auth.ApiKeyAuth.newInstance(response.body().getAccessToken()));
+            client.addAuthorization(ApiClient.AUTH_API_KEY, ApiKeyAuth.newInstance(response.body().getAccessToken()));
         }
         return response.isSuccessful();
     }
@@ -56,10 +55,9 @@ class Helper {
 
     boolean createDevice(@Nonnull String deviceId) throws IOException {
         DeviceUpdate device = new DeviceUpdate();
-        device.setName(com.github.devicehive.rest.utils.Const.NAME);
-        device.setId(deviceId);
+        device.setName(Const.NAME);
         DeviceApi deviceApi = client.createService(DeviceApi.class);
-        com.github.devicehive.rest.api.NetworkApi networkApi = client.createService(com.github.devicehive.rest.api.NetworkApi.class);
+        NetworkApi networkApi = client.createService(NetworkApi.class);
         Response<List<Network>> networkResponse = networkApi.list(null, null, null,
                 null, null, null).execute();
         List<Network> networks = networkResponse.body();
@@ -97,7 +95,7 @@ class Helper {
 
     boolean deleteNetworks(Long... ids) throws IOException {
         int count = 0;
-        com.github.devicehive.rest.api.NetworkApi networkApi = client.createService(com.github.devicehive.rest.api.NetworkApi.class);
+        NetworkApi networkApi = client.createService(NetworkApi.class);
         for (Long id : ids) {
             if (networkApi.delete(id).execute().isSuccessful()) {
                 count++;
@@ -119,5 +117,18 @@ class Helper {
             }
         }
         return count == ids.length;
+    }
+
+    boolean deleteConfigurations(String... names) throws IOException {
+        int count = 0;
+        ConfigurationApi configurationApi = client.createService(ConfigurationApi.class);
+        for (String name : names) {
+            if (configurationApi.deleteProperty(name).execute().isSuccessful()) {
+                count++;
+            } else {
+                return false;
+            }
+        }
+        return count == names.length;
     }
 }

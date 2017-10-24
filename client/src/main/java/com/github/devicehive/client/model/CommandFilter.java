@@ -41,7 +41,7 @@ public class CommandFilter {
     private DateTime endTimestamp;
     private SortOrder sortOrder;
     private SortField sortField;
-    private int maxNumber;
+    private int maxNumber = 30;
 
 
     public SortOrder getSortOrder() {
@@ -62,7 +62,7 @@ public class CommandFilter {
 
 
     public DateTime getStartTimestamp() {
-        return startTimestamp == null ? null : startTimestamp.withMillis(0);
+        return startTimestamp == null ? null : startTimestamp.withMillisOfSecond(0);
     }
 
     public void setStartTimestamp(DateTime startTimestamp) {
