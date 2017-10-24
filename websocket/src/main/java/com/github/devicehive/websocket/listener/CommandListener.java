@@ -23,30 +23,20 @@ package com.github.devicehive.websocket.listener;
 
 import com.github.devicehive.websocket.model.repsonse.CommandSubscribeResponse;
 
-public class CommandListener implements ErrorListener {
+public interface CommandListener extends ErrorListener {
 
 
-    public void onInsert(com.github.devicehive.websocket.model.repsonse.CommandInsertResponse response) {
+    void onInsert(com.github.devicehive.websocket.model.repsonse.CommandInsertResponse response);
 
-    }
+    void onUpdate(com.github.devicehive.websocket.model.repsonse.ResponseAction response);
 
-    public void onUpdate(com.github.devicehive.websocket.model.repsonse.ResponseAction response) {
-    }
+    void onList(com.github.devicehive.websocket.model.repsonse.CommandListResponse response);
 
-    public void onList(com.github.devicehive.websocket.model.repsonse.CommandListResponse response) {
-    }
+    void onGet(com.github.devicehive.websocket.model.repsonse.CommandGetResponse response);
 
-    public void onGet(com.github.devicehive.websocket.model.repsonse.CommandGetResponse response) {
-    }
+    void onSubscribe(CommandSubscribeResponse response);
 
-    public void onSubscribe(CommandSubscribeResponse response) {
-    }
+    void onUnsubscribe(com.github.devicehive.websocket.model.repsonse.ResponseAction response);
 
-    public void onUnsubscribe(com.github.devicehive.websocket.model.repsonse.ResponseAction response) {
-    }
-
-    @Override
-    public void onError(com.github.devicehive.websocket.model.repsonse.ErrorResponse error) {
-
-    }
+    void onError(com.github.devicehive.websocket.model.repsonse.ErrorResponse error);
 }
