@@ -68,12 +68,27 @@ public class Device implements DeviceInterface {
         }
 
         @Override
+        public void onGet(CommandGetResponse response) {
+
+        }
+
+        @Override
         public void onInsert(CommandInsertResponse response) {
             commandCallback.onSuccess(Collections.singletonList(DeviceCommand.create(response.getCommand())));
         }
 
+        @Override
+        public void onUpdate(ResponseAction response) {
+
+        }
+
         public void onSubscribe(CommandSubscribeResponse response) {
             commandSubscriptionId = response.getSubscriptionId();
+        }
+
+        @Override
+        public void onUnsubscribe(ResponseAction response) {
+
         }
 
         public void onError(ErrorResponse error) {

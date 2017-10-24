@@ -23,6 +23,7 @@ package com.github.devicehive.client.service;
 
 import com.github.devicehive.client.api.MainDeviceHive;
 import com.github.devicehive.client.callback.ResponseCallback;
+import com.github.devicehive.client.exceptions.IncorrectUrlException;
 import com.github.devicehive.client.model.*;
 import com.github.devicehive.client.model.DeviceNotification;
 import com.github.devicehive.rest.api.AuthApi;
@@ -39,11 +40,16 @@ import org.joda.time.DateTime;
 import retrofit2.Response;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 
 public class DeviceHive implements MainDeviceHive {
 
+    private static final String WEBSOCKET_PATH = "/api/websocket";
+    private static final String HTTP = "http";
+    private static final String WS = "ws";
     private ConfigurationService configurationService;
     private NetworkService networkService;
     private ApiInfoService apiInfoService;
@@ -59,6 +65,8 @@ public class DeviceHive implements MainDeviceHive {
     private CommandWS commandWS;
     private UserService userService;
     private WebSocketClient wsClient;
+    private String commandSubscriptionId;
+    private String notificationSubscriptionId;
 
     private DeviceHive() {
     }
@@ -93,12 +101,17 @@ public class DeviceHive implements MainDeviceHive {
     }
 
     private String createWSUrl(String httpUrl) {
-        String wsUrl = httpUrl.replace("http", "ws")
-                .replace("rest", "websocket");
-        if (wsUrl.endsWith("/")) {
-            wsUrl = wsUrl.substring(0, wsUrl.length() - 1);
+        try {
+            URI uri = new URI(httpUrl);
+            return new URI(
+                    uri.getScheme().replace(HTTP, WS),
+                    uri.getHost(),
+                    WEBSOCKET_PATH,
+                    null).toString();
+        } catch (URISyntaxException e) {
+            throw new IncorrectUrlException(httpUrl);
         }
-        return wsUrl;
+
     }
 
     public DeviceHive init(String url, String wsUrl, TokenAuth tokenAuth) {
@@ -161,11 +174,12 @@ public class DeviceHive implements MainDeviceHive {
 
             @Override
             public void onSubscribe(NotificationSubscribeResponse response) {
+                notificationSubscriptionId = response.getSubscriptionId();
             }
 
             @Override
             public void onUnsubscribe(ResponseAction response) {
-
+                notificationSubscriptionId = null;
             }
 
             @Override
@@ -180,8 +194,28 @@ public class DeviceHive implements MainDeviceHive {
             }
 
             @Override
+            public void onGet(CommandGetResponse response) {
+
+            }
+
+            @Override
+            public void onSubscribe(CommandSubscribeResponse response) {
+                commandSubscriptionId = response.getSubscriptionId();
+            }
+
+            @Override
+            public void onUnsubscribe(ResponseAction response) {
+                commandSubscriptionId = null;
+            }
+
+            @Override
             public void onInsert(CommandInsertResponse response) {
                 commandsCallback.onSuccess(Collections.singletonList(DeviceCommand.create(response.getCommand())));
+            }
+
+            @Override
+            public void onUpdate(ResponseAction response) {
+
             }
 
             @Override
@@ -261,6 +295,18 @@ public class DeviceHive implements MainDeviceHive {
 
     public void unsubscribeNotifications(List<String> ids, NotificationFilter notificationFilter) {
         notificationWS.subscribe(null, ids, notificationFilter.getNotificationNames());
+    }
+
+    public void unsubscribeAllCommands() {
+        if (commandWS != null && commandSubscriptionId != null) {
+            commandWS.unsubscribe(commandSubscriptionId, null);
+        }
+    }
+
+    public void unsubscribeAllNotifications() {
+        if (notificationWS != null && notificationSubscriptionId != null) {
+            notificationWS.unsubscribe(notificationSubscriptionId, null);
+        }
     }
 
     public DHResponse<List<Network>> listNetworks(NetworkFilter filter) {

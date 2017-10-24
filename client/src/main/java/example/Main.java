@@ -57,7 +57,11 @@ public class Main {
                 if (params != null) {
                     //Getting param value
                     JSONObject jsonObject = new JSONObject(params.getJsonString());
-                    boolean needToSend = jsonObject.getBoolean(PRODUCE_NOTIFICATION);
+
+                    boolean needToSend = false;
+                    if (jsonObject.has(PRODUCE_NOTIFICATION)) {
+                        needToSend = jsonObject.getBoolean(PRODUCE_NOTIFICATION);
+                    }
 
                     if (needToSend) {
                         //Sending notification that will meet filter criteria
@@ -79,7 +83,6 @@ public class Main {
                 System.out.println(failureData);
             }
         });
-
         //Creating filter to listen notification from the server
         NotificationFilter notificationFilter = new NotificationFilter();
         notificationFilter.setNotificationNames(PONG);
