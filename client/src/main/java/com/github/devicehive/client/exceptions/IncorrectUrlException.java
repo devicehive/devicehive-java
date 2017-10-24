@@ -1,7 +1,7 @@
 /*
  *
  *
- *   NetworkApi.java
+ *   IncorrectUrlException.java
  *
  *   Copyright (C) 2017 DataArt
  *
@@ -19,19 +19,15 @@
  *
  */
 
-package com.github.devicehive.websocket.api;
+package com.github.devicehive.client.exceptions;
 
-import com.github.devicehive.websocket.model.request.data.NetworkUpdate;
+public class IncorrectUrlException extends RuntimeException {
+    private static final String prefix = "Incorrect url : %s";
 
-interface NetworkApi {
+    private IncorrectUrlException() {
+    }
 
-    void list(Long requestId, String name, String namePattern, String sortField, Boolean sortOrderAsc, Integer take, Integer skip);
-
-    void get(Long requestId, Long id);
-
-    void insert(Long requestId, NetworkUpdate networkUpdate);
-
-    void update(Long requestId, Long networkId, NetworkUpdate networkUpdate);
-
-    void delete(Long requestId, Long id);
+    public IncorrectUrlException(String url) {
+        super(String.format(prefix, url));
+    }
 }

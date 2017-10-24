@@ -21,6 +21,9 @@
 
 package com.github.devicehive.rest;
 
+import com.github.devicehive.rest.api.ApiInfoApi;
+import com.github.devicehive.rest.model.ApiInfo;
+import com.github.devicehive.rest.model.ClusterConfig;
 import org.junit.Assert;
 import org.junit.Test;
 import retrofit2.Response;
@@ -30,15 +33,15 @@ import java.io.IOException;
 public class ApiInfoApiTest extends Helper {
     @Test
     public void getApiInfoTest() throws IOException {
-        com.github.devicehive.rest.api.ApiInfoApi apiInfoApi = client.createService(com.github.devicehive.rest.api.ApiInfoApi.class);
-        Response<com.github.devicehive.rest.model.ApiInfo> response = apiInfoApi.getApiInfo().execute();
+        ApiInfoApi apiInfoApi = client.createService(ApiInfoApi.class);
+        Response<ApiInfo> response = apiInfoApi.getApiInfo().execute();
         Assert.assertTrue(response.isSuccessful());
     }
 
     @Test
     public void getClusterConfigTest() throws IOException {
-        com.github.devicehive.rest.api.ApiInfoApi apiInfoApi = client.createService(com.github.devicehive.rest.api.ApiInfoApi.class);
-        Response<com.github.devicehive.rest.model.ClusterConfig> response = apiInfoApi.getClusterConfig().execute();
+        ApiInfoApi apiInfoApi = client.createService(ApiInfoApi.class);
+        Response<ClusterConfig> response = apiInfoApi.getClusterConfig().execute();
         Assert.assertTrue(response.isSuccessful());
     }
 }

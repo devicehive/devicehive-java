@@ -21,7 +21,11 @@
 
 package com.github.devicehive.rest;
 
+import com.github.devicehive.rest.api.NetworkApi;
 import com.github.devicehive.rest.model.Network;
+import com.github.devicehive.rest.model.NetworkId;
+import com.github.devicehive.rest.model.NetworkUpdate;
+import com.github.devicehive.rest.model.NetworkVO;
 import org.junit.Assert;
 import org.junit.Test;
 import retrofit2.Response;
@@ -30,19 +34,19 @@ import java.io.IOException;
 import java.util.List;
 
 public class NetworkApiTest extends Helper {
-    private static final String NETWORK_NAME = "TEST NETWORK";
-    private static final String UPDATED_NETWORK_NAME = "UPDATED TEST NETWORK";
+    private static final String NETWORK_NAME = "TEZT N3TW0K W1Z UN1Q N4M3";
+    private static final String UPDATED_NETWORK_NAME = "UPDATED TEZT N3TW0K W1Z UN1Q N4M3";
 
     @Test
     public void insertNetwork() throws IOException {
         boolean authenticated = authenticate();
         Assert.assertTrue(authenticated);
 
-        com.github.devicehive.rest.api.NetworkApi networkApi = client.createService(com.github.devicehive.rest.api.NetworkApi.class);
-        com.github.devicehive.rest.model.NetworkUpdate networkUpdate = new com.github.devicehive.rest.model.NetworkUpdate();
+        NetworkApi networkApi = client.createService(NetworkApi.class);
+        NetworkUpdate networkUpdate = new NetworkUpdate();
         networkUpdate.setName(NETWORK_NAME);
 
-        Response<com.github.devicehive.rest.model.NetworkId> insertResponse = networkApi.insert(networkUpdate).execute();
+        Response<NetworkId> insertResponse = networkApi.insert(networkUpdate).execute();
         Assert.assertTrue(insertResponse.isSuccessful());
         Long networkId = insertResponse.body().getId();
         Assert.assertNotNull(networkId);
@@ -55,15 +59,15 @@ public class NetworkApiTest extends Helper {
         boolean authenticated = authenticate();
         Assert.assertTrue(authenticated);
 
-        com.github.devicehive.rest.api.NetworkApi networkApi = client.createService(com.github.devicehive.rest.api.NetworkApi.class);
-        com.github.devicehive.rest.model.NetworkUpdate networkUpdate = new com.github.devicehive.rest.model.NetworkUpdate();
+        NetworkApi networkApi = client.createService(NetworkApi.class);
+        NetworkUpdate networkUpdate = new NetworkUpdate();
         networkUpdate.setName(NETWORK_NAME);
-        Response<com.github.devicehive.rest.model.NetworkId> insertResponse = networkApi.insert(networkUpdate).execute();
+        Response<NetworkId> insertResponse = networkApi.insert(networkUpdate).execute();
         Assert.assertTrue(insertResponse.isSuccessful());
         Long networkId = insertResponse.body().getId();
         Assert.assertNotNull(networkId);
 
-        Response<com.github.devicehive.rest.model.NetworkVO> getResponse = networkApi.get(networkId).execute();
+        Response<NetworkVO> getResponse = networkApi.get(networkId).execute();
         Assert.assertTrue(getResponse.isSuccessful());
         Assert.assertEquals(networkId, getResponse.body().getId());
 
@@ -75,10 +79,10 @@ public class NetworkApiTest extends Helper {
         boolean authenticated = authenticate();
         Assert.assertTrue(authenticated);
 
-        com.github.devicehive.rest.api.NetworkApi networkApi = client.createService(com.github.devicehive.rest.api.NetworkApi.class);
-        com.github.devicehive.rest.model.NetworkUpdate networkUpdate = new com.github.devicehive.rest.model.NetworkUpdate();
+        NetworkApi networkApi = client.createService(NetworkApi.class);
+        NetworkUpdate networkUpdate = new NetworkUpdate();
         networkUpdate.setName(NETWORK_NAME);
-        Response<com.github.devicehive.rest.model.NetworkId> insertResponse = networkApi.insert(networkUpdate).execute();
+        Response<NetworkId> insertResponse = networkApi.insert(networkUpdate).execute();
         Assert.assertTrue(insertResponse.isSuccessful());
         Long networkId = insertResponse.body().getId();
         Assert.assertNotNull(networkId);
@@ -92,22 +96,22 @@ public class NetworkApiTest extends Helper {
         boolean authenticated = authenticate();
         Assert.assertTrue(authenticated);
 
-        com.github.devicehive.rest.api.NetworkApi networkApi = client.createService(com.github.devicehive.rest.api.NetworkApi.class);
-        com.github.devicehive.rest.model.NetworkUpdate networkUpdate = new com.github.devicehive.rest.model.NetworkUpdate();
+        NetworkApi networkApi = client.createService(NetworkApi.class);
+        NetworkUpdate networkUpdate = new NetworkUpdate();
         networkUpdate.setName(NETWORK_NAME);
 
-        Response<com.github.devicehive.rest.model.NetworkId> insertResponse = networkApi.insert(networkUpdate).execute();
+        Response<NetworkId> insertResponse = networkApi.insert(networkUpdate).execute();
         Assert.assertTrue(insertResponse.isSuccessful());
         Long networkId = insertResponse.body().getId();
         Assert.assertNotNull(networkId);
 
-        com.github.devicehive.rest.model.NetworkUpdate networkUpdate1 = new com.github.devicehive.rest.model.NetworkUpdate();
+        NetworkUpdate networkUpdate1 = new NetworkUpdate();
         networkUpdate1.setName(UPDATED_NETWORK_NAME);
 
         Response<Void> updateResponse = networkApi.update(networkId, networkUpdate1).execute();
         Assert.assertTrue(updateResponse.isSuccessful());
 
-        Response<com.github.devicehive.rest.model.NetworkVO> getResponse = networkApi.get(networkId).execute();
+        Response<NetworkVO> getResponse = networkApi.get(networkId).execute();
         Assert.assertTrue(getResponse.isSuccessful());
         Assert.assertNotNull(getResponse.body().getName());
         Assert.assertEquals(UPDATED_NETWORK_NAME, getResponse.body().getName());
@@ -120,15 +124,23 @@ public class NetworkApiTest extends Helper {
         boolean authenticated = authenticate();
         Assert.assertTrue(authenticated);
 
-        com.github.devicehive.rest.api.NetworkApi networkApi = client.createService(com.github.devicehive.rest.api.NetworkApi.class);
+        NetworkApi networkApi = client.createService(NetworkApi.class);
+
+        Response<List<Network>> getResponse = networkApi.list(null, NETWORK_NAME + "%",
+                null, null, Integer.MAX_VALUE, 0).execute();
+        Assert.assertTrue(getResponse.isSuccessful());
+        List<Network> existingNetworks = getResponse.body();
+        for (Network network: existingNetworks) {
+            deleteNetworks(network.getId());
+        }
 
         int networkAmount = 5;
         Long[] networkIds = new Long[networkAmount];
         for (int j = 0; j < networkAmount; ++j) {
-            com.github.devicehive.rest.model.NetworkUpdate networkUpdate = new com.github.devicehive.rest.model.NetworkUpdate();
+            NetworkUpdate networkUpdate = new NetworkUpdate();
             String name = String.format("%s %d", NETWORK_NAME, j);
             networkUpdate.setName(name);
-            Response<com.github.devicehive.rest.model.NetworkId> insertResponse = networkApi.insert(networkUpdate).execute();
+            Response<NetworkId> insertResponse = networkApi.insert(networkUpdate).execute();
             Assert.assertTrue(insertResponse.isSuccessful());
             Long networkId = insertResponse.body().getId();
             Assert.assertNotNull(networkId);

@@ -46,6 +46,11 @@ public class DateTimeTypeAdapter implements JsonSerializer<DateTime>, JsonDeseri
 
     @Override
     public DateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+
+        if (json.getAsString() == null || json.getAsString().isEmpty()) {
+            return null;
+        }
+
         final DateTimeFormatter formatter = DateTimeFormat.forPattern(iso_pattern).withZoneUTC();
         return formatter.parseDateTime(json.getAsString());
     }

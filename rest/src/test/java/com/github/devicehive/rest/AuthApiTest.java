@@ -22,13 +22,15 @@
 package com.github.devicehive.rest;
 
 import com.github.devicehive.rest.api.AuthApi;
-import com.github.devicehive.rest.model.JwtRequest;
-import com.github.devicehive.rest.model.JwtToken;
+import com.github.devicehive.rest.model.*;
+import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import retrofit2.Response;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AuthApiTest extends Helper {
 
@@ -36,7 +38,7 @@ public class AuthApiTest extends Helper {
     @Test
     public void getToken() throws IOException {
         AuthApi api = client.createService(AuthApi.class);
-       JwtRequest requestBody = new JwtRequest();
+        JwtRequest requestBody = new JwtRequest();
         requestBody.setLogin("dhadmin");
         requestBody.setPassword("dhadmin_#911");
 
@@ -61,5 +63,66 @@ public class AuthApiTest extends Helper {
         Assert.assertTrue(response.body() == null);
     }
 
+    @Test
+    public void refreshToken() throws IOException {
+        AuthApi api = client.createService(AuthApi.class);
+        JwtRequest requestBody = new JwtRequest();
+        requestBody.setLogin("dhadmin");
+        requestBody.setPassword("dhadmin_#911");
+
+        Response<JwtToken> loginResponse = api.login(requestBody).execute();
+
+        Assert.assertTrue(loginResponse.isSuccessful());
+        JwtToken tokenVO = loginResponse.body();
+        Assert.assertNotNull(tokenVO);
+        Assert.assertNotNull(tokenVO.getAccessToken());
+        Assert.assertNotEquals(0, tokenVO.getAccessToken().length());
+        Assert.assertNotNull(tokenVO.getRefreshToken());
+        Assert.assertNotEquals(0, tokenVO.getRefreshToken().length());
+
+        JwtRefreshToken jwtRefreshToken = new JwtRefreshToken();
+        jwtRefreshToken.setRefreshToken(tokenVO.getRefreshToken());
+        Response<JwtAccessToken> refreshResponse = api.refreshTokenRequest(jwtRefreshToken).execute();
+
+        JwtAccessToken refreshedToken = refreshResponse.body();
+        Assert.assertNotNull(refreshedToken);
+        Assert.assertNotNull(refreshedToken.getAccessToken());
+        Assert.assertNotEquals(0, refreshedToken.getAccessToken().length());
+    }
+
+    @Test
+    public void requestToken() throws IOException {
+        boolean authenticated = authenticate();
+        Assert.assertTrue(authenticated);
+
+        AuthApi api = client.createService(AuthApi.class);
+        JwtPayload jwtPayload = createAdminJwtPayload(1L);
+
+        Response<JwtToken> putResponse = api.tokenRequest(jwtPayload).execute();
+        Assert.assertTrue(putResponse.isSuccessful());
+        JwtToken tokenVO = putResponse.body();
+        Assert.assertNotNull(tokenVO);
+        Assert.assertNotNull(tokenVO.getAccessToken());
+        Assert.assertNotEquals(0, tokenVO.getAccessToken().length());
+        Assert.assertNotNull(tokenVO.getRefreshToken());
+        Assert.assertNotEquals(0, tokenVO.getRefreshToken().length());
+    }
+
+    private JwtPayload createAdminJwtPayload(Long userId) {
+        JwtPayload jwtPayload = new JwtPayload();
+        List<String> actions = new ArrayList<String>();
+        actions.add("*");
+        List<String> networkIds = new ArrayList<String>();
+        networkIds.add("*");
+        List<String> deviceIds = new ArrayList<String>();
+        deviceIds.add("*");
+        DateTime dateTime = DateTime.now().plusYears(1);
+        jwtPayload.setUserId(userId);
+        jwtPayload.setActions(actions);
+        jwtPayload.setNetworkIds(networkIds);
+        jwtPayload.setDeviceIds(deviceIds);
+        jwtPayload.setExpiration(dateTime);
+        return jwtPayload;
+    }
 
 }
