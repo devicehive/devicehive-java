@@ -21,15 +21,17 @@
 
 package com.github.devicehive.websocket.api;
 
+import com.github.devicehive.websocket.model.request.data.NetworkUpdate;
+
 interface NetworkApi {
 
-    void list( Long requestId, String name, String namePattern, String sortField, Boolean sortOrderAsc, Integer take, Integer skip);
+    void list(Long requestId, String name, String namePattern, String sortField, Boolean sortOrderAsc, Integer take, Integer skip);
 
-    void get( Long requestId, Long id);
+    void get(Long requestId, Long id);
 
-    void insert( Long requestId, com.github.devicehive.websocket.model.request.data.NetworkUpdate networkUpdate);
+    void insert(Long requestId, NetworkUpdate networkUpdate);
 
-    void update( Long requestId, com.github.devicehive.websocket.model.request.data.NetworkUpdate networkUpdate);
+    void update(Long requestId, Long networkId, NetworkUpdate networkUpdate);
 
-    void delete( Long requestId, Long id);
+    void delete(Long requestId, Long id);
 }
