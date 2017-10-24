@@ -61,7 +61,7 @@ public class NotificationFilter {
 
 
     public DateTime getStartTimestamp() {
-        return startTimestamp == null ? null : startTimestamp.withMillis(0);
+        return startTimestamp == null ? null : startTimestamp.withMillisOfSecond(0);
     }
 
     public void setStartTimestamp(DateTime startTimestamp) {

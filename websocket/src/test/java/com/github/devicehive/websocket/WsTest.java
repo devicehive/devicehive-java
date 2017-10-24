@@ -24,10 +24,9 @@ package com.github.devicehive.websocket;
 import com.github.devicehive.websocket.api.CommandWS;
 import com.github.devicehive.websocket.api.TokenWS;
 import com.github.devicehive.websocket.api.WebSocketClient;
+import com.github.devicehive.websocket.listener.CommandListener;
 import com.github.devicehive.websocket.listener.TokenListener;
-import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
-import com.github.devicehive.websocket.model.repsonse.TokenGetResponse;
-import com.github.devicehive.websocket.model.repsonse.TokenRefreshResponse;
+import com.github.devicehive.websocket.model.repsonse.*;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
@@ -84,10 +83,40 @@ public class WsTest {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                CommandWS commandWS = client.createCommandWS(new com.github.devicehive.websocket.listener.CommandListener() {
+                CommandWS commandWS = client.createCommandWS(new CommandListener() {
                     @Override
                     public void onInsert(com.github.devicehive.websocket.model.repsonse.CommandInsertResponse response) {
                         System.out.println(response);
+                    }
+
+                    @Override
+                    public void onUpdate(ResponseAction response) {
+
+                    }
+
+                    @Override
+                    public void onList(CommandListResponse response) {
+
+                    }
+
+                    @Override
+                    public void onGet(CommandGetResponse response) {
+
+                    }
+
+                    @Override
+                    public void onSubscribe(CommandSubscribeResponse response) {
+
+                    }
+
+                    @Override
+                    public void onUnsubscribe(ResponseAction response) {
+
+                    }
+
+                    @Override
+                    public void onError(ErrorResponse error) {
+
                     }
                 });
                 commandWS.subscribe(null, null, "271990123", null, DateTime.now(), 30);

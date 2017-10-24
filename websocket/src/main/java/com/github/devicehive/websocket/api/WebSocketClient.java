@@ -33,7 +33,6 @@ import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
 import java.io.Closeable;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -132,7 +131,7 @@ public class WebSocketClient extends WebSocketListener implements WebSocketCreat
     }
 
     @Override
-    public void close() throws IOException {
+    public void close() {
         client.dispatcher().executorService().shutdown();
         map.clear();
         ws.close(1000, null);
