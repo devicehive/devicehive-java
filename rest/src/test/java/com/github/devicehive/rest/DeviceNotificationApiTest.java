@@ -140,8 +140,8 @@ public class DeviceNotificationApiTest extends Helper {
         String timestamp = currentTimestamp.withMillis(0).toString();
 
         String deviceIds = firstDeviceId + "," + secondDeviceId;
-        Response<List<DeviceNotification>> pollResponse = notificationApi.pollMany(30L, deviceIds,
-                NOTIFICATION_NAME, timestamp).execute();
+        Response<List<DeviceNotification>> pollResponse = notificationApi.pollMany(deviceIds,
+                NOTIFICATION_NAME, timestamp, 30L).execute();
         Assert.assertTrue(pollResponse.isSuccessful());
         Assert.assertEquals(2 * notificationPollAmount, pollResponse.body().size());
         Assert.assertTrue(deleteDevices(firstDeviceId, secondDeviceId));
