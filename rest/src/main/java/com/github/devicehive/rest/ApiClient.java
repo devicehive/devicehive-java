@@ -21,6 +21,11 @@
 
 package com.github.devicehive.rest;
 
+import com.github.devicehive.rest.adapters.DateTimeTypeAdapter;
+import com.github.devicehive.rest.adapters.JsonStringWrapperAdapterFactory;
+import com.github.devicehive.rest.auth.ApiKeyAuth;
+import com.github.devicehive.rest.auth.HttpBasicAuth;
+import com.github.devicehive.rest.utils.Const;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
@@ -64,10 +69,10 @@ public class ApiClient {
             Interceptor auth;
             switch (authName) {
                 case AUTH_API_KEY:
-                    auth = com.github.devicehive.rest.auth.ApiKeyAuth.newInstance();
+                    auth = ApiKeyAuth.newInstance();
                     break;
                 case AUTH_BASIC:
-                    auth = new com.github.devicehive.rest.auth.HttpBasicAuth();
+                    auth = new HttpBasicAuth();
                     break;
                 default:
                     throw new RuntimeException("auth name \"" + authName + "\" not found in available auth names");
@@ -97,9 +102,9 @@ public class ApiClient {
     }
 
     private void createDefaultAdapter(String url) {
-        com.github.devicehive.rest.adapters.DateTimeTypeAdapter typeAdapter = new com.github.devicehive.rest.adapters.DateTimeTypeAdapter(com.github.devicehive.rest.utils.Const.TIMESTAMP_FORMAT);
+        DateTimeTypeAdapter typeAdapter = new DateTimeTypeAdapter(Const.TIMESTAMP_FORMAT);
         Gson gson = new GsonBuilder()
-                .registerTypeAdapterFactory(new com.github.devicehive.rest.adapters.JsonStringWrapperAdapterFactory())
+                .registerTypeAdapterFactory(new JsonStringWrapperAdapterFactory())
                 .registerTypeAdapter(DateTime.class,
                         typeAdapter)
                 .create();
@@ -136,8 +141,8 @@ public class ApiClient {
      */
     private void setApiKey(String apiKey) {
         for (Interceptor apiAuthorization : apiAuthorizations.values()) {
-            if (apiAuthorization instanceof com.github.devicehive.rest.auth.ApiKeyAuth) {
-                com.github.devicehive.rest.auth.ApiKeyAuth keyAuth = (com.github.devicehive.rest.auth.ApiKeyAuth) apiAuthorization;
+            if (apiAuthorization instanceof ApiKeyAuth) {
+                ApiKeyAuth keyAuth = (ApiKeyAuth) apiAuthorization;
                 keyAuth.setApiKey(apiKey);
                 return;
             }
@@ -152,13 +157,14 @@ public class ApiClient {
      */
     private void setCredentials(String username, String password) {
         for (Interceptor apiAuthorization : apiAuthorizations.values()) {
-            if (apiAuthorization instanceof com.github.devicehive.rest.auth.HttpBasicAuth) {
-                com.github.devicehive.rest.auth.HttpBasicAuth basicAuth = (com.github.devicehive.rest.auth.HttpBasicAuth) apiAuthorization;
+            if (apiAuthorization instanceof HttpBasicAuth) {
+                HttpBasicAuth basicAuth = (HttpBasicAuth) apiAuthorization;
                 basicAuth.setCredentials(username, password);
                 return;
             }
         }
     }
+
     /**
      * Adds an authorization to be used by the client
      *
@@ -268,7 +274,8 @@ class GsonCustomConverterFactory extends Converter.Factory {
     }
 
     @Override
-    public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
+    public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations,
+                                                          Annotation[] methodAnnotations, Retrofit retrofit) {
         return gsonConverterFactory.requestBodyConverter(type, parameterAnnotations, methodAnnotations, retrofit);
     }
 
