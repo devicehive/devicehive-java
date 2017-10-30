@@ -22,6 +22,10 @@
 package com.github.devicehive.client.service;
 
 import com.github.devicehive.rest.ApiClient;
+import com.github.devicehive.rest.api.AuthApi;
+import com.github.devicehive.rest.model.JwtAccessToken;
+import com.github.devicehive.rest.model.JwtRefreshToken;
+import retrofit2.Callback;
 
 class RestHelper {
     private final ApiClient apiClient;
@@ -43,6 +47,13 @@ class RestHelper {
 
     ApiClient getApiClient() {
         return apiClient;
+    }
+
+    void authorize(Callback<JwtAccessToken> callback) {
+        AuthApi authApi = RestHelper.getInstance().getApiClient().createService(AuthApi.class);
+        JwtRefreshToken token = new JwtRefreshToken();
+        token.setRefreshToken(TokenHelper.getInstance().getTokenAuth().getRefreshToken());
+        authApi.refreshTokenRequest(token).enqueue(callback);
     }
 }
 
