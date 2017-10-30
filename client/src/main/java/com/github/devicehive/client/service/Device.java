@@ -21,17 +21,21 @@
 
 package com.github.devicehive.client.service;
 
+import com.github.devicehive.client.model.*;
 import com.github.devicehive.rest.model.JsonStringWrapper;
+import com.github.devicehive.rest.model.JwtAccessToken;
 import com.github.devicehive.websocket.api.CommandWS;
 import com.github.devicehive.websocket.api.NotificationWS;
 import com.github.devicehive.websocket.api.WebSocketClient;
 import com.github.devicehive.websocket.listener.CommandListener;
 import com.github.devicehive.websocket.listener.NotificationListener;
 import com.github.devicehive.websocket.model.repsonse.*;
-import com.github.devicehive.client.model.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.joda.time.DateTime;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -92,6 +96,28 @@ public class Device implements DeviceInterface {
         }
 
         public void onError(ErrorResponse error) {
+            if (error.getCode() == 401) {
+                RestHelper.getInstance().authorize(new Callback<JwtAccessToken>() {
+                    @Override
+                    public void onResponse(Call<JwtAccessToken> call, Response<JwtAccessToken> response) {
+                        if (response.isSuccessful()) {
+                            TokenHelper.getInstance().getTokenAuth().setAccessToken(response.body().getAccessToken());
+                            wsClient.authenticate(TokenHelper.getInstance().getTokenAuth().getAccessToken());
+                            subscribeCommands(commandFilter, commandCallback);
+                        } else {
+                            commandCallback.onFail(FailureData.create(
+                                    ErrorResponse.create(response.code(), BaseService.parseErrorMessage(response))));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<JwtAccessToken> call, Throwable t) {
+                        commandCallback.onFail(FailureData.create(ErrorResponse.create(
+                                FailureData.NO_CODE, t.getMessage())));
+                    }
+                });
+                return;
+            }
             commandCallback.onFail(FailureData.create(error));
         }
     };
@@ -123,10 +149,34 @@ public class Device implements DeviceInterface {
 
         @Override
         public void onError(ErrorResponse error) {
+            if (error.getCode() == 401) {
+                RestHelper.getInstance().authorize(new Callback<JwtAccessToken>() {
+                    @Override
+                    public void onResponse(Call<JwtAccessToken> call, Response<JwtAccessToken> response) {
+                        if (response.isSuccessful()) {
+                            TokenHelper.getInstance().getTokenAuth().setAccessToken(response.body().getAccessToken());
+                            wsClient.authenticate(TokenHelper.getInstance().getTokenAuth().getAccessToken());
+                            subscribeNotifications(notificationFilter, notificationCallback);
+                        }else {
+                            notificationCallback.onFail(FailureData.create(
+                                    ErrorResponse.create(response.code(), BaseService.parseErrorMessage(response))));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<JwtAccessToken> call, Throwable t) {
+                        notificationCallback.onFail(FailureData.create(
+                                ErrorResponse.create(FailureData.NO_CODE, t.getMessage())));
+                    }
+                });
+                return;
+            }
             notificationCallback.onFail(FailureData.create(error));
         }
     };
     private String notificationSubscriptionId;
+    private CommandFilter commandFilter;
+    private NotificationFilter notificationFilter;
 
     private Device() {
         wsClient = new WebSocketClient.Builder().url(DeviceHive.getInstance().getWSUrl())
@@ -188,6 +238,7 @@ public class Device implements DeviceInterface {
 
     public void subscribeCommands(CommandFilter commandFilter, DeviceCommandsCallback commandCallback) {
         this.commandCallback = commandCallback;
+        this.commandFilter = commandFilter;
         commandWS.subscribe(commandFilter.getCommandNames(),
                 id,
                 null,
@@ -198,10 +249,13 @@ public class Device implements DeviceInterface {
 
     public void subscribeNotifications(NotificationFilter notificationFilter, DeviceNotificationsCallback notificationCallback) {
         this.notificationCallback = notificationCallback;
+        this.notificationFilter = notificationFilter;
         notificationWS.subscribe(id, null, notificationFilter.getNotificationNames());
     }
 
     public void unsubscribeCommands(CommandFilter commandFilter) {
+        this.commandFilter = commandFilter;
+        this.notificationFilter = notificationFilter;
         commandWS.subscribe(commandFilter.getCommandNames(),
                 id,
                 null,

@@ -108,7 +108,7 @@ public class BaseService {
                 if (response.isSuccessful()) {
                     callback.onResponse(new DHResponse<T>(response.body(), null));
                 } else {
-                    FailureData failureData = createFailData(response.code(), parseErrorMessage(response));
+                    FailureData failureData = createFailData(response.code(), BaseService.parseErrorMessage(response));
                     callback.onResponse(new DHResponse<T>(null, failureData));
                 }
             }
@@ -141,7 +141,7 @@ public class BaseService {
         return wrapper;
     }
 
-    String parseErrorMessage(Response response) {
+    static String parseErrorMessage(Response response) {
         try {
             JSONObject error = new JSONObject(response.errorBody().string());
             return error.getString(ERROR_MESSAGE_KEY);
