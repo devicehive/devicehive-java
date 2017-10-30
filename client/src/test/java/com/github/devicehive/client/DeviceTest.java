@@ -147,6 +147,10 @@ public class DeviceTest {
             }
 
             public void onFail(FailureData failureData) {
+                System.out.println(failureData);
+                for (int i = 0; i < latch.getCount(); i++) {
+                    latch.countDown();
+                }
                 Assert.assertTrue(false);
             }
         });
@@ -193,7 +197,7 @@ public class DeviceTest {
                 for (int i = 0; i < latch.getCount(); i++) {
                     latch.countDown();
                 }
-                Assert.assertTrue(true);
+                Assert.assertTrue(false);
             }
         });
         ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
