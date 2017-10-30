@@ -28,7 +28,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class ErrorResponse extends ResponseAction {
-    public static final String ERROR="error";
+    public static final String ERROR = "error";
 
     @SerializedName("code")
     int code;
@@ -44,5 +44,12 @@ public class ErrorResponse extends ResponseAction {
                 + ",\n \"status\":\"" + status + "\""
                 + ",\n \"error\":\"" + error + "\""
                 + "}\n}";
+    }
+
+    public static ErrorResponse create(int code, String message) {
+        ErrorResponse response = new ErrorResponse();
+        response.setCode(code);
+        response.setError(message);
+        return response;
     }
 }

@@ -23,7 +23,6 @@ package com.github.devicehive.websocket.api;
 
 import com.github.devicehive.websocket.listener.*;
 import com.github.devicehive.websocket.model.repsonse.ResponseAction;
-import com.github.devicehive.websocket.model.repsonse.TokenRefreshResponse;
 import com.github.devicehive.websocket.model.request.AuthenticateAction;
 import com.github.devicehive.websocket.model.request.TokenRefreshAction;
 import com.google.gson.Gson;
@@ -35,9 +34,6 @@ import okhttp3.WebSocketListener;
 import java.io.Closeable;
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.github.devicehive.websocket.model.ActionConstant.AUTHENTICATE;
-import static com.github.devicehive.websocket.model.ActionConstant.TOKEN_REFRESH;
 
 public class WebSocketClient extends WebSocketListener implements WebSocketCreator, Closeable {
 
@@ -88,17 +84,6 @@ public class WebSocketClient extends WebSocketListener implements WebSocketCreat
     public void onMessage(WebSocket webSocket, String text) {
         ResponseAction action = getResponseAction(text);
         String actionName = action.getAction();
-        if (actionName.equals(TOKEN_REFRESH) && action.getStatus().equalsIgnoreCase(ResponseAction.SUCCESS)) {
-            TokenRefreshResponse response = gson.fromJson(text, TokenRefreshResponse.class);
-            TokenHelper.getInstance().getTokenAuth().setAccessToken(response.getAccessToken());
-            authenticate(response.getAccessToken());
-            return;
-        } else if (actionName.equals(AUTHENTICATE) && action.getStatus().equals(ResponseAction.SUCCESS)) {
-            for (BaseWebSocketApi api : map.values()) {
-                api.repeatAction();
-            }
-            return;
-        }
         BaseWebSocketApi api = getBaseWebSocketApi(actionName);
         if (api != null) {
             api.onMessage(text);
@@ -141,7 +126,7 @@ public class WebSocketClient extends WebSocketListener implements WebSocketCreat
         return ws;
     }
 
-    void authenticate(String token) {
+    public void authenticate(String token) {
         AuthenticateAction authAction = new AuthenticateAction();
         authAction.setToken(token);
         ws.send(gson.toJson(authAction));
