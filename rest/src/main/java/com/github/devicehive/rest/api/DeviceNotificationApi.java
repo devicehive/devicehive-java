@@ -22,6 +22,8 @@
 package com.github.devicehive.rest.api;
 
 import com.github.devicehive.rest.model.DeviceNotification;
+import com.github.devicehive.rest.model.DeviceNotificationWrapper;
+import com.github.devicehive.rest.model.NotificationInsert;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -51,8 +53,8 @@ public interface DeviceNotificationApi {
     "Content-Type:application/json"
   })
   @POST(Const.API_REST+"device/{deviceId}/notification")
-  Call<com.github.devicehive.rest.model.NotificationInsert> insert(
-          @Path("deviceId") String deviceId, @Body com.github.devicehive.rest.model.DeviceNotificationWrapper body
+  Call<NotificationInsert> insert(
+          @Path("deviceId") String deviceId, @Body DeviceNotificationWrapper body
   );
 
   /**
@@ -80,7 +82,7 @@ public interface DeviceNotificationApi {
    */
   @GET(Const.API_REST+"device/notification/poll")
   Call<List<DeviceNotification>> pollMany(
-         @Query("waitTimeout") Long waitTimeout, @Query("deviceIds") String deviceIds, @Query("names") String names, @Query("timestamp") String timestamp
+         @Query("deviceIds") String deviceIds, @Query("names") String names, @Query("timestamp") String timestamp, @Query("waitTimeout") Long waitTimeout
   );
 
   /**
