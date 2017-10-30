@@ -29,15 +29,11 @@ import com.github.devicehive.websocket.model.request.RequestAction;
 import com.google.gson.Gson;
 import okhttp3.WebSocket;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public abstract class BaseWebSocketApi {
     private final ErrorListener listener;
     private final WebSocketClient client;
     private WebSocket ws;
     Gson gson = GsonHelper.getInstance().getGsonFactory();
-    private List<String> lastMessage = new ArrayList<>(1);
 
     BaseWebSocketApi(WebSocketClient client, ErrorListener listener) {
         this.listener = listener;
@@ -53,16 +49,9 @@ public abstract class BaseWebSocketApi {
     }
 
     void send(RequestAction action) {
-        lastMessage.clear();
-        lastMessage.add(gson.toJson(action));
-        ws.send(lastMessage.get(0));
+        ws.send(gson.toJson(action));
     }
 
-    void repeatAction() {
-        if (lastMessage.size() == 1) {
-            ws.send(lastMessage.get(0));
-        }
-    }
 
     public abstract void onSuccess(String message);
 
@@ -72,13 +61,7 @@ public abstract class BaseWebSocketApi {
             onSuccess(message);
         } else if (action.getStatus().equals(ErrorResponse.ERROR)) {
             ErrorResponse errorResponse = gson.fromJson(message, ErrorResponse.class);
-            if (action.getStatus().equals(ErrorResponse.ERROR)) {
-                if (errorResponse.getCode() == 401) {
-                    client.refresh();
-                } else {
-                    listener.onError(errorResponse);
-                }
-            }
+            listener.onError(errorResponse);
         }
     }
 

@@ -37,11 +37,14 @@ import com.github.devicehive.websocket.listener.CommandListener;
 import com.github.devicehive.websocket.listener.NotificationListener;
 import com.github.devicehive.websocket.model.repsonse.*;
 import org.joda.time.DateTime;
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -67,6 +70,10 @@ public class DeviceHive implements MainDeviceHive {
     private WebSocketClient wsClient;
     private String commandSubscriptionId;
     private String notificationSubscriptionId;
+    private List<String> notificationsIds = new ArrayList<>();
+    private NotificationFilter notificationFilter;
+    private List<String> commandsIds = new ArrayList<>();
+    private CommandFilter commandFilter;
 
     private DeviceHive() {
     }
@@ -158,11 +165,6 @@ public class DeviceHive implements MainDeviceHive {
         createWSClient();
         notificationWS = wsClient.createNotificationWS(new NotificationListener() {
             @Override
-            public void onError(ErrorResponse error) {
-                notificationsCallback.onFail(FailureData.create(error));
-            }
-
-            @Override
             public void onList(NotificationListResponse response) {
                 notificationsCallback.onSuccess(DeviceNotification.createListFromWS(response.getNotifications()));
             }
@@ -186,6 +188,34 @@ public class DeviceHive implements MainDeviceHive {
             public void onInsert(NotificationInsertResponse response) {
                 notificationsCallback.onSuccess(Collections.singletonList(DeviceNotification.create(response.getNotification())));
             }
+
+            @Override
+            public void onError(ErrorResponse error) {
+                if (error.getCode() == 401) {
+                    RestHelper.getInstance().authorize(new Callback<JwtAccessToken>() {
+                        @Override
+                        public void onResponse(Call<JwtAccessToken> call, Response<JwtAccessToken> response) {
+                            if (response.isSuccessful()) {
+                                TokenHelper.getInstance().getTokenAuth().setAccessToken(response.body().getAccessToken());
+                                wsClient.authenticate(TokenHelper.getInstance().getTokenAuth().getAccessToken());
+                                subscribeNotifications(notificationsIds, notificationFilter, notificationsCallback);
+                            } else {
+                                notificationsCallback.onFail(FailureData.create(
+                                        ErrorResponse.create(response.code(), BaseService.parseErrorMessage(response))));
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<JwtAccessToken> call, Throwable t) {
+                            notificationsCallback.onFail(FailureData.create(
+                                    ErrorResponse.create(FailureData.NO_CODE, t.getMessage())));
+                        }
+                    });
+                    return;
+                }
+                notificationsCallback.onFail(FailureData.create(error));
+            }
+
         });
         commandWS = wsClient.createCommandWS(new CommandListener() {
             @Override
@@ -220,6 +250,28 @@ public class DeviceHive implements MainDeviceHive {
 
             @Override
             public void onError(ErrorResponse error) {
+                if (error.getCode() == 401) {
+                    RestHelper.getInstance().authorize(new Callback<JwtAccessToken>() {
+                        @Override
+                        public void onResponse(Call<JwtAccessToken> call, Response<JwtAccessToken> response) {
+                            if (response.isSuccessful()) {
+                                TokenHelper.getInstance().getTokenAuth().setAccessToken(response.body().getAccessToken());
+                                wsClient.authenticate(TokenHelper.getInstance().getTokenAuth().getAccessToken());
+                                subscribeCommands(commandsIds, commandFilter, commandsCallback);
+                            } else {
+                                commandsCallback.onFail(FailureData.create(
+                                        ErrorResponse.create(response.code(), BaseService.parseErrorMessage(response))));
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<JwtAccessToken> call, Throwable t) {
+                            commandsCallback.onFail(FailureData.create(
+                                    ErrorResponse.create(FailureData.NO_CODE, t.getMessage())));
+                        }
+                    });
+                    return;
+                }
                 commandsCallback.onFail(FailureData.create(error));
             }
         });
@@ -279,21 +331,33 @@ public class DeviceHive implements MainDeviceHive {
 
     public void subscribeCommands(List<String> ids, CommandFilter commandFilter, DeviceCommandsCallback commandsCallback) {
         this.commandsCallback = commandsCallback;
+        this.commandFilter = commandFilter;
+        commandsIds.clear();
+        commandsIds.addAll(ids);
         commandWS.subscribe(commandFilter.getCommandNames(), null,
                 ids, commandFilter.getStartTimestamp(), commandFilter.getMaxNumber());
     }
 
     public void subscribeNotifications(List<String> ids, NotificationFilter notificationFilter, DeviceNotificationsCallback notificationsCallback) {
         this.notificationsCallback = notificationsCallback;
+        this.notificationFilter = notificationFilter;
+        notificationsIds.clear();
+        notificationsIds.addAll(ids);
         notificationWS.subscribe(null, ids, notificationFilter.getNotificationNames());
     }
 
     public void unsubscribeCommands(List<String> ids, CommandFilter commandFilter) {
+        this.commandFilter = commandFilter;
+        commandsIds.clear();
+        commandsIds.addAll(ids);
         commandWS.subscribe(commandFilter.getCommandNames(), null,
                 ids, commandFilter.getStartTimestamp(), commandFilter.getMaxNumber());
     }
 
     public void unsubscribeNotifications(List<String> ids, NotificationFilter notificationFilter) {
+        this.notificationFilter = notificationFilter;
+        notificationsIds.clear();
+        notificationsIds.addAll(ids);
         notificationWS.subscribe(null, ids, notificationFilter.getNotificationNames());
     }
 
