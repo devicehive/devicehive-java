@@ -21,13 +21,13 @@
 
 package com.github.devicehive.examples;
 
+import com.github.devicehive.rest.model.Device;
 import com.github.devicehive.websocket.api.CommandWS;
 import com.github.devicehive.websocket.api.DeviceWS;
 import com.github.devicehive.websocket.api.WebSocketClient;
 import com.github.devicehive.websocket.listener.CommandListener;
 import com.github.devicehive.websocket.listener.DeviceListener;
 import com.github.devicehive.websocket.model.repsonse.*;
-import com.github.devicehive.websocket.model.repsonse.data.DeviceVO;
 
 import java.util.List;
 
@@ -41,17 +41,16 @@ public class WebSocketExample {
         WebSocketClient client = new WebSocketClient
                 .Builder()
                 .url(URL)
-                .token(TOKEN)
                 .build();
 
         DeviceWS deviceWS = client.createDeviceWS(new DeviceListener() {
             @Override
-            public void onList(List<DeviceVO> response) {
+            public void onList(List<Device> response) {
                 System.out.println("LIST:" + response.size());
             }
 
             @Override
-            public void onGet(DeviceVO response) {
+            public void onGet(Device response) {
                 System.out.println("Single:" + response);
             }
 

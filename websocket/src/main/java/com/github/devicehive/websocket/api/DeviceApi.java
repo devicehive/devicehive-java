@@ -21,17 +21,19 @@
 
 package com.github.devicehive.websocket.api;
 
+import com.github.devicehive.rest.model.DeviceUpdate;
+
 interface DeviceApi {
 
 
-    void get( Long requestId, String deviceId);
+    void get(Long requestId, String deviceId);
 
-    void list( Long requestId, String name, String namePattern, Long networkId,
+    void list(Long requestId, String name, String namePattern, Long networkId,
               String networkName, String sortField, String sortOrder, int take, int skip);
 
-    void save( Long requestId, com.github.devicehive.websocket.model.repsonse.data.DeviceVO device);
+    void save(Long requestId, String deviceId, DeviceUpdate deviceUpdate);
 
-    void delete( Long requestId,  String deviceId);
+    void delete(Long requestId, String deviceId);
 
 
 }
