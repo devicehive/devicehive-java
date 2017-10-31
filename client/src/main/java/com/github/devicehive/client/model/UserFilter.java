@@ -21,8 +21,10 @@
 
 package com.github.devicehive.client.model;
 
-import com.github.devicehive.websocket.model.RoleEnum;
-import com.github.devicehive.websocket.model.StatusEnum;
+import com.github.devicehive.rest.model.RoleEnum;
+import com.github.devicehive.rest.model.SortField;
+import com.github.devicehive.rest.model.SortOrder;
+import com.github.devicehive.rest.model.StatusEnum;
 import lombok.Data;
 
 @Data
