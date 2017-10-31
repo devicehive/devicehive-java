@@ -44,6 +44,8 @@ public class WebSocketExample {
                 .token(TOKEN)
                 .build();
 
+        client.authenticate(TOKEN);
+
         DeviceWS deviceWS = client.createDeviceWS(new DeviceListener() {
             @Override
             public void onList(List<DeviceVO> response) {
