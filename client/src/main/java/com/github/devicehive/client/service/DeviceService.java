@@ -64,12 +64,12 @@ class DeviceService extends BaseService {
             response = new DHResponse<Device>(Device.create(result.getData()), result.getFailureData());
             if (response.isSuccessful()) {
                 return response.getData();
-            } else if (response.getFailureData().getCode() == 404) {
+            } else if (response.getFailureData().getCode() == 404 || response.getFailureData().getCode() == 403) {
                 return createAndGetDevice(deviceId);
             } else {
                 return null;
             }
-        } else if (response.getFailureData().getCode() == 404) {
+        } else if (response.getFailureData().getCode() == 404 || response.getFailureData().getCode() == 403) {
             return createAndGetDevice(deviceId);
         } else {
             return null;
