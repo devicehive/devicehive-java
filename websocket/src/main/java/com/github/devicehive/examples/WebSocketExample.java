@@ -33,7 +33,7 @@ import java.util.List;
 
 public class WebSocketExample {
     private static final String URL = "ws://playground.dev.devicehive.com/api/websocket";
-    private static final String TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTAyMzUyODY4NjkzLCJ0b2tlblR5cGUiOiJBQ0NFU1MifX0.oupEODSROiSSc5GqAR1dIXOM3G1s5kiylRaAg02A7h0";
+    private static final String TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTU5MzQ3MjAwMDAwLCJ0IjoxfX0.pBjhmAQ31t5Y1AogEau8m8nCDjRCCndBLtQ3f6R-IBw";
 
     public static void main(String[] args) {
 
@@ -43,6 +43,8 @@ public class WebSocketExample {
                 .url(URL)
                 .token(TOKEN)
                 .build();
+
+        client.authenticate(TOKEN);
 
         DeviceWS deviceWS = client.createDeviceWS(new DeviceListener() {
             @Override
