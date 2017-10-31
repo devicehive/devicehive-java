@@ -22,6 +22,7 @@
 package com.github.devicehive.websocket.api;
 
 import com.github.devicehive.rest.model.DeviceUpdate;
+import com.github.devicehive.rest.model.SortOrder;
 
 interface DeviceApi {
 
@@ -29,7 +30,7 @@ interface DeviceApi {
     void get(Long requestId, String deviceId);
 
     void list(Long requestId, String name, String namePattern, Long networkId,
-              String networkName, String sortField, String sortOrder, int take, int skip);
+              String networkName, String sortField, SortOrder sortOrder, int take, int skip);
 
     void save(Long requestId, String deviceId, DeviceUpdate deviceUpdate);
 

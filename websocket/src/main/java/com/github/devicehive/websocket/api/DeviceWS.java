@@ -22,6 +22,7 @@
 package com.github.devicehive.websocket.api;
 
 import com.github.devicehive.rest.model.DeviceUpdate;
+import com.github.devicehive.rest.model.SortOrder;
 import com.github.devicehive.websocket.listener.DeviceListener;
 import com.github.devicehive.websocket.model.repsonse.DeviceGetResponse;
 import com.github.devicehive.websocket.model.repsonse.DeviceListResponse;
@@ -76,7 +77,7 @@ public class DeviceWS extends BaseWebSocketApi implements DeviceApi {
 
     @Override
     public void list(Long requestId, String name, String namePattern, Long networkId, String networkName,
-                     String sortField, String sortOrder, int take, int skip) {
+                     String sortField, SortOrder sortOrder, int take, int skip) {
         DeviceListAction action = new DeviceListAction();
         action.setName(name);
         action.setNamePattern(namePattern);

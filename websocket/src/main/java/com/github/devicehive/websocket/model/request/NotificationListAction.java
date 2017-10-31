@@ -21,7 +21,7 @@
 
 package com.github.devicehive.websocket.model.request;
 
-import com.github.devicehive.websocket.model.SortOrder;
+import com.github.devicehive.rest.model.SortOrder;
 import com.github.devicehive.websocket.model.ActionConstant;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;

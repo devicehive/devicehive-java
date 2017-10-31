@@ -35,6 +35,8 @@
 package com.github.devicehive.websocket.model.repsonse.data;
 
 import com.github.devicehive.rest.model.JsonStringWrapper;
+import com.github.devicehive.rest.model.RoleEnum;
+import com.github.devicehive.rest.model.StatusEnum;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import org.joda.time.DateTime;
@@ -54,10 +56,10 @@ public class UserWithNetworkVO {
     private String login = null;
 
     @SerializedName("role")
-    private com.github.devicehive.websocket.model.RoleEnum role = null;
+    private RoleEnum role = null;
 
     @SerializedName("status")
-    private com.github.devicehive.websocket.model.StatusEnum status = null;
+    private StatusEnum status = null;
 
     @SerializedName("lastLogin")
     private DateTime lastLogin = null;

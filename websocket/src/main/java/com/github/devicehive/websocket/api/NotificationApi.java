@@ -21,6 +21,7 @@
 
 package com.github.devicehive.websocket.api;
 
+import com.github.devicehive.rest.model.SortOrder;
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -28,7 +29,7 @@ import java.util.List;
 interface NotificationApi {
 
     void list(Long requestId, String deviceId, String notification, DateTime start, DateTime end,
-              String sortField, com.github.devicehive.websocket.model.SortOrder sortOrder, int take, int skip);
+              String sortField, SortOrder sortOrder, int take, int skip);
 
     void get(Long requestId, String deviceId, Long notificationId);
 

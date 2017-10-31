@@ -157,7 +157,7 @@ public class Device implements DeviceInterface {
                             TokenHelper.getInstance().getTokenAuth().setAccessToken(response.body().getAccessToken());
                             wsClient.authenticate(TokenHelper.getInstance().getTokenAuth().getAccessToken());
                             subscribeNotifications(notificationFilter, notificationCallback);
-                        }else {
+                        } else {
                             notificationCallback.onFail(FailureData.create(
                                     ErrorResponse.create(response.code(), BaseService.parseErrorMessage(response))));
                         }
@@ -179,10 +179,7 @@ public class Device implements DeviceInterface {
     private NotificationFilter notificationFilter;
 
     private Device() {
-        wsClient = new WebSocketClient.Builder().url(DeviceHive.getInstance().getWSUrl())
-                .refreshToken(TokenHelper.getInstance().getTokenAuth().getRefreshToken())
-                .token(TokenHelper.getInstance().getTokenAuth().getAccessToken())
-                .build();
+        wsClient = new WebSocketClient.Builder().url(DeviceHive.getInstance().getWSUrl()).build();
         commandWS = wsClient.createCommandWS(commandListener);
         notificationWS = wsClient.createNotificationWS(notificationListener);
     }
