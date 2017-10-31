@@ -61,6 +61,7 @@ public class DeviceTest {
     public void createDevice() throws IOException {
         String deviceId = DEVICE_PREFIX + UUID.randomUUID().toString();
         Device device = deviceHive.getDevice(deviceId);
+        Assert.assertNotNull(device);
         Assert.assertTrue(device != null);
         Assert.assertTrue(deviceHive.removeDevice(deviceId).isSuccessful());
     }
@@ -69,6 +70,7 @@ public class DeviceTest {
     public void getCommands() throws IOException {
         String deviceId = DEVICE_PREFIX + UUID.randomUUID().toString();
         final Device device = deviceHive.getDevice(deviceId);
+        Assert.assertNotNull(device);
         ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
         service.schedule(new Thread(new Runnable() {
             public void run() {
@@ -92,6 +94,7 @@ public class DeviceTest {
     public void subscribeCommands() throws InterruptedException {
         String deviceId = DEVICE_PREFIX + UUID.randomUUID().toString();
         final Device device = deviceHive.getDevice(deviceId);
+        Assert.assertNotNull(device);
         final ScheduledExecutorService service = Executors.newScheduledThreadPool(2);
         final String commandName1 = COM_A + new Random().nextInt();
         final String commandName2 = COM_B + new Random().nextInt();
@@ -166,6 +169,7 @@ public class DeviceTest {
         String deviceId = DEVICE_PREFIX + UUID.randomUUID().toString();
 
         final Device device = deviceHive.getDevice(deviceId);
+        Assert.assertNotNull(device);
         final CountDownLatch latch = new CountDownLatch(3);
         final String notificationName1 = NOTIFICATION_A + new Random().nextInt();
         final String notificationName2 = NOTIFICATION_B + new Random().nextInt();
@@ -240,6 +244,7 @@ public class DeviceTest {
     public void getNotification() throws IOException {
         String deviceId = UUID.randomUUID().toString();
         final Device device = deviceHive.getDevice(deviceId);
+        Assert.assertNotNull(device);
         ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
         service.schedule(new Thread(new Runnable() {
             public void run() {
@@ -262,7 +267,7 @@ public class DeviceTest {
     public void sendNotification() throws IOException {
         String deviceId = DEVICE_PREFIX + UUID.randomUUID().toString();
         Device device = deviceHive.getDevice(deviceId);
-
+        Assert.assertNotNull(device);
         List<Parameter> parameters = new ArrayList<Parameter>();
 
         parameters.add(new Parameter("Param 1", "Value 1"));

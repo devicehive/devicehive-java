@@ -45,6 +45,7 @@ public class CommandTest {
 
     @Test
     public void createAndUpdate() throws InterruptedException {
+        Assert.assertNotNull(device);
         DHResponse<DeviceCommand> response = device.sendCommand(COM_A, null);
         Assert.assertTrue(response.isSuccessful());
         DeviceCommand command = response.getData();
