@@ -21,12 +21,13 @@
 
 package com.github.devicehive.websocket.api;
 
+import com.github.devicehive.rest.model.DeviceUpdate;
 import com.github.devicehive.websocket.listener.DeviceListener;
 import com.github.devicehive.websocket.model.repsonse.DeviceGetResponse;
 import com.github.devicehive.websocket.model.repsonse.DeviceListResponse;
 import com.github.devicehive.websocket.model.repsonse.ResponseAction;
-import com.github.devicehive.websocket.model.repsonse.data.DeviceVO;
 import com.github.devicehive.websocket.model.request.DeviceDeleteAction;
+import com.github.devicehive.websocket.model.request.DeviceGetAction;
 import com.github.devicehive.websocket.model.request.DeviceListAction;
 import com.github.devicehive.websocket.model.request.DeviceSaveAction;
 
@@ -66,15 +67,16 @@ public class DeviceWS extends BaseWebSocketApi implements DeviceApi {
     }
 
     @Override
-    public void get( Long requestId, String deviceId) {
-        com.github.devicehive.websocket.model.request.DeviceGetAction action = new com.github.devicehive.websocket.model.request.DeviceGetAction();
+    public void get(Long requestId, String deviceId) {
+        DeviceGetAction action = new DeviceGetAction();
         action.setDeviceId(deviceId);
         action.setRequestId(requestId);
         send(action);
     }
 
     @Override
-    public void list( Long requestId, String name, String namePattern, Long networkId, String networkName, String sortField, String sortOrder, int take, int skip) {
+    public void list(Long requestId, String name, String namePattern, Long networkId, String networkName,
+                     String sortField, String sortOrder, int take, int skip) {
         DeviceListAction action = new DeviceListAction();
         action.setName(name);
         action.setNamePattern(namePattern);
@@ -90,16 +92,17 @@ public class DeviceWS extends BaseWebSocketApi implements DeviceApi {
     }
 
     @Override
-    public void save( Long requestId,  DeviceVO device) {
+    public void save(Long requestId, String deviceId, DeviceUpdate deviceUpdate) {
         DeviceSaveAction action = new DeviceSaveAction();
-        action.setDevice(device);
+        action.setDevice(deviceUpdate);
+        action.setDeviceId(deviceId);
         action.setRequestId(requestId);
         send(action);
     }
 
 
     @Override
-    public void delete( Long requestId,  String deviceId) {
+    public void delete(Long requestId, String deviceId) {
         DeviceDeleteAction action = new DeviceDeleteAction();
         action.setDeviceId(deviceId);
         action.setRequestId(requestId);

@@ -21,16 +21,19 @@
 
 package com.github.devicehive.websocket.listener;
 
+import com.github.devicehive.rest.model.Device;
+import com.github.devicehive.websocket.model.repsonse.ResponseAction;
+
 import java.util.List;
 
-public interface DeviceListener  extends ErrorListener{
+public interface DeviceListener extends ErrorListener {
 
-    void onList(List<com.github.devicehive.websocket.model.repsonse.data.DeviceVO> response);
+    void onList(List<Device> response);
 
-    void onGet(com.github.devicehive.websocket.model.repsonse.data.DeviceVO response);
+    void onGet(Device response);
 
-    void onDelete(com.github.devicehive.websocket.model.repsonse.ResponseAction response);
+    void onDelete(ResponseAction response);
 
-    void onSave(com.github.devicehive.websocket.model.repsonse.ResponseAction response);
+    void onSave(ResponseAction response);
 
 }

@@ -1,7 +1,7 @@
 /*
  *
  *
- *   TokenHelper.java
+ *   DeviceTest.java
  *
  *   Copyright (C) 2017 DataArt
  *
@@ -19,25 +19,9 @@
  *
  */
 
-package com.github.devicehive.websocket.api;
+package com.github.devicehive.websocket;
 
-class TokenHelper {
-    private final TokenAuth tokenAuth;
+public class DeviceTest {
 
-    TokenHelper() {
-        tokenAuth = new TokenAuth();
-    }
 
-    private static class InstanceHolder {
-        static final TokenHelper INSTANCE = new TokenHelper();
-    }
-
-    static TokenHelper getInstance() {
-        return TokenHelper.InstanceHolder.INSTANCE;
-    }
-
-    TokenAuth getTokenAuth() {
-        return tokenAuth;
-    }
 }
-
