@@ -29,7 +29,8 @@ class Helper {
         final CountDownLatch latch = new CountDownLatch(1);
 
         final Counter counter = new Counter();
-        ConfigurationWS configurationWS = client.createConfigurationWS(new ConfigurationListener() {
+        final ConfigurationWS configurationWS = client.createConfigurationWS();
+        configurationWS.setListener(new ConfigurationListener() {
             @Override
             public void onGet(ConfigurationGetResponse response) {
 

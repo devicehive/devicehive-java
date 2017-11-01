@@ -22,7 +22,8 @@ public class ConfigurationWebSocketTest extends Helper {
 
         authenticate();
 
-        ConfigurationWS configurationWS = client.createConfigurationWS(new ConfigurationListener() {
+        final ConfigurationWS configurationWS = client.createConfigurationWS();
+        configurationWS.setListener(new ConfigurationListener() {
             @Override
             public void onGet(ConfigurationGetResponse response) {
 
@@ -58,7 +59,8 @@ public class ConfigurationWebSocketTest extends Helper {
 
         authenticate();
 
-        ConfigurationWS configurationWS = client.createConfigurationWS(new ConfigurationListener() {
+        final ConfigurationWS configurationWS = client.createConfigurationWS();
+        configurationWS.setListener(new ConfigurationListener() {
             @Override
             public void onGet(ConfigurationGetResponse response) {
                 Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
@@ -70,6 +72,7 @@ public class ConfigurationWebSocketTest extends Helper {
             @Override
             public void onPut(ConfigurationInsertResponse response) {
                 Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
+                configurationWS.get(null, CONFIGURATION_NAME);
             }
 
             @Override
@@ -85,7 +88,6 @@ public class ConfigurationWebSocketTest extends Helper {
         });
 
         configurationWS.put(null, CONFIGURATION_NAME, CONFIGURATION_VALUE);
-        configurationWS.get(null, CONFIGURATION_NAME);
         latch.await(awaitTimeout, awaitTimeUnit);
 
         Assert.assertTrue(deleteConfigurations(CONFIGURATION_NAME));
@@ -97,7 +99,8 @@ public class ConfigurationWebSocketTest extends Helper {
 
         authenticate();
 
-        ConfigurationWS configurationWS = client.createConfigurationWS(new ConfigurationListener() {
+        final ConfigurationWS configurationWS = client.createConfigurationWS();
+        configurationWS.setListener(new ConfigurationListener() {
             @Override
             public void onGet(ConfigurationGetResponse response) {
 
@@ -106,6 +109,7 @@ public class ConfigurationWebSocketTest extends Helper {
             @Override
             public void onPut(ConfigurationInsertResponse response) {
                 Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
+                configurationWS.delete(null, CONFIGURATION_NAME);
             }
 
             @Override
@@ -122,7 +126,6 @@ public class ConfigurationWebSocketTest extends Helper {
         });
 
         configurationWS.put(null, CONFIGURATION_NAME, CONFIGURATION_VALUE);
-        configurationWS.delete(null, CONFIGURATION_NAME);
         latch.await(awaitTimeout, awaitTimeUnit);
     }
 }
