@@ -3,7 +3,6 @@ package com.github.devicehive.websocket;
 import com.github.devicehive.websocket.api.ConfigurationWS;
 import com.github.devicehive.websocket.api.WebSocketClient;
 import com.github.devicehive.websocket.listener.ConfigurationListener;
-import com.github.devicehive.websocket.model.ActionConstant;
 import com.github.devicehive.websocket.model.repsonse.*;
 
 import java.util.concurrent.CountDownLatch;
@@ -20,7 +19,6 @@ class Helper {
     WebSocketClient client = new WebSocketClient
             .Builder()
             .url(URL)
-            .token(ACCESS_TOKEN)
             .build();
 
     void authenticate() {
