@@ -180,8 +180,10 @@ public class Device implements DeviceInterface {
 
     private Device() {
         wsClient = new WebSocketClient.Builder().url(DeviceHive.getInstance().getWSUrl()).build();
-        commandWS = wsClient.createCommandWS(commandListener);
-        notificationWS = wsClient.createNotificationWS(notificationListener);
+        commandWS = wsClient.createCommandWS();
+        commandWS.setListener(commandListener);
+        notificationWS = wsClient.createNotificationWS();
+        notificationWS.setListener(notificationListener);
     }
 
     static Device create(com.github.devicehive.rest.model.Device device) {

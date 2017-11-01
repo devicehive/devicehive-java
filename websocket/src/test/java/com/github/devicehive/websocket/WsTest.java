@@ -48,7 +48,8 @@ public class WsTest {
     public void getToken() throws InterruptedException {
         final CountDownLatch latch = new CountDownLatch(1);
 
-       TokenWS tokenWS = client.createTokenWS(new TokenListener() {
+        TokenWS tokenWS = client.createTokenWS();
+        tokenWS.setListener(new TokenListener() {
             @Override
             public void onGet(TokenGetResponse response) {
                 Assert.assertTrue(response.getAccessToken() != null);
@@ -82,7 +83,8 @@ public class WsTest {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                CommandWS commandWS = client.createCommandWS(new CommandListener() {
+                CommandWS commandWS = client.createCommandWS();
+                commandWS.setListener(new CommandListener() {
                     @Override
                     public void onInsert(CommandInsertResponse response) {
                         System.out.println(response);

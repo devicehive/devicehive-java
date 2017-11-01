@@ -33,7 +33,7 @@ import java.util.List;
 
 public class WebSocketExample {
     private static final String URL = "ws://playground.dev.devicehive.com/api/websocket";
-    private static final String TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTU5MzQ3MjAwMDAwLCJ0IjoxfX0.pBjhmAQ31t5Y1AogEau8m8nCDjRCCndBLtQ3f6R-IBw";
+    private static final String TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTAyMzUyODY4NjkzLCJ0b2tlblR5cGUiOiJBQ0NFU1MifX0.oupEODSROiSSc5GqAR1dIXOM3G1s5kiylRaAg02A7h0";
 
     public static void main(String[] args) {
 
@@ -43,9 +43,8 @@ public class WebSocketExample {
                 .url(URL)
                 .build();
 
-        client.authenticate(TOKEN);
-
-        DeviceWS deviceWS = client.createDeviceWS(new DeviceListener() {
+        DeviceWS deviceWS = client.createDeviceWS();
+        deviceWS.setListener(new DeviceListener() {
             @Override
             public void onList(List<Device> response) {
                 System.out.println("LIST:" + response.size());
@@ -72,7 +71,8 @@ public class WebSocketExample {
             }
         });
 
-        CommandWS commandWS = client.createCommandWS(new CommandListener() {
+        CommandWS commandWS = client.createCommandWS();
+        commandWS.setListener(new CommandListener() {
             @Override
             public void onInsert(CommandInsertResponse response) {
                 System.out.println(response);

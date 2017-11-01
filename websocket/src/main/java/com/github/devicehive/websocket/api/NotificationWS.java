@@ -35,10 +35,14 @@ import static com.github.devicehive.websocket.model.ActionConstant.*;
 public class NotificationWS extends BaseWebSocketApi implements NotificationApi {
 
     static final String TAG = "notification";
-    private final NotificationListener listener;
+    private NotificationListener listener;
 
-    NotificationWS(WebSocketClient client, NotificationListener listener) {
-        super(client, listener);
+    NotificationWS(WebSocketClient client) {
+        super(client, null);
+    }
+
+    public void setListener(NotificationListener listener) {
+        super.setListener(listener);
         this.listener = listener;
     }
 
