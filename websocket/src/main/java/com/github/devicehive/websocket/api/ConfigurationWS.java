@@ -22,7 +22,9 @@
 package com.github.devicehive.websocket.api;
 
 import com.github.devicehive.websocket.listener.ConfigurationListener;
+import com.github.devicehive.websocket.model.request.ConfigurationDeleteAction;
 import com.github.devicehive.websocket.model.request.ConfigurationGetAction;
+import com.github.devicehive.websocket.model.request.ConfigurationInsertAction;
 
 import static com.github.devicehive.websocket.model.ActionConstant.*;
 
@@ -51,9 +53,9 @@ public class ConfigurationWS extends BaseWebSocketApi implements ConfigurationAp
         if (actionName.equalsIgnoreCase(CONFIGURATION_GET)) {
             com.github.devicehive.websocket.model.repsonse.ConfigurationGetResponse response = gson.fromJson(message, com.github.devicehive.websocket.model.repsonse.ConfigurationGetResponse.class);
             listener.onGet(response);
-        } else if (actionName.equalsIgnoreCase(CONFIGURATION_INSERT)) {
+        } else if (actionName.equalsIgnoreCase(CONFIGURATION_PUT)) {
             com.github.devicehive.websocket.model.repsonse.ConfigurationInsertResponse response = gson.fromJson(message, com.github.devicehive.websocket.model.repsonse.ConfigurationInsertResponse.class);
-            listener.onInsert(response);
+            listener.onPut(response);
         } else if (actionName.equalsIgnoreCase(CONFIGURATION_DELETE)) {
             listener.onDelete(action);
 
@@ -70,7 +72,7 @@ public class ConfigurationWS extends BaseWebSocketApi implements ConfigurationAp
 
     @Override
     public void put( Long requestId, String name, String value) {
-        com.github.devicehive.websocket.model.request.ConfigurationInsertAction action = new com.github.devicehive.websocket.model.request.ConfigurationInsertAction();
+        ConfigurationInsertAction action = new ConfigurationInsertAction();
         action.setName(name);
         action.setValue(value);
         action.setRequestId(requestId);
@@ -79,7 +81,7 @@ public class ConfigurationWS extends BaseWebSocketApi implements ConfigurationAp
 
     @Override
     public void delete( Long requestId, String name) {
-        com.github.devicehive.websocket.model.request.ConfigurationDeleteAction action = new com.github.devicehive.websocket.model.request.ConfigurationDeleteAction();
+        ConfigurationDeleteAction action = new ConfigurationDeleteAction();
         action.setName(name);
         action.setRequestId(requestId);
         send(action);
