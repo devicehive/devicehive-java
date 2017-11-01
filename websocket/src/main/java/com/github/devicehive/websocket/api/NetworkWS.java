@@ -31,11 +31,15 @@ import com.github.devicehive.websocket.model.request.data.NetworkUpdate;
 public class NetworkWS extends BaseWebSocketApi implements NetworkApi {
 
     static final String TAG = "network";
-    private final NetworkListener listener;
+    private NetworkListener listener;
 
 
-    NetworkWS(WebSocketClient client, NetworkListener listener) {
-        super(client, listener);
+    NetworkWS(WebSocketClient client) {
+        super(client, null);
+    }
+
+    public void setListener(NetworkListener listener) {
+        super.setListener(listener);
         this.listener = listener;
     }
 
@@ -48,7 +52,6 @@ public class NetworkWS extends BaseWebSocketApi implements NetworkApi {
     public void onSuccess(String message) {
         com.github.devicehive.websocket.model.repsonse.ResponseAction action = getResponseAction(message);
         String actionName = action.getAction();
-
         if (actionName.equalsIgnoreCase(ActionConstant.NETWORK_LIST)) {
             NetworkListResponse response = gson.fromJson(message, NetworkListResponse.class);
             listener.onList(response);

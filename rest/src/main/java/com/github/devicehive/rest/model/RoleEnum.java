@@ -19,7 +19,7 @@
  *
  */
 
-package com.github.devicehive.websocket.model;
+package com.github.devicehive.rest.model;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.JsonAdapter;

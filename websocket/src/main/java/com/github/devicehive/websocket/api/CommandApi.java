@@ -21,7 +21,7 @@
 
 package com.github.devicehive.websocket.api;
 
-import com.github.devicehive.websocket.model.SortOrder;
+import com.github.devicehive.rest.model.SortOrder;
 import com.github.devicehive.websocket.model.request.data.DeviceCommandWrapper;
 import org.joda.time.DateTime;
 
@@ -32,7 +32,7 @@ interface CommandApi {
 
     void get( Long requestId, String deviceId, Long commandId);
 
-    void list( Long requestId, String deviceId, DateTime start, DateTime end, String commandName, String status,
+    void list(Long requestId, String deviceId, DateTime start, DateTime end, String commandName, String status,
               SortOrder sortOrder, Integer take, Integer skip);
 
     void insert( Long requestId, String deviceId, DeviceCommandWrapper wrapper);

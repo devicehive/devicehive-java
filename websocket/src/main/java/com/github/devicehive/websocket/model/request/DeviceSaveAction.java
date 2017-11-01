@@ -21,6 +21,7 @@
 
 package com.github.devicehive.websocket.model.request;
 
+import com.github.devicehive.rest.model.DeviceUpdate;
 import com.github.devicehive.websocket.model.ActionConstant;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
@@ -29,20 +30,15 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class DeviceSaveAction extends RequestAction {
-
+    @SerializedName("deviceId")
+    private String deviceId;
 
     @SerializedName("device")
-    com.github.devicehive.websocket.model.repsonse.data.DeviceVO device;
+    DeviceUpdate device;
 
     public DeviceSaveAction() {
         super(ActionConstant.DEVICE_SAVE);
     }
 
-    @Override
-    public String toString() {
-        return "{\n\"DeviceSaveAction\":{\n"
-                + "\"device\":" + device
-                + ",\n \"requestId\":\"" + requestId + "\""
-                + "}\n}";
-    }
+
 }

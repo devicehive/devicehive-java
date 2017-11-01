@@ -42,14 +42,14 @@ public class WsTest {
     WebSocketClient client = new WebSocketClient
             .Builder()
             .url(URL)
-            .token("eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InVzZXJJZCI6MSwiYWN0aW9ucyI6WyIqIl0sIm5ldHdvcmtJZHMiOlsiKiJdLCJkZXZpY2VJZHMiOlsiKiJdLCJleHBpcmF0aW9uIjoxNTA3MTMzNDc1ODc0LCJ0b2tlblR5cGUiOiJBQ0NFU1MifX0.GSv9TeacJlT6GN8F_b9zHQVekr8Tvxmvy_hrO07qxr4")
             .build();
 
     @Test
     public void getToken() throws InterruptedException {
         final CountDownLatch latch = new CountDownLatch(1);
 
-       TokenWS tokenWS = client.createTokenWS(new TokenListener() {
+        TokenWS tokenWS = client.createTokenWS();
+        tokenWS.setListener(new TokenListener() {
             @Override
             public void onGet(TokenGetResponse response) {
                 Assert.assertTrue(response.getAccessToken() != null);
@@ -83,9 +83,10 @@ public class WsTest {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                CommandWS commandWS = client.createCommandWS(new CommandListener() {
+                CommandWS commandWS = client.createCommandWS();
+                commandWS.setListener(new CommandListener() {
                     @Override
-                    public void onInsert(com.github.devicehive.websocket.model.repsonse.CommandInsertResponse response) {
+                    public void onInsert(CommandInsertResponse response) {
                         System.out.println(response);
                     }
 

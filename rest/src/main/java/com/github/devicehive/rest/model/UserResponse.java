@@ -54,10 +54,10 @@ public class UserResponse {
 
 
   @SerializedName("role")
-  private User.RoleEnum role = null;
+  private RoleEnum role = null;
 
   @SerializedName("status")
-  private User.StatusEnum status = null;
+  private StatusEnum status = null;
 
   @SerializedName("networks")
   private List<UserNetworkResponse> networks = null;
