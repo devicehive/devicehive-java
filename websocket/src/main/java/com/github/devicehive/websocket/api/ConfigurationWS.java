@@ -31,9 +31,12 @@ public class ConfigurationWS extends BaseWebSocketApi implements ConfigurationAp
     static final String TAG = "configuration";
     private ConfigurationListener listener;
 
-    ConfigurationWS(WebSocketClient client, ConfigurationListener listener) {
-        super(client, listener);
-        this.listener = listener;
+    ConfigurationWS(WebSocketClient client) {
+        super(client,null);
+    }
+    public void setListener(ConfigurationListener listener){
+        super.setListener(listener);
+        this.listener=listener;
     }
 
     @Override

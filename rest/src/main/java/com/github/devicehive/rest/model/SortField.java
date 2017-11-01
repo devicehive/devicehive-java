@@ -1,7 +1,7 @@
 /*
  *
  *
- *   SortOrder.java
+ *   SortField.java
  *
  *   Copyright (C) 2017 DataArt
  *
@@ -19,17 +19,17 @@
  *
  */
 
-package com.github.devicehive.client.model;
+package com.github.devicehive.rest.model;
 
-public enum SortOrder {
-    ASC("ASC"), DESC("DESC");
-    private String sortOrder;
+public enum SortField {
+    ID("ID"), DESC("NAME");
+    private String sortField;
 
-    SortOrder(String sortOrder) {
-        this.sortOrder = sortOrder;
+    SortField(String sortField) {
+        this.sortField = sortField;
     }
 
-    public String sortOrder() {
-        return sortOrder;
+    public String sortField() {
+        return sortField;
     }
 }

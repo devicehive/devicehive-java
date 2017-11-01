@@ -30,17 +30,20 @@ import com.google.gson.Gson;
 import okhttp3.WebSocket;
 
 public abstract class BaseWebSocketApi {
-    private final ErrorListener listener;
+    private ErrorListener listener;
     private final WebSocketClient client;
     private WebSocket ws;
     Gson gson = GsonHelper.getInstance().getGsonFactory();
 
     BaseWebSocketApi(WebSocketClient client, ErrorListener listener) {
-        this.listener = listener;
         this.client = client;
+        this.listener = listener;
         this.ws = client.getWebSocket();
     }
 
+    void setListener(ErrorListener listener) {
+        this.listener = listener;
+    }
 
     public abstract String getKey();
 
@@ -56,6 +59,9 @@ public abstract class BaseWebSocketApi {
     public abstract void onSuccess(String message);
 
     void onMessage(String message) {
+        if (listener == null) {
+            return;
+        }
         ResponseAction action = getResponseAction(message);
         if (action.getStatus() == null || action.getStatus().equalsIgnoreCase(ResponseAction.SUCCESS)) {
             onSuccess(message);

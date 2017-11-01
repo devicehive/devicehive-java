@@ -21,9 +21,9 @@
 
 package com.github.devicehive.websocket.api;
 
+import com.github.devicehive.rest.model.SortOrder;
 import com.github.devicehive.websocket.listener.CommandListener;
 import com.github.devicehive.websocket.model.ActionConstant;
-import com.github.devicehive.websocket.model.SortOrder;
 import com.github.devicehive.websocket.model.repsonse.*;
 import com.github.devicehive.websocket.model.request.*;
 import com.github.devicehive.websocket.model.request.data.DeviceCommandWrapper;
@@ -36,10 +36,14 @@ public class CommandWS extends BaseWebSocketApi implements CommandApi {
 
     static final String TAG = "command";
 
-    private com.github.devicehive.websocket.listener.CommandListener listener;
+    private CommandListener listener;
 
-    CommandWS(WebSocketClient client, CommandListener listener) {
-        super(client, listener);
+    CommandWS(WebSocketClient client) {
+        super(client, null);
+    }
+
+    public void setListener(CommandListener listener) {
+        super.setListener(listener);
         this.listener = listener;
     }
 

@@ -21,7 +21,9 @@
 
 package com.github.devicehive.websocket.model.request;
 
-import com.github.devicehive.websocket.model.SortOrder;
+import com.github.devicehive.rest.model.RoleEnum;
+import com.github.devicehive.rest.model.SortOrder;
+import com.github.devicehive.rest.model.StatusEnum;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -37,9 +39,9 @@ public class UserListAction extends RequestAction {
     @SerializedName("loginPattern")
     private String loginPattern;
     @SerializedName("status")
-    private com.github.devicehive.websocket.model.StatusEnum status;
+    private StatusEnum status;
     @SerializedName("role")
-    private com.github.devicehive.websocket.model.RoleEnum role;
+    private RoleEnum role;
     @SerializedName("sortField")
     private String sortField;
     @SerializedName("sortOrder")

@@ -28,8 +28,6 @@ import com.github.devicehive.client.model.*;
 import com.github.devicehive.client.model.DeviceNotification;
 import com.github.devicehive.rest.api.AuthApi;
 import com.github.devicehive.rest.model.*;
-import com.github.devicehive.rest.model.User.RoleEnum;
-import com.github.devicehive.rest.model.User.StatusEnum;
 import com.github.devicehive.websocket.api.CommandWS;
 import com.github.devicehive.websocket.api.NotificationWS;
 import com.github.devicehive.websocket.api.WebSocketClient;
@@ -155,15 +153,13 @@ public class DeviceHive implements MainDeviceHive {
     }
 
     private void createWSClient() {
-        wsClient = new WebSocketClient.Builder().url(wsUrl)
-                .refreshToken(TokenHelper.getInstance().getTokenAuth().getRefreshToken())
-                .token(TokenHelper.getInstance().getTokenAuth().getAccessToken())
-                .build();
+        wsClient = new WebSocketClient.Builder().url(wsUrl).build();
     }
 
     private void createWsServices() {
         createWSClient();
-        notificationWS = wsClient.createNotificationWS(new NotificationListener() {
+        notificationWS = wsClient.createNotificationWS();
+        notificationWS.setListener(new NotificationListener() {
             @Override
             public void onList(NotificationListResponse response) {
                 notificationsCallback.onSuccess(DeviceNotification.createListFromWS(response.getNotifications()));
@@ -217,7 +213,8 @@ public class DeviceHive implements MainDeviceHive {
             }
 
         });
-        commandWS = wsClient.createCommandWS(new CommandListener() {
+        commandWS = wsClient.createCommandWS();
+        commandWS.setListener(new CommandListener() {
             @Override
             public void onList(CommandListResponse response) {
                 commandsCallback.onSuccess(DeviceCommand.createList(response.getCommands()));
