@@ -38,7 +38,7 @@ public class ActionConstant {
 
     public static final String CONFIGURATION_DELETE = "configuration/delete";
     public static final String CONFIGURATION_GET = "configuration/get";
-    public static final String CONFIGURATION_INSERT = "configuration/put";
+    public static final String CONFIGURATION_PUT = "configuration/put";
 
     public static final String DEVICE_GET = "device/get";
     public static final String DEVICE_DELETE = "device/delete";
