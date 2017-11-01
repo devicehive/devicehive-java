@@ -35,11 +35,15 @@ import static com.github.devicehive.websocket.model.ActionConstant.*;
 public class UserWS extends BaseWebSocketApi implements UserApi {
 
     static final String TAG = "user";
-    private final UserListener listener;
+    private UserListener listener;
 
 
-    UserWS(WebSocketClient client, UserListener listener) {
-        super(client, listener);
+    UserWS(WebSocketClient client) {
+        super(client, null);
+    }
+
+    public void setListener(UserListener listener) {
+        super.setListener(listener);
         this.listener = listener;
     }
 
@@ -50,27 +54,27 @@ public class UserWS extends BaseWebSocketApi implements UserApi {
 
     @Override
     public void onSuccess(String message) {
-       ResponseAction action = getResponseAction(message);
+        ResponseAction action = getResponseAction(message);
         if (action.compareAction(USER_LIST)) {
-           UserListResponse response = gson.fromJson(message,UserListResponse.class);
+            UserListResponse response = gson.fromJson(message, UserListResponse.class);
             listener.onList(response);
         } else if (action.compareAction(USER_GET)) {
-           UserGetResponse response = gson.fromJson(message,UserGetResponse.class);
+            UserGetResponse response = gson.fromJson(message, UserGetResponse.class);
             listener.onGet(response);
         } else if (action.compareAction(USER_INSERT)) {
-           UserInsertResponse response = gson.fromJson(message,UserInsertResponse.class);
+            UserInsertResponse response = gson.fromJson(message, UserInsertResponse.class);
             listener.onInsert(response);
         } else if (action.compareAction(USER_UPDATE)) {
             listener.onUpdate(action);
         } else if (action.compareAction(USER_DELETE)) {
             listener.onDelete(action);
         } else if (action.compareAction(USER_GET_CURRENT)) {
-           UserGetCurrentResponse response = gson.fromJson(message, UserGetCurrentResponse.class);
+            UserGetCurrentResponse response = gson.fromJson(message, UserGetCurrentResponse.class);
             listener.onGetCurrent(response);
         } else if (action.compareAction(USER_UPDATE_CURRENT)) {
             listener.onUpdateCurrent(action);
         } else if (action.compareAction(USER_GET_NETWORK)) {
-           UserGetNetworkResponse response = gson.fromJson(message,UserGetNetworkResponse.class);
+            UserGetNetworkResponse response = gson.fromJson(message, UserGetNetworkResponse.class);
             listener.onGetNetwork(response);
         } else if (action.compareAction(USER_ASSIGN_NETWORK)) {
             listener.onAssignNetwork(action);
@@ -95,7 +99,7 @@ public class UserWS extends BaseWebSocketApi implements UserApi {
     }
 
     @Override
-    public void get( Long requestId, Long userId) {
+    public void get(Long requestId, Long userId) {
         UserGetAction action = new UserGetAction();
         action.setRequestId(requestId);
         action.setUserId(userId);
@@ -103,7 +107,7 @@ public class UserWS extends BaseWebSocketApi implements UserApi {
     }
 
     @Override
-    public void insert( Long requestId, User user) {
+    public void insert(Long requestId, User user) {
         UserInsertAction action = new UserInsertAction();
         action.setRequestId(requestId);
         action.setUser(user);
@@ -111,7 +115,7 @@ public class UserWS extends BaseWebSocketApi implements UserApi {
     }
 
     @Override
-    public void update( Long requestId, Long userId, UserUpdate user) {
+    public void update(Long requestId, Long userId, UserUpdate user) {
         UserUpdateAction action = new UserUpdateAction();
         action.setRequestId(requestId);
         action.setUserId(userId);
@@ -120,7 +124,7 @@ public class UserWS extends BaseWebSocketApi implements UserApi {
     }
 
     @Override
-    public void delete( Long requestId, Long userId) {
+    public void delete(Long requestId, Long userId) {
         UserDeleteAction action = new UserDeleteAction();
         action.setRequestId(requestId);
         action.setUserId(userId);
@@ -128,14 +132,14 @@ public class UserWS extends BaseWebSocketApi implements UserApi {
     }
 
     @Override
-    public void getCurrent( Long requestId) {
+    public void getCurrent(Long requestId) {
         UserGetCurrentAction action = new UserGetCurrentAction();
         action.setRequestId(requestId);
         send(action);
     }
 
     @Override
-    public void updateCurrent( Long requestId, UserUpdate user) {
+    public void updateCurrent(Long requestId, UserUpdate user) {
         UserUpdateCurrentAction action = new UserUpdateCurrentAction();
         action.setRequestId(requestId);
         action.setUser(user);
@@ -143,7 +147,7 @@ public class UserWS extends BaseWebSocketApi implements UserApi {
     }
 
     @Override
-    public void getNetwork( Long requestId, Long userId, Long networkId) {
+    public void getNetwork(Long requestId, Long userId, Long networkId) {
         UserGetNetworkAction action = new UserGetNetworkAction();
         action.setRequestId(requestId);
         action.setUserId(userId);
@@ -152,7 +156,7 @@ public class UserWS extends BaseWebSocketApi implements UserApi {
     }
 
     @Override
-    public void assignNetwork( Long requestId, Long userId, Long networkId) {
+    public void assignNetwork(Long requestId, Long userId, Long networkId) {
         UserAssignNetworkAction action = new UserAssignNetworkAction();
         action.setRequestId(requestId);
         action.setUserId(userId);
@@ -161,7 +165,7 @@ public class UserWS extends BaseWebSocketApi implements UserApi {
     }
 
     @Override
-    public void unassignNetwork( Long requestId, Long userId, Long networkId) {
+    public void unassignNetwork(Long requestId, Long userId, Long networkId) {
         UserUnassignNetworkAction action = new UserUnassignNetworkAction();
         action.setRequestId(requestId);
         action.setUserId(userId);

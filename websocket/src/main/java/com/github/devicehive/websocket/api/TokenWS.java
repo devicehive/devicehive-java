@@ -35,8 +35,12 @@ public class TokenWS extends BaseWebSocketApi implements TokenApi {
     static final String TAG = "token";
     private TokenListener tokenListener;
 
-    TokenWS(WebSocketClient client, TokenListener listener) {
-        super(client, listener);
+    TokenWS(WebSocketClient client) {
+        super(client, null);
+    }
+
+    public void setListener(TokenListener listener) {
+        super.setListener(listener);
         this.tokenListener = listener;
     }
 

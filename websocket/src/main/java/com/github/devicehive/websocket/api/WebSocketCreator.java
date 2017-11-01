@@ -21,21 +21,19 @@
 
 package com.github.devicehive.websocket.api;
 
-import com.github.devicehive.websocket.listener.NotificationListener;
-
 interface WebSocketCreator {
 
-    DeviceWS createDeviceWS(com.github.devicehive.websocket.listener.DeviceListener listener);
+    DeviceWS createDeviceWS();
 
-    CommandWS createCommandWS(com.github.devicehive.websocket.listener.CommandListener listener);
+    CommandWS createCommandWS();
 
-    ConfigurationWS createConfigurationWS(com.github.devicehive.websocket.listener.ConfigurationListener listener);
+    ConfigurationWS createConfigurationWS();
 
-    NotificationWS createNotificationWS(NotificationListener listener);
+    NotificationWS createNotificationWS();
 
-    NetworkWS createNetworkWS(com.github.devicehive.websocket.listener.NetworkListener listener);
+    NetworkWS createNetworkWS();
 
-    TokenWS createTokenWS(com.github.devicehive.websocket.listener.TokenListener listener);
+    TokenWS createTokenWS();
 
-    UserWS createUserWS(com.github.devicehive.websocket.listener.UserListener listener);
+    UserWS createUserWS();
 }
