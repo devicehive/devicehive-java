@@ -231,7 +231,7 @@ allprojects {
 Gradle is the only supported build configuration, so just add the dependency to your project `build.gradle` file:
  ```groovy
 dependencies {  
-   compile 'com.github.devicehive:devicehive-java:3.0.1'
+   compile 'com.github.devicehive:devicehive-java:3.0.2'
 }
 ```
 DeviceHive Server
@@ -243,7 +243,7 @@ DeviceHive license
 ------------------
 
 [DeviceHive] is developed by [DataArt] Apps and distributed under Open Source
-[MIT license](http://en.wikipedia.org/wiki/MIT_License). This basically means
+[Apache 2.0](https://en.wikipedia.org/wiki/Apache_License). This basically means
 you can do whatever you want with the software as long as the copyright notice
 is included. This also means you don't have to contribute the end product or
 modified sources back to Open Source, but if you feel like sharing, you are

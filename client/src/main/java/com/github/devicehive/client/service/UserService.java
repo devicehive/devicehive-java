@@ -24,12 +24,7 @@ package com.github.devicehive.client.service;
 import com.github.devicehive.client.model.DHResponse;
 import com.github.devicehive.client.model.UserFilter;
 import com.github.devicehive.rest.api.UserApi;
-import com.github.devicehive.rest.model.JsonStringWrapper;
-import com.github.devicehive.rest.model.UserUpdate;
-import com.github.devicehive.rest.model.UserVO;
-import com.github.devicehive.rest.model.UserWithNetwork;
-import com.github.devicehive.rest.model.User.RoleEnum;
-import com.github.devicehive.rest.model.User.StatusEnum;
+import com.github.devicehive.rest.model.*;
 
 import java.util.List;
 
@@ -74,7 +69,7 @@ public class UserService extends BaseService {
 
     }
 
-    public DHResponse<User> createUser(String login, String password, com.github.devicehive.rest.model.User.RoleEnum role, com.github.devicehive.rest.model.User.StatusEnum statusEnum, JsonStringWrapper data) {
+    public DHResponse<User> createUser(String login, String password, RoleEnum role, StatusEnum statusEnum, JsonStringWrapper data) {
         UserApi userApi = createService(UserApi.class);
         UserUpdate userUpdate = createUserBody(login, password, role, statusEnum, data);
         DHResponse<User> response;

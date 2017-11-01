@@ -35,8 +35,8 @@ public class UserApiTest extends Helper {
     private static final String LOGIN = "L0G1N_DAT_1Z_UN1CK";
     private static final String PASSWORD = "PASSWORD";
     private static final String NETWORK_NAME = "TEST NETWORK";
-    private static final User.RoleEnum ROLE = User.RoleEnum.ADMIN;
-    private static final User.StatusEnum STATUS = User.StatusEnum.ACTIVE;
+    private static final RoleEnum ROLE = RoleEnum.ADMIN;
+    private static final StatusEnum STATUS = StatusEnum.ACTIVE;
 
     private UserUpdate createNewAdminUserUpdate() {
         UserUpdate userUpdate = new UserUpdate();

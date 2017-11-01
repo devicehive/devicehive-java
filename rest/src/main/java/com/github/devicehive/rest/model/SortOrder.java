@@ -1,7 +1,7 @@
 /*
  *
  *
- *   TokenHelper.java
+ *   SortOrder.java
  *
  *   Copyright (C) 2017 DataArt
  *
@@ -19,25 +19,17 @@
  *
  */
 
-package com.github.devicehive.websocket.api;
+package com.github.devicehive.rest.model;
 
-class TokenHelper {
-    private final TokenAuth tokenAuth;
+public enum SortOrder {
+    ASC("ASC"), DESC("DESC");
+    private String sortOrder;
 
-    TokenHelper() {
-        tokenAuth = new TokenAuth();
+    SortOrder(String sortOrder) {
+        this.sortOrder = sortOrder;
     }
 
-    private static class InstanceHolder {
-        static final TokenHelper INSTANCE = new TokenHelper();
-    }
-
-    static TokenHelper getInstance() {
-        return TokenHelper.InstanceHolder.INSTANCE;
-    }
-
-    TokenAuth getTokenAuth() {
-        return tokenAuth;
+    public String sortOrder() {
+        return sortOrder;
     }
 }
-
