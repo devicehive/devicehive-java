@@ -25,7 +25,7 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import static com.github.devicehive.websocket.model.ActionConstant.CONFIGURATION_INSERT;
+import static com.github.devicehive.websocket.model.ActionConstant.CONFIGURATION_PUT;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -39,6 +39,6 @@ public class ConfigurationInsertAction extends RequestAction {
 
 
     public ConfigurationInsertAction() {
-        super(CONFIGURATION_INSERT);
+        super(CONFIGURATION_PUT);
     }
 }

@@ -3,26 +3,28 @@ package com.github.devicehive.websocket;
 import com.github.devicehive.websocket.api.ConfigurationWS;
 import com.github.devicehive.websocket.api.WebSocketClient;
 import com.github.devicehive.websocket.listener.ConfigurationListener;
-import com.github.devicehive.websocket.model.repsonse.ConfigurationGetResponse;
-import com.github.devicehive.websocket.model.repsonse.ConfigurationInsertResponse;
-import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
-import com.github.devicehive.websocket.model.repsonse.ResponseAction;
+import com.github.devicehive.websocket.model.ActionConstant;
+import com.github.devicehive.websocket.model.repsonse.*;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 class Helper {
     private static final String URL = "ws://playground.dev.devicehive.com/api/websocket";
-    private static final String TOKEN = "***REMOVED***";
+    private static final String ACCESS_TOKEN = "***REMOVED***";
+    private static final String REFRESH_TOKEN = "***REMOVED***";
+
+    int awaitTimeout = 30;
+    TimeUnit awaitTimeUnit = TimeUnit.SECONDS;
 
     WebSocketClient client = new WebSocketClient
             .Builder()
             .url(URL)
-            .token(TOKEN)
+            .token(ACCESS_TOKEN)
             .build();
 
     void authenticate() {
-        client.authenticate(TOKEN);
+        client.authenticate(ACCESS_TOKEN);
     }
 
     boolean deleteConfigurations(String name) throws InterruptedException {
@@ -42,7 +44,7 @@ class Helper {
 
             @Override
             public void onDelete(ResponseAction response) {
-                if (response.getStatus().equals("success")) {
+                if (response.getStatus().equals(ResponseAction.SUCCESS)) {
                     counter.increment();
                 }
                 latch.countDown();
@@ -55,7 +57,7 @@ class Helper {
         });
 
         configurationWS.delete(null, name);
-        latch.await(30, TimeUnit.SECONDS);
+        latch.await(awaitTimeout, awaitTimeUnit);
         return counter.getCount() == 1;
     }
 

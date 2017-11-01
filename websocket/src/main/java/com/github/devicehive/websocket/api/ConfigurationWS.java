@@ -50,7 +50,7 @@ public class ConfigurationWS extends BaseWebSocketApi implements ConfigurationAp
         if (actionName.equalsIgnoreCase(CONFIGURATION_GET)) {
             com.github.devicehive.websocket.model.repsonse.ConfigurationGetResponse response = gson.fromJson(message, com.github.devicehive.websocket.model.repsonse.ConfigurationGetResponse.class);
             listener.onGet(response);
-        } else if (actionName.equalsIgnoreCase(CONFIGURATION_INSERT)) {
+        } else if (actionName.equalsIgnoreCase(CONFIGURATION_PUT)) {
             com.github.devicehive.websocket.model.repsonse.ConfigurationInsertResponse response = gson.fromJson(message, com.github.devicehive.websocket.model.repsonse.ConfigurationInsertResponse.class);
             listener.onPut(response);
         } else if (actionName.equalsIgnoreCase(CONFIGURATION_DELETE)) {
