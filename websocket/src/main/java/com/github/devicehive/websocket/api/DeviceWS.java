@@ -37,16 +37,21 @@ import static com.github.devicehive.websocket.model.ActionConstant.*;
 public class DeviceWS extends BaseWebSocketApi implements DeviceApi {
 
     static final String TAG = "device";
-    private final DeviceListener listener;
+    private DeviceListener listener;
 
-    DeviceWS(WebSocketClient client, DeviceListener listener) {
-        super(client, listener);
-        this.listener = listener;
+    DeviceWS(WebSocketClient client) {
+        super(client,null);
     }
 
     @Override
     public String getKey() {
         return TAG;
+    }
+
+    public void setListener(DeviceListener listener) {
+        super.setListener(listener);
+        this.listener = listener;
+
     }
 
 

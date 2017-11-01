@@ -36,10 +36,14 @@ public class CommandWS extends BaseWebSocketApi implements CommandApi {
 
     static final String TAG = "command";
 
-    private com.github.devicehive.websocket.listener.CommandListener listener;
+    private CommandListener listener;
 
-    CommandWS(WebSocketClient client, CommandListener listener) {
-        super(client, listener);
+    CommandWS(WebSocketClient client) {
+        super(client, null);
+    }
+
+    public void setListener(CommandListener listener) {
+        super.setListener(listener);
         this.listener = listener;
     }
 

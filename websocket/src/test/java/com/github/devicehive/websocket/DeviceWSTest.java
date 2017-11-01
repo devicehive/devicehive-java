@@ -53,13 +53,13 @@ public class DeviceWSTest {
             .Builder()
             .url(URL)
             .build();
-    private DeviceWS deviceWS;
 
 
     private void authenticate() throws InterruptedException {
         final CountDownLatch latch = new CountDownLatch(1);
 
-        TokenWS tokenWS = client.createTokenWS(new TokenListener() {
+        TokenWS tokenWS = client.createTokenWS();
+        tokenWS.setListener(new TokenListener() {
             @Override
             public void onGet(TokenGetResponse response) {
 
@@ -89,7 +89,8 @@ public class DeviceWSTest {
     public void registerDevice() throws IOException, InterruptedException {
         final String deviceId = UUID.randomUUID().toString();
         final CountDownLatch latch = new CountDownLatch(2);
-        deviceWS = client.createDeviceWS(new DeviceListener() {
+        final DeviceWS deviceWS = client.createDeviceWS();
+        deviceWS.setListener(new DeviceListener() {
             @Override
             public void onList(List<Device> response) {
 
@@ -143,7 +144,8 @@ public class DeviceWSTest {
     public void deleteDevice() throws IOException, InterruptedException {
         final String deviceId = UUID.randomUUID().toString();
         final CountDownLatch latch = new CountDownLatch(2);
-        deviceWS = client.createDeviceWS(new DeviceListener() {
+        final DeviceWS deviceWS = client.createDeviceWS();
+        deviceWS.setListener(new DeviceListener() {
             @Override
             public void onList(List<Device> response) {
 
@@ -192,7 +194,8 @@ public class DeviceWSTest {
     public void getDeviceList() throws IOException, InterruptedException {
         final String deviceId = UUID.randomUUID().toString();
         final CountDownLatch latch = new CountDownLatch(3);
-        deviceWS = client.createDeviceWS(new DeviceListener() {
+        final DeviceWS deviceWS = client.createDeviceWS();
+        deviceWS.setListener(new DeviceListener() {
             @Override
             public void onList(List<Device> response) {
                 latch.countDown();
@@ -243,7 +246,8 @@ public class DeviceWSTest {
     public void getDevice() throws IOException, InterruptedException {
         final String deviceId = UUID.randomUUID().toString();
         final CountDownLatch latch = new CountDownLatch(3);
-        deviceWS = client.createDeviceWS(new DeviceListener() {
+        final DeviceWS deviceWS = client.createDeviceWS();
+        deviceWS.setListener(new DeviceListener() {
             @Override
             public void onList(List<Device> response) {
             }
