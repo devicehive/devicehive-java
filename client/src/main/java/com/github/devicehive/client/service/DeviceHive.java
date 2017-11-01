@@ -158,7 +158,8 @@ public class DeviceHive implements MainDeviceHive {
 
     private void createWsServices() {
         createWSClient();
-        notificationWS = wsClient.createNotificationWS(new NotificationListener() {
+        notificationWS = wsClient.createNotificationWS();
+        notificationWS.setListener(new NotificationListener() {
             @Override
             public void onList(NotificationListResponse response) {
                 notificationsCallback.onSuccess(DeviceNotification.createListFromWS(response.getNotifications()));
@@ -212,7 +213,8 @@ public class DeviceHive implements MainDeviceHive {
             }
 
         });
-        commandWS = wsClient.createCommandWS(new CommandListener() {
+        commandWS = wsClient.createCommandWS();
+        commandWS.setListener(new CommandListener() {
             @Override
             public void onList(CommandListResponse response) {
                 commandsCallback.onSuccess(DeviceCommand.createList(response.getCommands()));

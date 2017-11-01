@@ -21,7 +21,6 @@
 
 package com.github.devicehive.websocket.api;
 
-import com.github.devicehive.websocket.listener.*;
 import com.github.devicehive.websocket.model.repsonse.ResponseAction;
 import com.github.devicehive.websocket.model.request.AuthenticateAction;
 import com.google.gson.Gson;
@@ -117,50 +116,50 @@ public class WebSocketClient extends WebSocketListener implements WebSocketCreat
     }
 
     @Override
-    public DeviceWS createDeviceWS(DeviceListener listener) {
-        DeviceWS deviceWS = new DeviceWS(this, listener);
+    public DeviceWS createDeviceWS() {
+        DeviceWS deviceWS = new DeviceWS(this);
         put(DeviceWS.TAG, deviceWS);
         return deviceWS;
     }
 
     @Override
-    public CommandWS createCommandWS(CommandListener listener) {
-        CommandWS commandWS = new CommandWS(this, listener);
+    public CommandWS createCommandWS() {
+        CommandWS commandWS = new CommandWS(this);
         put(CommandWS.TAG, commandWS);
         return commandWS;
     }
 
     @Override
-    public ConfigurationWS createConfigurationWS(ConfigurationListener listener) {
-        ConfigurationWS configurationWS = new ConfigurationWS(this, listener);
+    public ConfigurationWS createConfigurationWS() {
+        ConfigurationWS configurationWS = new ConfigurationWS(this);
         put(ConfigurationWS.TAG, configurationWS);
         return configurationWS;
     }
 
     @Override
-    public NotificationWS createNotificationWS(NotificationListener listener) {
-        NotificationWS notificationWS = new NotificationWS(this, listener);
+    public NotificationWS createNotificationWS() {
+        NotificationWS notificationWS = new NotificationWS(this);
         put(NotificationWS.TAG, notificationWS);
         return notificationWS;
     }
 
     @Override
-    public NetworkWS createNetworkWS(NetworkListener listener) {
-        NetworkWS networkWS = new NetworkWS(this, listener);
+    public NetworkWS createNetworkWS() {
+        NetworkWS networkWS = new NetworkWS(this);
         put(NetworkWS.TAG, networkWS);
         return networkWS;
     }
 
     @Override
-    public TokenWS createTokenWS(TokenListener listener) {
-        TokenWS tokenWS = new TokenWS(this, listener);
+    public TokenWS createTokenWS() {
+        TokenWS tokenWS = new TokenWS(this);
         put(TokenWS.TAG, tokenWS);
         return tokenWS;
     }
 
     @Override
-    public UserWS createUserWS(UserListener listener) {
-        UserWS userWS = new UserWS(this, listener);
+    public UserWS createUserWS() {
+        UserWS userWS = new UserWS(this);
         put(UserWS.TAG, userWS);
         return userWS;
     }

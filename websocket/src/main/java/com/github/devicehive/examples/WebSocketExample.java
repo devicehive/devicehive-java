@@ -43,7 +43,8 @@ public class WebSocketExample {
                 .url(URL)
                 .build();
 
-        DeviceWS deviceWS = client.createDeviceWS(new DeviceListener() {
+        DeviceWS deviceWS = client.createDeviceWS();
+        deviceWS.setListener(new DeviceListener() {
             @Override
             public void onList(List<Device> response) {
                 System.out.println("LIST:" + response.size());
@@ -70,7 +71,8 @@ public class WebSocketExample {
             }
         });
 
-        CommandWS commandWS = client.createCommandWS(new CommandListener() {
+        CommandWS commandWS = client.createCommandWS();
+        commandWS.setListener(new CommandListener() {
             @Override
             public void onInsert(CommandInsertResponse response) {
                 System.out.println(response);
