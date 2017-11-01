@@ -213,8 +213,8 @@ public class DeviceWSTest {
             @Override
             public void onSave(ResponseAction response) {
                 latch.countDown();
-                deviceWS.list(null,null,null,
-                        null,null,null,null,30,0);
+                deviceWS.list(null, null, null,
+                        null, null, null, null, 30, 0);
                 Assert.assertEquals(response.getStatus(), SUCCESS);
             }
 
@@ -240,15 +240,52 @@ public class DeviceWSTest {
     }
 
     @Test
-    public void getDevice() throws IOException {
-//        String deviceId = UUID.randomUUID().toString();
-//        boolean authenticated = authenticate();
-//        boolean deviceCreated = createDevice(deviceId);
-//        Assert.assertTrue(authenticated && deviceCreated);
-//
-//        DeviceApi api = client.createService(DeviceApi.class);
-//        Response<Device> response = api.get(deviceId).execute();
-//        Assert.assertTrue(response.isSuccessful());
-//        Assert.assertTrue(deleteDevices(deviceId));
+    public void getDevice() throws IOException, InterruptedException {
+        final String deviceId = UUID.randomUUID().toString();
+        final CountDownLatch latch = new CountDownLatch(3);
+        deviceWS = client.createDeviceWS(new DeviceListener() {
+            @Override
+            public void onList(List<Device> response) {
+            }
+
+            @Override
+            public void onGet(Device response) {
+                latch.countDown();
+                deviceWS.delete(null, deviceId);
+                Assert.assertEquals(response.getId(), deviceId);
+            }
+
+            @Override
+            public void onDelete(ResponseAction response) {
+                latch.countDown();
+                Assert.assertEquals(response.getStatus(), SUCCESS);
+            }
+
+            @Override
+            public void onSave(ResponseAction response) {
+                latch.countDown();
+                deviceWS.get(null, deviceId);
+                Assert.assertEquals(response.getStatus(), SUCCESS);
+            }
+
+            @Override
+            public void onError(ErrorResponse error) {
+                if (error.getCode() == 401) {
+                    try {
+                        authenticate();
+                        Assert.assertNotNull(deviceWS);
+                        registerDevice(deviceId, deviceWS);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        Assert.assertTrue(false);
+                    }
+                    return;
+                }
+                Assert.assertTrue(false);
+            }
+        });
+        registerDevice(deviceId, deviceWS);
+        latch.await(10, TimeUnit.SECONDS);
+        Assert.assertEquals(latch.getCount(), 0);
     }
 }
