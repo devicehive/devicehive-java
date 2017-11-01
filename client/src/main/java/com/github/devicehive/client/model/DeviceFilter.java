@@ -21,6 +21,8 @@
 
 package com.github.devicehive.client.model;
 
+import com.github.devicehive.rest.model.SortField;
+import com.github.devicehive.rest.model.SortOrder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

@@ -21,6 +21,7 @@
 
 package com.github.devicehive.websocket.model.request;
 
+import com.github.devicehive.rest.model.SortOrder;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -42,7 +43,7 @@ public class DeviceListAction extends RequestAction {
     @SerializedName("sortField")
     String sortField;
     @SerializedName("sortOrder")
-    String sortOrder;
+    SortOrder sortOrder;
     @SerializedName("take")
     Integer take;
     @SerializedName("skip")

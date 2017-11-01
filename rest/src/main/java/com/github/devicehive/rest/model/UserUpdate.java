@@ -47,10 +47,10 @@ public class UserUpdate {
   private String login = null;
 
   @SerializedName("role")
-  private User.RoleEnum role = null;
+  private RoleEnum role = null;
 
   @SerializedName("status")
-  private User.StatusEnum status = null;
+  private StatusEnum status = null;
 
   @SerializedName("password")
   private String password = null;

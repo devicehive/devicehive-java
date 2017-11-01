@@ -34,6 +34,7 @@
 
 package com.github.devicehive.websocket.model.repsonse.data;
 
+import com.github.devicehive.rest.model.Device;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
@@ -55,7 +56,7 @@ public class NetworkVO {
     private String description = null;
 
     @SerializedName("devices")
-    private List<DeviceVO> devices = null;
+    private List<Device> devices = null;
 
 }
 

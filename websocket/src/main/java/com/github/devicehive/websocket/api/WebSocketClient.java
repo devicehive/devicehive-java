@@ -24,7 +24,6 @@ package com.github.devicehive.websocket.api;
 import com.github.devicehive.websocket.listener.*;
 import com.github.devicehive.websocket.model.repsonse.ResponseAction;
 import com.github.devicehive.websocket.model.request.AuthenticateAction;
-import com.github.devicehive.websocket.model.request.TokenRefreshAction;
 import com.google.gson.Gson;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -52,8 +51,6 @@ public class WebSocketClient extends WebSocketListener implements WebSocketCreat
 
     public static class Builder {
         private Request request;
-        private String accessToken = null;
-        private String refreshToken = null;
 
         public Builder url(String url) {
             if (url == null) throw new NullPointerException("url == null");
@@ -61,21 +58,8 @@ public class WebSocketClient extends WebSocketListener implements WebSocketCreat
             return this;
         }
 
-        public Builder token(String accessToken) {
-            this.accessToken = accessToken;
-            return this;
-        }
-
-        public Builder refreshToken(String refreshToken) {
-            this.refreshToken = refreshToken;
-            return this;
-        }
-
         public WebSocketClient build() {
-            WebSocketClient webSocketClient = new WebSocketClient(this);
-            TokenHelper.getInstance().getTokenAuth().setRefreshToken(refreshToken);
-            TokenHelper.getInstance().getTokenAuth().setAccessToken(accessToken);
-            return webSocketClient;
+            return new WebSocketClient(this);
         }
 
     }
@@ -126,19 +110,10 @@ public class WebSocketClient extends WebSocketListener implements WebSocketCreat
         return ws;
     }
 
-    public void authenticate(String token) {
+    public void authenticate(String accessToken) {
         AuthenticateAction authAction = new AuthenticateAction();
-        authAction.setToken(token);
+        authAction.setToken(accessToken);
         ws.send(gson.toJson(authAction));
-    }
-
-    void refresh() {
-        TokenRefreshAction refreshAction = new TokenRefreshAction();
-        refreshAction.setRefreshToken(TokenHelper
-                .getInstance()
-                .getTokenAuth()
-                .getRefreshToken());
-        ws.send(gson.toJson(refreshAction));
     }
 
     @Override

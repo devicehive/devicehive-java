@@ -8,11 +8,11 @@
     <parent>
         <groupId>com.github.devicehive</groupId>
         <artifactId>devicehive-java</artifactId>
-        <version>3.0.1</version>
+        <version>3.0.2</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <name>devicehive-java</name>
-    <version>3.0.1</version>
+    <version>3.0.2</version>
     <prerequisites>
         <maven>2.2.0</maven>
     </prerequisites>
@@ -131,12 +131,12 @@
         <dependency>
             <groupId>com.github.devicehive</groupId>
             <artifactId>devicehive-java-rest</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
         </dependency>
         <dependency>
             <groupId>com.github.devicehive</groupId>
             <artifactId>devicehive-java-websocket</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
         </dependency>
     </dependencies>
     <properties>

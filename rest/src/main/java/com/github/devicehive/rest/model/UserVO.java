@@ -55,10 +55,10 @@ public class UserVO {
      */
 
     @SerializedName("role")
-    private User.RoleEnum role = null;
+    private RoleEnum role = null;
 
     @SerializedName("status")
-    private User.StatusEnum status = null;
+    private StatusEnum status = null;
 
     @SerializedName("lastLogin")
     private DateTime lastLogin = null;

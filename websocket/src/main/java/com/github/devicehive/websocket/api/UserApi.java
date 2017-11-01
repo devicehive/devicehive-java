@@ -21,12 +21,14 @@
 
 package com.github.devicehive.websocket.api;
 
-import com.github.devicehive.websocket.model.SortOrder;
+import com.github.devicehive.rest.model.RoleEnum;
+import com.github.devicehive.rest.model.SortOrder;
+import com.github.devicehive.rest.model.StatusEnum;
 import com.github.devicehive.websocket.model.request.data.User;
 
 interface UserApi {
 
-    void list(Long requestId, String login, String loginPattern, com.github.devicehive.websocket.model.StatusEnum status, com.github.devicehive.websocket.model.RoleEnum role,
+    void list(Long requestId, String login, String loginPattern, StatusEnum status, RoleEnum role,
               String sortField, SortOrder sortOrder, Integer take, Integer skip);
 
     void get( Long requestId, Long userId);
