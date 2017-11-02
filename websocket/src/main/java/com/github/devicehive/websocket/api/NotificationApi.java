@@ -21,6 +21,7 @@
 
 package com.github.devicehive.websocket.api;
 
+import com.github.devicehive.rest.model.DeviceNotificationWrapper;
 import com.github.devicehive.rest.model.SortOrder;
 import org.joda.time.DateTime;
 
@@ -33,7 +34,7 @@ interface NotificationApi {
 
     void get(Long requestId, String deviceId, Long notificationId);
 
-    void insert(Long requestId, String deviceId, com.github.devicehive.websocket.model.request.data.DeviceNotificationWrapper notification);
+    void insert(Long requestId, String deviceId, DeviceNotificationWrapper notification);
 
     void subscribe(Long requestId, String deviceId, List<String> deviceIds, List<String> names);
 

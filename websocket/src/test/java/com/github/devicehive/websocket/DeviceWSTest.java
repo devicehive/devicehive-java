@@ -22,16 +22,10 @@
 package com.github.devicehive.websocket;
 
 import com.github.devicehive.rest.model.Device;
-import com.github.devicehive.rest.model.DeviceUpdate;
 import com.github.devicehive.websocket.api.DeviceWS;
-import com.github.devicehive.websocket.api.TokenWS;
-import com.github.devicehive.websocket.api.WebSocketClient;
 import com.github.devicehive.websocket.listener.DeviceListener;
-import com.github.devicehive.websocket.listener.TokenListener;
 import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
 import com.github.devicehive.websocket.model.repsonse.ResponseAction;
-import com.github.devicehive.websocket.model.repsonse.TokenGetResponse;
-import com.github.devicehive.websocket.model.repsonse.TokenRefreshResponse;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -43,47 +37,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.github.devicehive.websocket.model.repsonse.ResponseAction.SUCCESS;
 
-public class DeviceWSTest {
-    private static final String URL = "ws://playground.dev.devicehive.com/api/websocket";
-    private static final String LOGIN = "dhadmin";
-    private static final String PASSWORD = "dhadmin_#911";
-    private String refreshToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTI0MTUxMjAxMTA4LCJ0IjowfX0.2wfpmIjrHRtGBoSF3-T77aSAiUYPFSGtgBuGoVZtSxc";
-
-    private WebSocketClient client = new WebSocketClient
-            .Builder()
-            .url(URL)
-            .build();
-
-
-    private void authenticate() throws InterruptedException {
-        final CountDownLatch latch = new CountDownLatch(1);
-
-        TokenWS tokenWS = client.createTokenWS();
-        tokenWS.setListener(new TokenListener() {
-            @Override
-            public void onGet(TokenGetResponse response) {
-
-            }
-
-            @Override
-            public void onCreate(TokenGetResponse response) {
-
-            }
-
-            @Override
-            public void onRefresh(TokenRefreshResponse response) {
-                latch.countDown();
-                client.authenticate(response.getAccessToken());
-            }
-
-            @Override
-            public void onError(ErrorResponse error) {
-                latch.countDown();
-            }
-        });
-        tokenWS.refresh(null, refreshToken);
-        latch.await(1, TimeUnit.SECONDS);
-    }
+public class DeviceWSTest extends Helper {
 
     @Test
     public void registerDevice() throws IOException, InterruptedException {
@@ -132,12 +86,6 @@ public class DeviceWSTest {
         registerDevice(deviceId, deviceWS);
         latch.await(10, TimeUnit.SECONDS);
         Assert.assertEquals(latch.getCount(), 0);
-    }
-
-    private void registerDevice(String deviceId, DeviceWS deviceWS) {
-        DeviceUpdate deviceUpdate = new DeviceUpdate();
-        deviceUpdate.setName(deviceId);
-        deviceWS.save(null, deviceId, deviceUpdate);
     }
 
     @Test
