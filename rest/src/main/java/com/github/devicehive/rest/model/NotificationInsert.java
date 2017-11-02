@@ -36,6 +36,7 @@ package com.github.devicehive.rest.model;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
+import org.joda.time.DateTime;
 
 /**
  * NotificationInsert
@@ -46,8 +47,7 @@ public class NotificationInsert {
     @SerializedName("id")
     private Long id = null;
 
-    //FIXME change type from Long to DateTime when backend will be fixed
     @SerializedName("timestamp")
-    private Long timestamp = null;
+    private DateTime timestamp = null;
 }
 
