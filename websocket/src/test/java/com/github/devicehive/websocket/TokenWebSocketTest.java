@@ -71,4 +71,74 @@ public class TokenWebSocketTest extends Helper {
         return jwtPayload;
     }
 
+    @Test
+    public void getToken() throws InterruptedException {
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        authenticate();
+
+        final TokenWS tokenWS = client.createTokenWS();
+        tokenWS.setListener(new TokenListener() {
+            @Override
+            public void onGet(TokenGetResponse response) {
+                Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
+                latch.countDown();
+            }
+
+            @Override
+            public void onCreate(TokenGetResponse response) {
+
+            }
+
+            @Override
+            public void onRefresh(TokenRefreshResponse response) {
+
+            }
+
+            @Override
+            public void onError(ErrorResponse error) {
+
+            }
+        });
+
+        tokenWS.get(null, LOGIN, PASSWORD);
+        latch.await(awaitTimeout, awaitTimeUnit);
+    }
+
+    @Test
+    public void refreshToken() throws InterruptedException {
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        authenticate();
+
+        final TokenWS tokenWS = client.createTokenWS();
+        tokenWS.setListener(new TokenListener() {
+            @Override
+            public void onGet(TokenGetResponse response) {
+                Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
+                String refreshToken = response.getRefreshToken();
+                tokenWS.refresh(null, refreshToken);
+            }
+
+            @Override
+            public void onCreate(TokenGetResponse response) {
+
+            }
+
+            @Override
+            public void onRefresh(TokenRefreshResponse response) {
+                Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
+                latch.countDown();
+            }
+
+            @Override
+            public void onError(ErrorResponse error) {
+
+            }
+        });
+
+        tokenWS.get(null, LOGIN, PASSWORD);
+        latch.await(awaitTimeout, awaitTimeUnit);
+    }
+
 }
