@@ -50,7 +50,7 @@ public class ConfigurationWebSocketTest extends Helper {
         configurationWS.put(null, CONFIGURATION_NAME, CONFIGURATION_VALUE);
         latch.await(awaitTimeout, awaitTimeUnit);
 
-        Assert.assertTrue(deleteConfigurations(CONFIGURATION_NAME));
+        Assert.assertTrue(deleteConfiguration(CONFIGURATION_NAME));
     }
 
     @Test
@@ -90,7 +90,7 @@ public class ConfigurationWebSocketTest extends Helper {
         configurationWS.put(null, CONFIGURATION_NAME, CONFIGURATION_VALUE);
         latch.await(awaitTimeout, awaitTimeUnit);
 
-        Assert.assertTrue(deleteConfigurations(CONFIGURATION_NAME));
+        Assert.assertTrue(deleteConfiguration(CONFIGURATION_NAME));
     }
 
     @Test
