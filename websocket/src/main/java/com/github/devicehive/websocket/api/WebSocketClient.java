@@ -21,6 +21,7 @@
 
 package com.github.devicehive.websocket.api;
 
+import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
 import com.github.devicehive.websocket.model.repsonse.ResponseAction;
 import com.github.devicehive.websocket.model.request.AuthenticateAction;
 import com.google.gson.Gson;
@@ -33,6 +34,9 @@ import java.io.Closeable;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.github.devicehive.websocket.model.ActionConstant.AUTHENTICATE;
+import static com.github.devicehive.websocket.model.repsonse.ResponseAction.SUCCESS;
+
 public class WebSocketClient extends WebSocketListener implements WebSocketCreator, Closeable {
 
     private Request request;
@@ -40,6 +44,7 @@ public class WebSocketClient extends WebSocketListener implements WebSocketCreat
     private WebSocket ws;
     private Map<String, BaseWebSocketApi> map = new HashMap<>();
     private Gson gson = new Gson();
+    private AuthListener authListener;
 
     WebSocketClient(Builder builder) {
         this.client = new OkHttpClient();
@@ -67,10 +72,21 @@ public class WebSocketClient extends WebSocketListener implements WebSocketCreat
     public void onMessage(WebSocket webSocket, String text) {
         ResponseAction action = getResponseAction(text);
         String actionName = action.getAction();
+        if (authListener != null && actionName.startsWith(AUTHENTICATE)) {
+            if (action.getStatus().equals(SUCCESS)) {
+                authListener.onSuccess(action);
+            } else {
+                authListener.onError(gson.fromJson(text, ErrorResponse.class));
+            }
+        }
         BaseWebSocketApi api = getBaseWebSocketApi(actionName);
         if (api != null) {
             api.onMessage(text);
         }
+    }
+
+    public void setListener(AuthListener authListener) {
+        this.authListener = authListener;
     }
 
     private ResponseAction getResponseAction(String text) {
