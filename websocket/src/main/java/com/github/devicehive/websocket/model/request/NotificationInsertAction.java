@@ -21,6 +21,7 @@
 
 package com.github.devicehive.websocket.model.request;
 
+import com.github.devicehive.rest.model.DeviceNotificationWrapper;
 import com.github.devicehive.websocket.model.ActionConstant;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
@@ -34,7 +35,7 @@ public class NotificationInsertAction extends RequestAction {
     private String deviceId;
 
     @SerializedName("notification")
-    private com.github.devicehive.websocket.model.request.data.DeviceNotificationWrapper notification;
+    private DeviceNotificationWrapper notification;
 
     public NotificationInsertAction() {
         super(ActionConstant.NOTIFICATION_INSERT);
