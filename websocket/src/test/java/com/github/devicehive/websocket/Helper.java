@@ -204,6 +204,7 @@ class Helper {
             @Override
             public void onError(ErrorResponse error) {
                 latch.countDown();
+                System.out.println(error);
             }
         });
         latch.await(awaitTimeout, TimeUnit.SECONDS);

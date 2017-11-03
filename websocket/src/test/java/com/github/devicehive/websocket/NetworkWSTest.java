@@ -29,6 +29,7 @@ import com.github.devicehive.websocket.model.repsonse.*;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 
 public class NetworkWSTest extends Helper {
@@ -77,7 +78,48 @@ public class NetworkWSTest extends Helper {
     }
 
     @Test
-    public void get() {
+    public void get() throws InterruptedException {
+        authenticate();
+        final CountDownLatch latch = new CountDownLatch(2);
+        long networkId = registerNetwork("JavaLibTest" + new Random().nextInt());
+        final NetworkWS networkWS = client.createNetworkWS();
+        networkWS.setListener(new NetworkListener() {
+            @Override
+            public void onList(NetworkListResponse response) {
+            }
+
+            @Override
+            public void onGet(NetworkGetResponse response) {
+                Assert.assertTrue(true);
+                deleteNetwork(response.getNetwork().getId());
+                latch.countDown();
+            }
+
+            @Override
+            public void onInsert(NetworkInsertResponse response) {
+            }
+
+            @Override
+            public void onDelete(ResponseAction response) {
+                Assert.assertTrue(true);
+                latch.countDown();
+            }
+
+            @Override
+            public void onUpdate(ResponseAction response) {
+
+            }
+
+            @Override
+            public void onError(ErrorResponse error) {
+                System.out.println(error);
+                Assert.assertTrue(false);
+            }
+        });
+        networkWS.get(null, networkId);
+        latch.await(awaitTimeout, awaitTimeUnit);
+        Assert.assertEquals(latch.getCount(), 0);
+
     }
 
     @Test
