@@ -163,8 +163,6 @@ public class CommandTest extends Helper {
 
             @Override
             public void onInsert(CommandInsertResponse response) {
-                //Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
-                System.out.println(response.toString());
                 latch.countDown();
             }
 
@@ -197,5 +195,117 @@ public class CommandTest extends Helper {
         Assert.assertEquals(0, latch.getCount());
     }
 
+    @Test
+    public void unsubscribeCommand() throws InterruptedException {
+        authenticate();
+
+        final String deviceId = UUID.randomUUID().toString();
+        Assert.assertTrue(registerDevice(deviceId));
+
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        final CommandWS commandWS = client.createCommandWS();
+        commandWS.setListener(new CommandListener() {
+            @Override
+            public void onList(CommandListResponse response) {
+
+            }
+
+            @Override
+            public void onGet(CommandGetResponse response) {
+
+            }
+
+            @Override
+            public void onInsert(CommandInsertResponse response) {
+
+            }
+
+            @Override
+            public void onUpdate(ResponseAction response) {
+
+            }
+
+            @Override
+            public void onSubscribe(CommandSubscribeResponse response) {
+                Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
+                String subscribtionId = response.getSubscriptionId();
+                commandWS.unsubscribe(subscribtionId, Collections.singletonList(deviceId));
+            }
+
+            @Override
+            public void onUnsubscribe(ResponseAction response) {
+                latch.countDown();
+            }
+
+            @Override
+            public void onError(ErrorResponse error) {
+
+            }
+        });
+
+        commandWS.subscribe(Collections.singletonList(COMMAND), deviceId, null, null, null);
+        latch.await(awaitTimeout, awaitTimeUnit);
+
+        deleteDevice(deviceId);
+        Assert.assertEquals(0, latch.getCount());
+    }
+
+    @Test
+    public void listCommand() throws InterruptedException {
+        authenticate();
+
+        final String deviceId = UUID.randomUUID().toString();
+        Assert.assertTrue(registerDevice(deviceId));
+
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        final CommandWS commandWS = client.createCommandWS();
+        commandWS.setListener(new CommandListener() {
+            @Override
+            public void onList(CommandListResponse response) {
+                Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
+                Assert.assertEquals(1, response.getCommands().size());
+                latch.countDown();
+            }
+
+            @Override
+            public void onGet(CommandGetResponse response) {
+
+            }
+
+            @Override
+            public void onInsert(CommandInsertResponse response) {
+                Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
+                commandWS.list(deviceId, null, null, COMMAND, null, null, 30, 0);
+            }
+
+            @Override
+            public void onUpdate(ResponseAction response) {
+
+            }
+
+            @Override
+            public void onSubscribe(CommandSubscribeResponse response) {
+
+            }
+
+            @Override
+            public void onUnsubscribe(ResponseAction response) {
+
+            }
+
+            @Override
+            public void onError(ErrorResponse error) {
+
+            }
+        });
+
+        commandWS.insert(deviceId, getWrapper(COMMAND));
+        latch.await(awaitTimeout, awaitTimeUnit);
+
+        deleteDevice(deviceId);
+        Assert.assertEquals(0, latch.getCount());
+    }
 
 }
