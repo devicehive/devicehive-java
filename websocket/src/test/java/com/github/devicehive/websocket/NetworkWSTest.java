@@ -21,6 +21,7 @@
 
 package com.github.devicehive.websocket;
 
+import com.github.devicehive.rest.model.NetworkUpdate;
 import com.github.devicehive.rest.model.SortField;
 import com.github.devicehive.rest.model.SortOrder;
 import com.github.devicehive.websocket.api.NetworkWS;
@@ -34,6 +35,8 @@ import java.util.concurrent.CountDownLatch;
 
 public class NetworkWSTest extends Helper {
 
+
+    public static final String JAVA_LIB_TEST = "JavaLibTest";
 
     @Test
     public void list() throws InterruptedException {
@@ -81,7 +84,7 @@ public class NetworkWSTest extends Helper {
     public void get() throws InterruptedException {
         authenticate();
         final CountDownLatch latch = new CountDownLatch(2);
-        long networkId = registerNetwork("JavaLibTest" + new Random().nextInt());
+        long networkId = registerNetwork(JAVA_LIB_TEST + new Random().nextInt());
         final NetworkWS networkWS = client.createNetworkWS();
         networkWS.setListener(new NetworkListener() {
             @Override
@@ -123,15 +126,137 @@ public class NetworkWSTest extends Helper {
     }
 
     @Test
-    public void insert() {
+    public void insert() throws InterruptedException {
+        authenticate();
+        final CountDownLatch latch = new CountDownLatch(2);
+        final NetworkWS networkWS = client.createNetworkWS();
+        networkWS.setListener(new NetworkListener() {
+            @Override
+            public void onList(NetworkListResponse response) {
+            }
+
+            @Override
+            public void onGet(NetworkGetResponse response) {
+
+            }
+
+            @Override
+            public void onInsert(NetworkInsertResponse response) {
+                Assert.assertTrue(true);
+                deleteNetwork(response.getNetwork().getId());
+                latch.countDown();
+            }
+
+            @Override
+            public void onDelete(ResponseAction response) {
+                Assert.assertTrue(true);
+                latch.countDown();
+            }
+
+            @Override
+            public void onUpdate(ResponseAction response) {
+
+            }
+
+            @Override
+            public void onError(ErrorResponse error) {
+                System.out.println(error);
+                Assert.assertTrue(false);
+            }
+        });
+        NetworkUpdate networkUpdate=new NetworkUpdate();
+        networkUpdate.setName(JAVA_LIB_TEST + new Random().nextInt());
+        networkWS.insert(null,networkUpdate );
+        latch.await(awaitTimeout, awaitTimeUnit);
+        Assert.assertEquals(latch.getCount(), 0);
     }
 
     @Test
-    public void update() {
+    public void update() throws InterruptedException {
+        authenticate();
+        final CountDownLatch latch = new CountDownLatch(2);
+        final long networkId = registerNetwork(JAVA_LIB_TEST + new Random().nextInt());
+        final NetworkWS networkWS = client.createNetworkWS();
+        networkWS.setListener(new NetworkListener() {
+            @Override
+            public void onList(NetworkListResponse response) {
+            }
+
+            @Override
+            public void onGet(NetworkGetResponse response) {
+
+            }
+
+            @Override
+            public void onInsert(NetworkInsertResponse response) {
+            }
+
+            @Override
+            public void onDelete(ResponseAction response) {
+                Assert.assertTrue(true);
+                latch.countDown();
+            }
+
+            @Override
+            public void onUpdate(ResponseAction response) {
+                Assert.assertTrue(true);
+                deleteNetwork(networkId);
+                latch.countDown();
+            }
+
+            @Override
+            public void onError(ErrorResponse error) {
+                System.out.println(error);
+                Assert.assertTrue(false);
+            }
+        });
+        NetworkUpdate networkUpdate=new NetworkUpdate();
+        networkUpdate.setDescription("aaaa");
+        networkWS.update(null, networkId,networkUpdate);
+        latch.await(awaitTimeout, awaitTimeUnit);
+        Assert.assertEquals(latch.getCount(), 0);
     }
 
     @Test
-    public void delete() {
+    public void delete() throws InterruptedException {
+        authenticate();
+        final CountDownLatch latch = new CountDownLatch(1);
+        final long networkId = registerNetwork(JAVA_LIB_TEST + new Random().nextInt());
+        final NetworkWS networkWS = client.createNetworkWS();
+        networkWS.setListener(new NetworkListener() {
+            @Override
+            public void onList(NetworkListResponse response) {
+            }
+
+            @Override
+            public void onGet(NetworkGetResponse response) {
+
+            }
+
+            @Override
+            public void onInsert(NetworkInsertResponse response) {
+            }
+
+            @Override
+            public void onDelete(ResponseAction response) {
+                Assert.assertTrue(true);
+                latch.countDown();
+            }
+
+            @Override
+            public void onUpdate(ResponseAction response) {
+
+            }
+
+            @Override
+            public void onError(ErrorResponse error) {
+                System.out.println(error);
+                Assert.assertTrue(false);
+            }
+        });
+        networkWS.delete(null, networkId);
+        latch.await(awaitTimeout, awaitTimeUnit);
+        Assert.assertEquals(latch.getCount(), 0);
     }
 
 }
