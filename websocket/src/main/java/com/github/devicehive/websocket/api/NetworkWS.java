@@ -89,7 +89,7 @@ public class NetworkWS extends BaseWebSocketApi implements NetworkApi {
     @Override
     public void get(Long requestId, Long id) {
         NetworkGetAction action = new NetworkGetAction();
-        action.setId(id);
+        action.setNetworkId(id);
         action.setRequestId(requestId);
         send(action);
     }
@@ -114,7 +114,7 @@ public class NetworkWS extends BaseWebSocketApi implements NetworkApi {
     @Override
     public void delete(Long requestId, Long id) {
         NetworkDeleteAction action = new NetworkDeleteAction();
-        action.setId(id);
+        action.setNetworkId(id);
         action.setRequestId(requestId);
         send(action);
     }
