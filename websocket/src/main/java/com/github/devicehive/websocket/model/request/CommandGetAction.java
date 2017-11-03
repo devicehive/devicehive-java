@@ -34,7 +34,7 @@ public class CommandGetAction extends RequestAction {
     @SerializedName("deviceId")
     String deviceId;
     @SerializedName("commandId")
-    String commandId;
+    Long commandId;
 
     public CommandGetAction() {
         super(COMMAND_GET);
