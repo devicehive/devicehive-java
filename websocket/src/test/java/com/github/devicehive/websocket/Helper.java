@@ -2,9 +2,11 @@ package com.github.devicehive.websocket;
 
 import com.github.devicehive.rest.model.Device;
 import com.github.devicehive.rest.model.DeviceUpdate;
+import com.github.devicehive.rest.model.NetworkUpdate;
 import com.github.devicehive.websocket.api.*;
 import com.github.devicehive.websocket.listener.ConfigurationListener;
 import com.github.devicehive.websocket.listener.DeviceListener;
+import com.github.devicehive.websocket.listener.NetworkListener;
 import com.github.devicehive.websocket.listener.TokenListener;
 import com.github.devicehive.websocket.model.repsonse.*;
 
@@ -12,12 +14,12 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
 
 class Helper {
     private static final String URL = "ws://playground.dev.devicehive.com/api/websocket";
     private String accessToken = "***REMOVED***";
     private static final String REFRESH_TOKEN = "***REMOVED***";
-    //    ***REMOVED***
     int awaitTimeout = 30;
     TimeUnit awaitTimeUnit = TimeUnit.SECONDS;
 
@@ -25,8 +27,9 @@ class Helper {
             .Builder()
             .url(URL)
             .build();
-    TokenWS tokenWS = client.createTokenWS();
-    DeviceWS deviceWS = client.createDeviceWS();
+    private TokenWS tokenWS = client.createTokenWS();
+    private DeviceWS deviceWS = client.createDeviceWS();
+    private NetworkWS networkWS = client.createNetworkWS();
 
     void authenticate() throws InterruptedException {
         final CountDownLatch latch = new CountDownLatch(1);
@@ -161,6 +164,55 @@ class Helper {
 
     void deleteDevice(String id) {
         deviceWS.delete(null, id);
+    }
+
+
+    long registerNetwork(String networkName) throws InterruptedException {
+        authenticate();
+        final CountDownLatch latch = new CountDownLatch(1);
+        final AtomicLong atomicLong = new AtomicLong(-1);
+        NetworkUpdate networkUpdate = new NetworkUpdate();
+        networkUpdate.setName(networkName);
+        networkWS.insert(null, networkUpdate);
+        networkWS.setListener(new NetworkListener() {
+            @Override
+            public void onList(NetworkListResponse response) {
+
+            }
+
+            @Override
+            public void onGet(NetworkGetResponse response) {
+
+            }
+
+            @Override
+            public void onInsert(NetworkInsertResponse response) {
+                atomicLong.set(response.getNetwork().getId());
+                latch.countDown();
+            }
+
+            @Override
+            public void onDelete(ResponseAction response) {
+
+            }
+
+            @Override
+            public void onUpdate(ResponseAction response) {
+
+            }
+
+            @Override
+            public void onError(ErrorResponse error) {
+                latch.countDown();
+            }
+        });
+        latch.await(awaitTimeout, TimeUnit.SECONDS);
+        networkWS.setListener(null);
+        return atomicLong.get();
+    }
+
+    void deleteNetwork(long id) {
+        networkWS.delete(null, id);
     }
 
 }
