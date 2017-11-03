@@ -21,8 +21,16 @@
 
 package com.github.devicehive.rest.model;
 
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+
+import java.io.IOException;
+
+@JsonAdapter(SortField.Adapter.class)
 public enum SortField {
-    ID("ID"), DESC("NAME");
+    ID("id"), DESC("name");
     private String sortField;
 
     SortField(String sortField) {
@@ -31,5 +39,32 @@ public enum SortField {
 
     public String sortField() {
         return sortField;
+    }
+
+    @Override
+    public String toString() {
+        return sortField;
+    }
+
+    public static SortField fromValue(String text) {
+        for (SortField b : SortField.values()) {
+            if (String.valueOf(b.sortField).equals(text)) {
+                return b;
+            }
+        }
+        return null;
+    }
+
+    public static class Adapter extends TypeAdapter<SortField> {
+        @Override
+        public void write(final JsonWriter jsonWriter, final SortField enumeration) throws IOException {
+            jsonWriter.value(enumeration.sortField());
+        }
+
+        @Override
+        public SortField read(final JsonReader jsonReader) throws IOException {
+            Integer value = jsonReader.nextInt();
+            return SortField.fromValue(String.valueOf(value));
+        }
     }
 }

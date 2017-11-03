@@ -21,6 +21,7 @@
 
 package com.github.devicehive.websocket.model.repsonse;
 
+import com.github.devicehive.rest.model.Network;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,5 +31,5 @@ import lombok.EqualsAndHashCode;
 public class UserGetNetworkResponse extends ResponseAction {
 
     @SerializedName("network")
-    com.github.devicehive.websocket.model.repsonse.data.Network network;
+    Network network;
 }

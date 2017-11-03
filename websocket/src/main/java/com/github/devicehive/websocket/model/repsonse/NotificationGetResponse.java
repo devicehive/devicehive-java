@@ -21,6 +21,7 @@
 
 package com.github.devicehive.websocket.model.repsonse;
 
+import com.github.devicehive.rest.model.DeviceNotification;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,7 +31,7 @@ import lombok.EqualsAndHashCode;
 public class NotificationGetResponse extends ResponseAction {
 
     @SerializedName("notification")
-    private com.github.devicehive.websocket.model.repsonse.data.DeviceNotification notification;
+    private DeviceNotification notification;
 
     @Override
     public String toString() {

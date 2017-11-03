@@ -30,8 +30,8 @@ import lombok.EqualsAndHashCode;
 @Data
 public class NetworkDeleteAction extends RequestAction {
 
-    @SerializedName("id")
-    private Long id;
+    @SerializedName("networkId")
+    private Long networkId;
 
     public NetworkDeleteAction() {
         super(ActionConstant.NETWORK_DELETE);
