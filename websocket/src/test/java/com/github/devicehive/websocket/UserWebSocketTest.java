@@ -480,4 +480,80 @@ public class UserWebSocketTest extends Helper {
         Assert.assertTrue(deleteUser(userId));
     }
 
+    @Test
+    public void listUsers() throws InterruptedException, IOException {
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        authenticate();
+
+        final UserWS userWS = client.createUserWS();
+        userWS.setListener(new UserListener() {
+            @Override
+            public void onList(UserListResponse response) {
+                Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
+                Assert.assertEquals(1, response.getUsers().size());
+                latch.countDown();
+            }
+
+            @Override
+            public void onGet(UserGetResponse response) {
+            }
+
+            @Override
+            public void onInsert(UserInsertResponse response) {
+                Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
+                userId = response.getUser().getId();
+                userWS.list(null, LOGIN, null, null, null,  null, null, 30, 0);
+            }
+
+            @Override
+            public void onUpdate(ResponseAction response) {
+
+            }
+
+            @Override
+            public void onDelete(ResponseAction response) {
+
+            }
+
+            @Override
+            public void onGetCurrent(UserGetCurrentResponse response) {
+
+            }
+
+            @Override
+            public void onUpdateCurrent(ResponseAction response) {
+
+            }
+
+            @Override
+            public void onGetNetwork(UserGetNetworkResponse response) {
+
+            }
+
+            @Override
+            public void onAssignNetwork(ResponseAction response) {
+
+            }
+
+            @Override
+            public void onUnassignNetwork(ResponseAction response) {
+
+            }
+
+            @Override
+            public void onError(ErrorResponse error) {
+
+            }
+
+        });
+
+        User user = createNewAdminUser();
+        userWS.insert(null, user);
+        latch.await(awaitTimeout, awaitTimeUnit);
+
+        Assert.assertTrue(deleteUser(userId));
+    }
+
+
 }
