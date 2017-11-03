@@ -15,9 +15,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 class Helper {
     private static final String URL = "ws://playground.dev.devicehive.com/api/websocket";
-    private static final String ACCESS_TOKEN = "***REMOVED***";
+    private String accessToken = "***REMOVED***";
     private static final String REFRESH_TOKEN = "***REMOVED***";
-
+    //    ***REMOVED***
     int awaitTimeout = 30;
     TimeUnit awaitTimeUnit = TimeUnit.SECONDS;
 
@@ -39,34 +39,44 @@ class Helper {
 
                     @Override
                     public void onError(ErrorResponse error) {
-                        tokenWS.refresh(null, REFRESH_TOKEN);
-                        tokenWS.setListener(new TokenListener() {
-                            @Override
-                            public void onGet(TokenGetResponse response) {
-
-                            }
-
-                            @Override
-                            public void onCreate(TokenGetResponse response) {
-
-                            }
-
-                            @Override
-                            public void onRefresh(TokenRefreshResponse response) {
-                                latch.countDown();
-                                client.authenticate(response.getAccessToken());
-                            }
-
-                            @Override
-                            public void onError(ErrorResponse error) {
-                                latch.countDown();
-                            }
-                        });
+                        refresh(latch);
                     }
                 }
         );
-        client.authenticate(ACCESS_TOKEN);
+
+        if (accessToken != null && !accessToken.isEmpty()) {
+            client.authenticate(accessToken);
+        } else {
+            refresh(latch);
+        }
         latch.await(1, TimeUnit.SECONDS);
+    }
+
+    private void refresh(final CountDownLatch latch) {
+        tokenWS.setListener(new TokenListener() {
+            @Override
+            public void onGet(TokenGetResponse response) {
+
+            }
+
+            @Override
+            public void onCreate(TokenGetResponse response) {
+
+            }
+
+            @Override
+            public void onRefresh(TokenRefreshResponse response) {
+                latch.countDown();
+                accessToken = response.getAccessToken();
+                client.authenticate(accessToken);
+            }
+
+            @Override
+            public void onError(ErrorResponse error) {
+                latch.countDown();
+            }
+        });
+        tokenWS.refresh(null, REFRESH_TOKEN);
     }
 
     boolean deleteConfigurations(String name) throws InterruptedException {

@@ -21,12 +21,16 @@
 
 package com.github.devicehive.websocket.api;
 
+import com.github.devicehive.rest.model.NetworkUpdate;
+import com.github.devicehive.rest.model.SortField;
+import com.github.devicehive.rest.model.SortOrder;
 import com.github.devicehive.websocket.listener.NetworkListener;
 import com.github.devicehive.websocket.model.ActionConstant;
+import com.github.devicehive.websocket.model.repsonse.NetworkGetResponse;
 import com.github.devicehive.websocket.model.repsonse.NetworkInsertResponse;
 import com.github.devicehive.websocket.model.repsonse.NetworkListResponse;
+import com.github.devicehive.websocket.model.repsonse.ResponseAction;
 import com.github.devicehive.websocket.model.request.*;
-import com.github.devicehive.websocket.model.request.data.NetworkUpdate;
 
 public class NetworkWS extends BaseWebSocketApi implements NetworkApi {
 
@@ -50,13 +54,13 @@ public class NetworkWS extends BaseWebSocketApi implements NetworkApi {
 
     @Override
     public void onSuccess(String message) {
-        com.github.devicehive.websocket.model.repsonse.ResponseAction action = getResponseAction(message);
+        ResponseAction action = getResponseAction(message);
         String actionName = action.getAction();
         if (actionName.equalsIgnoreCase(ActionConstant.NETWORK_LIST)) {
             NetworkListResponse response = gson.fromJson(message, NetworkListResponse.class);
             listener.onList(response);
         } else if (actionName.equalsIgnoreCase(ActionConstant.NETWORK_GET)) {
-            com.github.devicehive.websocket.model.repsonse.NetworkGetResponse response = gson.fromJson(message, com.github.devicehive.websocket.model.repsonse.NetworkGetResponse.class);
+           NetworkGetResponse response = gson.fromJson(message, NetworkGetResponse.class);
             listener.onGet(response);
         } else if (actionName.equalsIgnoreCase(ActionConstant.NETWORK_INSERT)) {
             NetworkInsertResponse response = gson.fromJson(message, NetworkInsertResponse.class);
@@ -70,14 +74,14 @@ public class NetworkWS extends BaseWebSocketApi implements NetworkApi {
     }
 
     @Override
-    public void list(Long requestId, String name, String namePattern, String sortField, Boolean sortOrderAsc, Integer take, Integer skip) {
+    public void list(Long requestId, String name, String namePattern, SortField sortField, SortOrder sortOrder, Integer take, Integer skip) {
         NetworkListAction action = new NetworkListAction();
         action.setName(name);
         action.setNamePattern(namePattern);
         action.setSortField(sortField);
         action.setSkip(skip);
         action.setTake(take);
-        action.setSortOrderAsc(sortOrderAsc);
+        action.setSortOrder(sortOrder);
         action.setRequestId(requestId);
         send(action);
     }

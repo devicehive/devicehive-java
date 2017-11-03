@@ -21,6 +21,13 @@
 
 package com.github.devicehive.rest.model;
 
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+
+import java.io.IOException;
+@JsonAdapter(SortOrder.Adapter.class)
 public enum SortOrder {
     ASC("ASC"), DESC("DESC");
     private String sortOrder;
@@ -31,5 +38,32 @@ public enum SortOrder {
 
     public String sortOrder() {
         return sortOrder;
+    }
+
+    @Override
+    public String toString() {
+        return sortOrder;
+    }
+
+    public static SortOrder fromValue(String text) {
+        for (SortOrder b : SortOrder.values()) {
+            if (String.valueOf(b.sortOrder).equals(text)) {
+                return b;
+            }
+        }
+        return null;
+    }
+
+    public static class Adapter extends TypeAdapter<SortOrder> {
+        @Override
+        public void write(final JsonWriter jsonWriter, final SortOrder enumeration) throws IOException {
+            jsonWriter.value(enumeration.sortOrder());
+        }
+
+        @Override
+        public SortOrder read(final JsonReader jsonReader) throws IOException {
+            Integer value = jsonReader.nextInt();
+            return SortOrder.fromValue(String.valueOf(value));
+        }
     }
 }
