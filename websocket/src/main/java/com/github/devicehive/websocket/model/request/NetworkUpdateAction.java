@@ -21,8 +21,8 @@
 
 package com.github.devicehive.websocket.model.request;
 
+import com.github.devicehive.rest.model.NetworkUpdate;
 import com.github.devicehive.websocket.model.ActionConstant;
-import com.github.devicehive.websocket.model.request.data.NetworkUpdate;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
