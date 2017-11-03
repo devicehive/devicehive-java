@@ -21,7 +21,7 @@
 
 package com.github.devicehive.websocket.model.repsonse;
 
-import com.github.devicehive.websocket.model.repsonse.data.DeviceNotification;
+import com.github.devicehive.rest.model.DeviceNotification;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

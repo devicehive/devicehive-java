@@ -2,9 +2,11 @@ package com.github.devicehive.websocket;
 
 import com.github.devicehive.rest.model.Device;
 import com.github.devicehive.rest.model.DeviceUpdate;
+import com.github.devicehive.rest.model.NetworkUpdate;
 import com.github.devicehive.websocket.api.*;
 import com.github.devicehive.websocket.listener.ConfigurationListener;
 import com.github.devicehive.websocket.listener.DeviceListener;
+import com.github.devicehive.websocket.listener.NetworkListener;
 import com.github.devicehive.websocket.listener.TokenListener;
 import com.github.devicehive.websocket.model.repsonse.*;
 
@@ -12,12 +14,12 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
 
 class Helper {
     private static final String URL = "ws://playground.dev.devicehive.com/api/websocket";
-    private static final String ACCESS_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTU5MzQ3MjAwMDAwLCJ0IjoxfX0.pBjhmAQ31t5Y1AogEau8m8nCDjRCCndBLtQ3f6R-IBw";
+    private String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTA5NzIwMDQwNzE4LCJ0IjoxfX0.G_u8MiEKDKnWJdplfBo6_MI5BNyupaOLsg46PsdNRa8";
     private static final String REFRESH_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTI0MTUxMjAxMTA4LCJ0IjowfX0.2wfpmIjrHRtGBoSF3-T77aSAiUYPFSGtgBuGoVZtSxc";
-
     int awaitTimeout = 30;
     TimeUnit awaitTimeUnit = TimeUnit.SECONDS;
 
@@ -25,8 +27,9 @@ class Helper {
             .Builder()
             .url(URL)
             .build();
-    TokenWS tokenWS = client.createTokenWS();
-    DeviceWS deviceWS = client.createDeviceWS();
+    private TokenWS tokenWS = client.createTokenWS();
+    private DeviceWS deviceWS = client.createDeviceWS();
+    private NetworkWS networkWS = client.createNetworkWS();
 
     void authenticate() throws InterruptedException {
         final CountDownLatch latch = new CountDownLatch(1);
@@ -39,34 +42,44 @@ class Helper {
 
                     @Override
                     public void onError(ErrorResponse error) {
-                        tokenWS.refresh(null, REFRESH_TOKEN);
-                        tokenWS.setListener(new TokenListener() {
-                            @Override
-                            public void onGet(TokenGetResponse response) {
-
-                            }
-
-                            @Override
-                            public void onCreate(TokenGetResponse response) {
-
-                            }
-
-                            @Override
-                            public void onRefresh(TokenRefreshResponse response) {
-                                latch.countDown();
-                                client.authenticate(response.getAccessToken());
-                            }
-
-                            @Override
-                            public void onError(ErrorResponse error) {
-                                latch.countDown();
-                            }
-                        });
+                        refresh(latch);
                     }
                 }
         );
-        client.authenticate(ACCESS_TOKEN);
+
+        if (accessToken != null && !accessToken.isEmpty()) {
+            client.authenticate(accessToken);
+        } else {
+            refresh(latch);
+        }
         latch.await(1, TimeUnit.SECONDS);
+    }
+
+    private void refresh(final CountDownLatch latch) {
+        tokenWS.setListener(new TokenListener() {
+            @Override
+            public void onGet(TokenGetResponse response) {
+
+            }
+
+            @Override
+            public void onCreate(TokenGetResponse response) {
+
+            }
+
+            @Override
+            public void onRefresh(TokenRefreshResponse response) {
+                latch.countDown();
+                accessToken = response.getAccessToken();
+                client.authenticate(accessToken);
+            }
+
+            @Override
+            public void onError(ErrorResponse error) {
+                latch.countDown();
+            }
+        });
+        tokenWS.refresh(null, REFRESH_TOKEN);
     }
 
     boolean deleteConfigurations(String name) throws InterruptedException {
@@ -151,6 +164,56 @@ class Helper {
 
     void deleteDevice(String id) {
         deviceWS.delete(null, id);
+    }
+
+
+    long registerNetwork(String networkName) throws InterruptedException {
+        authenticate();
+        final CountDownLatch latch = new CountDownLatch(1);
+        final AtomicLong atomicLong = new AtomicLong(-1);
+        NetworkUpdate networkUpdate = new NetworkUpdate();
+        networkUpdate.setName(networkName);
+        networkWS.insert(null, networkUpdate);
+        networkWS.setListener(new NetworkListener() {
+            @Override
+            public void onList(NetworkListResponse response) {
+
+            }
+
+            @Override
+            public void onGet(NetworkGetResponse response) {
+
+            }
+
+            @Override
+            public void onInsert(NetworkInsertResponse response) {
+                atomicLong.set(response.getNetwork().getId());
+                latch.countDown();
+            }
+
+            @Override
+            public void onDelete(ResponseAction response) {
+
+            }
+
+            @Override
+            public void onUpdate(ResponseAction response) {
+
+            }
+
+            @Override
+            public void onError(ErrorResponse error) {
+                latch.countDown();
+                System.out.println(error);
+            }
+        });
+        latch.await(awaitTimeout, TimeUnit.SECONDS);
+        networkWS.setListener(null);
+        return atomicLong.get();
+    }
+
+    void deleteNetwork(long id) {
+        networkWS.delete(null, id);
     }
 
 }

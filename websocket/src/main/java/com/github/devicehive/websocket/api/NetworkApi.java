@@ -21,11 +21,14 @@
 
 package com.github.devicehive.websocket.api;
 
-import com.github.devicehive.websocket.model.request.data.NetworkUpdate;
+
+import com.github.devicehive.rest.model.NetworkUpdate;
+import com.github.devicehive.rest.model.SortField;
+import com.github.devicehive.rest.model.SortOrder;
 
 interface NetworkApi {
 
-    void list(Long requestId, String name, String namePattern, String sortField, Boolean sortOrderAsc, Integer take, Integer skip);
+    void list(Long requestId, String name, String namePattern, SortField sortField, SortOrder sortOrder, Integer take, Integer skip);
 
     void get(Long requestId, Long id);
 

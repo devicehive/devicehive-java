@@ -31,8 +31,8 @@ import static com.github.devicehive.websocket.model.ActionConstant.NETWORK_GET;
 @Data
 public class NetworkGetAction extends RequestAction {
 
-    @SerializedName("id")
-    private Long id;
+    @SerializedName("networkId")
+    private Long networkId;
 
     public NetworkGetAction() {
         super(NETWORK_GET);

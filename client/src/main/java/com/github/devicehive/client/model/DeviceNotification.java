@@ -60,7 +60,7 @@ public class DeviceNotification {
                 .build();
     }
 
-    public static DeviceNotification create(com.github.devicehive.websocket.model.repsonse.data.DeviceNotification notification) {
+    public static DeviceNotification create(DeviceNotification notification) {
         return DeviceNotification.builder()
                 .id(notification.getId())
                 .notification(notification.getNotification())
@@ -82,12 +82,12 @@ public class DeviceNotification {
         return result;
     }
 
-    public static List<DeviceNotification> createListFromWS(List<com.github.devicehive.websocket.model.repsonse.data.DeviceNotification> notifications) {
+    public static List<DeviceNotification> createListFromWS(List<com.github.devicehive.rest.model.DeviceNotification> notifications) {
         if (notifications == null) {
             return null;
         }
         List<DeviceNotification> result = new ArrayList<DeviceNotification>(notifications.size());
-        for (com.github.devicehive.websocket.model.repsonse.data.DeviceNotification n : notifications) {
+        for (com.github.devicehive.rest.model.DeviceNotification n : notifications) {
             result.add(create(n));
         }
         return result;
