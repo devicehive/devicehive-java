@@ -2,32 +2,35 @@ package com.github.devicehive.websocket;
 
 import com.github.devicehive.rest.model.Device;
 import com.github.devicehive.rest.model.DeviceUpdate;
+import com.github.devicehive.rest.model.NetworkUpdate;
 import com.github.devicehive.websocket.api.*;
-import com.github.devicehive.websocket.listener.ConfigurationListener;
-import com.github.devicehive.websocket.listener.DeviceListener;
-import com.github.devicehive.websocket.listener.TokenListener;
-import com.github.devicehive.websocket.listener.UserListener;
+import com.github.devicehive.websocket.listener.*;
 import com.github.devicehive.websocket.model.repsonse.*;
 
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
 
 class Helper {
     private static final String URL = "ws://playground.dev.devicehive.com/api/websocket";
-    private static final String ACCESS_TOKEN = "***REMOVED***";
+    private String accessToken = "***REMOVED***";
     private static final String REFRESH_TOKEN = "***REMOVED***";
 
-    int awaitTimeout = 30;
+    int awaitTimeout = 10;
     TimeUnit awaitTimeUnit = TimeUnit.SECONDS;
 
     WebSocketClient client = new WebSocketClient
             .Builder()
             .url(URL)
             .build();
-    TokenWS tokenWS = client.createTokenWS();
-    DeviceWS deviceWS = client.createDeviceWS();
+
+    private TokenWS tokenWS = client.createTokenWS();
+    private DeviceWS deviceWS = client.createDeviceWS();
+    private NetworkWS networkWS = client.createNetworkWS();
+
+    private static Long networkId;
 
     void authenticate() throws InterruptedException {
         final CountDownLatch latch = new CountDownLatch(1);
@@ -40,35 +43,46 @@ class Helper {
 
                     @Override
                     public void onError(ErrorResponse error) {
-                        tokenWS.refresh(null, REFRESH_TOKEN);
-                        tokenWS.setListener(new TokenListener() {
-                            @Override
-                            public void onGet(TokenGetResponse response) {
-
-                            }
-
-                            @Override
-                            public void onCreate(TokenGetResponse response) {
-
-                            }
-
-                            @Override
-                            public void onRefresh(TokenRefreshResponse response) {
-                                latch.countDown();
-                                client.authenticate(response.getAccessToken());
-                            }
-
-                            @Override
-                            public void onError(ErrorResponse error) {
-                                latch.countDown();
-                            }
-                        });
+                        refresh(latch);
                     }
                 }
         );
-        client.authenticate(ACCESS_TOKEN);
-        latch.await(awaitTimeout, awaitTimeUnit);
+
+        if (accessToken != null && !accessToken.isEmpty()) {
+            client.authenticate(accessToken);
+        } else {
+            refresh(latch);
+        }
+        latch.await(1, TimeUnit.SECONDS);
     }
+
+    private void refresh(final CountDownLatch latch) {
+        tokenWS.setListener(new TokenListener() {
+            @Override
+            public void onGet(TokenGetResponse response) {
+
+            }
+
+            @Override
+            public void onCreate(TokenGetResponse response) {
+
+            }
+
+            @Override
+            public void onRefresh(TokenRefreshResponse response) {
+                latch.countDown();
+                accessToken = response.getAccessToken();
+                client.authenticate(accessToken);
+            }
+
+            @Override
+            public void onError(ErrorResponse error) {
+                latch.countDown();
+            }
+        });
+        tokenWS.refresh(null, REFRESH_TOKEN);
+    }
+
 
     boolean deleteConfiguration(String name) throws InterruptedException {
         final CountDownLatch latch = new CountDownLatch(1);
@@ -154,14 +168,108 @@ class Helper {
         deviceWS.delete(null, id);
     }
 
-    boolean deleteUser(Long id) throws InterruptedException {
+
+    long registerNetwork(String networkName) throws InterruptedException {
+        authenticate();
+        final CountDownLatch latch = new CountDownLatch(1);
+        final AtomicLong atomicLong = new AtomicLong(-1);
+        NetworkUpdate networkUpdate = new NetworkUpdate();
+        networkUpdate.setName(networkName);
+        networkWS.insert(null, networkUpdate);
+        networkWS.setListener(new NetworkListener() {
+            @Override
+            public void onList(NetworkListResponse response) {
+
+            }
+
+            @Override
+            public void onGet(NetworkGetResponse response) {
+
+            }
+
+            @Override
+            public void onInsert(NetworkInsertResponse response) {
+                atomicLong.set(response.getNetwork().getId());
+                latch.countDown();
+            }
+
+            @Override
+            public void onDelete(ResponseAction response) {
+
+            }
+
+            @Override
+            public void onUpdate(ResponseAction response) {
+
+            }
+
+            @Override
+            public void onError(ErrorResponse error) {
+                latch.countDown();
+                System.out.println(error);
+            }
+        });
+        latch.await(awaitTimeout, TimeUnit.SECONDS);
+        networkWS.setListener(null);
+        return atomicLong.get();
+    }
+
+    void deleteNetwork(long id) {
+        networkWS.delete(null, id);
+    }
+
+    boolean safeDeleteNetwork(Long id) throws InterruptedException {
+        final CountDownLatch latch = new CountDownLatch(1);
+        authenticate();
+
+        final Counter counter = new Counter();
+        final NetworkWS localNetworkWS = client.createNetworkWS();
+        localNetworkWS.setListener(new NetworkListener() {
+            @Override
+            public void onList(NetworkListResponse response) {
+
+            }
+
+            @Override
+            public void onGet(NetworkGetResponse response) {
+
+            }
+
+            @Override
+            public void onInsert(NetworkInsertResponse response) {
+            }
+
+            @Override
+            public void onDelete(ResponseAction response) {
+                if (response.getStatus().equals(ResponseAction.SUCCESS)) {
+                    counter.increment();
+                }
+                latch.countDown();
+            }
+
+            @Override
+            public void onUpdate(ResponseAction response) {
+
+            }
+
+            @Override
+            public void onError(ErrorResponse error) {
+
+            }
+        });
+        localNetworkWS.delete(null, id);
+        latch.await(awaitTimeout, awaitTimeUnit);
+        return counter.getCount() == 1;
+    }
+
+    boolean safeDeleteUser(Long id) throws InterruptedException {
         final CountDownLatch latch = new CountDownLatch(1);
 
         authenticate();
 
         final Counter counter = new Counter();
-        final UserWS userWS = client.createUserWS();
-        userWS.setListener(new UserListener() {
+        final UserWS localUserWS = client.createUserWS();
+        localUserWS.setListener(new UserListener() {
             @Override
             public void onList(UserListResponse response) {
 
@@ -222,7 +330,7 @@ class Helper {
 
         });
 
-        userWS.delete(null, id);
+        localUserWS.delete(null, id);
         latch.await(awaitTimeout, awaitTimeUnit);
         return counter.getCount() == 1;
     }

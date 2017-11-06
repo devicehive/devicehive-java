@@ -35,6 +35,7 @@
 package com.github.devicehive.websocket.model.repsonse.data;
 
 import com.github.devicehive.rest.model.JsonStringWrapper;
+import com.github.devicehive.rest.model.NetworkVO;
 import com.github.devicehive.rest.model.RoleEnum;
 import com.github.devicehive.rest.model.StatusEnum;
 import com.google.gson.annotations.SerializedName;

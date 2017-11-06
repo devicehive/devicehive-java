@@ -21,6 +21,7 @@
 
 package com.github.devicehive.websocket.model.repsonse;
 
+import com.github.devicehive.rest.model.NetworkVO;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -32,7 +33,7 @@ import java.util.List;
 public class NetworkListResponse extends ResponseAction {
 
     @SerializedName("networks")
-    private List<com.github.devicehive.websocket.model.repsonse.data.NetworkVO> networks;
+    private List<NetworkVO> networks;
 
     @Override
     public String toString() {
