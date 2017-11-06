@@ -21,6 +21,8 @@
 
 package com.github.devicehive.websocket.model.request;
 
+import com.github.devicehive.rest.model.SortField;
+import com.github.devicehive.rest.model.SortOrder;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -36,9 +38,9 @@ public class NetworkListAction extends RequestAction {
     @SerializedName("namePattern")
     private String namePattern;
     @SerializedName("sortField")
-    private String sortField;
-    @SerializedName("sortOrderAsc")
-    private Boolean sortOrderAsc;
+    private SortField sortField;
+    @SerializedName("sortOrder")
+    private SortOrder sortOrder;
     @SerializedName("take")
     private Integer take;
     @SerializedName("skip")
