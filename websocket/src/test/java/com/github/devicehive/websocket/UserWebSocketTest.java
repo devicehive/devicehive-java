@@ -16,9 +16,9 @@ import java.util.concurrent.CountDownLatch;
 
 public class UserWebSocketTest extends Helper {
     private static final String JSON_DATA = "{\"jsonString\": \"NEW STRING DATA\"}";
-    private static final String LOGIN = "L0G1N_DAT_1Z_UN1CK";
+    private static final String LOGIN = "WS_L0G1N_DAT_1Z_UN1CK";
     private static final String PASSWORD = "PASSWORD";
-    private static final String NETWORK_NAME = "T3ZT NE7W0K";
+    private static final String NETWORK_NAME = "WS_T3ZT NE7W0K";
     private static final int ROLE = 0;
     private static final int STATUS = 0;
     private static Long userId;
