@@ -131,4 +131,27 @@ class Helper {
         }
         return count == names.length;
     }
+
+    void cleanUpNetworks(String networkNamePrefix) throws IOException {
+        NetworkApi networkApi = client.createService(NetworkApi.class);
+
+        Response<List<Network>> getResponse = networkApi.list(null, networkNamePrefix + "%",
+                null, null, Integer.MAX_VALUE, 0).execute();
+        List<Network> existingNetworks = getResponse.body();
+        for (Network network: existingNetworks) {
+            deleteNetworks(network.getId());
+        }
+    }
+
+
+    void cleanUpUsers(String userLoginPrefix) throws IOException {
+        UserApi userApi = client.createService(UserApi.class);
+
+        Response<List<UserVO>> getResponse = userApi.list(null, userLoginPrefix + "%",
+                null, null, null, null, Integer.MAX_VALUE, 0).execute();
+        List<UserVO> existingUsers = getResponse.body();
+        for (UserVO user: existingUsers) {
+            deleteUsers(user.getId());
+        }
+    }
 }
