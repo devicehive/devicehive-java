@@ -35,6 +35,8 @@ import com.github.devicehive.websocket.listener.CommandListener;
 import com.github.devicehive.websocket.listener.NotificationListener;
 import com.github.devicehive.websocket.model.repsonse.*;
 import org.joda.time.DateTime;
+
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -139,6 +141,18 @@ public class DeviceHive implements MainDeviceHive {
                 .getTokenAuth()
                 .setAccessToken(accessToken)
                 .setRefreshToken(refreshToken);
+    }
+    public void enableDebug(boolean enable) {
+        RestHelper.getInstance().enableDebug(enable);
+        createServices();
+        createWsServices();
+
+    }
+
+    public void enableDebug(boolean enable, HttpLoggingInterceptor.Level level) {
+        RestHelper.getInstance().enableDebug(enable, level);
+        createServices();
+        createWsServices();
     }
 
     private void createServices() {
