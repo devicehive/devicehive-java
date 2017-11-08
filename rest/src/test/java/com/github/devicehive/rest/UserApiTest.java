@@ -21,7 +21,6 @@
 
 package com.github.devicehive.rest;
 
-import com.github.devicehive.rest.api.NetworkApi;
 import com.github.devicehive.rest.api.UserApi;
 import com.github.devicehive.rest.model.*;
 import org.junit.Assert;

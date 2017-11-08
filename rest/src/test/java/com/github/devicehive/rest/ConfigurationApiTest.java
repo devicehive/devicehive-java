@@ -4,6 +4,7 @@ import com.github.devicehive.rest.api.ConfigurationApi;
 import com.github.devicehive.rest.model.Configuration;
 import com.github.devicehive.rest.model.ValueProperty;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import retrofit2.Response;
 
@@ -13,12 +14,21 @@ public class ConfigurationApiTest extends Helper{
     private static final String CONFIGURATION_NAME = "TEZT C0NF1G";
     private static final String CONFIGURATION_VALUE = "TEST VALUE";
 
-    @Test
-    public void setConfigurationProperty() throws IOException {
+    private void authorise() throws IOException {
         boolean authenticated = authenticate();
         Assert.assertTrue(authenticated);
+    }
 
+    @Before
+    public void preTest() throws IOException {
+        authorise();
+        cleanUpConfigurations(CONFIGURATION_NAME);
+    }
+
+    @Test
+    public void setConfigurationProperty() throws IOException {
         ConfigurationApi configurationApi = client.createService(ConfigurationApi.class);
+
         ValueProperty valueProperty = new ValueProperty();
         valueProperty.setValue(CONFIGURATION_VALUE);
 
@@ -30,10 +40,8 @@ public class ConfigurationApiTest extends Helper{
 
     @Test
     public void getConfigurationProperty() throws IOException {
-        boolean authenticated = authenticate();
-        Assert.assertTrue(authenticated);
-
         ConfigurationApi configurationApi = client.createService(ConfigurationApi.class);
+
         ValueProperty valueProperty = new ValueProperty();
         valueProperty.setValue(CONFIGURATION_VALUE);
 
@@ -50,10 +58,8 @@ public class ConfigurationApiTest extends Helper{
 
     @Test
     public void deleteConfigurationProperty() throws IOException {
-        boolean authenticated = authenticate();
-        Assert.assertTrue(authenticated);
-
         ConfigurationApi configurationApi = client.createService(ConfigurationApi.class);
+
         ValueProperty valueProperty = new ValueProperty();
         valueProperty.setValue(CONFIGURATION_VALUE);
 
