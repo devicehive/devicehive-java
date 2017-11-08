@@ -154,4 +154,8 @@ class Helper {
             deleteUsers(user.getId());
         }
     }
+
+    void cleanUpConfigurations(String configurationName) throws IOException {
+        deleteConfigurations(configurationName);
+    }
 }

@@ -27,6 +27,7 @@ import com.github.devicehive.rest.model.NetworkId;
 import com.github.devicehive.rest.model.NetworkUpdate;
 import com.github.devicehive.rest.model.NetworkVO;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import retrofit2.Response;
 
@@ -37,12 +38,21 @@ public class NetworkApiTest extends Helper {
     private static final String NETWORK_NAME = "TEZT N3TW0K W1Z UN1Q N4M3";
     private static final String UPDATED_NETWORK_NAME = "UPDATED TEZT N3TW0K W1Z UN1Q N4M3";
 
-    @Test
-    public void insertNetwork() throws IOException {
+    private void authorise() throws IOException {
         boolean authenticated = authenticate();
         Assert.assertTrue(authenticated);
+    }
 
+    @Before
+    public void preTest() throws IOException {
+        authorise();
+        cleanUpNetworks(NETWORK_NAME);
+    }
+
+    @Test
+    public void insertNetwork() throws IOException {
         NetworkApi networkApi = client.createService(NetworkApi.class);
+
         NetworkUpdate networkUpdate = new NetworkUpdate();
         networkUpdate.setName(NETWORK_NAME);
 
@@ -56,12 +66,11 @@ public class NetworkApiTest extends Helper {
 
     @Test
     public void getNetwork() throws IOException {
-        boolean authenticated = authenticate();
-        Assert.assertTrue(authenticated);
-
         NetworkApi networkApi = client.createService(NetworkApi.class);
+
         NetworkUpdate networkUpdate = new NetworkUpdate();
         networkUpdate.setName(NETWORK_NAME);
+
         Response<NetworkId> insertResponse = networkApi.insert(networkUpdate).execute();
         Assert.assertTrue(insertResponse.isSuccessful());
         Long networkId = insertResponse.body().getId();
@@ -76,12 +85,11 @@ public class NetworkApiTest extends Helper {
 
     @Test
     public void deleteNetwork() throws IOException {
-        boolean authenticated = authenticate();
-        Assert.assertTrue(authenticated);
-
         NetworkApi networkApi = client.createService(NetworkApi.class);
+
         NetworkUpdate networkUpdate = new NetworkUpdate();
         networkUpdate.setName(NETWORK_NAME);
+
         Response<NetworkId> insertResponse = networkApi.insert(networkUpdate).execute();
         Assert.assertTrue(insertResponse.isSuccessful());
         Long networkId = insertResponse.body().getId();
@@ -93,9 +101,6 @@ public class NetworkApiTest extends Helper {
 
     @Test
     public void updateNetwork() throws IOException {
-        boolean authenticated = authenticate();
-        Assert.assertTrue(authenticated);
-
         NetworkApi networkApi = client.createService(NetworkApi.class);
         NetworkUpdate networkUpdate = new NetworkUpdate();
         networkUpdate.setName(NETWORK_NAME);
@@ -121,18 +126,7 @@ public class NetworkApiTest extends Helper {
 
     @Test
     public void listNetwork() throws IOException {
-        boolean authenticated = authenticate();
-        Assert.assertTrue(authenticated);
-
         NetworkApi networkApi = client.createService(NetworkApi.class);
-
-        Response<List<Network>> getResponse = networkApi.list(null, NETWORK_NAME + "%",
-                null, null, Integer.MAX_VALUE, 0).execute();
-        Assert.assertTrue(getResponse.isSuccessful());
-        List<Network> existingNetworks = getResponse.body();
-        for (Network network: existingNetworks) {
-            deleteNetworks(network.getId());
-        }
 
         int networkAmount = 5;
         Long[] networkIds = new Long[networkAmount];
@@ -140,8 +134,10 @@ public class NetworkApiTest extends Helper {
             NetworkUpdate networkUpdate = new NetworkUpdate();
             String name = String.format("%s %d", NETWORK_NAME, j);
             networkUpdate.setName(name);
+
             Response<NetworkId> insertResponse = networkApi.insert(networkUpdate).execute();
             Assert.assertTrue(insertResponse.isSuccessful());
+
             Long networkId = insertResponse.body().getId();
             Assert.assertNotNull(networkId);
             networkIds[j] = networkId;
