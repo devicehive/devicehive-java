@@ -25,6 +25,10 @@ import com.github.devicehive.rest.ApiClient;
 import com.github.devicehive.rest.api.AuthApi;
 import com.github.devicehive.rest.model.JwtAccessToken;
 import com.github.devicehive.rest.model.JwtRefreshToken;
+
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Callback;
 
 class RestHelper {
@@ -54,6 +58,29 @@ class RestHelper {
         JwtRefreshToken token = new JwtRefreshToken();
         token.setRefreshToken(TokenHelper.getInstance().getTokenAuth().getRefreshToken());
         authApi.refreshTokenRequest(token).enqueue(callback);
+    }
+    void enableDebug(boolean enable) {
+        enableDebug(enable, HttpLoggingInterceptor.Level.BODY);
+    }
+
+    void enableDebug(boolean enable, HttpLoggingInterceptor.Level level) {
+        if (enable) {
+            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+//         set your desired log level
+            logging.setLevel(level);
+            getInstance().getApiClient()
+                    .getOkClient()
+                    .newBuilder()
+                    .addInterceptor(logging)
+                    .readTimeout(35, TimeUnit.SECONDS)
+                    .connectTimeout(35, TimeUnit.SECONDS)
+                    .build();
+        } else {
+            getInstance().getApiClient().getOkClient().newBuilder()
+                    .readTimeout(35, TimeUnit.SECONDS)
+                    .connectTimeout(35, TimeUnit.SECONDS)
+                    .build();
+        }
     }
 }
 

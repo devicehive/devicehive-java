@@ -78,38 +78,6 @@
                 <configuration>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>${mojo-maven-plugin}</version>
-                <executions>
-                    <execution>
-                        <id>add_sources</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>src/main/java</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>add_test_sources</id>
-                        <phase>generate-test-sources</phase>
-                        <goals>
-                            <goal>add-test-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>src/test/java</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -220,7 +188,6 @@
         <retrofit2-version>2.3.0</retrofit2-version>
         <okhttp3-version>3.9.0</okhttp3-version>
         <oltu-version>1.0.0</oltu-version>
-        <maven-plugin-version>1.0.0</maven-plugin-version>
         <junit-version>4.12</junit-version>
         <cli-version>1.3</cli-version>
         <guava-version>19.0</guava-version>
@@ -231,7 +198,7 @@
         <commons-codec>1.9</commons-codec>
         <json-simple>1.1.1</json-simple>
         <appache-commons>3.4</appache-commons>
-        <project-lombok>1.16.16</project-lombok>
+        <project-lombok>1.16.18</project-lombok>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 </project>
