@@ -18,7 +18,7 @@ class Helper {
     private String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTA5NzIwMDQwNzE4LCJ0IjoxfX0.G_u8MiEKDKnWJdplfBo6_MI5BNyupaOLsg46PsdNRa8";
     private static final String REFRESH_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTI0MTUxMjAxMTA4LCJ0IjowfX0.2wfpmIjrHRtGBoSF3-T77aSAiUYPFSGtgBuGoVZtSxc";
 
-    int awaitTimeout = 60;
+    int awaitTimeout = 30;
     TimeUnit awaitTimeUnit = TimeUnit.SECONDS;
 
     WebSocketClient client = new WebSocketClient
@@ -53,7 +53,7 @@ class Helper {
         } else {
             refresh(latch);
         }
-        latch.await(1, TimeUnit.SECONDS);
+        latch.await(awaitTimeout, awaitTimeUnit);
     }
 
     private void refresh(final CountDownLatch latch) {

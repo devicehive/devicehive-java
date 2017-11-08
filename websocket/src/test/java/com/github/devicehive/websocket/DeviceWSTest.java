@@ -27,6 +27,7 @@ import com.github.devicehive.websocket.listener.DeviceListener;
 import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
 import com.github.devicehive.websocket.model.repsonse.ResponseAction;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -37,6 +38,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.github.devicehive.websocket.model.repsonse.ResponseAction.SUCCESS;
 
+@Ignore
 public class DeviceWSTest extends Helper {
 
     @Test
@@ -84,8 +86,8 @@ public class DeviceWSTest extends Helper {
             }
         });
         registerDevice(deviceId, deviceWS);
-        latch.await(10, TimeUnit.SECONDS);
-        Assert.assertEquals(latch.getCount(), 0);
+        latch.await(awaitTimeout, awaitTimeUnit);
+        Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
@@ -133,8 +135,8 @@ public class DeviceWSTest extends Helper {
             }
         });
         registerDevice(deviceId, deviceWS);
-        latch.await(10, TimeUnit.SECONDS);
-        Assert.assertEquals(latch.getCount(), 0);
+        latch.await(awaitTimeout, awaitTimeUnit);
+        Assert.assertEquals(0, latch.getCount());
     }
 
 
@@ -186,8 +188,8 @@ public class DeviceWSTest extends Helper {
             }
         });
         registerDevice(deviceId, deviceWS);
-        latch.await(10, TimeUnit.SECONDS);
-        Assert.assertEquals(latch.getCount(), 0);
+        latch.await(awaitTimeout, awaitTimeUnit);
+        Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
@@ -237,7 +239,7 @@ public class DeviceWSTest extends Helper {
             }
         });
         registerDevice(deviceId, deviceWS);
-        latch.await(10, TimeUnit.SECONDS);
-        Assert.assertEquals(latch.getCount(), 0);
+        latch.await(awaitTimeout, awaitTimeUnit);
+        Assert.assertEquals(0, latch.getCount());
     }
 }
