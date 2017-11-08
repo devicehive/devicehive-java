@@ -18,7 +18,7 @@ class Helper {
     private String accessToken = "***REMOVED***";
     private static final String REFRESH_TOKEN = "***REMOVED***";
 
-    int awaitTimeout = 10;
+    int awaitTimeout = 60;
     TimeUnit awaitTimeUnit = TimeUnit.SECONDS;
 
     WebSocketClient client = new WebSocketClient
