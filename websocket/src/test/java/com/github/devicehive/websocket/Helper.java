@@ -18,7 +18,7 @@ class Helper {
     private String accessToken = "***REMOVED***";
     private static final String REFRESH_TOKEN = "***REMOVED***";
 
-    int awaitTimeout = 60;
+    int awaitTimeout = 30;
     TimeUnit awaitTimeUnit = TimeUnit.SECONDS;
 
     WebSocketClient client = new WebSocketClient
@@ -53,7 +53,7 @@ class Helper {
         } else {
             refresh(latch);
         }
-        latch.await(1, TimeUnit.SECONDS);
+        latch.await(awaitTimeout, awaitTimeUnit);
     }
 
     private void refresh(final CountDownLatch latch) {
