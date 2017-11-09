@@ -119,9 +119,11 @@ class Helper {
         return counter.getCount() == 1;
     }
 
-    void registerDevice(String deviceId, DeviceWS deviceWS) {
+    void registerDevice(DeviceWS deviceWS, String deviceId, String deviceName, Long networkId) throws InterruptedException {
         DeviceUpdate deviceUpdate = new DeviceUpdate();
-        deviceUpdate.setName(deviceId);
+        deviceUpdate.setName(deviceName);
+        deviceUpdate.setNetworkId(networkId);
+
         deviceWS.save(null, deviceId, deviceUpdate);
     }
 

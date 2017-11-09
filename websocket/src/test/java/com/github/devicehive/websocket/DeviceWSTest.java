@@ -22,11 +22,13 @@
 package com.github.devicehive.websocket;
 
 import com.github.devicehive.rest.model.Device;
+import com.github.devicehive.rest.model.DeviceUpdate;
 import com.github.devicehive.websocket.api.DeviceWS;
 import com.github.devicehive.websocket.listener.DeviceListener;
 import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
 import com.github.devicehive.websocket.model.repsonse.ResponseAction;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -38,13 +40,20 @@ import java.util.concurrent.TimeUnit;
 
 import static com.github.devicehive.websocket.model.repsonse.ResponseAction.SUCCESS;
 
-@Ignore
 public class DeviceWSTest extends Helper {
+    public static final String NETWORK_NAME = "Dev1c3 t3zt N37w0k";
+    public static final String DEVICE_NAME = "WS_UNIT_TEST_DEVICE";
+
+    @Before
+    public void preTest() throws InterruptedException {
+        authenticate();
+    }
 
     @Test
     public void registerDevice() throws IOException, InterruptedException {
+        final Long networkId = registerNetwork(NETWORK_NAME);
         final String deviceId = UUID.randomUUID().toString();
-        final CountDownLatch latch = new CountDownLatch(2);
+        final CountDownLatch latch = new CountDownLatch(1);
         final DeviceWS deviceWS = client.createDeviceWS();
         deviceWS.setListener(new DeviceListener() {
             @Override
@@ -58,15 +67,13 @@ public class DeviceWSTest extends Helper {
 
             @Override
             public void onDelete(ResponseAction response) {
-                latch.countDown();
-                Assert.assertEquals(response.getStatus(), SUCCESS);
+
             }
 
             @Override
             public void onSave(ResponseAction response) {
+                Assert.assertEquals(SUCCESS, response.getStatus());
                 latch.countDown();
-                deviceWS.delete(null, deviceId);
-                Assert.assertEquals(response.getStatus(), SUCCESS);
             }
 
             @Override
@@ -75,7 +82,7 @@ public class DeviceWSTest extends Helper {
                     try {
                         authenticate();
                         Assert.assertNotNull(deviceWS);
-                        registerDevice(deviceId, deviceWS);
+                        registerDevice(deviceWS, deviceId, DEVICE_NAME, networkId);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                         Assert.assertTrue(false);
@@ -85,15 +92,21 @@ public class DeviceWSTest extends Helper {
                 Assert.assertTrue(false);
             }
         });
-        registerDevice(deviceId, deviceWS);
+
+        registerDevice(deviceWS, deviceId, DEVICE_NAME, networkId);
         latch.await(awaitTimeout, awaitTimeUnit);
+
+        deleteDevice(deviceId);
+        deleteNetwork(networkId);
+
         Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
     public void deleteDevice() throws IOException, InterruptedException {
+        final Long networkId = registerNetwork(NETWORK_NAME);
         final String deviceId = UUID.randomUUID().toString();
-        final CountDownLatch latch = new CountDownLatch(2);
+        final CountDownLatch latch = new CountDownLatch(1);
         final DeviceWS deviceWS = client.createDeviceWS();
         deviceWS.setListener(new DeviceListener() {
             @Override
@@ -107,24 +120,24 @@ public class DeviceWSTest extends Helper {
 
             @Override
             public void onDelete(ResponseAction response) {
+                Assert.assertEquals(SUCCESS, response.getStatus());
                 latch.countDown();
-                Assert.assertEquals(response.getStatus(), SUCCESS);
             }
 
             @Override
             public void onSave(ResponseAction response) {
-                latch.countDown();
+                Assert.assertEquals(SUCCESS, response.getStatus());
                 deviceWS.delete(null, deviceId);
-                Assert.assertEquals(response.getStatus(), SUCCESS);
             }
 
             @Override
             public void onError(ErrorResponse error) {
+                System.out.println(error);
                 if (error.getCode() == 401) {
                     try {
                         authenticate();
                         Assert.assertNotNull(deviceWS);
-                        registerDevice(deviceId, deviceWS);
+                        registerDevice(deviceWS, deviceId, DEVICE_NAME, networkId);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                         Assert.assertTrue(false);
@@ -133,69 +146,22 @@ public class DeviceWSTest extends Helper {
                 }
                 Assert.assertTrue(false);
             }
+
         });
-        registerDevice(deviceId, deviceWS);
+
+        registerDevice(deviceWS, deviceId, DEVICE_NAME, networkId);
         latch.await(awaitTimeout, awaitTimeUnit);
-        Assert.assertEquals(0, latch.getCount());
-    }
 
+        deleteNetwork(networkId);
 
-    @Test
-    public void getDeviceList() throws IOException, InterruptedException {
-        final String deviceId = UUID.randomUUID().toString();
-        final CountDownLatch latch = new CountDownLatch(3);
-        final DeviceWS deviceWS = client.createDeviceWS();
-        deviceWS.setListener(new DeviceListener() {
-            @Override
-            public void onList(List<Device> response) {
-                latch.countDown();
-                deviceWS.delete(null, deviceId);
-                Assert.assertTrue(response.size() > 0);
-            }
-
-            @Override
-            public void onGet(Device response) {
-            }
-
-            @Override
-            public void onDelete(ResponseAction response) {
-                latch.countDown();
-                Assert.assertEquals(response.getStatus(), SUCCESS);
-            }
-
-            @Override
-            public void onSave(ResponseAction response) {
-                latch.countDown();
-                deviceWS.list(null, null, null,
-                        null, null, null, null, 30, 0);
-                Assert.assertEquals(response.getStatus(), SUCCESS);
-            }
-
-            @Override
-            public void onError(ErrorResponse error) {
-                if (error.getCode() == 401) {
-                    try {
-                        authenticate();
-                        Assert.assertNotNull(deviceWS);
-                        registerDevice(deviceId, deviceWS);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                        Assert.assertTrue(false);
-                    }
-                    return;
-                }
-                Assert.assertTrue(false);
-            }
-        });
-        registerDevice(deviceId, deviceWS);
-        latch.await(awaitTimeout, awaitTimeUnit);
         Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
     public void getDevice() throws IOException, InterruptedException {
+        final Long networkId = registerNetwork(NETWORK_NAME);
         final String deviceId = UUID.randomUUID().toString();
-        final CountDownLatch latch = new CountDownLatch(3);
+        final CountDownLatch latch = new CountDownLatch(1);
         final DeviceWS deviceWS = client.createDeviceWS();
         deviceWS.setListener(new DeviceListener() {
             @Override
@@ -204,22 +170,20 @@ public class DeviceWSTest extends Helper {
 
             @Override
             public void onGet(Device response) {
+                Assert.assertEquals(deviceId, response.getId());
+                Assert.assertEquals(DEVICE_NAME, response.getName());
                 latch.countDown();
-                deviceWS.delete(null, deviceId);
-                Assert.assertEquals(response.getId(), deviceId);
             }
 
             @Override
             public void onDelete(ResponseAction response) {
-                latch.countDown();
-                Assert.assertEquals(response.getStatus(), SUCCESS);
+
             }
 
             @Override
             public void onSave(ResponseAction response) {
-                latch.countDown();
+                Assert.assertEquals(SUCCESS, response.getStatus());
                 deviceWS.get(null, deviceId);
-                Assert.assertEquals(response.getStatus(), SUCCESS);
             }
 
             @Override
@@ -228,7 +192,7 @@ public class DeviceWSTest extends Helper {
                     try {
                         authenticate();
                         Assert.assertNotNull(deviceWS);
-                        registerDevice(deviceId, deviceWS);
+                        registerDevice(deviceWS, deviceId, DEVICE_NAME, networkId);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                         Assert.assertTrue(false);
@@ -238,8 +202,67 @@ public class DeviceWSTest extends Helper {
                 Assert.assertTrue(false);
             }
         });
-        registerDevice(deviceId, deviceWS);
+        registerDevice(deviceWS, deviceId, DEVICE_NAME, networkId);
         latch.await(awaitTimeout, awaitTimeUnit);
+
+        deleteDevice(deviceId);
+        deleteNetwork(networkId);
+
         Assert.assertEquals(0, latch.getCount());
     }
+
+    @Test
+    public void getDeviceList() throws IOException, InterruptedException {
+        final Long networkId = registerNetwork(NETWORK_NAME);
+        final String deviceId = UUID.randomUUID().toString();
+        final CountDownLatch latch = new CountDownLatch(1);
+        final DeviceWS deviceWS = client.createDeviceWS();
+        deviceWS.setListener(new DeviceListener() {
+            @Override
+            public void onList(List<Device> response) {
+                Assert.assertTrue(response.size() > 0);
+                latch.countDown();
+            }
+
+            @Override
+            public void onGet(Device response) {
+            }
+
+            @Override
+            public void onDelete(ResponseAction response) {
+
+            }
+
+            @Override
+            public void onSave(ResponseAction response) {
+                Assert.assertEquals(SUCCESS, response.getStatus());
+                deviceWS.list(null, DEVICE_NAME, null,
+                        null, null, null, null, 30, 0);
+            }
+
+            @Override
+            public void onError(ErrorResponse error) {
+                if (error.getCode() == 401) {
+                    try {
+                        authenticate();
+                        Assert.assertNotNull(deviceWS);
+                        registerDevice(deviceWS, deviceId, DEVICE_NAME, networkId);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        Assert.assertTrue(false);
+                    }
+                    return;
+                }
+                Assert.assertTrue(false);
+            }
+        });
+        registerDevice(deviceWS, deviceId, DEVICE_NAME, networkId);
+        latch.await(awaitTimeout, awaitTimeUnit);
+
+        deleteDevice(deviceId);
+        deleteNetwork(networkId);
+
+        Assert.assertEquals(0, latch.getCount());
+    }
+
 }
