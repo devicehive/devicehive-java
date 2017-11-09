@@ -35,15 +35,21 @@
 package com.github.devicehive.rest.model;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
 
 /**
  * UserNetworkResponse
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
-@Data
 public class UserNetworkResponse {
   @SerializedName("network")
   private Network network = null;
+
+  public Network getNetwork() {
+    return network;
+  }
+
+  public void setNetwork(Network network) {
+    this.network = network;
+  }
 }
 

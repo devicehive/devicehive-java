@@ -23,14 +23,18 @@ package com.github.devicehive.websocket.model.repsonse;
 
 import com.github.devicehive.rest.model.Device;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class DeviceGetResponse extends ResponseAction {
     @SerializedName("device")
     private Device device;
+
+    public Device getDevice() {
+        return device;
+    }
+
+    public void setDevice(Device device) {
+        this.device = device;
+    }
 
     @Override
     public String toString() {

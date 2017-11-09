@@ -35,13 +35,11 @@
 package com.github.devicehive.websocket.model.repsonse.data;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
 
 /**
  * DeviceCommand
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
-@Data
 public class DeviceCommandInsert implements Comparable<DeviceCommandInsert> {
 
     @SerializedName("command")
@@ -49,6 +47,21 @@ public class DeviceCommandInsert implements Comparable<DeviceCommandInsert> {
     @SerializedName("subscriptionId")
     private Long subscriptionId;
 
+    public DeviceCommand getCommand() {
+        return command;
+    }
+
+    public void setCommand(DeviceCommand command) {
+        this.command = command;
+    }
+
+    public Long getSubscriptionId() {
+        return subscriptionId;
+    }
+
+    public void setSubscriptionId(Long subscriptionId) {
+        this.subscriptionId = subscriptionId;
+    }
 
     @Override
     public int compareTo(DeviceCommandInsert o) {

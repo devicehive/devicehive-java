@@ -21,16 +21,21 @@
 
 package com.github.devicehive.websocket.model.repsonse;
 
+import com.github.devicehive.websocket.model.repsonse.data.UserVO;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class UserListResponse extends ResponseAction {
 
     @SerializedName("users")
     List<com.github.devicehive.websocket.model.repsonse.data.UserVO> users;
+
+    public List<UserVO> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<UserVO> users) {
+        this.users = users;
+    }
 }

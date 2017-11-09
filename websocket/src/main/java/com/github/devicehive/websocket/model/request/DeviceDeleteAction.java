@@ -23,11 +23,7 @@ package com.github.devicehive.websocket.model.request;
 
 import com.github.devicehive.websocket.model.ActionConstant;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class DeviceDeleteAction extends RequestAction {
 
 
@@ -36,6 +32,14 @@ public class DeviceDeleteAction extends RequestAction {
 
     public DeviceDeleteAction() {
         super(ActionConstant.DEVICE_DELETE);
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
 
     @Override

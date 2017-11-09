@@ -23,16 +23,20 @@ package com.github.devicehive.websocket.model.repsonse;
 
 import com.github.devicehive.rest.model.Device;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
 public class DeviceListResponse extends ResponseAction {
     @SerializedName("devices")
     private List<Device> devices;
+
+    public List<Device> getDevices() {
+        return devices;
+    }
+
+    public void setDevices(List<Device> devices) {
+        this.devices = devices;
+    }
 
     @Override
     public String toString() {

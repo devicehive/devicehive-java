@@ -23,11 +23,7 @@ package com.github.devicehive.websocket.model.request;
 
 import com.github.devicehive.websocket.model.ActionConstant;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class ConfigurationGetAction extends RequestAction {
 
 
@@ -37,5 +33,13 @@ public class ConfigurationGetAction extends RequestAction {
 
     public ConfigurationGetAction() {
         super(ActionConstant.CONFIGURATION_GET);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
