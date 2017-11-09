@@ -23,13 +23,9 @@ package com.github.devicehive.websocket.model.request;
 
 import com.github.devicehive.websocket.model.request.data.User;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import static com.github.devicehive.websocket.model.ActionConstant.USER_INSERT;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class UserInsertAction extends RequestAction {
 
     @SerializedName("user")
@@ -37,5 +33,13 @@ public class UserInsertAction extends RequestAction {
 
     public UserInsertAction() {
         super(USER_INSERT);
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -22,13 +22,9 @@
 package com.github.devicehive.websocket.model.request;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import static com.github.devicehive.websocket.model.ActionConstant.TOKEN_REFRESH;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
 public class TokenRefreshAction extends RequestAction {
 
     @SerializedName("refreshToken")
@@ -36,5 +32,13 @@ public class TokenRefreshAction extends RequestAction {
 
     public TokenRefreshAction() {
         super(TOKEN_REFRESH);
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 }

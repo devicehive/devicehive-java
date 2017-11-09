@@ -22,15 +22,19 @@
 package com.github.devicehive.websocket.model.repsonse;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
 public class NotificationSubscribeResponse extends ResponseAction {
 
     @SerializedName("subscriptionId")
     private String subscriptionId;
+
+    public String getSubscriptionId() {
+        return subscriptionId;
+    }
+
+    public void setSubscriptionId(String subscriptionId) {
+        this.subscriptionId = subscriptionId;
+    }
 
     @Override
     public String toString() {

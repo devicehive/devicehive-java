@@ -21,18 +21,34 @@
 
 package com.github.devicehive.client.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
-@Data
-@AllArgsConstructor
 public class DHResponse<T> {
 
     private T data;
     private FailureData failureData;
 
+    public DHResponse(T data, FailureData failureData) {
+        this.data = data;
+        this.failureData = failureData;
+    }
+
     public boolean isSuccessful() {
         return failureData == null;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public FailureData getFailureData() {
+        return failureData;
+    }
+
+    public void setFailureData(FailureData failureData) {
+        this.failureData = failureData;
     }
 
     public static <T> DHResponse<T> create(T data, FailureData failureData) {

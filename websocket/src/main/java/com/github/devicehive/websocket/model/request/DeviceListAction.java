@@ -23,13 +23,9 @@ package com.github.devicehive.websocket.model.request;
 
 import com.github.devicehive.rest.model.SortOrder;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import static com.github.devicehive.websocket.model.ActionConstant.DEVICE_LIST;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class DeviceListAction extends RequestAction {
 
     @SerializedName("name")
@@ -51,5 +47,69 @@ public class DeviceListAction extends RequestAction {
 
     public DeviceListAction() {
         super(DEVICE_LIST);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getNamePattern() {
+        return namePattern;
+    }
+
+    public void setNamePattern(String namePattern) {
+        this.namePattern = namePattern;
+    }
+
+    public Long getNetworkId() {
+        return networkId;
+    }
+
+    public void setNetworkId(Long networkId) {
+        this.networkId = networkId;
+    }
+
+    public String getNetworkName() {
+        return networkName;
+    }
+
+    public void setNetworkName(String networkName) {
+        this.networkName = networkName;
+    }
+
+    public String getSortField() {
+        return sortField;
+    }
+
+    public void setSortField(String sortField) {
+        this.sortField = sortField;
+    }
+
+    public SortOrder getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(SortOrder sortOrder) {
+        this.sortOrder = sortOrder;
+    }
+
+    public Integer getTake() {
+        return take;
+    }
+
+    public void setTake(Integer take) {
+        this.take = take;
+    }
+
+    public Integer getSkip() {
+        return skip;
+    }
+
+    public void setSkip(Integer skip) {
+        this.skip = skip;
     }
 }

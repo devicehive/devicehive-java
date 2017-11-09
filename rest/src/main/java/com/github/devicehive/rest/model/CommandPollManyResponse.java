@@ -23,11 +23,7 @@ package com.github.devicehive.rest.model;
 
 
 import com.google.gson.annotations.SerializedName;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
-@Data
-@AllArgsConstructor
 public class CommandPollManyResponse  {
 
     private static final long serialVersionUID = -4390548037685312874L;
@@ -37,4 +33,28 @@ public class CommandPollManyResponse  {
     @SerializedName("deviceGuid")
     private String guid;
 
+    public CommandPollManyResponse(DeviceCommand command, String guid) {
+        this.command = command;
+        this.guid = guid;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public DeviceCommand getCommand() {
+        return command;
+    }
+
+    public void setCommand(DeviceCommand command) {
+        this.command = command;
+    }
+
+    public String getGuid() {
+        return guid;
+    }
+
+    public void setGuid(String guid) {
+        this.guid = guid;
+    }
 }

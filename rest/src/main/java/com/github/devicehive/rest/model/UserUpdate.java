@@ -35,13 +35,11 @@
 package com.github.devicehive.rest.model;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
 
 /**
  * UserUpdate
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
-@Data
 public class UserUpdate {
   @SerializedName("login")
   private String login = null;
@@ -64,5 +62,60 @@ public class UserUpdate {
   @SerializedName("introReviewed")
   private Boolean introReviewed = false;
 
+  public String getLogin() {
+    return login;
+  }
+
+  public void setLogin(String login) {
+    this.login = login;
+  }
+
+  public RoleEnum getRole() {
+    return role;
+  }
+
+  public void setRole(RoleEnum role) {
+    this.role = role;
+  }
+
+  public StatusEnum getStatus() {
+    return status;
+  }
+
+  public void setStatus(StatusEnum status) {
+    this.status = status;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public String getOldPassword() {
+    return oldPassword;
+  }
+
+  public void setOldPassword(String oldPassword) {
+    this.oldPassword = oldPassword;
+  }
+
+  public JsonStringWrapper getData() {
+    return data;
+  }
+
+  public void setData(JsonStringWrapper data) {
+    this.data = data;
+  }
+
+  public Boolean getIntroReviewed() {
+    return introReviewed;
+  }
+
+  public void setIntroReviewed(Boolean introReviewed) {
+    this.introReviewed = introReviewed;
+  }
 }
 

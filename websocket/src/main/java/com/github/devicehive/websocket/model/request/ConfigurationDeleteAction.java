@@ -22,13 +22,9 @@
 package com.github.devicehive.websocket.model.request;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import static com.github.devicehive.websocket.model.ActionConstant.CONFIGURATION_DELETE;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
 public class ConfigurationDeleteAction extends RequestAction {
 
 
@@ -38,5 +34,13 @@ public class ConfigurationDeleteAction extends RequestAction {
 
     public ConfigurationDeleteAction() {
         super(CONFIGURATION_DELETE);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

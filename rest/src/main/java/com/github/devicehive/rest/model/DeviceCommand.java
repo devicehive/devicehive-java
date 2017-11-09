@@ -35,14 +35,13 @@
 package com.github.devicehive.rest.model;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
+
 import org.joda.time.DateTime;
 
 /**
  * DeviceCommand
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
-@Data
 public class DeviceCommand implements Comparable<DeviceCommand> {
     @SerializedName("id")
     private Long id = null;
@@ -76,6 +75,94 @@ public class DeviceCommand implements Comparable<DeviceCommand> {
 
     @SerializedName("isUpdated")
     private Boolean isUpdated = false;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCommand() {
+        return command;
+    }
+
+    public void setCommand(String command) {
+        this.command = command;
+    }
+
+    public DateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(DateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public Long getNetworkId() {
+        return networkId;
+    }
+
+    public void setNetworkId(Long networkId) {
+        this.networkId = networkId;
+    }
+
+    public JsonStringWrapper getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(JsonStringWrapper parameters) {
+        this.parameters = parameters;
+    }
+
+    public Integer getLifetime() {
+        return lifetime;
+    }
+
+    public void setLifetime(Integer lifetime) {
+        this.lifetime = lifetime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public JsonStringWrapper getResult() {
+        return result;
+    }
+
+    public void setResult(JsonStringWrapper result) {
+        this.result = result;
+    }
+
+    public Boolean getUpdated() {
+        return isUpdated;
+    }
+
+    public void setUpdated(Boolean updated) {
+        isUpdated = updated;
+    }
 
     @Override
     public String toString() {

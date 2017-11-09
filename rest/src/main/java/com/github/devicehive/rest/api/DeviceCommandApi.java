@@ -26,8 +26,6 @@ import com.github.devicehive.rest.model.DeviceCommandWrapper;
 import retrofit2.Call;
 import retrofit2.http.*;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 
 
@@ -80,7 +78,7 @@ public interface DeviceCommandApi {
     })
     @GET(Const.API_REST+"device/{deviceId}/command/poll")
     Call<List<com.github.devicehive.rest.model.DeviceCommand>> poll(
-            @Path("deviceId") String deviceId, @Query("names") String names, @Query("timestamp") @Nonnull String timestamp, @Query("waitTimeout") Long waitTimeout, @Nullable @Query("limit") Integer limit
+            @Path("deviceId") String deviceId, @Query("names") String names, @Query("timestamp") String timestamp, @Query("waitTimeout") Long waitTimeout, @Query("limit") Integer limit
     );
 
     /**
