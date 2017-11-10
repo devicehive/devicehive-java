@@ -28,8 +28,10 @@ import com.github.devicehive.websocket.api.NetworkWS;
 import com.github.devicehive.websocket.listener.NetworkListener;
 import com.github.devicehive.websocket.model.repsonse.*;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 
@@ -37,6 +39,14 @@ public class NetworkWSTest extends Helper {
 
 
     public static final String JAVA_LIB_TEST = "JavaLibTest";
+
+    @Before
+    public void preTest() throws InterruptedException, IOException {
+        authenticate();
+
+        RESTHelper restHelper = new RESTHelper();
+        restHelper.cleanUpNetworks(JAVA_LIB_TEST);
+    }
 
     @Test
     public void list() throws InterruptedException {
@@ -74,7 +84,7 @@ public class NetworkWSTest extends Helper {
                 latch.countDown();
             }
         });
-        authenticate();
+
         networkWS.list(null, null, null, SortField.ID, SortOrder.DESC, 30, 0);
         latch.await(awaitTimeout, awaitTimeUnit);
         Assert.assertEquals(latch.getCount(), 0);
@@ -82,7 +92,6 @@ public class NetworkWSTest extends Helper {
 
     @Test
     public void get() throws InterruptedException {
-        authenticate();
         final CountDownLatch latch = new CountDownLatch(2);
         long networkId = registerNetwork(JAVA_LIB_TEST + new Random().nextInt());
         final NetworkWS networkWS = client.createNetworkWS();
@@ -127,7 +136,6 @@ public class NetworkWSTest extends Helper {
 
     @Test
     public void insert() throws InterruptedException {
-        authenticate();
         final CountDownLatch latch = new CountDownLatch(2);
         final NetworkWS networkWS = client.createNetworkWS();
         networkWS.setListener(new NetworkListener() {
@@ -173,7 +181,6 @@ public class NetworkWSTest extends Helper {
 
     @Test
     public void update() throws InterruptedException {
-        authenticate();
         final CountDownLatch latch = new CountDownLatch(2);
         final long networkId = registerNetwork(JAVA_LIB_TEST + new Random().nextInt());
         final NetworkWS networkWS = client.createNetworkWS();
@@ -219,7 +226,6 @@ public class NetworkWSTest extends Helper {
 
     @Test
     public void delete() throws InterruptedException {
-        authenticate();
         final CountDownLatch latch = new CountDownLatch(1);
         final long networkId = registerNetwork(JAVA_LIB_TEST + new Random().nextInt());
         final NetworkWS networkWS = client.createNetworkWS();
