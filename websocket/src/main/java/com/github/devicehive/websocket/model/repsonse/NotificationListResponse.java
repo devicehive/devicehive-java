@@ -23,17 +23,21 @@ package com.github.devicehive.websocket.model.repsonse;
 
 import com.github.devicehive.rest.model.DeviceNotification;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
 public class NotificationListResponse extends ResponseAction {
 
     @SerializedName("notifications")
     private List<DeviceNotification> notifications;
+
+    public List<DeviceNotification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<DeviceNotification> notifications) {
+        this.notifications = notifications;
+    }
 
     @Override
     public String toString() {

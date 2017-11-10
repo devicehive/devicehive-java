@@ -22,13 +22,9 @@
 package com.github.devicehive.websocket.model.request;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import static com.github.devicehive.websocket.model.ActionConstant.NETWORK_GET;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class NetworkGetAction extends RequestAction {
 
     @SerializedName("networkId")
@@ -36,5 +32,13 @@ public class NetworkGetAction extends RequestAction {
 
     public NetworkGetAction() {
         super(NETWORK_GET);
+    }
+
+    public Long getNetworkId() {
+        return networkId;
+    }
+
+    public void setNetworkId(Long networkId) {
+        this.networkId = networkId;
     }
 }

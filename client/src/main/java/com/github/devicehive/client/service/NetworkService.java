@@ -119,7 +119,7 @@ class NetworkService extends BaseService {
     private DHResponse<Network> createNetwork(String name, String description, DHResponse<NetworkId> restResponse) {
         DHResponse<Network> dhResponse;
         if (restResponse.isSuccessful()) {
-            dhResponse = new DHResponse<Network>(Network.builder()
+            dhResponse = new DHResponse<Network>(new Network.Builder()
                     .id(restResponse.getData().getId())
                     .name(name)
                     .description(description)

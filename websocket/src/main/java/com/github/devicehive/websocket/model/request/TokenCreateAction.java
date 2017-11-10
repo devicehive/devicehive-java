@@ -22,12 +22,9 @@
 package com.github.devicehive.websocket.model.request;
 
 import com.github.devicehive.websocket.model.ActionConstant;
+import com.github.devicehive.websocket.model.request.data.JwtPayload;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class TokenCreateAction extends RequestAction {
 
     @SerializedName("payload")
@@ -35,6 +32,14 @@ public class TokenCreateAction extends RequestAction {
 
     public TokenCreateAction() {
         super(ActionConstant.TOKEN_CREATE);
+    }
+
+    public JwtPayload getPayload() {
+        return payload;
+    }
+
+    public void setPayload(JwtPayload payload) {
+        this.payload = payload;
     }
 
     @Override

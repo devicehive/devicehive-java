@@ -21,15 +21,25 @@
 
 package com.github.devicehive.rest;
 
-import com.github.devicehive.rest.api.*;
+import com.github.devicehive.rest.api.AuthApi;
+import com.github.devicehive.rest.api.ConfigurationApi;
+import com.github.devicehive.rest.api.DeviceApi;
+import com.github.devicehive.rest.api.NetworkApi;
+import com.github.devicehive.rest.api.UserApi;
 import com.github.devicehive.rest.auth.ApiKeyAuth;
-import com.github.devicehive.rest.model.*;
+import com.github.devicehive.rest.model.DeviceUpdate;
+import com.github.devicehive.rest.model.JwtRequest;
+import com.github.devicehive.rest.model.JwtToken;
+import com.github.devicehive.rest.model.Network;
+import com.github.devicehive.rest.model.NetworkId;
+import com.github.devicehive.rest.model.NetworkUpdate;
 import com.github.devicehive.rest.utils.Const;
-import retrofit2.Response;
 
-import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.util.List;
+
+
+import retrofit2.Response;
 
 
 class Helper {
@@ -53,7 +63,7 @@ class Helper {
     }
 
 
-    boolean createDevice(@Nonnull String deviceId) throws IOException {
+    boolean createDevice(String deviceId) throws IOException {
         DeviceUpdate device = new DeviceUpdate();
         device.setName(Const.NAME);
         DeviceApi deviceApi = client.createService(DeviceApi.class);
@@ -71,7 +81,7 @@ class Helper {
         }
     }
 
-    NetworkId createNetwork(@Nonnull String networkName) throws IOException {
+    NetworkId createNetwork(String networkName) throws IOException {
         NetworkApi networkApi = client.createService(NetworkApi.class);
         NetworkUpdate networkUpdate = new NetworkUpdate();
         networkUpdate.setName(networkName);
