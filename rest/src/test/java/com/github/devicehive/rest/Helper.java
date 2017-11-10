@@ -27,12 +27,7 @@ import com.github.devicehive.rest.api.DeviceApi;
 import com.github.devicehive.rest.api.NetworkApi;
 import com.github.devicehive.rest.api.UserApi;
 import com.github.devicehive.rest.auth.ApiKeyAuth;
-import com.github.devicehive.rest.model.DeviceUpdate;
-import com.github.devicehive.rest.model.JwtRequest;
-import com.github.devicehive.rest.model.JwtToken;
-import com.github.devicehive.rest.model.Network;
-import com.github.devicehive.rest.model.NetworkId;
-import com.github.devicehive.rest.model.NetworkUpdate;
+import com.github.devicehive.rest.model.*;
 import com.github.devicehive.rest.utils.Const;
 
 import java.io.IOException;
