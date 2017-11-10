@@ -22,13 +22,9 @@
 package com.github.devicehive.websocket.model.request;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import static com.github.devicehive.websocket.model.ActionConstant.TOKEN_GET;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
 public class TokenGetAction extends RequestAction {
 
     @SerializedName("login")
@@ -38,5 +34,21 @@ public class TokenGetAction extends RequestAction {
 
     public TokenGetAction() {
         super(TOKEN_GET);
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

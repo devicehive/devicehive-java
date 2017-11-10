@@ -35,14 +35,13 @@
 package com.github.devicehive.websocket.model.request.data;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
+
 import org.joda.time.DateTime;
 
 /**
  * DeviceCommandWrapper
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
-@Data
 public class DeviceCommandWrapper {
   @SerializedName("command")
   private String command = null;
@@ -61,6 +60,54 @@ public class DeviceCommandWrapper {
 
   @SerializedName("result")
   private Object result = null;
+
+  public String getCommand() {
+    return command;
+  }
+
+  public void setCommand(String command) {
+    this.command = command;
+  }
+
+  public DateTime getTimestamp() {
+    return timestamp;
+  }
+
+  public void setTimestamp(DateTime timestamp) {
+    this.timestamp = timestamp;
+  }
+
+  public Object getParameters() {
+    return parameters;
+  }
+
+  public void setParameters(Object parameters) {
+    this.parameters = parameters;
+  }
+
+  public Integer getLifetime() {
+    return lifetime;
+  }
+
+  public void setLifetime(Integer lifetime) {
+    this.lifetime = lifetime;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
+
+  public Object getResult() {
+    return result;
+  }
+
+  public void setResult(Object result) {
+    this.result = result;
+  }
 
   @Override
   public String toString() {

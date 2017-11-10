@@ -24,11 +24,7 @@ package com.github.devicehive.websocket.model.request;
 import com.github.devicehive.rest.model.NetworkUpdate;
 import com.github.devicehive.websocket.model.ActionConstant;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class NetworkUpdateAction extends RequestAction {
 
     @SerializedName("networkId")
@@ -38,5 +34,21 @@ public class NetworkUpdateAction extends RequestAction {
     
     public NetworkUpdateAction() {
         super(ActionConstant.NETWORK_UPDATE);
+    }
+
+    public Long getNetworkId() {
+        return networkId;
+    }
+
+    public void setNetworkId(Long networkId) {
+        this.networkId = networkId;
+    }
+
+    public NetworkUpdate getNetwork() {
+        return network;
+    }
+
+    public void setNetwork(NetworkUpdate network) {
+        this.network = network;
     }
 }

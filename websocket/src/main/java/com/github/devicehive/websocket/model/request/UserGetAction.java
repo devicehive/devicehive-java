@@ -22,13 +22,9 @@
 package com.github.devicehive.websocket.model.request;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import static com.github.devicehive.websocket.model.ActionConstant.USER_GET;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class UserGetAction extends RequestAction {
 
     @SerializedName("userId")
@@ -36,5 +32,13 @@ public class UserGetAction extends RequestAction {
 
     public UserGetAction() {
         super(USER_GET);
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

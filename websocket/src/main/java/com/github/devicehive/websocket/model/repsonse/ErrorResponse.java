@@ -22,11 +22,7 @@
 package com.github.devicehive.websocket.model.repsonse;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class ErrorResponse extends ResponseAction {
     public static final String ERROR = "error";
 
@@ -34,6 +30,22 @@ public class ErrorResponse extends ResponseAction {
     int code;
     @SerializedName("error")
     String error;
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
 
     @Override
     public String toString() {

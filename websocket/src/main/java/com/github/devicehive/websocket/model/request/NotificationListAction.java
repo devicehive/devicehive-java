@@ -24,12 +24,9 @@ package com.github.devicehive.websocket.model.request;
 import com.github.devicehive.rest.model.SortOrder;
 import com.github.devicehive.websocket.model.ActionConstant;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+
 import org.joda.time.DateTime;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class NotificationListAction extends RequestAction {
 
     @SerializedName("deviceId")
@@ -51,5 +48,69 @@ public class NotificationListAction extends RequestAction {
 
     public NotificationListAction() {
         super(ActionConstant.NOTIFICATION_LIST);
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public DateTime getStart() {
+        return start;
+    }
+
+    public void setStart(DateTime start) {
+        this.start = start;
+    }
+
+    public DateTime getEnd() {
+        return end;
+    }
+
+    public void setEnd(DateTime end) {
+        this.end = end;
+    }
+
+    public String getNotification() {
+        return notification;
+    }
+
+    public void setNotification(String notification) {
+        this.notification = notification;
+    }
+
+    public String getSortField() {
+        return sortField;
+    }
+
+    public void setSortField(String sortField) {
+        this.sortField = sortField;
+    }
+
+    public SortOrder getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(SortOrder sortOrder) {
+        this.sortOrder = sortOrder;
+    }
+
+    public Integer getTake() {
+        return take;
+    }
+
+    public void setTake(Integer take) {
+        this.take = take;
+    }
+
+    public Integer getSkip() {
+        return skip;
+    }
+
+    public void setSkip(Integer skip) {
+        this.skip = skip;
     }
 }

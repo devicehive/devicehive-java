@@ -21,15 +21,27 @@
 
 package com.github.devicehive.websocket.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 
-@Data
-@AllArgsConstructor
 public class WebSocketModel {
 
     WebSocket webSocket;
     WebSocketListener listener;
+
+    public WebSocket getWebSocket() {
+        return webSocket;
+    }
+
+    public void setWebSocket(WebSocket webSocket) {
+        this.webSocket = webSocket;
+    }
+
+    public WebSocketListener getListener() {
+        return listener;
+    }
+
+    public void setListener(WebSocketListener listener) {
+        this.listener = listener;
+    }
 }

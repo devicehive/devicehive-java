@@ -21,16 +21,13 @@
 
 package com.github.devicehive.websocket.model.request;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
 import static com.github.devicehive.websocket.model.ActionConstant.USER_GET_CURRENT;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class UserGetCurrentAction extends RequestAction {
 
     public UserGetCurrentAction() {
         super(USER_GET_CURRENT);
     }
+
+
 }

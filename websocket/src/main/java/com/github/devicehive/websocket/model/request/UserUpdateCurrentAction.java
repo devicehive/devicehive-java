@@ -23,13 +23,9 @@ package com.github.devicehive.websocket.model.request;
 
 import com.github.devicehive.websocket.model.request.data.UserUpdate;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import static com.github.devicehive.websocket.model.ActionConstant.USER_UPDATE_CURRENT;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
 public class UserUpdateCurrentAction extends RequestAction {
 
     @SerializedName("user")
@@ -37,5 +33,13 @@ public class UserUpdateCurrentAction extends RequestAction {
 
     public UserUpdateCurrentAction() {
         super(USER_UPDATE_CURRENT);
+    }
+
+    public UserUpdate getUser() {
+        return user;
+    }
+
+    public void setUser(UserUpdate user) {
+        this.user = user;
     }
 }
