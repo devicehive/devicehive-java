@@ -45,8 +45,12 @@ public class DeviceWSTest extends Helper {
     public static final String DEVICE_NAME = "WS_UNIT_TEST_DEVICE";
 
     @Before
-    public void preTest() throws InterruptedException {
+    public void preTest() throws InterruptedException, IOException {
         authenticate();
+
+        RESTHelper restHelper = new RESTHelper();
+        restHelper.cleanUpDevices(DEVICE_NAME);
+        restHelper.cleanUpNetworks(NETWORK_NAME);
     }
 
     @Test
