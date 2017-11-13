@@ -23,17 +23,21 @@ package com.github.devicehive.websocket.model.repsonse;
 
 import com.github.devicehive.rest.model.NetworkVO;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class NetworkListResponse extends ResponseAction {
 
     @SerializedName("networks")
     private List<NetworkVO> networks;
+
+    public List<NetworkVO> getNetworks() {
+        return networks;
+    }
+
+    public void setNetworks(List<NetworkVO> networks) {
+        this.networks = networks;
+    }
 
     @Override
     public String toString() {

@@ -22,15 +22,19 @@
 package com.github.devicehive.websocket.model.repsonse;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class TokenRefreshResponse extends ResponseAction {
 
     @SerializedName("accessToken")
     private String accessToken;
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
 
     @Override
     public String toString() {

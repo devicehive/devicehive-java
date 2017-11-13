@@ -1,26 +1,6 @@
-/*
- *
- *
- *   Helper.java
- *
- *   Copyright (C) 2017 DataArt
- *
- *   Licensed under the Apache License, Version 2.0 (the "License");
- *   you may not use this file except in compliance with the License.
- *   You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *   Unless required by applicable law or agreed to in writing, software
- *   distributed under the License is distributed on an "AS IS" BASIS,
- *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *   See the License for the specific language governing permissions and
- *   limitations under the License.
- *
- */
+package com.github.devicehive.websocket;
 
-package com.github.devicehive.rest;
-
+import com.github.devicehive.rest.ApiClient;
 import com.github.devicehive.rest.api.AuthApi;
 import com.github.devicehive.rest.api.ConfigurationApi;
 import com.github.devicehive.rest.api.DeviceApi;
@@ -37,13 +17,17 @@ import java.util.List;
 import retrofit2.Response;
 
 
-class Helper {
+class RESTHelper {
 
     private static final String LOGIN = "dhadmin";
     private static final String PASSWORD = "dhadmin_#911";
     private static final String URL = "http://playground.dev.devicehive.com";
 
     ApiClient client = new ApiClient(URL);
+
+    RESTHelper() throws IOException {
+        authenticate();
+    }
 
     boolean authenticate() throws IOException {
         AuthApi api = client.createService(AuthApi.class);
@@ -161,5 +145,16 @@ class Helper {
 
     void cleanUpConfigurations(String configurationName) throws IOException {
         deleteConfigurations(configurationName);
+    }
+
+    void cleanUpDevices(String deviceNamePrefix) throws IOException {
+        DeviceApi deviceApi = client.createService(DeviceApi.class);
+
+        Response<List<Device>> getResponse = deviceApi.list(null, deviceNamePrefix + "%",
+                null, null, null, null, Integer.MAX_VALUE, 0).execute();
+        List<Device> existingDevices = getResponse.body();
+        for (Device device: existingDevices) {
+            deleteDevices(device.getId());
+        }
     }
 }

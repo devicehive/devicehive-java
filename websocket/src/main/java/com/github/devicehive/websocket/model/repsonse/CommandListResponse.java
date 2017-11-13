@@ -21,18 +21,23 @@
 
 package com.github.devicehive.websocket.model.repsonse;
 
+import com.github.devicehive.websocket.model.repsonse.data.DeviceCommand;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class CommandListResponse extends ResponseAction {
 
     @SerializedName("commands")
-    List<com.github.devicehive.websocket.model.repsonse.data.DeviceCommand> commands;
+    List<DeviceCommand> commands;
+
+    public List<DeviceCommand> getCommands() {
+        return commands;
+    }
+
+    public void setCommands(List<DeviceCommand> commands) {
+        this.commands = commands;
+    }
 
     @Override
     public String toString() {

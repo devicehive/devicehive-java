@@ -22,13 +22,9 @@
 package com.github.devicehive.websocket.model.request;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import static com.github.devicehive.websocket.model.ActionConstant.NOTIFICATION_GET;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class NotificationGetAction extends RequestAction {
 
     @SerializedName("notificationId")
@@ -40,5 +36,21 @@ public class NotificationGetAction extends RequestAction {
 
     public NotificationGetAction() {
         super(NOTIFICATION_GET);
+    }
+
+    public Long getNotificationId() {
+        return notificationId;
+    }
+
+    public void setNotificationId(Long notificationId) {
+        this.notificationId = notificationId;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
 }

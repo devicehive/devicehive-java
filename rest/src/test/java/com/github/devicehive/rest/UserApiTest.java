@@ -24,6 +24,7 @@ package com.github.devicehive.rest;
 import com.github.devicehive.rest.api.UserApi;
 import com.github.devicehive.rest.model.*;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import retrofit2.Response;
 
@@ -32,9 +33,9 @@ import java.util.List;
 
 public class UserApiTest extends Helper {
     private static final String JSON_DATA = "{\"jsonString\": \"NEW STRING DATA\"}";
-    private static final String LOGIN = "L0G1N_DAT_1Z_UN1CK";
+    private static final String LOGIN = "REST_L0G1N_DAT_1Z_UN1CK";
     private static final String PASSWORD = "PASSWORD";
-    private static final String NETWORK_NAME = "TEST NETWORK";
+    private static final String NETWORK_NAME = "REST TEST NETWORK";
     private static final RoleEnum ROLE = RoleEnum.ADMIN;
     private static final StatusEnum STATUS = StatusEnum.ACTIVE;
 
@@ -53,11 +54,20 @@ public class UserApiTest extends Helper {
         return userUpdate;
     }
 
-    @Test
-    public void getCurrentUser() throws IOException {
+    private void authorise() throws IOException {
         boolean authenticated = authenticate();
         Assert.assertTrue(authenticated);
+    }
 
+    @Before
+    public void preTest() throws IOException {
+        authorise();
+        cleanUpUsers(LOGIN);
+        cleanUpNetworks(NETWORK_NAME);
+    }
+
+    @Test
+    public void getCurrentUser() throws IOException {
         UserApi userApi = client.createService(UserApi.class);
 
         Response<UserWithNetwork> getResponse = userApi.getCurrent().execute();
@@ -66,9 +76,6 @@ public class UserApiTest extends Helper {
 
     @Test
     public void updateCurrentUser() throws IOException {
-        boolean authenticated = authenticate();
-        Assert.assertTrue(authenticated);
-
         UserApi userApi = client.createService(UserApi.class);
 
         JsonStringWrapper updatedData = new JsonStringWrapper();
@@ -82,9 +89,6 @@ public class UserApiTest extends Helper {
 
     @Test
     public void insertUser() throws IOException {
-        boolean authenticated = authenticate();
-        Assert.assertTrue(authenticated);
-
         UserApi userApi = client.createService(UserApi.class);
         UserUpdate userUpdate = createNewAdminUserUpdate();
 
@@ -98,9 +102,6 @@ public class UserApiTest extends Helper {
 
     @Test
     public void deleteUser() throws IOException {
-        boolean authenticated = authenticate();
-        Assert.assertTrue(authenticated);
-
         UserApi userApi = client.createService(UserApi.class);
         UserUpdate userUpdate = createNewAdminUserUpdate();
 
@@ -116,9 +117,6 @@ public class UserApiTest extends Helper {
 
     @Test
     public void getUser() throws IOException {
-        boolean authenticated = authenticate();
-        Assert.assertTrue(authenticated);
-
         UserApi userApi = client.createService(UserApi.class);
         UserUpdate userUpdate = createNewAdminUserUpdate();
 
@@ -138,9 +136,6 @@ public class UserApiTest extends Helper {
 
     @Test
     public void updateUser() throws IOException {
-        boolean authenticated = authenticate();
-        Assert.assertTrue(authenticated);
-
         UserApi userApi = client.createService(UserApi.class);
         UserUpdate userUpdate = createNewAdminUserUpdate();
 
@@ -163,9 +158,6 @@ public class UserApiTest extends Helper {
 
     @Test
     public void assignNetwork() throws IOException {
-        boolean authenticated = authenticate();
-        Assert.assertTrue(authenticated);
-
         UserApi userApi = client.createService(UserApi.class);
         UserUpdate userUpdate = createNewAdminUserUpdate();
 
@@ -184,9 +176,6 @@ public class UserApiTest extends Helper {
 
     @Test
     public void getNetwork() throws IOException {
-        boolean authenticated = authenticate();
-        Assert.assertTrue(authenticated);
-
         UserApi userApi = client.createService(UserApi.class);
         UserUpdate userUpdate = createNewAdminUserUpdate();
 
@@ -211,9 +200,6 @@ public class UserApiTest extends Helper {
 
     @Test
     public void unassignNetwork() throws IOException {
-        boolean authenticated = authenticate();
-        Assert.assertTrue(authenticated);
-
         UserApi userApi = client.createService(UserApi.class);
         UserUpdate userUpdate = createNewAdminUserUpdate();
 
@@ -232,18 +218,7 @@ public class UserApiTest extends Helper {
 
     @Test
     public void listUsers() throws IOException {
-        boolean authenticated = authenticate();
-        Assert.assertTrue(authenticated);
-
         UserApi userApi = client.createService(UserApi.class);
-
-        Response<List<UserVO>> getResponse = userApi.list(null, LOGIN + "%",
-                null, null, null, null, Integer.MAX_VALUE, 0).execute();
-        Assert.assertTrue(getResponse.isSuccessful());
-        List<UserVO> existingUsers = getResponse.body();
-        for (UserVO user: existingUsers) {
-            deleteUsers(user.getId());
-        }
 
         int userAmount = 5;
         Long[] userIds = new Long[userAmount];

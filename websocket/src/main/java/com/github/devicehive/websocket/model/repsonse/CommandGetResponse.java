@@ -23,14 +23,17 @@ package com.github.devicehive.websocket.model.repsonse;
 
 import com.github.devicehive.websocket.model.repsonse.data.DeviceCommand;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class CommandGetResponse extends ResponseAction {
 
     @SerializedName("command")
     DeviceCommand command;
 
+    public DeviceCommand getCommand() {
+        return command;
+    }
+
+    public void setCommand(DeviceCommand command) {
+        this.command = command;
+    }
 }

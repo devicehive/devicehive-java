@@ -35,18 +35,32 @@
 package com.github.devicehive.rest.model;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
 
 /**
  * ClusterConfig
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
-@Data
 public class ClusterConfig {
-  @SerializedName("bootstrap.servers")
-  private String bootstrapServers = null;
+    @SerializedName("bootstrap.servers")
+    private String bootstrapServers = null;
 
-  @SerializedName("zookeeper.connect")
-  private String zookeeperConnect = null;
+    @SerializedName("zookeeper.connect")
+    private String zookeeperConnect = null;
+
+    public String getBootstrapServers() {
+        return bootstrapServers;
+    }
+
+    public void setBootstrapServers(String bootstrapServers) {
+        this.bootstrapServers = bootstrapServers;
+    }
+
+    public String getZookeeperConnect() {
+        return zookeeperConnect;
+    }
+
+    public void setZookeeperConnect(String zookeeperConnect) {
+        this.zookeeperConnect = zookeeperConnect;
+    }
 }
 
