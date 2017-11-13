@@ -67,6 +67,12 @@
     </build>
     <dependencies>
         <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>com.github.devicehive</groupId>
             <artifactId>devicehive-java-rest</artifactId>
             <version>1.0.1</version>
@@ -78,6 +84,7 @@
         </dependency>
     </dependencies>
     <properties>
+        <junit-version>4.12</junit-version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 </project>

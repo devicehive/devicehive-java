@@ -24,18 +24,20 @@ package com.github.devicehive.rest;
 import com.github.devicehive.rest.api.DeviceNotificationApi;
 import com.github.devicehive.rest.model.DeviceNotification;
 import com.github.devicehive.rest.model.DeviceNotificationWrapper;
-import com.github.devicehive.rest.model.NotificationInsert;
 import com.github.devicehive.rest.model.JsonStringWrapper;
+import com.github.devicehive.rest.model.NotificationInsert;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import org.joda.time.DateTime;
-import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
-import retrofit2.Response;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+
+import retrofit2.Response;
 
 public class DeviceNotificationApiTest extends Helper {
     private static final String NOTIFICATION_NAME = "TEST NOTIFICATION";
@@ -47,8 +49,8 @@ public class DeviceNotificationApiTest extends Helper {
         DeviceNotificationWrapper deviceNotificationWrapper = new DeviceNotificationWrapper();
         deviceNotificationWrapper.setNotification(NOTIFICATION_NAME);
 
-        JSONObject data = new JSONObject();
-        data.put(TEST_PROP, TEST_VALUE);
+        JsonObject data = new JsonObject();
+        data.addProperty(TEST_PROP, TEST_VALUE);
         JsonStringWrapper jsonStringWrapper = new JsonStringWrapper();
         jsonStringWrapper.setJsonString(new Gson().toJson(data));
         deviceNotificationWrapper.setParameters(jsonStringWrapper);

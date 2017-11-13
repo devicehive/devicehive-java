@@ -22,10 +22,8 @@
 package com.github.devicehive.rest.model;
 
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModel;
 
 
-@ApiModel(description = "")
 public class NotificationPollManyResponse   {
   
   @SerializedName("notification")

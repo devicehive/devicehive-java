@@ -41,7 +41,7 @@ import org.joda.time.DateTime;
 /**
  * DeviceNotification
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
+
 public class DeviceNotification implements Comparable<DeviceNotification> {
     @SerializedName("id")
     private Long id = null;

@@ -43,7 +43,7 @@ import java.util.List;
 /**
  * JwtPayload
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
+
 public class JwtPayload {
   @SerializedName("userId")
   private Long userId = null;
