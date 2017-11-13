@@ -23,11 +23,6 @@ package com.github.devicehive.websocket.model.request;
 
 import com.github.devicehive.websocket.model.ActionConstant;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class NetworkDeleteAction extends RequestAction {
 
     @SerializedName("networkId")
@@ -35,5 +30,13 @@ public class NetworkDeleteAction extends RequestAction {
 
     public NetworkDeleteAction() {
         super(ActionConstant.NETWORK_DELETE);
+    }
+
+    public Long getNetworkId() {
+        return networkId;
+    }
+
+    public void setNetworkId(Long networkId) {
+        this.networkId = networkId;
     }
 }

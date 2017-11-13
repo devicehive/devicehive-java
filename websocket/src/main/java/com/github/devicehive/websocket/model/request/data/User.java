@@ -36,13 +36,11 @@ package com.github.devicehive.websocket.model.request.data;
 
 import com.github.devicehive.rest.model.JsonStringWrapper;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
 
 /**
  * User
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
-@Data
 public class User {
   @SerializedName("login")
   private String login = null;
@@ -61,5 +59,53 @@ public class User {
 
   @SerializedName("data")
   private JsonStringWrapper data = null;
+
+  public String getLogin() {
+    return login;
+  }
+
+  public void setLogin(String login) {
+    this.login = login;
+  }
+
+  public Integer getRole() {
+    return role;
+  }
+
+  public void setRole(Integer role) {
+    this.role = role;
+  }
+
+  public Integer getStatus() {
+    return status;
+  }
+
+  public void setStatus(Integer status) {
+    this.status = status;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public String getOldPassword() {
+    return oldPassword;
+  }
+
+  public void setOldPassword(String oldPassword) {
+    this.oldPassword = oldPassword;
+  }
+
+  public JsonStringWrapper getData() {
+    return data;
+  }
+
+  public void setData(JsonStringWrapper data) {
+    this.data = data;
+  }
 }
 

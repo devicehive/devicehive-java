@@ -39,7 +39,7 @@ import com.github.devicehive.rest.model.NetworkVO;
 import com.github.devicehive.rest.model.RoleEnum;
 import com.github.devicehive.rest.model.StatusEnum;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
+
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -48,7 +48,6 @@ import java.util.List;
  * UserWithNetworkVO
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
-@Data
 public class UserWithNetworkVO {
     @SerializedName("id")
     private Long id = null;
@@ -74,5 +73,68 @@ public class UserWithNetworkVO {
     @SerializedName("networks")
     private List<NetworkVO> networks = null;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public RoleEnum getRole() {
+        return role;
+    }
+
+    public void setRole(RoleEnum role) {
+        this.role = role;
+    }
+
+    public StatusEnum getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusEnum status) {
+        this.status = status;
+    }
+
+    public DateTime getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(DateTime lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+
+    public JsonStringWrapper getData() {
+        return data;
+    }
+
+    public void setData(JsonStringWrapper data) {
+        this.data = data;
+    }
+
+    public Boolean getIntroReviewed() {
+        return introReviewed;
+    }
+
+    public void setIntroReviewed(Boolean introReviewed) {
+        this.introReviewed = introReviewed;
+    }
+
+    public List<NetworkVO> getNetworks() {
+        return networks;
+    }
+
+    public void setNetworks(List<NetworkVO> networks) {
+        this.networks = networks;
+    }
 }
 

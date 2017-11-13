@@ -7,6 +7,7 @@ import com.github.devicehive.websocket.model.repsonse.ConfigurationInsertRespons
 import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
 import com.github.devicehive.websocket.model.repsonse.ResponseAction;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -15,6 +16,14 @@ import java.util.concurrent.CountDownLatch;
 public class ConfigurationWebSocketTest extends Helper {
     private static final String CONFIGURATION_NAME = "TEZT C0NF1G";
     private static final String CONFIGURATION_VALUE = "TEST VALUE";
+
+    @Before
+    public void preTest() throws InterruptedException, IOException {
+        authenticate();
+
+        RESTHelper restHelper = new RESTHelper();
+        restHelper.cleanUpConfigurations(CONFIGURATION_NAME);
+    }
 
     @Test
     public void putConfigurationProperty() throws InterruptedException, IOException {
@@ -50,7 +59,7 @@ public class ConfigurationWebSocketTest extends Helper {
         configurationWS.put(null, CONFIGURATION_NAME, CONFIGURATION_VALUE);
         latch.await(awaitTimeout, awaitTimeUnit);
 
-        Assert.assertTrue(deleteConfigurations(CONFIGURATION_NAME));
+        deleteConfiguration(CONFIGURATION_NAME);
     }
 
     @Test
@@ -90,7 +99,7 @@ public class ConfigurationWebSocketTest extends Helper {
         configurationWS.put(null, CONFIGURATION_NAME, CONFIGURATION_VALUE);
         latch.await(awaitTimeout, awaitTimeUnit);
 
-        Assert.assertTrue(deleteConfigurations(CONFIGURATION_NAME));
+        deleteConfiguration(CONFIGURATION_NAME);
     }
 
     @Test

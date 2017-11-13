@@ -35,43 +35,90 @@
 package com.github.devicehive.rest.model;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
+
 import org.joda.time.DateTime;
 
 /**
  * DeviceCommandWrapper
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
-@Data
 public class DeviceCommandWrapper {
-  @SerializedName("command")
-  private String command = null;
+    @SerializedName("command")
+    private String command = null;
 
-  @SerializedName("timestamp")
-  private DateTime timestamp = null;
+    @SerializedName("timestamp")
+    private DateTime timestamp = null;
 
-  @SerializedName("parameters")
-  private JsonStringWrapper parameters = null;
+    @SerializedName("parameters")
+    private JsonStringWrapper parameters = null;
 
-  @SerializedName("lifetime")
-  private Integer lifetime = null;
+    @SerializedName("lifetime")
+    private Integer lifetime = null;
 
-  @SerializedName("status")
-  private String status = null;
+    @SerializedName("status")
+    private String status = null;
 
-  @SerializedName("result")
-  private JsonStringWrapper result = null;
+    @SerializedName("result")
+    private JsonStringWrapper result = null;
 
-  @Override
-  public String toString() {
-    return "{\n\"DeviceCommandWrapper\":{\n"
-            + "\"command\":\"" + command + "\""
-            + ",\n \"timestamp\":" + timestamp
-            + ",\n \"parameters\":" + parameters
-            + ",\n \"lifetime\":\"" + lifetime + "\""
-            + ",\n \"status\":\"" + status + "\""
-            + ",\n \"result\":" + result
-            + "}\n}";
-  }
+    public String getCommand() {
+        return command;
+    }
+
+    public void setCommand(String command) {
+        this.command = command;
+    }
+
+    public DateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(DateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public JsonStringWrapper getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(JsonStringWrapper parameters) {
+        this.parameters = parameters;
+    }
+
+    public Integer getLifetime() {
+        return lifetime;
+    }
+
+    public void setLifetime(Integer lifetime) {
+        this.lifetime = lifetime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public JsonStringWrapper getResult() {
+        return result;
+    }
+
+    public void setResult(JsonStringWrapper result) {
+        this.result = result;
+    }
+
+    @Override
+    public String toString() {
+        return "{\n\"DeviceCommandWrapper\":{\n"
+                + "\"command\":\"" + command + "\""
+                + ",\n \"timestamp\":" + timestamp
+                + ",\n \"parameters\":" + parameters
+                + ",\n \"lifetime\":\"" + lifetime + "\""
+                + ",\n \"status\":\"" + status + "\""
+                + ",\n \"result\":" + result
+                + "}\n}";
+    }
 }
 

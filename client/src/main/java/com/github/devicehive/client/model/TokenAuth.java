@@ -21,15 +21,22 @@
 
 package com.github.devicehive.client.model;
 
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-
-@AllArgsConstructor
-@RequiredArgsConstructor
 public class TokenAuth {
 
     private String refreshToken;
     private String accessToken;
+
+    public TokenAuth(String refreshToken, String accessToken) {
+        this.refreshToken = refreshToken;
+        this.accessToken = accessToken;
+    }
+
+    public TokenAuth() {
+    }
+
+    public TokenAuth(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
 
     public boolean canAccess() {
         return accessToken != null && accessToken.length() > 0;

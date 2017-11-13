@@ -23,14 +23,11 @@ package com.github.devicehive.websocket.model.request;
 
 import com.github.devicehive.websocket.model.ActionConstant;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+
 import org.joda.time.DateTime;
 
 import java.util.List;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
 public class NotificationSubscribeAction extends RequestAction {
 
     @SerializedName("timestamp")
@@ -42,6 +39,37 @@ public class NotificationSubscribeAction extends RequestAction {
     @SerializedName("names")
     private List<String> names;
 
+    public DateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(DateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public List<String> getDeviceIds() {
+        return deviceIds;
+    }
+
+    public void setDeviceIds(List<String> deviceIds) {
+        this.deviceIds = deviceIds;
+    }
+
+    public List<String> getNames() {
+        return names;
+    }
+
+    public void setNames(List<String> names) {
+        this.names = names;
+    }
 
     public NotificationSubscribeAction() {
         super(ActionConstant.NOTIFICATION_SUBSCRIBE);

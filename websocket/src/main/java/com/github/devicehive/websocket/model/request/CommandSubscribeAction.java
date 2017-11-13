@@ -22,16 +22,13 @@
 package com.github.devicehive.websocket.model.request;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+
 import org.joda.time.DateTime;
 
 import java.util.List;
 
 import static com.github.devicehive.websocket.model.ActionConstant.COMMAND_SUBSCRIBE;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class CommandSubscribeAction extends RequestAction {
 
 
@@ -49,6 +46,46 @@ public class CommandSubscribeAction extends RequestAction {
 
     public CommandSubscribeAction() {
         super(COMMAND_SUBSCRIBE);
+    }
+
+    public DateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(DateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public List<String> getDeviceIds() {
+        return deviceIds;
+    }
+
+    public void setDeviceIds(List<String> deviceIds) {
+        this.deviceIds = deviceIds;
+    }
+
+    public List<String> getNames() {
+        return names;
+    }
+
+    public void setNames(List<String> names) {
+        this.names = names;
+    }
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
     }
 
     @Override

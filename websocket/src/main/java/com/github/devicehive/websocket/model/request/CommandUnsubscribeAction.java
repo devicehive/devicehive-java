@@ -22,15 +22,11 @@
 package com.github.devicehive.websocket.model.request;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
 import static com.github.devicehive.websocket.model.ActionConstant.COMMAND_UNSUBSCRIBE;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
 public class CommandUnsubscribeAction extends RequestAction {
 
 
@@ -42,6 +38,22 @@ public class CommandUnsubscribeAction extends RequestAction {
 
     public CommandUnsubscribeAction() {
         super(COMMAND_UNSUBSCRIBE);
+    }
+
+    public List<String> getDeviceIds() {
+        return deviceIds;
+    }
+
+    public void setDeviceIds(List<String> deviceIds) {
+        this.deviceIds = deviceIds;
+    }
+
+    public String getSubscriptionId() {
+        return subscriptionId;
+    }
+
+    public void setSubscriptionId(String subscriptionId) {
+        this.subscriptionId = subscriptionId;
     }
 
     @Override

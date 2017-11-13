@@ -23,11 +23,9 @@ package com.github.devicehive.rest.model;
 
 import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModel;
-import lombok.Data;
 
 
 @ApiModel(description = "")
-@Data
 public class NotificationPollManyResponse   {
   
   @SerializedName("notification")
@@ -35,5 +33,20 @@ public class NotificationPollManyResponse   {
   
   @SerializedName("guid")
   private String guid = null;
-  
+
+  public DeviceNotification getNotification() {
+    return notification;
+  }
+
+  public void setNotification(DeviceNotification notification) {
+    this.notification = notification;
+  }
+
+  public String getGuid() {
+    return guid;
+  }
+
+  public void setGuid(String guid) {
+    this.guid = guid;
+  }
 }

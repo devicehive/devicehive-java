@@ -23,14 +23,17 @@ package com.github.devicehive.websocket.model.repsonse;
 
 import com.github.devicehive.rest.model.Network;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class NetworkGetResponse extends ResponseAction {
 
     @SerializedName("network")
     private Network network;
 
+    public Network getNetwork() {
+        return network;
+    }
+
+    public void setNetwork(Network network) {
+        this.network = network;
+    }
 }
