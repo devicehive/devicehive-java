@@ -44,11 +44,11 @@ public class CommandGetAction extends RequestAction {
         this.deviceId = deviceId;
     }
 
-    public String getCommandId() {
+    public Long getCommandId() {
         return commandId;
     }
 
-    public void setCommandId(String commandId) {
+    public void setCommandId(Long commandId) {
         this.commandId = commandId;
     }
 
