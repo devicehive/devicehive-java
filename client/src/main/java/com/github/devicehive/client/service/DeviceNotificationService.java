@@ -21,19 +21,26 @@
 
 package com.github.devicehive.client.service;
 
-import com.github.devicehive.client.model.*;
+import com.github.devicehive.client.model.DHResponse;
+import com.github.devicehive.client.model.DeviceNotification;
+import com.github.devicehive.client.model.DeviceNotificationsCallback;
+import com.github.devicehive.client.model.FailureData;
+import com.github.devicehive.client.model.NotificationFilter;
+import com.github.devicehive.client.model.Parameter;
 import com.github.devicehive.rest.api.DeviceNotificationApi;
 import com.github.devicehive.rest.model.DeviceNotificationWrapper;
 import com.github.devicehive.rest.model.NotificationInsert;
-import org.apache.commons.lang3.StringUtils;
+import com.github.devicehive.rest.utils.StringUtils;
+
 import org.joda.time.DateTime;
 import org.joda.time.Period;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 class DeviceNotificationService extends BaseService {
 
@@ -127,7 +134,7 @@ class DeviceNotificationService extends BaseService {
             pollCall.cancel();
             pollCall = null;
         }
-        pollCall = notificationApi.poll(deviceId, StringUtils.join(filter.getNotificationNames(), ","),
+        pollCall = notificationApi.poll(deviceId, StringUtils.join(",", filter.getNotificationNames()),
                 filter.getStartTimestamp().toString(),
                 (long) period.toStandardSeconds().getSeconds());
 
@@ -181,7 +188,7 @@ class DeviceNotificationService extends BaseService {
             pollManyCall.cancel();
             pollManyCall = null;
         }
-        pollManyCall = notificationApi.pollMany(deviceIds, StringUtils.join(filter.getNotificationNames(), ","),
+        pollManyCall = notificationApi.pollMany(deviceIds, StringUtils.join(",", filter.getNotificationNames()),
                 filter.getStartTimestamp().toString(), (long) period.toStandardSeconds().getSeconds());
 
         pollManyCall.enqueue(getNotificationsAllCallback(deviceIds, filter, isAuthNeeded, notificationsCallback));

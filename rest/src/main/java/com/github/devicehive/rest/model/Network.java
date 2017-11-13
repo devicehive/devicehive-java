@@ -39,7 +39,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * NetworkVO
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
+
 public class Network {
     @SerializedName("id")
     private Long id = null;
