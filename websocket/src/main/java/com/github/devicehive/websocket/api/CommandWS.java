@@ -105,7 +105,7 @@ public class CommandWS extends BaseWebSocketApi implements CommandApi {
 
     @Override
     public void get(Long requestId, String deviceId, Long commandId) {
-        DeviceGetAction action = new DeviceGetAction();
+        CommandGetAction action = new CommandGetAction();
         action.setDeviceId(deviceId);
         action.setCommandId(commandId);
         action.setRequestId(requestId);
