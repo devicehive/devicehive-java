@@ -111,7 +111,7 @@ public class Device implements DeviceInterface {
     private CommandListener commandListener = new CommandListener() {
         @Override
         public void onList(CommandListResponse response) {
-            commandCallback.onSuccess(DeviceCommand.createList(response.getCommands()));
+            commandCallback.onSuccess(DeviceCommand.createListFromRest(response.getCommands()));
         }
 
         @Override

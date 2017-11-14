@@ -231,7 +231,7 @@ public class DeviceHive implements MainDeviceHive {
         commandWS.setListener(new CommandListener() {
             @Override
             public void onList(CommandListResponse response) {
-                commandsCallback.onSuccess(DeviceCommand.createList(response.getCommands()));
+                commandsCallback.onSuccess(DeviceCommand.createListFromRest(response.getCommands()));
             }
 
             @Override
