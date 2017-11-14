@@ -4,7 +4,7 @@ import com.github.devicehive.rest.model.JsonStringWrapper;
 import com.github.devicehive.websocket.api.CommandWS;
 import com.github.devicehive.websocket.listener.CommandListener;
 import com.github.devicehive.websocket.model.repsonse.*;
-import com.github.devicehive.websocket.model.request.data.DeviceCommandWrapper;
+import com.github.devicehive.rest.model.DeviceCommandWrapper;
 import org.junit.Assert;
 import org.junit.Test;
 

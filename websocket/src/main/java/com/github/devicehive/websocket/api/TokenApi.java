@@ -21,11 +21,13 @@
 
 package com.github.devicehive.websocket.api;
 
+import com.github.devicehive.rest.model.JwtPayload;
+
 interface TokenApi {
 
     void get( Long requestId, String login, String password);
 
-    void create( Long requestId, com.github.devicehive.websocket.model.request.data.JwtPayload payload);
+    void create( Long requestId, JwtPayload payload);
 
     void refresh( Long requestId, String refreshToken);
 }
