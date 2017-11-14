@@ -4,7 +4,6 @@ import com.github.devicehive.rest.model.*;
 import com.github.devicehive.websocket.api.UserWS;
 import com.github.devicehive.websocket.listener.UserListener;
 import com.github.devicehive.websocket.model.repsonse.*;
-import com.github.devicehive.websocket.model.repsonse.data.UserWithNetworkVO;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -347,7 +346,7 @@ public class UserWebSocketTest extends Helper {
             @Override
             public void onGet(UserGetResponse response) {
                 Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
-                UserWithNetworkVO user = response.getUser();
+                UserWithNetwork user = response.getUser();
                 Assert.assertEquals(LOGIN, user.getLogin());
                 latch.countDown();
             }

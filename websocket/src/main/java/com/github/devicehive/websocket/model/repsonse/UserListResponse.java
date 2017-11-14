@@ -21,7 +21,7 @@
 
 package com.github.devicehive.websocket.model.repsonse;
 
-import com.github.devicehive.websocket.model.repsonse.data.UserVO;
+import com.github.devicehive.rest.model.UserVO;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -29,7 +29,7 @@ import java.util.List;
 public class UserListResponse extends ResponseAction {
 
     @SerializedName("users")
-    List<com.github.devicehive.websocket.model.repsonse.data.UserVO> users;
+    List<UserVO> users;
 
     public List<UserVO> getUsers() {
         return users;
