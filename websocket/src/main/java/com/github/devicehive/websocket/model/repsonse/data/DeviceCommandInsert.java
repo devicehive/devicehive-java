@@ -34,6 +34,7 @@
 
 package com.github.devicehive.websocket.model.repsonse.data;
 
+import com.github.devicehive.rest.model.DeviceCommand;
 import com.google.gson.annotations.SerializedName;
 
 /**

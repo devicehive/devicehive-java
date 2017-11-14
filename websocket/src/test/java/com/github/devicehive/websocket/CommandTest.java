@@ -100,7 +100,7 @@ public class CommandTest extends Helper {
             @Override
             public void onGet(CommandGetResponse response) {
                 Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
-                String commandName = response.getCommand().getCommandName();
+                String commandName = response.getCommand().getCommand();
                 Assert.assertEquals(COMMAND, commandName);
                 latch.countDown();
             }
