@@ -34,7 +34,7 @@ import java.util.Random;
 
 public class UserApiTest extends Helper {
     private static final String JSON_DATA = "{\"jsonString\": \"NEW STRING DATA\"}";
-    private static final String LOGIN = "REST_L0G1N_DAT_1Z_UN1CK_";
+    private static final String LOGIN = "HTTP_L0G1N_DAT_1Z_UN1CK_";
     private static final String PASSWORD = "PASSWORD";
     private static final String NETWORK_NAME = "REST TEST NETWORK ";
     private static final RoleEnum ROLE = RoleEnum.ADMIN;

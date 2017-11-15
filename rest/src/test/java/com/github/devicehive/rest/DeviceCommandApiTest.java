@@ -46,7 +46,7 @@ import retrofit2.Response;
 
 public class DeviceCommandApiTest extends Helper {
 
-    private static final String COMMAND_NAME = "REST TEST COMMAND";
+    private static final String COMMAND_NAME = "HTTP TEST COMMAND";
     private static final String TEST_PROP = "testProp";
     private static final String TEST_VALUE = "testValue";
     private static final String UPDATED_COMMAND_NAME = "UPDATED COMMAND";
