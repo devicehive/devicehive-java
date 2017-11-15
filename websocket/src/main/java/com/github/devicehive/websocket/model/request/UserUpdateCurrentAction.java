@@ -21,7 +21,7 @@
 
 package com.github.devicehive.websocket.model.request;
 
-import com.github.devicehive.websocket.model.request.data.UserUpdate;
+import com.github.devicehive.rest.model.UserUpdate;
 import com.google.gson.annotations.SerializedName;
 
 import static com.github.devicehive.websocket.model.ActionConstant.USER_UPDATE_CURRENT;

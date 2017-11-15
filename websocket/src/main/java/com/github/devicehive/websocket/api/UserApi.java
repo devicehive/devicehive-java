@@ -21,10 +21,7 @@
 
 package com.github.devicehive.websocket.api;
 
-import com.github.devicehive.rest.model.RoleEnum;
-import com.github.devicehive.rest.model.SortOrder;
-import com.github.devicehive.rest.model.StatusEnum;
-import com.github.devicehive.websocket.model.request.data.User;
+import com.github.devicehive.rest.model.*;
 
 interface UserApi {
 
@@ -33,15 +30,15 @@ interface UserApi {
 
     void get( Long requestId, Long userId);
 
-    void insert( Long requestId, User user);
+    void insert( Long requestId, UserUpdate user);
 
-    void update( Long requestId, Long userId, com.github.devicehive.websocket.model.request.data.UserUpdate user);
+    void update( Long requestId, Long userId, UserUpdate user);
 
     void delete( Long requestId, Long userId);
 
     void getCurrent( Long requestId);
 
-    void updateCurrent( Long requestId, com.github.devicehive.websocket.model.request.data.UserUpdate user);
+    void updateCurrent( Long requestId, UserUpdate user);
 
     void getNetwork( Long requestId, Long userId, Long networkId);
 

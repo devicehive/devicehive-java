@@ -21,7 +21,7 @@
 
 package com.github.devicehive.websocket.model.request;
 
-import com.github.devicehive.websocket.model.request.data.DeviceCommandWrapper;
+import com.github.devicehive.rest.model.DeviceCommandWrapper;
 import com.google.gson.annotations.SerializedName;
 
 import static com.github.devicehive.websocket.model.ActionConstant.COMMAND_UPDATE;

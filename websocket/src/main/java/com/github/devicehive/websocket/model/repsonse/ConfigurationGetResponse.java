@@ -21,19 +21,19 @@
 
 package com.github.devicehive.websocket.model.repsonse;
 
-import com.github.devicehive.websocket.model.repsonse.data.ConfigurationVO;
+import com.github.devicehive.rest.model.Configuration;
 import com.google.gson.annotations.SerializedName;
 
 public class ConfigurationGetResponse extends ResponseAction {
 
     @SerializedName("configuration")
-    private ConfigurationVO configuration;
+    private Configuration configuration;
 
-    public ConfigurationVO getConfiguration() {
+    public Configuration getConfiguration() {
         return configuration;
     }
 
-    public void setConfiguration(ConfigurationVO configuration) {
+    public void setConfiguration(Configuration configuration) {
         this.configuration = configuration;
     }
 }

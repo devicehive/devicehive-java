@@ -21,13 +21,13 @@
 
 package com.github.devicehive.websocket.api;
 
+import com.github.devicehive.rest.model.JwtPayload;
 import com.github.devicehive.websocket.listener.TokenListener;
 import com.github.devicehive.websocket.model.repsonse.ResponseAction;
 import com.github.devicehive.websocket.model.repsonse.TokenGetResponse;
 import com.github.devicehive.websocket.model.repsonse.TokenRefreshResponse;
 import com.github.devicehive.websocket.model.request.TokenCreateAction;
 import com.github.devicehive.websocket.model.request.TokenGetAction;
-import com.github.devicehive.websocket.model.request.data.JwtPayload;
 
 import static com.github.devicehive.websocket.model.ActionConstant.*;
 

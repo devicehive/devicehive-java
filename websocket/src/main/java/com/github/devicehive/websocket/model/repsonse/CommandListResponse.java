@@ -21,7 +21,7 @@
 
 package com.github.devicehive.websocket.model.repsonse;
 
-import com.github.devicehive.websocket.model.repsonse.data.DeviceCommand;
+import com.github.devicehive.rest.model.DeviceCommand;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;

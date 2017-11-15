@@ -22,7 +22,7 @@
 package com.github.devicehive.websocket.model.request;
 
 import com.github.devicehive.websocket.model.ActionConstant;
-import com.github.devicehive.websocket.model.request.data.DeviceCommandWrapper;
+import com.github.devicehive.rest.model.DeviceCommandWrapper;
 import com.google.gson.annotations.SerializedName;
 
 public class CommandInsertAction extends RequestAction {
@@ -30,7 +30,7 @@ public class CommandInsertAction extends RequestAction {
     @SerializedName("deviceId")
     String deviceId;
     @SerializedName("command")
-    com.github.devicehive.websocket.model.request.data.DeviceCommandWrapper command;
+    DeviceCommandWrapper command;
 
     public CommandInsertAction() {
         super(ActionConstant.COMMAND_INSERT);

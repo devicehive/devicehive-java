@@ -26,7 +26,7 @@ import com.github.devicehive.websocket.listener.CommandListener;
 import com.github.devicehive.websocket.model.ActionConstant;
 import com.github.devicehive.websocket.model.repsonse.*;
 import com.github.devicehive.websocket.model.request.*;
-import com.github.devicehive.websocket.model.request.data.DeviceCommandWrapper;
+import com.github.devicehive.rest.model.DeviceCommandWrapper;
 import com.google.gson.JsonSyntaxException;
 import org.joda.time.DateTime;
 
