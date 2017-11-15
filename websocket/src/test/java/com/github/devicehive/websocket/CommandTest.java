@@ -4,7 +4,7 @@ import com.github.devicehive.rest.model.JsonStringWrapper;
 import com.github.devicehive.websocket.api.CommandWS;
 import com.github.devicehive.websocket.listener.CommandListener;
 import com.github.devicehive.websocket.model.repsonse.*;
-import com.github.devicehive.websocket.model.request.data.DeviceCommandWrapper;
+import com.github.devicehive.rest.model.DeviceCommandWrapper;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -100,7 +100,7 @@ public class CommandTest extends Helper {
             @Override
             public void onGet(CommandGetResponse response) {
                 Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
-                String commandName = response.getCommand().getCommandName();
+                String commandName = response.getCommand().getCommand();
                 Assert.assertEquals(COMMAND, commandName);
                 latch.countDown();
             }

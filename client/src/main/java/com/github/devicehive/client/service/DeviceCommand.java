@@ -95,7 +95,7 @@ public class DeviceCommand {
         return deviceCommand;
     }
 
-    static DeviceCommand create(com.github.devicehive.websocket.model.repsonse.data.DeviceCommand command) {
+    static DeviceCommand create(DeviceCommand command) {
         if (command == null) {
             return null;
         }
@@ -121,12 +121,12 @@ public class DeviceCommand {
         return deviceCommand;
     }
 
-    static List<DeviceCommand> createList(List<com.github.devicehive.websocket.model.repsonse.data.DeviceCommand> commands) {
+    static List<DeviceCommand> createList(List<DeviceCommand> commands) {
         List<DeviceCommand> list = new ArrayList<DeviceCommand>();
         if (commands == null) {
             return Collections.emptyList();
         }
-        for (com.github.devicehive.websocket.model.repsonse.data.DeviceCommand deviceCommand :
+        for (DeviceCommand deviceCommand :
                 commands) {
             list.add(DeviceCommand.create(deviceCommand));
 

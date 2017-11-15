@@ -1,12 +1,9 @@
 package com.github.devicehive.websocket;
 
-import com.github.devicehive.rest.model.JsonStringWrapper;
+import com.github.devicehive.rest.model.*;
 import com.github.devicehive.websocket.api.UserWS;
 import com.github.devicehive.websocket.listener.UserListener;
 import com.github.devicehive.websocket.model.repsonse.*;
-import com.github.devicehive.websocket.model.repsonse.data.UserWithNetworkVO;
-import com.github.devicehive.websocket.model.request.data.User;
-import com.github.devicehive.websocket.model.request.data.UserUpdate;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,17 +17,17 @@ public class UserWebSocketTest extends Helper {
     private static final String LOGIN = "WS_L0G1N_DAT_1Z_UN1CK";
     private static final String PASSWORD = "PASSWORD";
     private static final String NETWORK_NAME = "WS_T3ZT NE7W0K";
-    private static final int ROLE = 0;
-    private static final int STATUS = 0;
+    private static final RoleEnum ROLE = RoleEnum.ADMIN;
+    private static final StatusEnum STATUS = StatusEnum.ACTIVE;
     private static Long userId;
     private static Long networkId;
 
-    private User createNewAdminUser() {
-        User user = new User();
+    private UserUpdate createNewAdminUser() {
+        UserUpdate user = new UserUpdate();
         user.setLogin(LOGIN);
-        user.setPassword(PASSWORD);
         user.setRole(ROLE);
         user.setStatus(STATUS);
+        user.setPassword(PASSWORD);
         return user;
     }
 
@@ -109,6 +106,8 @@ public class UserWebSocketTest extends Helper {
 
         userWS.getCurrent(null);
         latch.await(awaitTimeout, awaitTimeUnit);
+
+        Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
@@ -182,6 +181,8 @@ public class UserWebSocketTest extends Helper {
 
         userWS.updateCurrent(null, userUpdate);
         latch.await(awaitTimeout, awaitTimeUnit);
+
+        Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
@@ -249,11 +250,13 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        User user = createNewAdminUser();
+        UserUpdate user = createNewAdminUser();
         userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
 
         safeDeleteUser(userId);
+
+        Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
@@ -322,9 +325,11 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        User user = createNewAdminUser();
+        UserUpdate user = createNewAdminUser();
         userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
+
+        Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
@@ -341,7 +346,7 @@ public class UserWebSocketTest extends Helper {
             @Override
             public void onGet(UserGetResponse response) {
                 Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
-                UserWithNetworkVO user = response.getUser();
+                UserWithNetwork user = response.getUser();
                 Assert.assertEquals(LOGIN, user.getLogin());
                 latch.countDown();
             }
@@ -395,11 +400,13 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        User user = createNewAdminUser();
+        UserUpdate user = createNewAdminUser();
         userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
 
         safeDeleteUser(userId);
+
+        Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
@@ -473,11 +480,13 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        User user = createNewAdminUser();
+        UserUpdate user = createNewAdminUser();
         userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
 
         safeDeleteUser(userId);
+
+        Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
@@ -546,11 +555,13 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        User user = createNewAdminUser();
+        UserUpdate user = createNewAdminUser();
         userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
 
         safeDeleteUser(userId);
+
+        Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
@@ -620,7 +631,7 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        User user = createNewAdminUser();
+        UserUpdate user = createNewAdminUser();
         userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
 
@@ -698,7 +709,7 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        User user = createNewAdminUser();
+        UserUpdate user = createNewAdminUser();
         userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
 
@@ -776,7 +787,7 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        User user = createNewAdminUser();
+        UserUpdate user = createNewAdminUser();
         userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
 

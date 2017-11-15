@@ -21,14 +21,10 @@
 
 package com.github.devicehive.websocket.api;
 
-import com.github.devicehive.rest.model.RoleEnum;
-import com.github.devicehive.rest.model.SortOrder;
-import com.github.devicehive.rest.model.StatusEnum;
+import com.github.devicehive.rest.model.*;
 import com.github.devicehive.websocket.listener.UserListener;
 import com.github.devicehive.websocket.model.repsonse.*;
 import com.github.devicehive.websocket.model.request.*;
-import com.github.devicehive.websocket.model.request.data.User;
-import com.github.devicehive.websocket.model.request.data.UserUpdate;
 
 import static com.github.devicehive.websocket.model.ActionConstant.*;
 
@@ -107,7 +103,7 @@ public class UserWS extends BaseWebSocketApi implements UserApi {
     }
 
     @Override
-    public void insert(Long requestId, User user) {
+    public void insert(Long requestId, UserUpdate user) {
         UserInsertAction action = new UserInsertAction();
         action.setRequestId(requestId);
         action.setUser(user);
