@@ -30,28 +30,38 @@ import retrofit2.Response;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 
 public class UserApiTest extends Helper {
     private static final String JSON_DATA = "{\"jsonString\": \"NEW STRING DATA\"}";
-    private static final String LOGIN = "REST_L0G1N_DAT_1Z_UN1CK";
+    private static final String LOGIN = "REST_L0G1N_DAT_1Z_UN1CK_";
     private static final String PASSWORD = "PASSWORD";
-    private static final String NETWORK_NAME = "REST TEST NETWORK";
+    private static final String NETWORK_NAME = "REST TEST NETWORK ";
     private static final RoleEnum ROLE = RoleEnum.ADMIN;
     private static final StatusEnum STATUS = StatusEnum.ACTIVE;
 
     private UserUpdate createNewAdminUserUpdate() {
+        UserUpdate userUpdate = createNewAdminUserUpdate(LOGIN);
+        return userUpdate;
+    }
+
+    private UserUpdate createNewAdminUserUpdate(String userLogin) {
         UserUpdate userUpdate = new UserUpdate();
-        userUpdate.setLogin(LOGIN);
+        String login = userLogin + new Random().nextLong();
+        System.out.println("User login for test: " + login);
+        userUpdate.setLogin(login);
         userUpdate.setPassword(PASSWORD);
         userUpdate.setRole(ROLE);
         userUpdate.setStatus(STATUS);
         return userUpdate;
     }
 
-    private UserUpdate createNewAdminUserUpdate(String userLogin) {
-        UserUpdate userUpdate = createNewAdminUserUpdate();
-        userUpdate.setLogin(userLogin);
-        return userUpdate;
+
+    private NetworkId createTestNetwork() throws IOException {
+        String networkName = NETWORK_NAME + new Random().nextLong();
+        System.out.println("Network name for test: " + networkName);
+        NetworkId networkId = createNetwork(networkName);
+        return networkId;
     }
 
     private void authorise() throws IOException {
@@ -62,8 +72,6 @@ public class UserApiTest extends Helper {
     @Before
     public void preTest() throws IOException {
         authorise();
-        cleanUpUsers(LOGIN);
-        cleanUpNetworks(NETWORK_NAME);
     }
 
     @Test
@@ -165,7 +173,8 @@ public class UserApiTest extends Helper {
         Assert.assertTrue(postResponse.isSuccessful());
         Long userId = postResponse.body().getId();
         Assert.assertNotNull(userId);
-        NetworkId testNetworkId = createNetwork(NETWORK_NAME);
+
+        NetworkId testNetworkId = createTestNetwork();
 
         Response<Void> putResponse = userApi.assignNetwork(userId, testNetworkId.getId()).execute();
         Assert.assertTrue(putResponse.isSuccessful());
@@ -183,7 +192,8 @@ public class UserApiTest extends Helper {
         Assert.assertTrue(postResponse.isSuccessful());
         Long userId = postResponse.body().getId();
         Assert.assertNotNull(userId);
-        NetworkId testNetworkId = createNetwork(NETWORK_NAME);
+
+        NetworkId testNetworkId = createTestNetwork();
 
         Response<Void> putResponse = userApi.assignNetwork(userId, testNetworkId.getId()).execute();
         Assert.assertTrue(putResponse.isSuccessful());
@@ -207,7 +217,8 @@ public class UserApiTest extends Helper {
         Assert.assertTrue(postResponse.isSuccessful());
         Long userId = postResponse.body().getId();
         Assert.assertNotNull(userId);
-        NetworkId testNetworkId = createNetwork(NETWORK_NAME);
+
+        NetworkId testNetworkId = createTestNetwork();
 
         Response<Void> putResponse = userApi.unassignNetwork(userId, testNetworkId.getId()).execute();
         Assert.assertTrue(putResponse.isSuccessful());
@@ -223,7 +234,7 @@ public class UserApiTest extends Helper {
         int userAmount = 5;
         Long[] userIds = new Long[userAmount];
         for (int j = 0; j < userAmount; ++j) {
-            String userLogin = String.format("%s_%d", LOGIN, j);
+            String userLogin = String.format("%s%d_", LOGIN, j);
             UserUpdate userUpdate = createNewAdminUserUpdate(userLogin);
 
             Response<UserVO> postResponse = userApi.insertUser(userUpdate).execute();
@@ -237,7 +248,7 @@ public class UserApiTest extends Helper {
         Response<List<UserVO>> listResponse = userApi.list(null, LOGIN + "%",
                 null, null, null, null, 2 * userAmount, 0).execute();
         Assert.assertTrue(listResponse.isSuccessful());
-        Assert.assertEquals(userAmount, listResponse.body().size());
+        Assert.assertNotEquals(0, listResponse.body().size());
 
         Assert.assertTrue(deleteUsers(userIds));
     }
