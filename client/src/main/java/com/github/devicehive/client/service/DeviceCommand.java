@@ -89,9 +89,7 @@ public class DeviceCommand {
         deviceCommand.id = command.getCommandId();
         deviceCommand.deviceId = deviceId;
         deviceCommand.networkId = networkId;
-        if (parameters != null) {
-            deviceCommand.parameters = new JsonStringWrapper(parameters.getJsonString());
-        }
+        deviceCommand.parameters = parameters;
         return deviceCommand;
     }
 
@@ -117,7 +115,9 @@ public class DeviceCommand {
         deviceCommand.id = command.getId();
         deviceCommand.deviceId = command.getDeviceId();
         deviceCommand.networkId = command.getNetworkId();
-        deviceCommand.parameters = new JsonStringWrapper(command.getParameters().getJsonString());
+        if (command.getParameters() != null) {
+            deviceCommand.parameters = new JsonStringWrapper(command.getParameters().getJsonString());
+        }
         return deviceCommand;
     }
 
@@ -154,7 +154,7 @@ public class DeviceCommand {
         DeviceCommandWrapper wrapper = new DeviceCommandWrapper();
         wrapper.setCommand(commandName);
         if (parameters != null) {
-            wrapper.setParameters(new com.github.devicehive.rest.model.JsonStringWrapper(parameters.getJsonString()));
+            wrapper.setParameters(new JsonStringWrapper(parameters.getJsonString()));
         }
         return DeviceHive.getInstance().getCommandService().updateCommand(deviceId, id, wrapper).isSuccessful();
     }
