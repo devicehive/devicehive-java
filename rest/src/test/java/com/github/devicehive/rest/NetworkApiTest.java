@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Random;
 
 public class NetworkApiTest extends Helper {
-    private static final String NETWORK_NAME = "TEZT N3TW0K W1Z UN1Q N4M3 ";
+    private static final String NETWORK_NAME = "HTTP TEZT N3TW0K W1Z UN1Q N4M3 ";
     private static final String UPDATED_NETWORK_NAME = "UPDATED TEZT N3TW0K W1Z UN1Q N4M3";
 
     private void authorise() throws IOException {

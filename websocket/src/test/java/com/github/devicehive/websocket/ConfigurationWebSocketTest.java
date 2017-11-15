@@ -11,25 +11,25 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 
 public class ConfigurationWebSocketTest extends Helper {
-    private static final String CONFIGURATION_NAME = "TEZT C0NF1G";
+    private static final String CONFIGURATION_NAME = "WS T3ZT ";
     private static final String CONFIGURATION_VALUE = "TEST VALUE";
+    private static final RESTHelper restHelper = new RESTHelper();
 
     @Before
     public void preTest() throws InterruptedException, IOException {
         authenticate();
-
-        RESTHelper restHelper = new RESTHelper();
-        restHelper.cleanUpConfigurations(CONFIGURATION_NAME);
     }
 
     @Test
     public void putConfigurationProperty() throws InterruptedException, IOException {
-        final CountDownLatch latch = new CountDownLatch(1);
+        final String configurationName = CONFIGURATION_NAME + new Random().nextLong();
+        System.out.println("Configuration name for test: " + configurationName);
 
-        authenticate();
+        final CountDownLatch latch = new CountDownLatch(1);
 
         final ConfigurationWS configurationWS = client.createConfigurationWS();
         configurationWS.setListener(new ConfigurationListener() {
@@ -56,24 +56,27 @@ public class ConfigurationWebSocketTest extends Helper {
 
         });
 
-        configurationWS.put(null, CONFIGURATION_NAME, CONFIGURATION_VALUE);
+        configurationWS.put(null, configurationName, CONFIGURATION_VALUE);
         latch.await(awaitTimeout, awaitTimeUnit);
 
-        deleteConfiguration(CONFIGURATION_NAME);
+        Assert.assertEquals(0, latch.getCount());
+
+        restHelper.deleteConfigurations(configurationName);
     }
 
     @Test
     public void getConfigurationProperty() throws InterruptedException, IOException {
-        final CountDownLatch latch = new CountDownLatch(1);
+        final String configurationName = CONFIGURATION_NAME + new Random().nextLong();
+        System.out.println("Configuration name for test: " + configurationName);
 
-        authenticate();
+        final CountDownLatch latch = new CountDownLatch(1);
 
         final ConfigurationWS configurationWS = client.createConfigurationWS();
         configurationWS.setListener(new ConfigurationListener() {
             @Override
             public void onGet(ConfigurationGetResponse response) {
                 Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
-                Assert.assertEquals(CONFIGURATION_NAME, response.getConfiguration().getName());
+                Assert.assertEquals(configurationName, response.getConfiguration().getName());
                 Assert.assertEquals(CONFIGURATION_VALUE, response.getConfiguration().getValue());
                 latch.countDown();
             }
@@ -81,7 +84,7 @@ public class ConfigurationWebSocketTest extends Helper {
             @Override
             public void onPut(ConfigurationInsertResponse response) {
                 Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
-                configurationWS.get(null, CONFIGURATION_NAME);
+                configurationWS.get(null, configurationName);
             }
 
             @Override
@@ -96,17 +99,20 @@ public class ConfigurationWebSocketTest extends Helper {
 
         });
 
-        configurationWS.put(null, CONFIGURATION_NAME, CONFIGURATION_VALUE);
+        configurationWS.put(null, configurationName, CONFIGURATION_VALUE);
         latch.await(awaitTimeout, awaitTimeUnit);
 
-        deleteConfiguration(CONFIGURATION_NAME);
+        Assert.assertEquals(0, latch.getCount());
+
+        restHelper.deleteConfigurations(configurationName);
     }
 
     @Test
     public void deleteConfigurationProperty() throws InterruptedException, IOException {
-        final CountDownLatch latch = new CountDownLatch(1);
+        final String configurationName = CONFIGURATION_NAME + new Random().nextLong();
+        System.out.println("Configuration name for test: " + configurationName);
 
-        authenticate();
+        final CountDownLatch latch = new CountDownLatch(1);
 
         final ConfigurationWS configurationWS = client.createConfigurationWS();
         configurationWS.setListener(new ConfigurationListener() {
@@ -118,7 +124,7 @@ public class ConfigurationWebSocketTest extends Helper {
             @Override
             public void onPut(ConfigurationInsertResponse response) {
                 Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
-                configurationWS.delete(null, CONFIGURATION_NAME);
+                configurationWS.delete(null, configurationName);
             }
 
             @Override
@@ -134,7 +140,9 @@ public class ConfigurationWebSocketTest extends Helper {
 
         });
 
-        configurationWS.put(null, CONFIGURATION_NAME, CONFIGURATION_VALUE);
+        configurationWS.put(null, configurationName, CONFIGURATION_VALUE);
         latch.await(awaitTimeout, awaitTimeUnit);
+
+        Assert.assertEquals(0, latch.getCount());
     }
 }

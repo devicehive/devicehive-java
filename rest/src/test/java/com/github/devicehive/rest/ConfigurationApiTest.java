@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Random;
 
 public class ConfigurationApiTest extends Helper{
-    private static final String CONFIGURATION_NAME = "TEZT C0NF1G ";
+    private static final String CONFIGURATION_NAME = "HTTP T3ZT ";
     private static final String CONFIGURATION_VALUE = "TEST VALUE";
 
     private void authorise() throws IOException {
