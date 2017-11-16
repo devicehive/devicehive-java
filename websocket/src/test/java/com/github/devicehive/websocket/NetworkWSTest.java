@@ -93,7 +93,7 @@ public class NetworkWSTest extends Helper {
     @Test
     public void get() throws InterruptedException {
         final CountDownLatch latch = new CountDownLatch(2);
-        long networkId = registerNetwork(JAVA_LIB_TEST + new Random().nextInt());
+        long networkId = registerNetwork(JAVA_LIB_TEST + new Random().nextLong());
         final NetworkWS networkWS = client.createNetworkWS();
         networkWS.setListener(new NetworkListener() {
             @Override
@@ -173,7 +173,7 @@ public class NetworkWSTest extends Helper {
             }
         });
         NetworkUpdate networkUpdate=new NetworkUpdate();
-        networkUpdate.setName(JAVA_LIB_TEST + new Random().nextInt());
+        networkUpdate.setName(JAVA_LIB_TEST + new Random().nextLong());
         networkWS.insert(null,networkUpdate );
         latch.await(awaitTimeout, awaitTimeUnit);
         Assert.assertEquals(latch.getCount(), 0);
@@ -182,7 +182,7 @@ public class NetworkWSTest extends Helper {
     @Test
     public void update() throws InterruptedException {
         final CountDownLatch latch = new CountDownLatch(2);
-        final long networkId = registerNetwork(JAVA_LIB_TEST + new Random().nextInt());
+        final long networkId = registerNetwork(JAVA_LIB_TEST + new Random().nextLong());
         final NetworkWS networkWS = client.createNetworkWS();
         networkWS.setListener(new NetworkListener() {
             @Override
@@ -227,7 +227,7 @@ public class NetworkWSTest extends Helper {
     @Test
     public void delete() throws InterruptedException {
         final CountDownLatch latch = new CountDownLatch(1);
-        final long networkId = registerNetwork(JAVA_LIB_TEST + new Random().nextInt());
+        final long networkId = registerNetwork(JAVA_LIB_TEST + new Random().nextLong());
         final NetworkWS networkWS = client.createNetworkWS();
         networkWS.setListener(new NetworkListener() {
             @Override
