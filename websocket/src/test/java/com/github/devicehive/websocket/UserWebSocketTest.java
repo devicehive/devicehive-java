@@ -14,30 +14,41 @@ import java.util.concurrent.CountDownLatch;
 
 public class UserWebSocketTest extends Helper {
     private static final String JSON_DATA = "{\"jsonString\": \"NEW STRING DATA\"}";
-    private static final String LOGIN = "WS_L0G1N_DAT_1Z_UN1CK";
+    private static final String LOGIN = "WS_L0G1N_DAT_1Z_UN1CK_";
     private static final String PASSWORD = "PASSWORD";
-    private static final String NETWORK_NAME = "WS_T3ZT NE7W0K";
+    private static final String NETWORK_NAME = "WS T3ZT NE7W0K ";
     private static final RoleEnum ROLE = RoleEnum.ADMIN;
     private static final StatusEnum STATUS = StatusEnum.ACTIVE;
     private static Long userId;
     private static Long networkId;
+    private static final RESTHelper restHelper = new RESTHelper();
 
-    private UserUpdate createNewAdminUser() {
-        UserUpdate user = new UserUpdate();
-        user.setLogin(LOGIN);
-        user.setRole(ROLE);
-        user.setStatus(STATUS);
-        user.setPassword(PASSWORD);
-        return user;
+    private UserUpdate createNewAdminUserUpdate() {
+        UserUpdate userUpdate = createNewAdminUserUpdate(LOGIN);
+        return userUpdate;
+    }
+
+    private UserUpdate createNewAdminUserUpdate(String userLogin) {
+        UserUpdate userUpdate = new UserUpdate();
+        String login = userLogin + new Random().nextLong();
+        System.out.println("User login for test: " + login);
+        userUpdate.setLogin(login);
+        userUpdate.setPassword(PASSWORD);
+        userUpdate.setRole(ROLE);
+        userUpdate.setStatus(STATUS);
+        return userUpdate;
+    }
+
+    private Long createTestNetwork() throws IOException {
+        String networkName = NETWORK_NAME + new Random().nextLong();
+        System.out.println("Network name for test: " + networkName);
+        NetworkId networkId = restHelper.createNetwork(networkName);
+        return networkId.getId();
     }
 
     @Before
     public void preTest() throws InterruptedException, IOException {
         authenticate();
-
-        RESTHelper restHelper = new RESTHelper();
-        restHelper.cleanUpUsers(LOGIN);
-        restHelper.cleanUpNetworks(NETWORK_NAME);
     }
 
     @Test
@@ -250,11 +261,11 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        UserUpdate user = createNewAdminUser();
+        UserUpdate user = createNewAdminUserUpdate();
         userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
 
-        safeDeleteUser(userId);
+        restHelper.deleteUsers(userId);
 
         Assert.assertEquals(0, latch.getCount());
     }
@@ -325,7 +336,7 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        UserUpdate user = createNewAdminUser();
+        UserUpdate user = createNewAdminUserUpdate();
         userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
 
@@ -347,7 +358,7 @@ public class UserWebSocketTest extends Helper {
             public void onGet(UserGetResponse response) {
                 Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
                 UserWithNetwork user = response.getUser();
-                Assert.assertEquals(LOGIN, user.getLogin());
+                Assert.assertEquals(userId, user.getId());
                 latch.countDown();
             }
 
@@ -400,11 +411,11 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        UserUpdate user = createNewAdminUser();
+        UserUpdate user = createNewAdminUserUpdate();
         userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
 
-        safeDeleteUser(userId);
+        restHelper.deleteUsers(userId);
 
         Assert.assertEquals(0, latch.getCount());
     }
@@ -480,11 +491,11 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        UserUpdate user = createNewAdminUser();
+        UserUpdate user = createNewAdminUserUpdate();
         userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
 
-        safeDeleteUser(userId);
+        restHelper.deleteUsers(userId);
 
         Assert.assertEquals(0, latch.getCount());
     }
@@ -498,7 +509,7 @@ public class UserWebSocketTest extends Helper {
             @Override
             public void onList(UserListResponse response) {
                 Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
-                Assert.assertEquals(1, response.getUsers().size());
+                Assert.assertNotEquals(0, response.getUsers().size());
                 latch.countDown();
             }
 
@@ -555,11 +566,11 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        UserUpdate user = createNewAdminUser();
+        UserUpdate user = createNewAdminUserUpdate();
         userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
 
-        safeDeleteUser(userId);
+        restHelper.deleteUsers(userId);
 
         Assert.assertEquals(0, latch.getCount());
     }
@@ -568,7 +579,7 @@ public class UserWebSocketTest extends Helper {
     public void assignNetwork() throws InterruptedException, IOException {
         final CountDownLatch latch = new CountDownLatch(1);
 
-        networkId = registerNetwork(NETWORK_NAME + new Random().nextInt());
+        networkId = createTestNetwork();
         final UserWS userWS = client.createUserWS();
         userWS.setListener(new UserListener() {
             @Override
@@ -631,12 +642,12 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        UserUpdate user = createNewAdminUser();
+        UserUpdate user = createNewAdminUserUpdate();
         userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
 
-        safeDeleteUser(userId);
-        safeDeleteNetwork(networkId);
+        restHelper.deleteUsers(userId);
+        restHelper.deleteNetworks(networkId);
 
         Assert.assertEquals(0, latch.getCount());
     }
@@ -645,7 +656,7 @@ public class UserWebSocketTest extends Helper {
     public void unassignNetwork() throws InterruptedException, IOException {
         final CountDownLatch latch = new CountDownLatch(1);
 
-        networkId = registerNetwork(NETWORK_NAME + new Random().nextInt());
+        networkId = createTestNetwork();
         final UserWS userWS = client.createUserWS();
         userWS.setListener(new UserListener() {
             @Override
@@ -709,12 +720,12 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        UserUpdate user = createNewAdminUser();
+        UserUpdate user = createNewAdminUserUpdate();
         userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
 
-        safeDeleteUser(userId);
-        safeDeleteNetwork(networkId);
+        restHelper.deleteUsers(userId);
+        restHelper.deleteNetworks(networkId);
 
         Assert.assertEquals(0, latch.getCount());
     }
@@ -723,7 +734,7 @@ public class UserWebSocketTest extends Helper {
     public void getNetwork() throws InterruptedException, IOException {
         final CountDownLatch latch = new CountDownLatch(1);
 
-        networkId = registerNetwork(NETWORK_NAME + new Random().nextInt());
+        networkId = createTestNetwork();
         final UserWS userWS = client.createUserWS();
         userWS.setListener(new UserListener() {
             @Override
@@ -787,12 +798,12 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        UserUpdate user = createNewAdminUser();
+        UserUpdate user = createNewAdminUserUpdate();
         userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
 
-        safeDeleteUser(userId);
-        safeDeleteNetwork(networkId);
+        restHelper.deleteUsers(userId);
+        restHelper.deleteNetworks(networkId);
 
         Assert.assertEquals(0, latch.getCount());
     }

@@ -36,7 +36,7 @@ public class UserApiTest extends Helper {
     private static final String JSON_DATA = "{\"jsonString\": \"NEW STRING DATA\"}";
     private static final String LOGIN = "HTTP_L0G1N_DAT_1Z_UN1CK_";
     private static final String PASSWORD = "PASSWORD";
-    private static final String NETWORK_NAME = "REST TEST NETWORK ";
+    private static final String NETWORK_NAME = "HTTP T3ZT NE7W0K ";
     private static final RoleEnum ROLE = RoleEnum.ADMIN;
     private static final StatusEnum STATUS = StatusEnum.ACTIVE;
 
@@ -55,7 +55,6 @@ public class UserApiTest extends Helper {
         userUpdate.setStatus(STATUS);
         return userUpdate;
     }
-
 
     private NetworkId createTestNetwork() throws IOException {
         String networkName = NETWORK_NAME + new Random().nextLong();

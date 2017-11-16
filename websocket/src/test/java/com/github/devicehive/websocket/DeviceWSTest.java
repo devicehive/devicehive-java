@@ -43,7 +43,7 @@ import java.util.concurrent.TimeUnit;
 import static com.github.devicehive.websocket.model.repsonse.ResponseAction.SUCCESS;
 
 public class DeviceWSTest extends Helper {
-    public static final String NETWORK_NAME = "Dev1c3 t3zt N37w0k ";
+    public static final String NETWORK_NAME = "WS Dev1c3 t3zt N37w0k ";
     public static final String DEVICE_NAME = "WS_UNIT_TEST_DEVICE";
     private static final RESTHelper restHelper = new RESTHelper();
 
