@@ -23,6 +23,7 @@ package com.github.devicehive.websocket;
 
 import com.github.devicehive.rest.model.Device;
 import com.github.devicehive.rest.model.DeviceUpdate;
+import com.github.devicehive.rest.model.NetworkId;
 import com.github.devicehive.websocket.api.DeviceWS;
 import com.github.devicehive.websocket.listener.DeviceListener;
 import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
@@ -34,6 +35,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -41,21 +43,25 @@ import java.util.concurrent.TimeUnit;
 import static com.github.devicehive.websocket.model.repsonse.ResponseAction.SUCCESS;
 
 public class DeviceWSTest extends Helper {
-    public static final String NETWORK_NAME = "Dev1c3 t3zt N37w0k";
+    public static final String NETWORK_NAME = "WS Dev1c3 t3zt N37w0k ";
     public static final String DEVICE_NAME = "WS_UNIT_TEST_DEVICE";
+    private static final RESTHelper restHelper = new RESTHelper();
+
+    private Long createTestNetwork() throws IOException {
+        String networkName = NETWORK_NAME + new Random().nextLong();
+        System.out.println("Network name for test: " + networkName);
+        NetworkId networkId = restHelper.createNetwork(networkName);
+        return networkId.getId();
+    }
 
     @Before
     public void preTest() throws InterruptedException, IOException {
         authenticate();
-
-        RESTHelper restHelper = new RESTHelper();
-        restHelper.cleanUpDevices(DEVICE_NAME);
-        restHelper.cleanUpNetworks(NETWORK_NAME);
     }
 
     @Test
     public void registerDevice() throws IOException, InterruptedException {
-        final Long networkId = registerNetwork(NETWORK_NAME);
+        final Long networkId = createTestNetwork();
         final String deviceId = UUID.randomUUID().toString();
         final CountDownLatch latch = new CountDownLatch(1);
         final DeviceWS deviceWS = client.createDeviceWS();
@@ -100,15 +106,15 @@ public class DeviceWSTest extends Helper {
         registerDevice(deviceWS, deviceId, DEVICE_NAME, networkId);
         latch.await(awaitTimeout, awaitTimeUnit);
 
-        deleteDevice(deviceId);
-        deleteNetwork(networkId);
+        restHelper.deleteDevices(deviceId);
+        restHelper.deleteNetworks(networkId);
 
         Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
     public void deleteDevice() throws IOException, InterruptedException {
-        final Long networkId = registerNetwork(NETWORK_NAME);
+        final Long networkId = createTestNetwork();
         final String deviceId = UUID.randomUUID().toString();
         final CountDownLatch latch = new CountDownLatch(1);
         final DeviceWS deviceWS = client.createDeviceWS();
@@ -156,14 +162,14 @@ public class DeviceWSTest extends Helper {
         registerDevice(deviceWS, deviceId, DEVICE_NAME, networkId);
         latch.await(awaitTimeout, awaitTimeUnit);
 
-        deleteNetwork(networkId);
+        restHelper.deleteNetworks(networkId);
 
         Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
     public void getDevice() throws IOException, InterruptedException {
-        final Long networkId = registerNetwork(NETWORK_NAME);
+        final Long networkId = createTestNetwork();
         final String deviceId = UUID.randomUUID().toString();
         final CountDownLatch latch = new CountDownLatch(1);
         final DeviceWS deviceWS = client.createDeviceWS();
@@ -209,15 +215,15 @@ public class DeviceWSTest extends Helper {
         registerDevice(deviceWS, deviceId, DEVICE_NAME, networkId);
         latch.await(awaitTimeout, awaitTimeUnit);
 
-        deleteDevice(deviceId);
-        deleteNetwork(networkId);
+        restHelper.deleteDevices(deviceId);
+        restHelper.deleteNetworks(networkId);
 
         Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
     public void getDeviceList() throws IOException, InterruptedException {
-        final Long networkId = registerNetwork(NETWORK_NAME);
+        final Long networkId = createTestNetwork();
         final String deviceId = UUID.randomUUID().toString();
         final CountDownLatch latch = new CountDownLatch(1);
         final DeviceWS deviceWS = client.createDeviceWS();
@@ -263,8 +269,8 @@ public class DeviceWSTest extends Helper {
         registerDevice(deviceWS, deviceId, DEVICE_NAME, networkId);
         latch.await(awaitTimeout, awaitTimeUnit);
 
-        deleteDevice(deviceId);
-        deleteNetwork(networkId);
+        restHelper.deleteDevices(deviceId);
+        restHelper.deleteNetworks(networkId);
 
         Assert.assertEquals(0, latch.getCount());
     }

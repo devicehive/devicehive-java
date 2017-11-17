@@ -6,14 +6,17 @@ import com.github.devicehive.websocket.listener.CommandListener;
 import com.github.devicehive.websocket.model.repsonse.*;
 import com.github.devicehive.rest.model.DeviceCommandWrapper;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 
 public class CommandTest extends Helper {
     private static final String COMMAND = "c0mm4nd";
+    private static final RESTHelper restHelper = new RESTHelper();
 
     private DeviceCommandWrapper getWrapper(String notificationName) {
         return getWrapper(notificationName, null);
@@ -26,10 +29,13 @@ public class CommandTest extends Helper {
         return wrapper;
     }
 
-    @Test
-    public void insertCommand() throws InterruptedException {
+    @Before
+    public void preTest() throws InterruptedException, IOException {
         authenticate();
+    }
 
+    @Test
+    public void insertCommand() throws InterruptedException, IOException {
         String deviceId = UUID.randomUUID().toString();
         Assert.assertTrue(registerDevice(deviceId));
 
@@ -77,14 +83,12 @@ public class CommandTest extends Helper {
         commandWS.insert(deviceId, getWrapper(COMMAND));
         latch.await(awaitTimeout, awaitTimeUnit);
 
-        deleteDevice(deviceId);
+        restHelper.deleteDevices(deviceId);
         Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
-    public void getCommand() throws InterruptedException {
-        authenticate();
-
+    public void getCommand() throws InterruptedException, IOException {
         final String deviceId = UUID.randomUUID().toString();
         Assert.assertTrue(registerDevice(deviceId));
 
@@ -136,14 +140,12 @@ public class CommandTest extends Helper {
         commandWS.insert(deviceId, getWrapper(COMMAND));
         latch.await(awaitTimeout, awaitTimeUnit);
 
-        deleteDevice(deviceId);
+        restHelper.deleteDevices(deviceId);
         Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
-    public void subscribeCommand() throws InterruptedException {
-        authenticate();
-
+    public void subscribeCommand() throws InterruptedException, IOException {
         final String deviceId = UUID.randomUUID().toString();
         Assert.assertTrue(registerDevice(deviceId));
 
@@ -191,14 +193,12 @@ public class CommandTest extends Helper {
         commandWS.subscribe(Collections.singletonList(COMMAND), deviceId, null, null, null);
         latch.await(awaitTimeout, awaitTimeUnit);
 
-        deleteDevice(deviceId);
+        restHelper.deleteDevices(deviceId);
         Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
-    public void unsubscribeCommand() throws InterruptedException {
-        authenticate();
-
+    public void unsubscribeCommand() throws InterruptedException, IOException {
         final String deviceId = UUID.randomUUID().toString();
         Assert.assertTrue(registerDevice(deviceId));
 
@@ -247,14 +247,12 @@ public class CommandTest extends Helper {
         commandWS.subscribe(Collections.singletonList(COMMAND), deviceId, null, null, null);
         latch.await(awaitTimeout, awaitTimeUnit);
 
-        deleteDevice(deviceId);
+        restHelper.deleteDevices(deviceId);
         Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
-    public void listCommand() throws InterruptedException {
-        authenticate();
-
+    public void listCommand() throws InterruptedException, IOException {
         final String deviceId = UUID.randomUUID().toString();
         Assert.assertTrue(registerDevice(deviceId));
 
@@ -304,7 +302,7 @@ public class CommandTest extends Helper {
         commandWS.insert(deviceId, getWrapper(COMMAND));
         latch.await(awaitTimeout, awaitTimeUnit);
 
-        deleteDevice(deviceId);
+        restHelper.deleteDevices(deviceId);
         Assert.assertEquals(0, latch.getCount());
     }
 

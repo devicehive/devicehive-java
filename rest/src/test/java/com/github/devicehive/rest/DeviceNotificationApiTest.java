@@ -40,7 +40,7 @@ import java.util.UUID;
 import retrofit2.Response;
 
 public class DeviceNotificationApiTest extends Helper {
-    private static final String NOTIFICATION_NAME = "TEST NOTIFICATION";
+    private static final String NOTIFICATION_NAME = "HTTP TEST NOTIFICATION";
     private static final String TEST_PROP = "testProp";
     private static final String TEST_VALUE = "testValue";
     private static final String UPDATED_NOTIFICATION_NAME = "UPDATED NOTIFICATION";

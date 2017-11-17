@@ -25,16 +25,22 @@ class RESTHelper {
 
     ApiClient client = new ApiClient(URL);
 
-    RESTHelper() throws IOException {
+    RESTHelper() {
         authenticate();
     }
 
-    boolean authenticate() throws IOException {
+    boolean authenticate() {
         AuthApi api = client.createService(AuthApi.class);
         JwtRequest requestBody = new JwtRequest();
         requestBody.setLogin(LOGIN);
         requestBody.setPassword(PASSWORD);
-        Response<JwtToken> response = api.login(requestBody).execute();
+        Response<JwtToken> response = null;
+        try {
+            response = api.login(requestBody).execute();
+        } catch (IOException e) {
+            System.out.println("Login attempt failed.");
+            return false;
+        }
         if (response.isSuccessful()) {
             client.addAuthorization(ApiClient.AUTH_API_KEY, ApiKeyAuth.newInstance(response.body().getAccessToken()));
         }
