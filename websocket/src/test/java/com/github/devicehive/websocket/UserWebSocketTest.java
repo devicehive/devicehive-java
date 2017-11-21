@@ -17,18 +17,18 @@ public class UserWebSocketTest extends Helper {
     private static final String LOGIN = "WS_L0G1N_DAT_1Z_UN1CK_";
     private static final String PASSWORD = "PASSWORD";
     private static final String NETWORK_NAME = "WS T3ZT NE7W0K ";
-    private static final RoleEnum ROLE = RoleEnum.ADMIN;
+    private static final RoleEnum ROLE = RoleEnum.CLIENT;
     private static final StatusEnum STATUS = StatusEnum.ACTIVE;
     private static Long userId;
     private static Long networkId;
     private static final RESTHelper restHelper = new RESTHelper();
 
-    private UserUpdate createNewAdminUserUpdate() {
-        UserUpdate userUpdate = createNewAdminUserUpdate(LOGIN);
+    private UserUpdate createNewUserUpdate() {
+        UserUpdate userUpdate = createNewUserUpdate(LOGIN);
         return userUpdate;
     }
 
-    private UserUpdate createNewAdminUserUpdate(String userLogin) {
+    private UserUpdate createNewUserUpdate(String userLogin) {
         UserUpdate userUpdate = new UserUpdate();
         String login = userLogin + new Random().nextLong();
         System.out.println("User login for test: " + login);
@@ -261,7 +261,7 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        UserUpdate user = createNewAdminUserUpdate();
+        UserUpdate user = createNewUserUpdate();
         userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
 
@@ -336,7 +336,7 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        UserUpdate user = createNewAdminUserUpdate();
+        UserUpdate user = createNewUserUpdate();
         userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
 
@@ -411,7 +411,7 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        UserUpdate user = createNewAdminUserUpdate();
+        UserUpdate user = createNewUserUpdate();
         userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
 
@@ -491,7 +491,7 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        UserUpdate user = createNewAdminUserUpdate();
+        UserUpdate user = createNewUserUpdate();
         userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
 
@@ -566,7 +566,7 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        UserUpdate user = createNewAdminUserUpdate();
+        UserUpdate user = createNewUserUpdate();
         userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
 
@@ -642,7 +642,7 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        UserUpdate user = createNewAdminUserUpdate();
+        UserUpdate user = createNewUserUpdate();
         userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
 
@@ -720,7 +720,7 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        UserUpdate user = createNewAdminUserUpdate();
+        UserUpdate user = createNewUserUpdate();
         userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
 
@@ -798,7 +798,7 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        UserUpdate user = createNewAdminUserUpdate();
+        UserUpdate user = createNewUserUpdate();
         userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
 
