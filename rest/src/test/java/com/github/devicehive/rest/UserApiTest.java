@@ -37,15 +37,15 @@ public class UserApiTest extends Helper {
     private static final String LOGIN = "HTTP_L0G1N_DAT_1Z_UN1CK_";
     private static final String PASSWORD = "PASSWORD";
     private static final String NETWORK_NAME = "HTTP T3ZT NE7W0K ";
-    private static final RoleEnum ROLE = RoleEnum.ADMIN;
+    private static final RoleEnum ROLE = RoleEnum.CLIENT;
     private static final StatusEnum STATUS = StatusEnum.ACTIVE;
 
-    private UserUpdate createNewAdminUserUpdate() {
-        UserUpdate userUpdate = createNewAdminUserUpdate(LOGIN);
+    private UserUpdate createNewUserUpdate() {
+        UserUpdate userUpdate = createNewUserUpdate(LOGIN);
         return userUpdate;
     }
 
-    private UserUpdate createNewAdminUserUpdate(String userLogin) {
+    private UserUpdate createNewUserUpdate(String userLogin) {
         UserUpdate userUpdate = new UserUpdate();
         String login = userLogin + new Random().nextLong();
         System.out.println("User login for test: " + login);
@@ -97,7 +97,7 @@ public class UserApiTest extends Helper {
     @Test
     public void insertUser() throws IOException {
         UserApi userApi = client.createService(UserApi.class);
-        UserUpdate userUpdate = createNewAdminUserUpdate();
+        UserUpdate userUpdate = createNewUserUpdate();
 
         Response<UserVO> postResponse = userApi.insertUser(userUpdate).execute();
         Assert.assertTrue(postResponse.isSuccessful());
@@ -110,7 +110,7 @@ public class UserApiTest extends Helper {
     @Test
     public void deleteUser() throws IOException {
         UserApi userApi = client.createService(UserApi.class);
-        UserUpdate userUpdate = createNewAdminUserUpdate();
+        UserUpdate userUpdate = createNewUserUpdate();
 
         Response<UserVO> postResponse = userApi.insertUser(userUpdate).execute();
         Assert.assertTrue(postResponse.isSuccessful());
@@ -125,7 +125,7 @@ public class UserApiTest extends Helper {
     @Test
     public void getUser() throws IOException {
         UserApi userApi = client.createService(UserApi.class);
-        UserUpdate userUpdate = createNewAdminUserUpdate();
+        UserUpdate userUpdate = createNewUserUpdate();
 
         Response<UserVO> postResponse = userApi.insertUser(userUpdate).execute();
         Assert.assertTrue(postResponse.isSuccessful());
@@ -144,7 +144,7 @@ public class UserApiTest extends Helper {
     @Test
     public void updateUser() throws IOException {
         UserApi userApi = client.createService(UserApi.class);
-        UserUpdate userUpdate = createNewAdminUserUpdate();
+        UserUpdate userUpdate = createNewUserUpdate();
 
         Response<UserVO> postResponse = userApi.insertUser(userUpdate).execute();
         Assert.assertTrue(postResponse.isSuccessful());
@@ -166,7 +166,7 @@ public class UserApiTest extends Helper {
     @Test
     public void assignNetwork() throws IOException {
         UserApi userApi = client.createService(UserApi.class);
-        UserUpdate userUpdate = createNewAdminUserUpdate();
+        UserUpdate userUpdate = createNewUserUpdate();
 
         Response<UserVO> postResponse = userApi.insertUser(userUpdate).execute();
         Assert.assertTrue(postResponse.isSuccessful());
@@ -185,7 +185,7 @@ public class UserApiTest extends Helper {
     @Test
     public void getNetwork() throws IOException {
         UserApi userApi = client.createService(UserApi.class);
-        UserUpdate userUpdate = createNewAdminUserUpdate();
+        UserUpdate userUpdate = createNewUserUpdate();
 
         Response<UserVO> postResponse = userApi.insertUser(userUpdate).execute();
         Assert.assertTrue(postResponse.isSuccessful());
@@ -210,7 +210,7 @@ public class UserApiTest extends Helper {
     @Test
     public void unassignNetwork() throws IOException {
         UserApi userApi = client.createService(UserApi.class);
-        UserUpdate userUpdate = createNewAdminUserUpdate();
+        UserUpdate userUpdate = createNewUserUpdate();
 
         Response<UserVO> postResponse = userApi.insertUser(userUpdate).execute();
         Assert.assertTrue(postResponse.isSuccessful());
@@ -234,7 +234,7 @@ public class UserApiTest extends Helper {
         Long[] userIds = new Long[userAmount];
         for (int j = 0; j < userAmount; ++j) {
             String userLogin = String.format("%s%d_", LOGIN, j);
-            UserUpdate userUpdate = createNewAdminUserUpdate(userLogin);
+            UserUpdate userUpdate = createNewUserUpdate(userLogin);
 
             Response<UserVO> postResponse = userApi.insertUser(userUpdate).execute();
             Assert.assertTrue(postResponse.isSuccessful());
