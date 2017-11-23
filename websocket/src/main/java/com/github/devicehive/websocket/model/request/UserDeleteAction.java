@@ -22,13 +22,9 @@
 package com.github.devicehive.websocket.model.request;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import static com.github.devicehive.websocket.model.ActionConstant.USER_DELETE;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
 public class UserDeleteAction extends RequestAction {
 
     @SerializedName("userId")
@@ -36,5 +32,13 @@ public class UserDeleteAction extends RequestAction {
 
     public UserDeleteAction() {
         super(USER_DELETE);
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

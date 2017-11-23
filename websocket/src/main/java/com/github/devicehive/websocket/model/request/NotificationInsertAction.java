@@ -21,22 +21,35 @@
 
 package com.github.devicehive.websocket.model.request;
 
+import com.github.devicehive.rest.model.DeviceNotificationWrapper;
 import com.github.devicehive.websocket.model.ActionConstant;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class NotificationInsertAction extends RequestAction {
 
     @SerializedName("deviceId")
     private String deviceId;
 
     @SerializedName("notification")
-    private com.github.devicehive.websocket.model.request.data.DeviceNotificationWrapper notification;
+    private DeviceNotificationWrapper notification;
 
     public NotificationInsertAction() {
         super(ActionConstant.NOTIFICATION_INSERT);
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public DeviceNotificationWrapper getNotification() {
+        return notification;
+    }
+
+    public void setNotification(DeviceNotificationWrapper notification) {
+        this.notification = notification;
     }
 }

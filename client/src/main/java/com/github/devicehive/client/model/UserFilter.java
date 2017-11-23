@@ -21,11 +21,11 @@
 
 package com.github.devicehive.client.model;
 
-import com.github.devicehive.websocket.model.RoleEnum;
-import com.github.devicehive.websocket.model.StatusEnum;
-import lombok.Data;
+import com.github.devicehive.rest.model.RoleEnum;
+import com.github.devicehive.rest.model.SortField;
+import com.github.devicehive.rest.model.SortOrder;
+import com.github.devicehive.rest.model.StatusEnum;
 
-@Data
 public class UserFilter {
 
     String login;
@@ -36,4 +36,77 @@ public class UserFilter {
     SortOrder sortOrder = SortOrder.DESC;
     Integer take = 30;
     Integer skip = 0;
+
+    public String getLogin() {
+        return login;
+    }
+
+    public UserFilter setLogin(String login) {
+        this.login = login;
+        return this;
+    }
+
+    public String getLoginPattern() {
+        return loginPattern;
+    }
+
+    public UserFilter setLoginPattern(String loginPattern) {
+        this.loginPattern = loginPattern;
+        return this;
+    }
+
+    public RoleEnum getRole() {
+        return role;
+    }
+
+    public UserFilter setRole(RoleEnum role) {
+        this.role = role;
+        return this;
+    }
+
+    public StatusEnum getStatus() {
+        return status;
+    }
+
+    public UserFilter setStatus(StatusEnum status) {
+        this.status = status;
+        return this;
+    }
+
+    public SortField getSortField() {
+        return sortField;
+    }
+
+    public UserFilter setSortField(SortField sortField) {
+        this.sortField = sortField;
+        return this;
+    }
+
+    public SortOrder getSortOrder() {
+        return sortOrder;
+    }
+
+    public UserFilter setSortOrder(SortOrder sortOrder) {
+        this.sortOrder = sortOrder;
+        return this;
+    }
+
+    public Integer getTake() {
+        return take;
+    }
+
+    public UserFilter setTake(Integer take) {
+        this.take = take;
+        return this;
+    }
+
+    public Integer getSkip() {
+        return skip;
+    }
+
+    public UserFilter setSkip(Integer skip) {
+        this.skip = skip;
+        return this;
+    }
 }
+

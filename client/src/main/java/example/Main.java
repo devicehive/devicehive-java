@@ -1,17 +1,26 @@
 package example;
 
-import com.github.devicehive.client.model.*;
+import com.github.devicehive.client.model.CommandFilter;
+import com.github.devicehive.client.model.DeviceCommandsCallback;
+import com.github.devicehive.client.model.DeviceNotification;
+import com.github.devicehive.client.model.DeviceNotificationsCallback;
+import com.github.devicehive.client.model.FailureData;
+import com.github.devicehive.client.model.NotificationFilter;
+import com.github.devicehive.client.model.Parameter;
+import com.github.devicehive.client.model.TokenAuth;
 import com.github.devicehive.client.service.Device;
 import com.github.devicehive.client.service.DeviceCommand;
 import com.github.devicehive.client.service.DeviceHive;
 import com.github.devicehive.rest.model.JsonStringWrapper;
-import edu.emory.mathcs.backport.java.util.concurrent.Executors;
-import edu.emory.mathcs.backport.java.util.concurrent.ScheduledExecutorService;
-import edu.emory.mathcs.backport.java.util.concurrent.TimeUnit;
-import org.json.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 
 public class Main {
 
@@ -56,11 +65,12 @@ public class Main {
 
                 if (params != null) {
                     //Getting param value
-                    JSONObject jsonObject = new JSONObject(params.getJsonString());
+                    Gson gson=new Gson();
+                    JsonObject jsonObject =gson.fromJson(params.getJsonString(),JsonObject.class);
 
                     boolean needToSend = false;
                     if (jsonObject.has(PRODUCE_NOTIFICATION)) {
-                        needToSend = jsonObject.getBoolean(PRODUCE_NOTIFICATION);
+                        needToSend = jsonObject.get(PRODUCE_NOTIFICATION).getAsBoolean();
                     }
 
                     if (needToSend) {

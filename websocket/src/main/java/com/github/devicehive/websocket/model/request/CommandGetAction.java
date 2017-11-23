@@ -22,22 +22,34 @@
 package com.github.devicehive.websocket.model.request;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import static com.github.devicehive.websocket.model.ActionConstant.COMMAND_GET;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class CommandGetAction extends RequestAction {
 
     @SerializedName("deviceId")
     String deviceId;
     @SerializedName("commandId")
-    String commandId;
+    Long commandId;
 
     public CommandGetAction() {
         super(COMMAND_GET);
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public Long getCommandId() {
+        return commandId;
+    }
+
+    public void setCommandId(Long commandId) {
+        this.commandId = commandId;
     }
 
     @Override

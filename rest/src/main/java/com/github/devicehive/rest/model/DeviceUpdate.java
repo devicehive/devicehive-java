@@ -35,13 +35,11 @@
 package com.github.devicehive.rest.model;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
 
 /**
  * DeviceUpdate
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
-@Data
+
 public class DeviceUpdate {
 
   @SerializedName("name")
@@ -55,5 +53,37 @@ public class DeviceUpdate {
 
   @SerializedName("blocked")
   private Boolean blocked = false;
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public JsonStringWrapper getData() {
+    return data;
+  }
+
+  public void setData(JsonStringWrapper data) {
+    this.data = data;
+  }
+
+  public Long getNetworkId() {
+    return networkId;
+  }
+
+  public void setNetworkId(Long networkId) {
+    this.networkId = networkId;
+  }
+
+  public Boolean getBlocked() {
+    return blocked;
+  }
+
+  public void setBlocked(Boolean blocked) {
+    this.blocked = blocked;
+  }
 }
 

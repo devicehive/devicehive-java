@@ -35,7 +35,7 @@
 package com.github.devicehive.rest.model;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
+
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -43,8 +43,7 @@ import java.util.List;
 /**
  * JwtPayload
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
-@Data
+
 public class JwtPayload {
   @SerializedName("userId")
   private Long userId = null;
@@ -64,6 +63,46 @@ public class JwtPayload {
   public JwtPayload userId(Long userId) {
     this.userId = userId;
     return this;
+  }
+
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
+
+  public List<String> getActions() {
+    return actions;
+  }
+
+  public void setActions(List<String> actions) {
+    this.actions = actions;
+  }
+
+  public List<String> getNetworkIds() {
+    return networkIds;
+  }
+
+  public void setNetworkIds(List<String> networkIds) {
+    this.networkIds = networkIds;
+  }
+
+  public List<String> getDeviceIds() {
+    return deviceIds;
+  }
+
+  public void setDeviceIds(List<String> deviceIds) {
+    this.deviceIds = deviceIds;
+  }
+
+  public DateTime getExpiration() {
+    return expiration;
+  }
+
+  public void setExpiration(DateTime expiration) {
+    this.expiration = expiration;
   }
 }
 

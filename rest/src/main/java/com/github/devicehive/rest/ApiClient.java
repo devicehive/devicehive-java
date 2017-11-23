@@ -29,15 +29,8 @@ import com.github.devicehive.rest.utils.Const;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
+
 import org.joda.time.DateTime;
-import retrofit2.Converter;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -45,6 +38,15 @@ import java.lang.reflect.Type;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Converter;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 
 public class ApiClient {
@@ -205,6 +207,13 @@ public class ApiClient {
 
     public OkHttpClient getOkClient() {
         return okClient;
+    }
+
+    public void setOkClient(OkHttpClient client) {
+        okClient = client;
+        if (adapterBuilder != null) {
+            adapterBuilder.client(client);
+        }
     }
 
     public void addAuthsToOkClient(OkHttpClient okClient) {

@@ -22,35 +22,63 @@
 package com.github.devicehive.client.model;
 
 import com.github.devicehive.rest.model.JsonStringWrapper;
-import lombok.Builder;
-import lombok.Getter;
+
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Builder
 public class DeviceNotification {
-    @Getter
     private Long id;
 
-    @Getter
     private String notification;
 
-    @Getter
     private String deviceId;
 
-    @Getter
     private Long networkId;
 
-    @Getter
     private DateTime timestamp;
 
-    @Getter
     private JsonStringWrapper parameters;
 
+    public DeviceNotification() {
+    }
+
+    private DeviceNotification(Long id, String notification, String deviceId, Long networkId, DateTime timestamp, JsonStringWrapper parameters) {
+        this.id = id;
+        this.notification = notification;
+        this.deviceId = deviceId;
+        this.networkId = networkId;
+        this.timestamp = timestamp;
+        this.parameters = parameters;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getNotification() {
+        return notification;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public Long getNetworkId() {
+        return networkId;
+    }
+
+    public DateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public JsonStringWrapper getParameters() {
+        return parameters;
+    }
+
     public static DeviceNotification create(com.github.devicehive.rest.model.DeviceNotification notification) {
-        return DeviceNotification.builder()
+        return new Builder()
                 .id(notification.getId())
                 .notification(notification.getNotification())
                 .deviceId(notification.getDeviceId())
@@ -60,8 +88,8 @@ public class DeviceNotification {
                 .build();
     }
 
-    public static DeviceNotification create(com.github.devicehive.websocket.model.repsonse.data.DeviceNotification notification) {
-        return DeviceNotification.builder()
+    public static DeviceNotification create(DeviceNotification notification) {
+        return new Builder()
                 .id(notification.getId())
                 .notification(notification.getNotification())
                 .deviceId(notification.getDeviceId())
@@ -82,12 +110,12 @@ public class DeviceNotification {
         return result;
     }
 
-    public static List<DeviceNotification> createListFromWS(List<com.github.devicehive.websocket.model.repsonse.data.DeviceNotification> notifications) {
+    public static List<DeviceNotification> createListFromWS(List<com.github.devicehive.rest.model.DeviceNotification> notifications) {
         if (notifications == null) {
             return null;
         }
         List<DeviceNotification> result = new ArrayList<DeviceNotification>(notifications.size());
-        for (com.github.devicehive.websocket.model.repsonse.data.DeviceNotification n : notifications) {
+        for (com.github.devicehive.rest.model.DeviceNotification n : notifications) {
             result.add(create(n));
         }
         return result;
@@ -103,5 +131,48 @@ public class DeviceNotification {
                 + ",\n \"timestamp\":" + timestamp
                 + ",\n \"parameters\":" + parameters
                 + "}\n}";
+    }
+
+    static class Builder {
+        private Long id;
+        private String notification;
+        private String deviceId;
+        private Long networkId;
+        private DateTime timestamp;
+        private JsonStringWrapper parameters;
+
+        Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        Builder notification(String notification) {
+            this.notification = notification;
+            return this;
+        }
+
+        Builder deviceId(String deviceId) {
+            this.deviceId = deviceId;
+            return this;
+        }
+
+        Builder networkId(Long networkId) {
+            this.networkId = networkId;
+            return this;
+        }
+
+        Builder timestamp(DateTime timestamp) {
+            this.timestamp = timestamp;
+            return this;
+        }
+
+        Builder parameters(JsonStringWrapper parameters) {
+            this.parameters = parameters;
+            return this;
+        }
+
+        DeviceNotification build() {
+            return new DeviceNotification(id, notification, deviceId, networkId, timestamp, parameters);
+        }
     }
 }

@@ -21,21 +21,25 @@
 
 package com.github.devicehive.websocket.model.request;
 
-import com.github.devicehive.websocket.model.request.data.User;
+import com.github.devicehive.rest.model.UserUpdate;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import static com.github.devicehive.websocket.model.ActionConstant.USER_INSERT;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class UserInsertAction extends RequestAction {
 
     @SerializedName("user")
-    private User user;
+    private UserUpdate user;
 
     public UserInsertAction() {
         super(USER_INSERT);
+    }
+
+    public UserUpdate getUser() {
+        return user;
+    }
+
+    public void setUser(UserUpdate user) {
+        this.user = user;
     }
 }

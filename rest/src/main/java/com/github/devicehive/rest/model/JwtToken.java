@@ -35,13 +35,11 @@
 package com.github.devicehive.rest.model;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
 
 /**
  * JwtToken
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
-@Data
+
 public class JwtToken {
   @SerializedName("accessToken")
   private String accessToken = null;
@@ -52,6 +50,22 @@ public class JwtToken {
   public JwtToken accessToken(String accessToken) {
     this.accessToken = accessToken;
     return this;
+  }
+
+  public String getAccessToken() {
+    return accessToken;
+  }
+
+  public void setAccessToken(String accessToken) {
+    this.accessToken = accessToken;
+  }
+
+  public String getRefreshToken() {
+    return refreshToken;
+  }
+
+  public void setRefreshToken(String refreshToken) {
+    this.refreshToken = refreshToken;
   }
 
   @Override

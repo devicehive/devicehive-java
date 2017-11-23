@@ -24,8 +24,6 @@ package com.github.devicehive.client.service;
 import com.github.devicehive.client.model.DHResponse;
 import com.github.devicehive.rest.model.DeviceCommandWrapper;
 import com.github.devicehive.rest.model.JsonStringWrapper;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,25 +31,52 @@ import java.util.List;
 
 
 public class DeviceCommand {
-    @Getter
     private Long id = null;
-    @Getter
     private String commandName = null;
-    @Getter
     private String deviceId = null;
-    @Getter
     private Long networkId = null;
-    @Getter
     private JsonStringWrapper parameters = null;
-    @Getter
-    @Setter
     private String status;
-    @Getter
-    @Setter
     private JsonStringWrapper result;
 
     private DeviceCommand() {
 
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getCommandName() {
+        return commandName;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public Long getNetworkId() {
+        return networkId;
+    }
+
+    public JsonStringWrapper getParameters() {
+        return parameters;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public JsonStringWrapper getResult() {
+        return result;
+    }
+
+    public void setResult(JsonStringWrapper result) {
+        this.result = result;
     }
 
     static DeviceCommand create(com.github.devicehive.rest.model.CommandInsert command, String commandName,
@@ -64,13 +89,11 @@ public class DeviceCommand {
         deviceCommand.id = command.getCommandId();
         deviceCommand.deviceId = deviceId;
         deviceCommand.networkId = networkId;
-        if (parameters != null) {
-            deviceCommand.parameters = new JsonStringWrapper(parameters.getJsonString());
-        }
+        deviceCommand.parameters = parameters;
         return deviceCommand;
     }
 
-    static DeviceCommand create(com.github.devicehive.websocket.model.repsonse.data.DeviceCommand command) {
+    static DeviceCommand create(DeviceCommand command) {
         if (command == null) {
             return null;
         }
@@ -92,16 +115,18 @@ public class DeviceCommand {
         deviceCommand.id = command.getId();
         deviceCommand.deviceId = command.getDeviceId();
         deviceCommand.networkId = command.getNetworkId();
-        deviceCommand.parameters = new JsonStringWrapper(command.getParameters().getJsonString());
+        if (command.getParameters() != null) {
+            deviceCommand.parameters = new JsonStringWrapper(command.getParameters().getJsonString());
+        }
         return deviceCommand;
     }
 
-    static List<DeviceCommand> createList(List<com.github.devicehive.websocket.model.repsonse.data.DeviceCommand> commands) {
+    static List<DeviceCommand> createList(List<DeviceCommand> commands) {
         List<DeviceCommand> list = new ArrayList<DeviceCommand>();
         if (commands == null) {
             return Collections.emptyList();
         }
-        for (com.github.devicehive.websocket.model.repsonse.data.DeviceCommand deviceCommand :
+        for (DeviceCommand deviceCommand :
                 commands) {
             list.add(DeviceCommand.create(deviceCommand));
 
@@ -129,7 +154,7 @@ public class DeviceCommand {
         DeviceCommandWrapper wrapper = new DeviceCommandWrapper();
         wrapper.setCommand(commandName);
         if (parameters != null) {
-            wrapper.setParameters(new com.github.devicehive.rest.model.JsonStringWrapper(parameters.getJsonString()));
+            wrapper.setParameters(new JsonStringWrapper(parameters.getJsonString()));
         }
         return DeviceHive.getInstance().getCommandService().updateCommand(deviceId, id, wrapper).isSuccessful();
     }

@@ -21,11 +21,9 @@
 
 package com.github.devicehive.client.model;
 
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import com.github.devicehive.rest.model.SortField;
+import com.github.devicehive.rest.model.SortOrder;
 
-@AllArgsConstructor
-@RequiredArgsConstructor
 public class NetworkFilter {
 
     private String name;
@@ -34,6 +32,18 @@ public class NetworkFilter {
     private SortOrder sortOrder = SortOrder.ASC;
     private int take = 20;
     private int skip = 0;
+
+    public NetworkFilter(String name, String namePattern, SortField sortField, SortOrder sortOrder, int take, int skip) {
+        this.name = name;
+        this.namePattern = namePattern;
+        this.sortField = sortField;
+        this.sortOrder = sortOrder;
+        this.take = take;
+        this.skip = skip;
+    }
+
+    public NetworkFilter() {
+    }
 
     public String name() {
         return name;

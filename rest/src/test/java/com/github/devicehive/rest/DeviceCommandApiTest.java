@@ -26,13 +26,13 @@ import com.github.devicehive.rest.model.CommandInsert;
 import com.github.devicehive.rest.model.DeviceCommand;
 import com.github.devicehive.rest.model.DeviceCommandWrapper;
 import com.github.devicehive.rest.model.JsonStringWrapper;
+import com.github.devicehive.rest.utils.StringUtils;
 import com.google.gson.Gson;
-import org.apache.commons.lang3.StringUtils;
+import com.google.gson.JsonObject;
+
 import org.joda.time.DateTime;
-import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
-import retrofit2.Response;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,9 +42,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import retrofit2.Response;
+
 public class DeviceCommandApiTest extends Helper {
 
-    private static final String COMMAND_NAME = "TEST COMMAND";
+    private static final String COMMAND_NAME = "HTTP TEST COMMAND";
     private static final String TEST_PROP = "testProp";
     private static final String TEST_VALUE = "testValue";
     private static final String UPDATED_COMMAND_NAME = "UPDATED COMMAND";
@@ -54,8 +56,8 @@ public class DeviceCommandApiTest extends Helper {
         DeviceCommandWrapper deviceCommandWrapper = new DeviceCommandWrapper();
         deviceCommandWrapper.setCommand(COMMAND_NAME);
 
-        JSONObject data = new JSONObject();
-        data.put(TEST_PROP, TEST_VALUE);
+        JsonObject data = new JsonObject();
+        data.addProperty(TEST_PROP, TEST_VALUE);
         JsonStringWrapper jsonStringWrapper = new JsonStringWrapper();
         jsonStringWrapper.setJsonString(new Gson().toJson(data));
         deviceCommandWrapper.setParameters(jsonStringWrapper);
@@ -152,13 +154,13 @@ public class DeviceCommandApiTest extends Helper {
         List<String> list = new ArrayList<>();
         list.add(deviceId1);
         list.add(deviceId2);
-        String deviceIds = StringUtils.join(list, ",");
+        String deviceIds = StringUtils.join(",", list);
         Response<List<DeviceCommand>> pollResponse = commandApi.pollMany(
                 deviceIds,
                 COMMAND_NAME,
                 timestamp, 30L, 20).execute();
         Assert.assertTrue(pollResponse.isSuccessful());
-        Assert.assertTrue(pollResponse.body().size() == 10);
+        Assert.assertNotEquals(0, pollResponse.body().size());
         Assert.assertTrue(deleteDevices(deviceId1, deviceId2));
     }
 

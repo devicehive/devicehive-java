@@ -23,6 +23,7 @@ package com.github.devicehive.client.service;
 
 import com.github.devicehive.client.callback.ResponseCallback;
 import com.github.devicehive.client.model.DHResponse;
+import com.github.devicehive.client.model.ErrorBody;
 import com.github.devicehive.client.model.FailureData;
 import com.github.devicehive.client.model.Parameter;
 import com.github.devicehive.client.model.TokenAuth;
@@ -32,13 +33,15 @@ import com.github.devicehive.rest.auth.ApiKeyAuth;
 import com.github.devicehive.rest.model.JsonStringWrapper;
 import com.github.devicehive.rest.model.JwtAccessToken;
 import com.github.devicehive.rest.model.JwtRefreshToken;
-import org.json.JSONObject;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import java.io.IOException;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BaseService {
     public static final String ERROR_MESSAGE_KEY = "message";
@@ -131,10 +134,10 @@ public class BaseService {
     }
 
     JsonStringWrapper wrapParameters(List<Parameter> parameters) {
-        JSONObject object = new JSONObject();
+        JsonObject object = new JsonObject();
         for (Parameter p :
                 parameters) {
-            object.put(p.getKey(), p.getValue());
+            object.addProperty(p.getKey(), p.getValue());
         }
         JsonStringWrapper wrapper = new JsonStringWrapper();
         wrapper.setJsonString(object.toString());
@@ -143,8 +146,10 @@ public class BaseService {
 
     static String parseErrorMessage(Response response) {
         try {
-            JSONObject error = new JSONObject(response.errorBody().string());
-            return error.getString(ERROR_MESSAGE_KEY);
+            Gson gson = new Gson();
+            ErrorBody errorBody = gson.fromJson(response.errorBody().string(),
+                    ErrorBody.class);
+            return errorBody.getMessage();
         } catch (IOException e) {
             e.printStackTrace();
         }

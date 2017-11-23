@@ -21,10 +21,9 @@
 
 package com.github.devicehive.websocket.api;
 
-import com.github.devicehive.websocket.listener.*;
+import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
 import com.github.devicehive.websocket.model.repsonse.ResponseAction;
 import com.github.devicehive.websocket.model.request.AuthenticateAction;
-import com.github.devicehive.websocket.model.request.TokenRefreshAction;
 import com.google.gson.Gson;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -35,6 +34,9 @@ import java.io.Closeable;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.github.devicehive.websocket.model.ActionConstant.AUTHENTICATE;
+import static com.github.devicehive.websocket.model.repsonse.ResponseAction.SUCCESS;
+
 public class WebSocketClient extends WebSocketListener implements WebSocketCreator, Closeable {
 
     private Request request;
@@ -42,6 +44,7 @@ public class WebSocketClient extends WebSocketListener implements WebSocketCreat
     private WebSocket ws;
     private Map<String, BaseWebSocketApi> map = new HashMap<>();
     private Gson gson = new Gson();
+    private AuthListener authListener;
 
     WebSocketClient(Builder builder) {
         this.client = new OkHttpClient();
@@ -52,8 +55,6 @@ public class WebSocketClient extends WebSocketListener implements WebSocketCreat
 
     public static class Builder {
         private Request request;
-        private String accessToken = null;
-        private String refreshToken = null;
 
         public Builder url(String url) {
             if (url == null) throw new NullPointerException("url == null");
@@ -61,21 +62,8 @@ public class WebSocketClient extends WebSocketListener implements WebSocketCreat
             return this;
         }
 
-        public Builder token(String accessToken) {
-            this.accessToken = accessToken;
-            return this;
-        }
-
-        public Builder refreshToken(String refreshToken) {
-            this.refreshToken = refreshToken;
-            return this;
-        }
-
         public WebSocketClient build() {
-            WebSocketClient webSocketClient = new WebSocketClient(this);
-            TokenHelper.getInstance().getTokenAuth().setRefreshToken(refreshToken);
-            TokenHelper.getInstance().getTokenAuth().setAccessToken(accessToken);
-            return webSocketClient;
+            return new WebSocketClient(this);
         }
 
     }
@@ -84,10 +72,21 @@ public class WebSocketClient extends WebSocketListener implements WebSocketCreat
     public void onMessage(WebSocket webSocket, String text) {
         ResponseAction action = getResponseAction(text);
         String actionName = action.getAction();
+        if (authListener != null && actionName.startsWith(AUTHENTICATE)) {
+            if (action.getStatus().equals(SUCCESS)) {
+                authListener.onSuccess(action);
+            } else {
+                authListener.onError(gson.fromJson(text, ErrorResponse.class));
+            }
+        }
         BaseWebSocketApi api = getBaseWebSocketApi(actionName);
         if (api != null) {
             api.onMessage(text);
         }
+    }
+
+    public void setListener(AuthListener authListener) {
+        this.authListener = authListener;
     }
 
     private ResponseAction getResponseAction(String text) {
@@ -126,66 +125,57 @@ public class WebSocketClient extends WebSocketListener implements WebSocketCreat
         return ws;
     }
 
-    public void authenticate(String token) {
+    public void authenticate(String accessToken) {
         AuthenticateAction authAction = new AuthenticateAction();
-        authAction.setToken(token);
+        authAction.setToken(accessToken);
         ws.send(gson.toJson(authAction));
     }
 
-    void refresh() {
-        TokenRefreshAction refreshAction = new TokenRefreshAction();
-        refreshAction.setRefreshToken(TokenHelper
-                .getInstance()
-                .getTokenAuth()
-                .getRefreshToken());
-        ws.send(gson.toJson(refreshAction));
-    }
-
     @Override
-    public DeviceWS createDeviceWS(DeviceListener listener) {
-        DeviceWS deviceWS = new DeviceWS(this, listener);
+    public DeviceWS createDeviceWS() {
+        DeviceWS deviceWS = new DeviceWS(this);
         put(DeviceWS.TAG, deviceWS);
         return deviceWS;
     }
 
     @Override
-    public CommandWS createCommandWS(CommandListener listener) {
-        CommandWS commandWS = new CommandWS(this, listener);
+    public CommandWS createCommandWS() {
+        CommandWS commandWS = new CommandWS(this);
         put(CommandWS.TAG, commandWS);
         return commandWS;
     }
 
     @Override
-    public ConfigurationWS createConfigurationWS(ConfigurationListener listener) {
-        ConfigurationWS configurationWS = new ConfigurationWS(this, listener);
+    public ConfigurationWS createConfigurationWS() {
+        ConfigurationWS configurationWS = new ConfigurationWS(this);
         put(ConfigurationWS.TAG, configurationWS);
         return configurationWS;
     }
 
     @Override
-    public NotificationWS createNotificationWS(NotificationListener listener) {
-        NotificationWS notificationWS = new NotificationWS(this, listener);
+    public NotificationWS createNotificationWS() {
+        NotificationWS notificationWS = new NotificationWS(this);
         put(NotificationWS.TAG, notificationWS);
         return notificationWS;
     }
 
     @Override
-    public NetworkWS createNetworkWS(NetworkListener listener) {
-        NetworkWS networkWS = new NetworkWS(this, listener);
+    public NetworkWS createNetworkWS() {
+        NetworkWS networkWS = new NetworkWS(this);
         put(NetworkWS.TAG, networkWS);
         return networkWS;
     }
 
     @Override
-    public TokenWS createTokenWS(TokenListener listener) {
-        TokenWS tokenWS = new TokenWS(this, listener);
+    public TokenWS createTokenWS() {
+        TokenWS tokenWS = new TokenWS(this);
         put(TokenWS.TAG, tokenWS);
         return tokenWS;
     }
 
     @Override
-    public UserWS createUserWS(UserListener listener) {
-        UserWS userWS = new UserWS(this, listener);
+    public UserWS createUserWS() {
+        UserWS userWS = new UserWS(this);
         put(UserWS.TAG, userWS);
         return userWS;
     }
