@@ -21,20 +21,25 @@
 
 package com.github.devicehive.websocket.model.request;
 
+import com.github.devicehive.rest.model.NetworkUpdate;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import static com.github.devicehive.websocket.model.ActionConstant.NETWORK_INSERT;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class NetworkInsertAction extends RequestAction {
 
     @SerializedName("network")
-    private com.github.devicehive.websocket.model.request.data.NetworkUpdate network;
+    private NetworkUpdate network;
 
     public NetworkInsertAction() {
         super(NETWORK_INSERT);
+    }
+
+    public NetworkUpdate getNetwork() {
+        return network;
+    }
+
+    public void setNetwork(NetworkUpdate network) {
+        this.network = network;
     }
 }

@@ -22,13 +22,9 @@
 package com.github.devicehive.websocket.model.request;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-import static com.github.devicehive.websocket.model.ActionConstant.CONFIGURATION_INSERT;
+import static com.github.devicehive.websocket.model.ActionConstant.CONFIGURATION_PUT;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class ConfigurationInsertAction extends RequestAction {
 
 
@@ -37,8 +33,23 @@ public class ConfigurationInsertAction extends RequestAction {
     @SerializedName("value")
     private String value;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
 
     public ConfigurationInsertAction() {
-        super(CONFIGURATION_INSERT);
+        super(CONFIGURATION_PUT);
     }
 }

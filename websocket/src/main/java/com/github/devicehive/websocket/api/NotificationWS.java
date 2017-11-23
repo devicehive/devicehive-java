@@ -21,11 +21,11 @@
 
 package com.github.devicehive.websocket.api;
 
+import com.github.devicehive.rest.model.DeviceNotificationWrapper;
+import com.github.devicehive.rest.model.SortOrder;
 import com.github.devicehive.websocket.listener.NotificationListener;
-import com.github.devicehive.websocket.model.SortOrder;
 import com.github.devicehive.websocket.model.repsonse.*;
 import com.github.devicehive.websocket.model.request.*;
-import com.github.devicehive.websocket.model.request.data.DeviceNotificationWrapper;
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -35,10 +35,14 @@ import static com.github.devicehive.websocket.model.ActionConstant.*;
 public class NotificationWS extends BaseWebSocketApi implements NotificationApi {
 
     static final String TAG = "notification";
-    private final NotificationListener listener;
+    private NotificationListener listener;
 
-    NotificationWS(WebSocketClient client, NotificationListener listener) {
-        super(client, listener);
+    NotificationWS(WebSocketClient client) {
+        super(client, null);
+    }
+
+    public void setListener(NotificationListener listener) {
+        super.setListener(listener);
         this.listener = listener;
     }
 

@@ -22,18 +22,41 @@
 package com.github.devicehive.client.model;
 
 import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
-@Data
-@RequiredArgsConstructor
 public class FailureData {
     public static final int NO_CODE = -1;
 
     private int code;
     private String message;
+
+    public FailureData() {
+    }
+
+    public FailureData(int code, String message) {
+        this.code = code;
+        this.message = message;
+    }
+
+    public FailureData(String message) {
+        this.message = message;
+        this.code = NO_CODE;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     public static FailureData create(ErrorResponse response) {
         return new FailureData(response.getCode(), response.getError());

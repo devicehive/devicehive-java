@@ -35,14 +35,13 @@
 package com.github.devicehive.rest.model;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
+
 import org.joda.time.DateTime;
 
 /**
  * ApiInfo
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
-@Data
+
 public class ApiInfo {
     @SerializedName("apiVersion")
     private String apiVersion = null;
@@ -58,5 +57,28 @@ public class ApiInfo {
         return this;
     }
 
+    public String getApiVersion() {
+        return apiVersion;
+    }
+
+    public void setApiVersion(String apiVersion) {
+        this.apiVersion = apiVersion;
+    }
+
+    public DateTime getServerTimestamp() {
+        return serverTimestamp;
+    }
+
+    public void setServerTimestamp(DateTime serverTimestamp) {
+        this.serverTimestamp = serverTimestamp;
+    }
+
+    public String getWebSocketServerUrl() {
+        return webSocketServerUrl;
+    }
+
+    public void setWebSocketServerUrl(String webSocketServerUrl) {
+        this.webSocketServerUrl = webSocketServerUrl;
+    }
 }
 

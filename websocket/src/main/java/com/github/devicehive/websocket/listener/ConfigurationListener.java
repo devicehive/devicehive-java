@@ -21,12 +21,16 @@
 
 package com.github.devicehive.websocket.listener;
 
+import com.github.devicehive.websocket.model.repsonse.ConfigurationGetResponse;
+import com.github.devicehive.websocket.model.repsonse.ConfigurationInsertResponse;
+import com.github.devicehive.websocket.model.repsonse.ResponseAction;
+
 public interface ConfigurationListener extends ErrorListener {
 
-    void onGet(com.github.devicehive.websocket.model.repsonse.ConfigurationGetResponse response);
+    void onGet(ConfigurationGetResponse response);
 
-    void onInsert(com.github.devicehive.websocket.model.repsonse.ConfigurationInsertResponse response);
+    void onPut(ConfigurationInsertResponse response);
 
-    void onDelete(com.github.devicehive.websocket.model.repsonse.ResponseAction response);
+    void onDelete(ResponseAction response);
 
 }

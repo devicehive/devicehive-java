@@ -21,12 +21,14 @@
 
 package com.github.devicehive.websocket.api;
 
+import com.github.devicehive.rest.model.DeviceUpdate;
+import com.github.devicehive.rest.model.SortOrder;
 import com.github.devicehive.websocket.listener.DeviceListener;
 import com.github.devicehive.websocket.model.repsonse.DeviceGetResponse;
 import com.github.devicehive.websocket.model.repsonse.DeviceListResponse;
 import com.github.devicehive.websocket.model.repsonse.ResponseAction;
-import com.github.devicehive.websocket.model.repsonse.data.DeviceVO;
 import com.github.devicehive.websocket.model.request.DeviceDeleteAction;
+import com.github.devicehive.websocket.model.request.DeviceGetAction;
 import com.github.devicehive.websocket.model.request.DeviceListAction;
 import com.github.devicehive.websocket.model.request.DeviceSaveAction;
 
@@ -35,16 +37,21 @@ import static com.github.devicehive.websocket.model.ActionConstant.*;
 public class DeviceWS extends BaseWebSocketApi implements DeviceApi {
 
     static final String TAG = "device";
-    private final DeviceListener listener;
+    private DeviceListener listener;
 
-    DeviceWS(WebSocketClient client, DeviceListener listener) {
-        super(client, listener);
-        this.listener = listener;
+    DeviceWS(WebSocketClient client) {
+        super(client,null);
     }
 
     @Override
     public String getKey() {
         return TAG;
+    }
+
+    public void setListener(DeviceListener listener) {
+        super.setListener(listener);
+        this.listener = listener;
+
     }
 
 
@@ -66,15 +73,16 @@ public class DeviceWS extends BaseWebSocketApi implements DeviceApi {
     }
 
     @Override
-    public void get( Long requestId, String deviceId) {
-        com.github.devicehive.websocket.model.request.DeviceGetAction action = new com.github.devicehive.websocket.model.request.DeviceGetAction();
+    public void get(Long requestId, String deviceId) {
+        DeviceGetAction action = new DeviceGetAction();
         action.setDeviceId(deviceId);
         action.setRequestId(requestId);
         send(action);
     }
 
     @Override
-    public void list( Long requestId, String name, String namePattern, Long networkId, String networkName, String sortField, String sortOrder, int take, int skip) {
+    public void list(Long requestId, String name, String namePattern, Long networkId, String networkName,
+                     String sortField, SortOrder sortOrder, int take, int skip) {
         DeviceListAction action = new DeviceListAction();
         action.setName(name);
         action.setNamePattern(namePattern);
@@ -90,16 +98,17 @@ public class DeviceWS extends BaseWebSocketApi implements DeviceApi {
     }
 
     @Override
-    public void save( Long requestId,  DeviceVO device) {
+    public void save(Long requestId, String deviceId, DeviceUpdate deviceUpdate) {
         DeviceSaveAction action = new DeviceSaveAction();
-        action.setDevice(device);
+        action.setDevice(deviceUpdate);
+        action.setDeviceId(deviceId);
         action.setRequestId(requestId);
         send(action);
     }
 
 
     @Override
-    public void delete( Long requestId,  String deviceId) {
+    public void delete(Long requestId, String deviceId) {
         DeviceDeleteAction action = new DeviceDeleteAction();
         action.setDeviceId(deviceId);
         action.setRequestId(requestId);

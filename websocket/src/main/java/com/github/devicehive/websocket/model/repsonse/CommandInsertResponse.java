@@ -21,19 +21,31 @@
 
 package com.github.devicehive.websocket.model.repsonse;
 
-import com.github.devicehive.websocket.model.repsonse.data.DeviceCommand;
+import com.github.devicehive.rest.model.DeviceCommand;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class CommandInsertResponse extends ResponseAction {
 
     @SerializedName("command")
     DeviceCommand command;
     @SerializedName("subscriptionId")
     private Long subscriptionId;
+
+    public DeviceCommand getCommand() {
+        return command;
+    }
+
+    public void setCommand(DeviceCommand command) {
+        this.command = command;
+    }
+
+    public Long getSubscriptionId() {
+        return subscriptionId;
+    }
+
+    public void setSubscriptionId(Long subscriptionId) {
+        this.subscriptionId = subscriptionId;
+    }
 
     @Override
     public String toString() {

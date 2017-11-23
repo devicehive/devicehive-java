@@ -35,22 +35,40 @@
 package com.github.devicehive.rest.model;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * JwtRequest
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 public class JwtRequest {
     @SerializedName("login")
     private String login = null;
 
     @SerializedName("password")
     private String password = null;
+
+    public JwtRequest(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
+    public JwtRequest() {
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
 

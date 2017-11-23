@@ -34,28 +34,43 @@
 
 package com.github.devicehive.client.service;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Builder
-@AllArgsConstructor
 public class Network {
 
-    @Getter
     private Long id;
-
-    @Getter
-    @Setter
     private String name;
-    @Getter
-    @Setter
     private String description;
+
+    private Network(Long id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Network setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Network setDescription(String description) {
+        this.description = description;
+        return this;
+    }
 
     public void save() throws IOException {
         DeviceHive.getInstance().getNetworkService().updateNetwork(id, name, description);
@@ -63,7 +78,7 @@ public class Network {
 
     static Network create(com.github.devicehive.rest.model.Network network) {
         if (network == null) return null;
-        return Network.builder()
+        return new Builder()
                 .id(network.getId())
                 .name(network.getName())
                 .description(network.getDescription())
@@ -72,7 +87,7 @@ public class Network {
 
     static Network create(com.github.devicehive.rest.model.NetworkVO network) {
         if (network == null) return null;
-        return Network.builder()
+        return new Builder()
                 .id(network.getId())
                 .name(network.getName())
                 .description(network.getDescription())
@@ -97,5 +112,30 @@ public class Network {
         return result;
     }
 
+
+    static class Builder {
+        private Long id;
+        private String name;
+        private String description;
+
+        Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        Builder description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        Network build() {
+            return new Network(id, name, description);
+        }
+    }
 }
 

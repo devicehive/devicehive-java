@@ -21,11 +21,9 @@
 
 package com.github.devicehive.client.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.github.devicehive.rest.model.SortField;
+import com.github.devicehive.rest.model.SortOrder;
 
-@Data
-@NoArgsConstructor
 public class DeviceFilter {
 
     String name;
@@ -37,5 +35,67 @@ public class DeviceFilter {
     int take = 20;
     int skip;
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getNamePattern() {
+        return namePattern;
+    }
+
+    public void setNamePattern(String namePattern) {
+        this.namePattern = namePattern;
+    }
+
+    public Long getNetworkId() {
+        return networkId;
+    }
+
+    public void setNetworkId(Long networkId) {
+        this.networkId = networkId;
+    }
+
+    public String getNetworkName() {
+        return networkName;
+    }
+
+    public void setNetworkName(String networkName) {
+        this.networkName = networkName;
+    }
+
+    public SortField getSortField() {
+        return sortField;
+    }
+
+    public void setSortField(SortField sortField) {
+        this.sortField = sortField;
+    }
+
+    public SortOrder getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(SortOrder sortOrder) {
+        this.sortOrder = sortOrder;
+    }
+
+    public int getTake() {
+        return take;
+    }
+
+    public void setTake(int take) {
+        this.take = take;
+    }
+
+    public int getSkip() {
+        return skip;
+    }
+
+    public void setSkip(int skip) {
+        this.skip = skip;
+    }
 }

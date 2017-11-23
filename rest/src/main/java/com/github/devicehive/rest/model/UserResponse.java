@@ -35,7 +35,7 @@
 package com.github.devicehive.rest.model;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
+
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -43,35 +43,89 @@ import java.util.List;
 /**
  * UserResponse
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
-@Data
+
 public class UserResponse {
-  @SerializedName("id")
-  private Long id = null;
+    @SerializedName("id")
+    private Long id = null;
 
-  @SerializedName("login")
-  private String login = null;
+    @SerializedName("login")
+    private String login = null;
 
 
-  @SerializedName("role")
-  private User.RoleEnum role = null;
+    @SerializedName("role")
+    private RoleEnum role = null;
 
-  @SerializedName("status")
-  private User.StatusEnum status = null;
+    @SerializedName("status")
+    private StatusEnum status = null;
 
-  @SerializedName("networks")
-  private List<UserNetworkResponse> networks = null;
+    @SerializedName("networks")
+    private List<UserNetworkResponse> networks = null;
 
-  @SerializedName("lastLogin")
-  private DateTime lastLogin = null;
+    @SerializedName("lastLogin")
+    private DateTime lastLogin = null;
 
-  @SerializedName("introReviewed")
-  private Boolean introReviewed = false;
+    @SerializedName("introReviewed")
+    private Boolean introReviewed = false;
 
-  public UserResponse id(Long id) {
-    this.id = id;
-    return this;
-  }
+    public UserResponse id(Long id) {
+        this.id = id;
+        return this;
+    }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public RoleEnum getRole() {
+        return role;
+    }
+
+    public void setRole(RoleEnum role) {
+        this.role = role;
+    }
+
+    public StatusEnum getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusEnum status) {
+        this.status = status;
+    }
+
+    public List<UserNetworkResponse> getNetworks() {
+        return networks;
+    }
+
+    public void setNetworks(List<UserNetworkResponse> networks) {
+        this.networks = networks;
+    }
+
+    public DateTime getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(DateTime lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+
+    public Boolean getIntroReviewed() {
+        return introReviewed;
+    }
+
+    public void setIntroReviewed(Boolean introReviewed) {
+        this.introReviewed = introReviewed;
+    }
 }
 

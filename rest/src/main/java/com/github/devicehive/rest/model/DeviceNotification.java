@@ -35,14 +35,13 @@
 package com.github.devicehive.rest.model;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
+
 import org.joda.time.DateTime;
 
 /**
  * DeviceNotification
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
-@Data
+
 public class DeviceNotification implements Comparable<DeviceNotification> {
     @SerializedName("id")
     private Long id = null;
@@ -61,6 +60,54 @@ public class DeviceNotification implements Comparable<DeviceNotification> {
 
     @SerializedName("parameters")
     private JsonStringWrapper parameters = null;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNotification() {
+        return notification;
+    }
+
+    public void setNotification(String notification) {
+        this.notification = notification;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public Long getNetworkId() {
+        return networkId;
+    }
+
+    public void setNetworkId(Long networkId) {
+        this.networkId = networkId;
+    }
+
+    public DateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(DateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public JsonStringWrapper getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(JsonStringWrapper parameters) {
+        this.parameters = parameters;
+    }
 
     @Override
     public String toString() {

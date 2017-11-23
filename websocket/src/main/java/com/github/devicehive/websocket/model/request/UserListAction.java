@@ -21,15 +21,13 @@
 
 package com.github.devicehive.websocket.model.request;
 
-import com.github.devicehive.websocket.model.SortOrder;
+import com.github.devicehive.rest.model.RoleEnum;
+import com.github.devicehive.rest.model.SortOrder;
+import com.github.devicehive.rest.model.StatusEnum;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import static com.github.devicehive.websocket.model.ActionConstant.USER_LIST;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
 public class UserListAction extends RequestAction {
 
     @SerializedName("login")
@@ -37,9 +35,9 @@ public class UserListAction extends RequestAction {
     @SerializedName("loginPattern")
     private String loginPattern;
     @SerializedName("status")
-    private com.github.devicehive.websocket.model.StatusEnum status;
+    private StatusEnum status;
     @SerializedName("role")
-    private com.github.devicehive.websocket.model.RoleEnum role;
+    private RoleEnum role;
     @SerializedName("sortField")
     private String sortField;
     @SerializedName("sortOrder")
@@ -51,5 +49,69 @@ public class UserListAction extends RequestAction {
 
     public UserListAction() {
         super(USER_LIST);
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getLoginPattern() {
+        return loginPattern;
+    }
+
+    public void setLoginPattern(String loginPattern) {
+        this.loginPattern = loginPattern;
+    }
+
+    public StatusEnum getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusEnum status) {
+        this.status = status;
+    }
+
+    public RoleEnum getRole() {
+        return role;
+    }
+
+    public void setRole(RoleEnum role) {
+        this.role = role;
+    }
+
+    public String getSortField() {
+        return sortField;
+    }
+
+    public void setSortField(String sortField) {
+        this.sortField = sortField;
+    }
+
+    public SortOrder getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(SortOrder sortOrder) {
+        this.sortOrder = sortOrder;
+    }
+
+    public Integer getTake() {
+        return take;
+    }
+
+    public void setTake(Integer take) {
+        this.take = take;
+    }
+
+    public Integer getSkip() {
+        return skip;
+    }
+
+    public void setSkip(Integer skip) {
+        this.skip = skip;
     }
 }

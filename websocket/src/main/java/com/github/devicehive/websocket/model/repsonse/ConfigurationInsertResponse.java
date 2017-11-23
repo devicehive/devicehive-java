@@ -21,15 +21,19 @@
 
 package com.github.devicehive.websocket.model.repsonse;
 
-import com.github.devicehive.websocket.model.repsonse.data.ConfigurationVO;
+import com.github.devicehive.rest.model.Configuration;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
 public class ConfigurationInsertResponse extends ResponseAction {
 
     @SerializedName("configuration")
-    private ConfigurationVO configuration;
+    private Configuration configuration;
+
+    public Configuration getConfiguration() {
+        return configuration;
+    }
+
+    public void setConfiguration(Configuration configuration) {
+        this.configuration = configuration;
+    }
 }

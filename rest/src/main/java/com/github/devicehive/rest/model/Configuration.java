@@ -35,13 +35,11 @@
 package com.github.devicehive.rest.model;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
 
 /**
  * Configuration
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-07-20T15:03:42.016+03:00")
-@Data
+
 public class Configuration {
   @SerializedName("name")
   private String name = null;
@@ -57,5 +55,28 @@ public class Configuration {
     return this;
   }
 
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getValue() {
+    return value;
+  }
+
+  public void setValue(String value) {
+    this.value = value;
+  }
+
+  public Long getEntityVersion() {
+    return entityVersion;
+  }
+
+  public void setEntityVersion(Long entityVersion) {
+    this.entityVersion = entityVersion;
+  }
 }
 

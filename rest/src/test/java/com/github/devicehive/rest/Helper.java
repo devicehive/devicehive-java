@@ -21,15 +21,20 @@
 
 package com.github.devicehive.rest;
 
-import com.github.devicehive.rest.api.*;
+import com.github.devicehive.rest.api.AuthApi;
+import com.github.devicehive.rest.api.ConfigurationApi;
+import com.github.devicehive.rest.api.DeviceApi;
+import com.github.devicehive.rest.api.NetworkApi;
+import com.github.devicehive.rest.api.UserApi;
 import com.github.devicehive.rest.auth.ApiKeyAuth;
 import com.github.devicehive.rest.model.*;
 import com.github.devicehive.rest.utils.Const;
-import retrofit2.Response;
 
-import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.util.List;
+
+
+import retrofit2.Response;
 
 
 class Helper {
@@ -52,8 +57,7 @@ class Helper {
         return response.isSuccessful();
     }
 
-
-    boolean createDevice(@Nonnull String deviceId) throws IOException {
+    boolean createDevice(String deviceId) throws IOException {
         DeviceUpdate device = new DeviceUpdate();
         device.setName(Const.NAME);
         DeviceApi deviceApi = client.createService(DeviceApi.class);
@@ -71,7 +75,7 @@ class Helper {
         }
     }
 
-    NetworkId createNetwork(@Nonnull String networkName) throws IOException {
+    NetworkId createNetwork(String networkName) throws IOException {
         NetworkApi networkApi = client.createService(NetworkApi.class);
         NetworkUpdate networkUpdate = new NetworkUpdate();
         networkUpdate.setName(networkName);
@@ -130,5 +134,32 @@ class Helper {
             }
         }
         return count == names.length;
+    }
+
+    void cleanUpNetworks(String networkNamePrefix) throws IOException {
+        NetworkApi networkApi = client.createService(NetworkApi.class);
+
+        Response<List<Network>> getResponse = networkApi.list(null, networkNamePrefix + "%",
+                null, null, Integer.MAX_VALUE, 0).execute();
+        List<Network> existingNetworks = getResponse.body();
+        for (Network network: existingNetworks) {
+            deleteNetworks(network.getId());
+        }
+    }
+
+
+    void cleanUpUsers(String userLoginPrefix) throws IOException {
+        UserApi userApi = client.createService(UserApi.class);
+
+        Response<List<UserVO>> getResponse = userApi.list(null, userLoginPrefix + "%",
+                null, null, null, null, Integer.MAX_VALUE, 0).execute();
+        List<UserVO> existingUsers = getResponse.body();
+        for (UserVO user: existingUsers) {
+            deleteUsers(user.getId());
+        }
+    }
+
+    void cleanUpConfigurations(String configurationName) throws IOException {
+        deleteConfigurations(configurationName);
     }
 }

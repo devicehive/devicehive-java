@@ -22,12 +22,18 @@
 package com.github.devicehive.examples;
 
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
 
-@Data
 public class TimeStamp {
     @SerializedName("timestamp")
     private String timestamp;
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
 
     @Override
     public String toString() {

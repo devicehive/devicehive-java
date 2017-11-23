@@ -21,19 +21,12 @@
 
 package com.github.devicehive.rest.model;
 
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
-import lombok.Data;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Data
 public class User {
 
     @SerializedName("id")
@@ -51,99 +44,8 @@ public class User {
     @SerializedName("loginAttempts")
     private Integer loginAttempts = null;
 
-    @JsonAdapter(RoleEnum.Adapter.class)
-    public enum RoleEnum {
-        ADMIN(0),
-
-        CLIENT(1);
-
-        private Integer value;
-
-        RoleEnum(Integer value) {
-            this.value = value;
-        }
-
-        public Integer getValue() {
-            return value;
-        }
-
-        @Override
-        public String toString() {
-            return String.valueOf(value);
-        }
-
-        public static RoleEnum fromValue(String text) {
-            for (RoleEnum b : RoleEnum.values()) {
-                if (String.valueOf(b.value).equals(text)) {
-                    return b;
-                }
-            }
-            return null;
-        }
-
-        public static class Adapter extends TypeAdapter<RoleEnum> {
-            @Override
-            public void write(final JsonWriter jsonWriter, final RoleEnum enumeration) throws IOException {
-                jsonWriter.value(enumeration.getValue());
-            }
-
-            @Override
-            public RoleEnum read(final JsonReader jsonReader) throws IOException {
-                Integer value = jsonReader.nextInt();
-                return RoleEnum.fromValue(String.valueOf(value));
-            }
-        }
-    }
-
     @SerializedName("role")
     private RoleEnum role = null;
-
-
-    @JsonAdapter(StatusEnum.Adapter.class)
-    public enum StatusEnum {
-        ACTIVE(0),
-
-        LOCKED(1),
-
-        DISABLED(2);
-
-        private Integer value;
-
-        StatusEnum(Integer value) {
-            this.value = value;
-        }
-
-        public Integer getValue() {
-            return value;
-        }
-
-        @Override
-        public String toString() {
-            return String.valueOf(value);
-        }
-
-        public static StatusEnum fromValue(String text) {
-            for (StatusEnum b : StatusEnum.values()) {
-                if (String.valueOf(b.value).equals(text)) {
-                    return b;
-                }
-            }
-            return null;
-        }
-
-        public static class Adapter extends TypeAdapter<StatusEnum> {
-            @Override
-            public void write(final JsonWriter jsonWriter, final StatusEnum enumeration) throws IOException {
-                jsonWriter.value(enumeration.getValue());
-            }
-
-            @Override
-            public StatusEnum read(final JsonReader jsonReader) throws IOException {
-                Integer value = jsonReader.nextInt();
-                return StatusEnum.fromValue(String.valueOf(value));
-            }
-        }
-    }
 
     @SerializedName("status")
     private StatusEnum status = null;
@@ -171,4 +73,124 @@ public class User {
 
     @SerializedName("admin")
     private Boolean admin = false;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    public String getPasswordSalt() {
+        return passwordSalt;
+    }
+
+    public void setPasswordSalt(String passwordSalt) {
+        this.passwordSalt = passwordSalt;
+    }
+
+    public Integer getLoginAttempts() {
+        return loginAttempts;
+    }
+
+    public void setLoginAttempts(Integer loginAttempts) {
+        this.loginAttempts = loginAttempts;
+    }
+
+    public RoleEnum getRole() {
+        return role;
+    }
+
+    public void setRole(RoleEnum role) {
+        this.role = role;
+    }
+
+    public StatusEnum getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusEnum status) {
+        this.status = status;
+    }
+
+    public List<NetworkVO> getNetworks() {
+        return networks;
+    }
+
+    public void setNetworks(List<NetworkVO> networks) {
+        this.networks = networks;
+    }
+
+    public Date getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(Date lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+
+    public String getGoogleLogin() {
+        return googleLogin;
+    }
+
+    public void setGoogleLogin(String googleLogin) {
+        this.googleLogin = googleLogin;
+    }
+
+    public String getFacebookLogin() {
+        return facebookLogin;
+    }
+
+    public void setFacebookLogin(String facebookLogin) {
+        this.facebookLogin = facebookLogin;
+    }
+
+    public String getGithubLogin() {
+        return githubLogin;
+    }
+
+    public void setGithubLogin(String githubLogin) {
+        this.githubLogin = githubLogin;
+    }
+
+    public Long getEntityVersion() {
+        return entityVersion;
+    }
+
+    public void setEntityVersion(Long entityVersion) {
+        this.entityVersion = entityVersion;
+    }
+
+    public JsonStringWrapper getData() {
+        return data;
+    }
+
+    public void setData(JsonStringWrapper data) {
+        this.data = data;
+    }
+
+    public Boolean getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        this.admin = admin;
+    }
 }

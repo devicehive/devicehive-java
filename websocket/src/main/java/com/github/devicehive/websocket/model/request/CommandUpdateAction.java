@@ -21,15 +21,11 @@
 
 package com.github.devicehive.websocket.model.request;
 
-import com.github.devicehive.websocket.model.request.data.DeviceCommandWrapper;
+import com.github.devicehive.rest.model.DeviceCommandWrapper;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import static com.github.devicehive.websocket.model.ActionConstant.COMMAND_UPDATE;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
 public class CommandUpdateAction extends RequestAction {
 
     @SerializedName("deviceId")
@@ -41,6 +37,30 @@ public class CommandUpdateAction extends RequestAction {
 
     public CommandUpdateAction() {
         super(COMMAND_UPDATE);
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public String getCommandId() {
+        return commandId;
+    }
+
+    public void setCommandId(String commandId) {
+        this.commandId = commandId;
+    }
+
+    public DeviceCommandWrapper getCommand() {
+        return command;
+    }
+
+    public void setCommand(DeviceCommandWrapper command) {
+        this.command = command;
     }
 
     @Override

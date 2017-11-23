@@ -28,8 +28,6 @@ import com.github.devicehive.client.service.Device;
 import com.github.devicehive.client.service.DeviceHive;
 import com.github.devicehive.client.service.User;
 import com.github.devicehive.rest.model.*;
-import com.github.devicehive.rest.model.User.RoleEnum;
-import com.github.devicehive.rest.model.User.StatusEnum;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;

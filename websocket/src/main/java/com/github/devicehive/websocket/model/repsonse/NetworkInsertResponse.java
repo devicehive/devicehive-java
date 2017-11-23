@@ -21,15 +21,19 @@
 
 package com.github.devicehive.websocket.model.repsonse;
 
+import com.github.devicehive.rest.model.NetworkId;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
 public class NetworkInsertResponse extends ResponseAction {
 
     @SerializedName("network")
-    private com.github.devicehive.websocket.model.repsonse.data.NetworkId network;
+    private NetworkId network;
 
+    public NetworkId getNetwork() {
+        return network;
+    }
+
+    public void setNetwork(NetworkId network) {
+        this.network = network;
+    }
 }

@@ -21,7 +21,14 @@
 
 package com.github.devicehive.client.service;
 
-import com.github.devicehive.client.model.*;
+import com.github.devicehive.client.model.CommandFilter;
+import com.github.devicehive.client.model.DHResponse;
+import com.github.devicehive.client.model.DeviceCommandsCallback;
+import com.github.devicehive.client.model.DeviceNotification;
+import com.github.devicehive.client.model.DeviceNotificationsCallback;
+import com.github.devicehive.client.model.FailureData;
+import com.github.devicehive.client.model.NotificationFilter;
+import com.github.devicehive.client.model.Parameter;
 import com.github.devicehive.rest.model.JsonStringWrapper;
 import com.github.devicehive.rest.model.JwtAccessToken;
 import com.github.devicehive.websocket.api.CommandWS;
@@ -29,17 +36,26 @@ import com.github.devicehive.websocket.api.NotificationWS;
 import com.github.devicehive.websocket.api.WebSocketClient;
 import com.github.devicehive.websocket.listener.CommandListener;
 import com.github.devicehive.websocket.listener.NotificationListener;
-import com.github.devicehive.websocket.model.repsonse.*;
-import lombok.Getter;
-import lombok.Setter;
+import com.github.devicehive.websocket.model.repsonse.CommandGetResponse;
+import com.github.devicehive.websocket.model.repsonse.CommandInsertResponse;
+import com.github.devicehive.websocket.model.repsonse.CommandListResponse;
+import com.github.devicehive.websocket.model.repsonse.CommandSubscribeResponse;
+import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
+import com.github.devicehive.websocket.model.repsonse.NotificationGetResponse;
+import com.github.devicehive.websocket.model.repsonse.NotificationInsertResponse;
+import com.github.devicehive.websocket.model.repsonse.NotificationListResponse;
+import com.github.devicehive.websocket.model.repsonse.NotificationSubscribeResponse;
+import com.github.devicehive.websocket.model.repsonse.ResponseAction;
+
 import org.joda.time.DateTime;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Device implements DeviceInterface {
 
@@ -47,20 +63,47 @@ public class Device implements DeviceInterface {
     private final NotificationWS notificationWS;
     private final WebSocketClient wsClient;
     private CommandWS commandWS;
-    @Getter
     private String id = null;
-    @Getter
-    @Setter
     private String name = null;
-    @Getter
-    @Setter
     private JsonStringWrapper data = null;
-    @Getter
-    @Setter
     private Long networkId = null;
-    @Getter
-    @Setter
     private Boolean isBlocked = false;
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public JsonStringWrapper getData() {
+        return data;
+    }
+
+    public void setData(JsonStringWrapper data) {
+        this.data = data;
+    }
+
+    public Long getNetworkId() {
+        return networkId;
+    }
+
+    public void setNetworkId(Long networkId) {
+        this.networkId = networkId;
+    }
+
+    public Boolean getBlocked() {
+        return isBlocked;
+    }
+
+    public void setBlocked(Boolean blocked) {
+        isBlocked = blocked;
+    }
 
     private DeviceCommandsCallback commandCallback;
     private DeviceNotificationsCallback notificationCallback;
@@ -68,7 +111,7 @@ public class Device implements DeviceInterface {
     private CommandListener commandListener = new CommandListener() {
         @Override
         public void onList(CommandListResponse response) {
-            commandCallback.onSuccess(DeviceCommand.createList(response.getCommands()));
+            commandCallback.onSuccess(DeviceCommand.createListFromRest(response.getCommands()));
         }
 
         @Override
@@ -157,7 +200,7 @@ public class Device implements DeviceInterface {
                             TokenHelper.getInstance().getTokenAuth().setAccessToken(response.body().getAccessToken());
                             wsClient.authenticate(TokenHelper.getInstance().getTokenAuth().getAccessToken());
                             subscribeNotifications(notificationFilter, notificationCallback);
-                        }else {
+                        } else {
                             notificationCallback.onFail(FailureData.create(
                                     ErrorResponse.create(response.code(), BaseService.parseErrorMessage(response))));
                         }
@@ -179,12 +222,11 @@ public class Device implements DeviceInterface {
     private NotificationFilter notificationFilter;
 
     private Device() {
-        wsClient = new WebSocketClient.Builder().url(DeviceHive.getInstance().getWSUrl())
-                .refreshToken(TokenHelper.getInstance().getTokenAuth().getRefreshToken())
-                .token(TokenHelper.getInstance().getTokenAuth().getAccessToken())
-                .build();
-        commandWS = wsClient.createCommandWS(commandListener);
-        notificationWS = wsClient.createNotificationWS(notificationListener);
+        wsClient = new WebSocketClient.Builder().url(DeviceHive.getInstance().getWSUrl()).build();
+        commandWS = wsClient.createCommandWS();
+        commandWS.setListener(commandListener);
+        notificationWS = wsClient.createNotificationWS();
+        notificationWS.setListener(notificationListener);
     }
 
     static Device create(com.github.devicehive.rest.model.Device device) {

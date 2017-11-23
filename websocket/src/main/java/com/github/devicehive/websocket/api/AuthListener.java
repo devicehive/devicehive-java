@@ -1,7 +1,7 @@
 /*
  *
  *
- *   NullableWrapper.java
+ *   AuthListener.java
  *
  *   Copyright (C) 2017 DataArt
  *
@@ -19,15 +19,13 @@
  *
  */
 
-package com.github.devicehive.rest.model;
+package com.github.devicehive.websocket.api;
 
-import com.google.common.base.Optional;
+import com.github.devicehive.websocket.listener.ErrorListener;
+import com.github.devicehive.websocket.model.repsonse.ResponseAction;
+
+public interface AuthListener extends ErrorListener {
 
 
-public class NullableWrapper {
-
-    public static <T> T value(Optional<T> optional) {
-
-        return optional != null ? optional.get() : null;
-    }
+    void onSuccess(ResponseAction responseAction);
 }

@@ -21,13 +21,13 @@
 
 package com.github.devicehive.websocket.api;
 
+import com.github.devicehive.rest.model.JwtPayload;
 import com.github.devicehive.websocket.listener.TokenListener;
 import com.github.devicehive.websocket.model.repsonse.ResponseAction;
 import com.github.devicehive.websocket.model.repsonse.TokenGetResponse;
 import com.github.devicehive.websocket.model.repsonse.TokenRefreshResponse;
 import com.github.devicehive.websocket.model.request.TokenCreateAction;
 import com.github.devicehive.websocket.model.request.TokenGetAction;
-import com.github.devicehive.websocket.model.request.data.JwtPayload;
 
 import static com.github.devicehive.websocket.model.ActionConstant.*;
 
@@ -35,8 +35,12 @@ public class TokenWS extends BaseWebSocketApi implements TokenApi {
     static final String TAG = "token";
     private TokenListener tokenListener;
 
-    TokenWS(WebSocketClient client, TokenListener listener) {
-        super(client, listener);
+    TokenWS(WebSocketClient client) {
+        super(client, null);
+    }
+
+    public void setListener(TokenListener listener) {
+        super.setListener(listener);
         this.tokenListener = listener;
     }
 

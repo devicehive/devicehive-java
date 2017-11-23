@@ -21,8 +21,6 @@
 
 package com.github.devicehive.websocket.api;
 
-import javax.annotation.Nullable;
-
 interface ConfigurationApi {
 
     void get( Long requestId, String name);
