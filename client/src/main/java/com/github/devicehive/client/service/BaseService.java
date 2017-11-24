@@ -33,6 +33,7 @@ import com.github.devicehive.rest.auth.ApiKeyAuth;
 import com.github.devicehive.rest.model.JsonStringWrapper;
 import com.github.devicehive.rest.model.JwtAccessToken;
 import com.github.devicehive.rest.model.JwtRefreshToken;
+import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -45,6 +46,7 @@ import retrofit2.Response;
 
 public class BaseService {
     public static final String ERROR_MESSAGE_KEY = "message";
+    public static final String FAILED_CONNECT_TO_SERVER = "Failed connect to server";
     ApiClient apiClient;
 
     BaseService() {
@@ -102,6 +104,9 @@ public class BaseService {
         } catch (IOException e) {
             FailureData failureData = createFailData(FailureData.NO_CODE, e.getMessage());
             return new DHResponse<T>(null, failureData);
+        } catch (NullPointerException e) {
+            return new DHResponse<T>(null, FailureData.create(
+                    ErrorResponse.create(FAILED_CONNECT_TO_SERVER)));
         }
     }
 

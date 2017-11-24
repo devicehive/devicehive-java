@@ -65,7 +65,7 @@ public interface MainDeviceHive {
 
     DHResponse<Void> removeDevice(String id);
 
-    Device getDevice(String id) ;
+    DHResponse<Device> getDevice(String id) ;
 
     DHResponse<Void> putDevice(String id, String name) ;
 }
