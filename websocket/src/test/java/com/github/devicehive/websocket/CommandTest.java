@@ -42,6 +42,7 @@ public class CommandTest extends Helper {
         final CountDownLatch latch = new CountDownLatch(1);
 
         CommandWS commandWS = client.createCommandWS();
+        commandWS.insert(deviceId, getWrapper(COMMAND));
         commandWS.setListener(new CommandListener() {
             @Override
             public void onList(CommandListResponse response) {
@@ -79,8 +80,6 @@ public class CommandTest extends Helper {
 
             }
         });
-
-        commandWS.insert(deviceId, getWrapper(COMMAND));
         latch.await(awaitTimeout, awaitTimeUnit);
 
         restHelper.deleteDevices(deviceId);
@@ -95,6 +94,7 @@ public class CommandTest extends Helper {
         final CountDownLatch latch = new CountDownLatch(1);
 
         final CommandWS commandWS = client.createCommandWS();
+        commandWS.insert(deviceId, getWrapper(COMMAND));
         commandWS.setListener(new CommandListener() {
             @Override
             public void onList(CommandListResponse response) {
@@ -136,8 +136,6 @@ public class CommandTest extends Helper {
 
             }
         });
-
-        commandWS.insert(deviceId, getWrapper(COMMAND));
         latch.await(awaitTimeout, awaitTimeUnit);
 
         restHelper.deleteDevices(deviceId);
@@ -152,6 +150,7 @@ public class CommandTest extends Helper {
         final CountDownLatch latch = new CountDownLatch(1);
 
         final CommandWS commandWS = client.createCommandWS();
+        commandWS.subscribe(Collections.singletonList(COMMAND), deviceId, null, null, null);
         commandWS.setListener(new CommandListener() {
             @Override
             public void onList(CommandListResponse response) {
@@ -189,8 +188,6 @@ public class CommandTest extends Helper {
 
             }
         });
-
-        commandWS.subscribe(Collections.singletonList(COMMAND), deviceId, null, null, null);
         latch.await(awaitTimeout, awaitTimeUnit);
 
         restHelper.deleteDevices(deviceId);
@@ -205,6 +202,7 @@ public class CommandTest extends Helper {
         final CountDownLatch latch = new CountDownLatch(1);
 
         final CommandWS commandWS = client.createCommandWS();
+        commandWS.subscribe(Collections.singletonList(COMMAND), deviceId, null, null, null);
         commandWS.setListener(new CommandListener() {
             @Override
             public void onList(CommandListResponse response) {
@@ -243,8 +241,6 @@ public class CommandTest extends Helper {
 
             }
         });
-
-        commandWS.subscribe(Collections.singletonList(COMMAND), deviceId, null, null, null);
         latch.await(awaitTimeout, awaitTimeUnit);
 
         restHelper.deleteDevices(deviceId);
@@ -259,6 +255,7 @@ public class CommandTest extends Helper {
         final CountDownLatch latch = new CountDownLatch(1);
 
         final CommandWS commandWS = client.createCommandWS();
+        commandWS.insert(deviceId, getWrapper(COMMAND));
         commandWS.setListener(new CommandListener() {
             @Override
             public void onList(CommandListResponse response) {
@@ -298,8 +295,6 @@ public class CommandTest extends Helper {
 
             }
         });
-
-        commandWS.insert(deviceId, getWrapper(COMMAND));
         latch.await(awaitTimeout, awaitTimeUnit);
 
         restHelper.deleteDevices(deviceId);

@@ -43,6 +43,7 @@ public class NotificationTest extends Helper {
         Assert.assertTrue(registerDevice(deviceId));
         final CountDownLatch latch = new CountDownLatch(2);
         final NotificationWS notificationWS = client.createNotificationWS();
+        notificationWS.insert(deviceId, getWrapper(NOTIFICATION_1));
         notificationWS.setListener(new NotificationListener() {
             @Override
             public void onList(NotificationListResponse response) {
@@ -77,7 +78,6 @@ public class NotificationTest extends Helper {
 
             }
         });
-        notificationWS.insert(deviceId, getWrapper(NOTIFICATION_1));
         latch.await(awaitTimeout, awaitTimeUnit);
         deleteDevice(deviceId);
         Assert.assertTrue(latch.getCount() == 0);
@@ -91,6 +91,7 @@ public class NotificationTest extends Helper {
         Assert.assertTrue(registerDevice(deviceId));
         final CountDownLatch latch = new CountDownLatch(2);
         final NotificationWS notificationWS = client.createNotificationWS();
+        notificationWS.insert(deviceId, getWrapper(NOTIFICATION_1));
         notificationWS.setListener(new NotificationListener() {
             @Override
             public void onList(NotificationListResponse response) {
@@ -125,7 +126,6 @@ public class NotificationTest extends Helper {
 
             }
         });
-        notificationWS.insert(deviceId, getWrapper(NOTIFICATION_1));
         latch.await(awaitTimeout, awaitTimeUnit);
         deleteDevice(deviceId);
         Assert.assertTrue(latch.getCount() == 0);
@@ -139,6 +139,7 @@ public class NotificationTest extends Helper {
         Assert.assertTrue(registerDevice(deviceId));
         final CountDownLatch latch = new CountDownLatch(1);
         NotificationWS notificationWS = client.createNotificationWS();
+        notificationWS.insert(deviceId, getWrapper(NOTIFICATION_1));
         notificationWS.setListener(new NotificationListener() {
             @Override
             public void onList(NotificationListResponse response) {
@@ -171,7 +172,6 @@ public class NotificationTest extends Helper {
 
             }
         });
-        notificationWS.insert(deviceId, getWrapper(NOTIFICATION_1));
         latch.await(awaitTimeout, awaitTimeUnit);
         deleteDevice(deviceId);
         Assert.assertTrue(latch.getCount() == 0);
@@ -195,6 +195,7 @@ public class NotificationTest extends Helper {
         Assert.assertTrue(registerDevice(deviceId));
         final CountDownLatch latch = new CountDownLatch(2);
         final NotificationWS notificationWS = client.createNotificationWS();
+        notificationWS.subscribe(deviceId, null, Collections.singletonList(NOTIFICATION_1));
         notificationWS.setListener(new NotificationListener() {
             @Override
             public void onList(NotificationListResponse response) {
@@ -228,7 +229,6 @@ public class NotificationTest extends Helper {
 
             }
         });
-        notificationWS.subscribe(deviceId, null, Collections.singletonList(NOTIFICATION_1));
         latch.await(awaitTimeout, awaitTimeUnit);
         deleteDevice(deviceId);
         Assert.assertTrue(latch.getCount() == 0);
@@ -242,6 +242,7 @@ public class NotificationTest extends Helper {
         Assert.assertTrue(registerDevice(deviceId));
         final CountDownLatch latch = new CountDownLatch(2);
         final NotificationWS notificationWS = client.createNotificationWS();
+        notificationWS.subscribe(deviceId, null, Collections.singletonList(NOTIFICATION_1));
         notificationWS.setListener(new NotificationListener() {
             @Override
             public void onList(NotificationListResponse response) {
@@ -275,7 +276,6 @@ public class NotificationTest extends Helper {
 
             }
         });
-        notificationWS.subscribe(deviceId, null, Collections.singletonList(NOTIFICATION_1));
         latch.await(awaitTimeout, awaitTimeUnit);
         deleteDevice(deviceId);
         Assert.assertTrue(latch.getCount() == 0);

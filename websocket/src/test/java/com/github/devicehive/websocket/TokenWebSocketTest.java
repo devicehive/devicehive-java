@@ -26,6 +26,8 @@ public class TokenWebSocketTest extends Helper {
         authenticate();
 
         final TokenWS tokenWS = client.createTokenWS();
+        JwtPayload jwtPayload = createAdminJwtPayload(1L);
+        tokenWS.create(null, jwtPayload);
         tokenWS.setListener(new TokenListener() {
             @Override
             public void onGet(TokenGetResponse response) {
@@ -48,9 +50,6 @@ public class TokenWebSocketTest extends Helper {
 
             }
         });
-
-        JwtPayload jwtPayload = createAdminJwtPayload(1L);
-        tokenWS.create(null, jwtPayload);
         latch.await(awaitTimeout, awaitTimeUnit);
     }
 
@@ -78,6 +77,7 @@ public class TokenWebSocketTest extends Helper {
         authenticate();
 
         final TokenWS tokenWS = client.createTokenWS();
+        tokenWS.get(null, LOGIN, PASSWORD);
         tokenWS.setListener(new TokenListener() {
             @Override
             public void onGet(TokenGetResponse response) {
@@ -100,8 +100,6 @@ public class TokenWebSocketTest extends Helper {
 
             }
         });
-
-        tokenWS.get(null, LOGIN, PASSWORD);
         latch.await(awaitTimeout, awaitTimeUnit);
     }
 
@@ -112,6 +110,7 @@ public class TokenWebSocketTest extends Helper {
         authenticate();
 
         final TokenWS tokenWS = client.createTokenWS();
+        tokenWS.get(null, LOGIN, PASSWORD);
         tokenWS.setListener(new TokenListener() {
             @Override
             public void onGet(TokenGetResponse response) {
@@ -137,7 +136,7 @@ public class TokenWebSocketTest extends Helper {
             }
         });
 
-        tokenWS.get(null, LOGIN, PASSWORD);
+
         latch.await(awaitTimeout, awaitTimeUnit);
     }
 
