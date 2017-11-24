@@ -24,22 +24,45 @@ package com.github.devicehive.client.service;
 import com.github.devicehive.client.api.MainDeviceHive;
 import com.github.devicehive.client.callback.ResponseCallback;
 import com.github.devicehive.client.exceptions.IncorrectUrlException;
-import com.github.devicehive.client.model.*;
+import com.github.devicehive.client.model.CommandFilter;
+import com.github.devicehive.client.model.DHResponse;
+import com.github.devicehive.client.model.DeviceCommandsCallback;
+import com.github.devicehive.client.model.DeviceFilter;
 import com.github.devicehive.client.model.DeviceNotification;
+import com.github.devicehive.client.model.DeviceNotificationsCallback;
+import com.github.devicehive.client.model.FailureData;
+import com.github.devicehive.client.model.NetworkFilter;
+import com.github.devicehive.client.model.NotificationFilter;
+import com.github.devicehive.client.model.TokenAuth;
+import com.github.devicehive.client.model.UserFilter;
 import com.github.devicehive.rest.api.AuthApi;
-import com.github.devicehive.rest.model.*;
+import com.github.devicehive.rest.model.ApiInfo;
+import com.github.devicehive.rest.model.ClusterConfig;
+import com.github.devicehive.rest.model.Configuration;
+import com.github.devicehive.rest.model.JsonStringWrapper;
+import com.github.devicehive.rest.model.JwtAccessToken;
+import com.github.devicehive.rest.model.JwtRequest;
+import com.github.devicehive.rest.model.JwtToken;
+import com.github.devicehive.rest.model.NetworkVO;
+import com.github.devicehive.rest.model.RoleEnum;
+import com.github.devicehive.rest.model.StatusEnum;
 import com.github.devicehive.websocket.api.CommandWS;
 import com.github.devicehive.websocket.api.NotificationWS;
 import com.github.devicehive.websocket.api.WebSocketClient;
 import com.github.devicehive.websocket.listener.CommandListener;
 import com.github.devicehive.websocket.listener.NotificationListener;
-import com.github.devicehive.websocket.model.repsonse.*;
-import org.joda.time.DateTime;
+import com.github.devicehive.websocket.model.repsonse.CommandGetResponse;
+import com.github.devicehive.websocket.model.repsonse.CommandInsertResponse;
+import com.github.devicehive.websocket.model.repsonse.CommandListResponse;
+import com.github.devicehive.websocket.model.repsonse.CommandSubscribeResponse;
+import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
+import com.github.devicehive.websocket.model.repsonse.NotificationGetResponse;
+import com.github.devicehive.websocket.model.repsonse.NotificationInsertResponse;
+import com.github.devicehive.websocket.model.repsonse.NotificationListResponse;
+import com.github.devicehive.websocket.model.repsonse.NotificationSubscribeResponse;
+import com.github.devicehive.websocket.model.repsonse.ResponseAction;
 
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import org.joda.time.DateTime;
 
 import java.io.IOException;
 import java.net.URI;
@@ -47,6 +70,11 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DeviceHive implements MainDeviceHive {
 
@@ -408,7 +436,7 @@ public class DeviceHive implements MainDeviceHive {
         return deviceService.removeDevice(id);
     }
 
-    public Device getDevice(String id) {
+    public  DHResponse<Device> getDevice(String id) {
         return deviceService.getDevice(id);
     }
 

@@ -22,12 +22,14 @@
 package example;
 
 import com.github.devicehive.client.model.CommandFilter;
+import com.github.devicehive.client.model.DHResponse;
 import com.github.devicehive.client.model.DeviceCommandsCallback;
 import com.github.devicehive.client.model.FailureData;
 import com.github.devicehive.client.model.TokenAuth;
 import com.github.devicehive.client.service.Device;
 import com.github.devicehive.client.service.DeviceCommand;
 import com.github.devicehive.client.service.DeviceHive;
+
 import org.joda.time.DateTime;
 
 import java.util.Collections;
@@ -46,7 +48,12 @@ public class Echo {
     public static void main(String[] args) {
         final DeviceHive deviceHive = DeviceHive.getInstance().init(URL, new TokenAuth(refreshToken, accessToken));
         final String deviceId = UUID.randomUUID().toString();
-        final Device device = deviceHive.getDevice(deviceId);
+        DHResponse<Device> deviceResponse = deviceHive.getDevice(deviceId);
+        if (!deviceResponse.isSuccessful()) {
+            System.out.println(deviceResponse);
+            return;
+        }
+        Device device = deviceResponse.getData();
         CommandFilter filter = getFilter();
         deviceHive.subscribeCommands(Collections.singletonList(deviceId), filter, new DeviceCommandsCallback() {
             @Override

@@ -27,6 +27,7 @@ import com.github.devicehive.client.service.Device;
 import com.github.devicehive.client.service.DeviceCommand;
 import com.github.devicehive.client.service.DeviceHive;
 import com.github.devicehive.rest.model.JsonStringWrapper;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -41,11 +42,12 @@ public class CommandTest {
 
     private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, WS_URL, new TokenAuth(refreshToken, accessToken));
 
-    private Device device = deviceHive.getDevice(DEVICE_ID);
+    private DHResponse<Device> deviceResponse = deviceHive.getDevice(DEVICE_ID);
 
     @Test
     public void createAndUpdate() throws InterruptedException {
-        Assert.assertNotNull(device);
+        Assert.assertTrue(deviceResponse.isSuccessful());
+        Device device = deviceResponse.getData();
         DHResponse<DeviceCommand> response = device.sendCommand(COM_A, null);
         Assert.assertTrue(response.isSuccessful());
         DeviceCommand command = response.getData();
