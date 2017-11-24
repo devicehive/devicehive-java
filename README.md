@@ -54,9 +54,16 @@ or you can initiate the client without Websocket url. In this case `DeviceHive` 
 </details>
 
 ## Creating device
-To create device you just need an instance of `DeviceHive` and `getDevice(String deviceId)` method:
+To create device you just need an instance of `DeviceHive` and `getDevice(String deviceId)` that returns `DHResponse<Device>` object where will be `FailureData` object in case of any errors or Device object:
 ```java
-    Device device = deviceHive.getDevice("example-device-Id");
+    DHResponse<Device> devicehiveResponse = deviceHive.getDevice("example-device-Id");
+    if(devicehiveResponse.isSuccessful(){
+	Device device = devicehiveResponse.getData();
+    }else{
+	FailureData failureData = devicehiveResponse.getFailureData();
+	int code = failureData.getCode();
+	String message = failureData.getMessage();
+    }
 ```
 
 <details>
