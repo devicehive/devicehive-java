@@ -21,13 +21,21 @@
 
 package com.github.devicehive.client;
 
-import com.github.devicehive.client.model.*;
+import com.github.devicehive.client.model.CommandFilter;
+import com.github.devicehive.client.model.DHResponse;
+import com.github.devicehive.client.model.DeviceCommandsCallback;
+import com.github.devicehive.client.model.DeviceNotification;
+import com.github.devicehive.client.model.DeviceNotificationsCallback;
+import com.github.devicehive.client.model.FailureData;
+import com.github.devicehive.client.model.NotificationFilter;
+import com.github.devicehive.client.model.Parameter;
+import com.github.devicehive.client.model.TokenAuth;
 import com.github.devicehive.client.service.Device;
 import com.github.devicehive.client.service.DeviceCommand;
 import com.github.devicehive.client.service.DeviceHive;
+
 import org.joda.time.DateTime;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -61,8 +69,9 @@ public class DeviceTest {
     @Test
     public void createDevice() throws IOException {
         String deviceId = DEVICE_PREFIX + UUID.randomUUID().toString();
-        Device device = deviceHive.getDevice(deviceId);
-        Assert.assertNotNull(device);
+        DHResponse<Device> deviceResponse = deviceHive.getDevice(deviceId);
+        Assert.assertTrue(deviceResponse.isSuccessful());
+        final Device device = deviceResponse.getData();
         Assert.assertTrue(device != null);
         Assert.assertTrue(deviceHive.removeDevice(deviceId).isSuccessful());
     }
@@ -70,8 +79,9 @@ public class DeviceTest {
     @Test
     public void getCommands() throws IOException {
         String deviceId = DEVICE_PREFIX + UUID.randomUUID().toString();
-        final Device device = deviceHive.getDevice(deviceId);
-        Assert.assertNotNull(device);
+        DHResponse<Device> deviceResponse = deviceHive.getDevice(deviceId);
+        Assert.assertTrue(deviceResponse.isSuccessful());
+        final Device device = deviceResponse.getData();
         ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
         service.schedule(new Thread(new Runnable() {
             public void run() {
@@ -94,8 +104,9 @@ public class DeviceTest {
     @Test
     public void subscribeCommands() throws InterruptedException {
         String deviceId = DEVICE_PREFIX + UUID.randomUUID().toString();
-        final Device device = deviceHive.getDevice(deviceId);
-        Assert.assertNotNull(device);
+        DHResponse<Device> deviceResponse = deviceHive.getDevice(deviceId);
+        Assert.assertTrue(deviceResponse.isSuccessful());
+        final Device device = deviceResponse.getData();
         final ScheduledExecutorService service = Executors.newScheduledThreadPool(2);
         final String commandName1 = COM_A + new Random().nextInt();
         final String commandName2 = COM_B + new Random().nextInt();
@@ -169,8 +180,9 @@ public class DeviceTest {
     public void subscribeNotifications() throws IOException, InterruptedException {
         String deviceId = DEVICE_PREFIX + UUID.randomUUID().toString();
 
-        final Device device = deviceHive.getDevice(deviceId);
-        Assert.assertNotNull(device);
+        DHResponse<Device> deviceResponse = deviceHive.getDevice(deviceId);
+        Assert.assertTrue(deviceResponse.isSuccessful());
+        final Device device = deviceResponse.getData();
         final CountDownLatch latch = new CountDownLatch(3);
         final String notificationName1 = NOTIFICATION_A + new Random().nextInt();
         final String notificationName2 = NOTIFICATION_B + new Random().nextInt();
@@ -244,8 +256,9 @@ public class DeviceTest {
     @Test
     public void getNotification() throws IOException {
         String deviceId = UUID.randomUUID().toString();
-        final Device device = deviceHive.getDevice(deviceId);
-        Assert.assertNotNull(device);
+        DHResponse<Device> deviceResponse = deviceHive.getDevice(deviceId);
+        Assert.assertTrue(deviceResponse.isSuccessful());
+        final Device device = deviceResponse.getData();
         ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
         service.schedule(new Thread(new Runnable() {
             public void run() {
@@ -267,7 +280,9 @@ public class DeviceTest {
     @Test
     public void sendNotification() throws IOException {
         String deviceId = DEVICE_PREFIX + UUID.randomUUID().toString();
-        Device device = deviceHive.getDevice(deviceId);
+        DHResponse<Device> deviceResponse = deviceHive.getDevice(deviceId);
+        Assert.assertTrue(deviceResponse.isSuccessful());
+        final Device device = deviceResponse.getData();
         Assert.assertNotNull(device);
         List<Parameter> parameters = new ArrayList<Parameter>();
 
