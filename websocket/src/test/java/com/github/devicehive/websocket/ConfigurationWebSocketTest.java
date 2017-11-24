@@ -32,6 +32,7 @@ public class ConfigurationWebSocketTest extends Helper {
         final CountDownLatch latch = new CountDownLatch(1);
 
         final ConfigurationWS configurationWS = client.createConfigurationWS();
+        configurationWS.put(null, configurationName, CONFIGURATION_VALUE);
         configurationWS.setListener(new ConfigurationListener() {
             @Override
             public void onGet(ConfigurationGetResponse response) {
@@ -56,7 +57,6 @@ public class ConfigurationWebSocketTest extends Helper {
 
         });
 
-        configurationWS.put(null, configurationName, CONFIGURATION_VALUE);
         latch.await(awaitTimeout, awaitTimeUnit);
 
         Assert.assertEquals(0, latch.getCount());
@@ -72,6 +72,7 @@ public class ConfigurationWebSocketTest extends Helper {
         final CountDownLatch latch = new CountDownLatch(1);
 
         final ConfigurationWS configurationWS = client.createConfigurationWS();
+        configurationWS.put(null, configurationName, CONFIGURATION_VALUE);
         configurationWS.setListener(new ConfigurationListener() {
             @Override
             public void onGet(ConfigurationGetResponse response) {
@@ -98,8 +99,6 @@ public class ConfigurationWebSocketTest extends Helper {
             }
 
         });
-
-        configurationWS.put(null, configurationName, CONFIGURATION_VALUE);
         latch.await(awaitTimeout, awaitTimeUnit);
 
         Assert.assertEquals(0, latch.getCount());
@@ -115,6 +114,7 @@ public class ConfigurationWebSocketTest extends Helper {
         final CountDownLatch latch = new CountDownLatch(1);
 
         final ConfigurationWS configurationWS = client.createConfigurationWS();
+        configurationWS.put(null, configurationName, CONFIGURATION_VALUE);
         configurationWS.setListener(new ConfigurationListener() {
             @Override
             public void onGet(ConfigurationGetResponse response) {
@@ -139,8 +139,6 @@ public class ConfigurationWebSocketTest extends Helper {
             }
 
         });
-
-        configurationWS.put(null, configurationName, CONFIGURATION_VALUE);
         latch.await(awaitTimeout, awaitTimeUnit);
 
         Assert.assertEquals(0, latch.getCount());

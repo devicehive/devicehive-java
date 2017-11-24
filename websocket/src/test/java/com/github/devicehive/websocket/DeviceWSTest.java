@@ -22,15 +22,14 @@
 package com.github.devicehive.websocket;
 
 import com.github.devicehive.rest.model.Device;
-import com.github.devicehive.rest.model.DeviceUpdate;
 import com.github.devicehive.rest.model.NetworkId;
 import com.github.devicehive.websocket.api.DeviceWS;
 import com.github.devicehive.websocket.listener.DeviceListener;
 import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
 import com.github.devicehive.websocket.model.repsonse.ResponseAction;
+
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -38,7 +37,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import static com.github.devicehive.websocket.model.repsonse.ResponseAction.SUCCESS;
 
@@ -65,6 +63,7 @@ public class DeviceWSTest extends Helper {
         final String deviceId = UUID.randomUUID().toString();
         final CountDownLatch latch = new CountDownLatch(1);
         final DeviceWS deviceWS = client.createDeviceWS();
+        registerDevice(deviceWS, deviceId, DEVICE_NAME, networkId);
         deviceWS.setListener(new DeviceListener() {
             @Override
             public void onList(List<Device> response) {
@@ -103,7 +102,6 @@ public class DeviceWSTest extends Helper {
             }
         });
 
-        registerDevice(deviceWS, deviceId, DEVICE_NAME, networkId);
         latch.await(awaitTimeout, awaitTimeUnit);
 
         restHelper.deleteDevices(deviceId);
@@ -118,6 +116,7 @@ public class DeviceWSTest extends Helper {
         final String deviceId = UUID.randomUUID().toString();
         final CountDownLatch latch = new CountDownLatch(1);
         final DeviceWS deviceWS = client.createDeviceWS();
+        registerDevice(deviceWS, deviceId, DEVICE_NAME, networkId);
         deviceWS.setListener(new DeviceListener() {
             @Override
             public void onList(List<Device> response) {
@@ -158,8 +157,6 @@ public class DeviceWSTest extends Helper {
             }
 
         });
-
-        registerDevice(deviceWS, deviceId, DEVICE_NAME, networkId);
         latch.await(awaitTimeout, awaitTimeUnit);
 
         restHelper.deleteNetworks(networkId);
@@ -227,6 +224,7 @@ public class DeviceWSTest extends Helper {
         final String deviceId = UUID.randomUUID().toString();
         final CountDownLatch latch = new CountDownLatch(1);
         final DeviceWS deviceWS = client.createDeviceWS();
+        registerDevice(deviceWS, deviceId, DEVICE_NAME, networkId);
         deviceWS.setListener(new DeviceListener() {
             @Override
             public void onList(List<Device> response) {
@@ -266,7 +264,6 @@ public class DeviceWSTest extends Helper {
                 Assert.assertTrue(false);
             }
         });
-        registerDevice(deviceWS, deviceId, DEVICE_NAME, networkId);
         latch.await(awaitTimeout, awaitTimeUnit);
 
         restHelper.deleteDevices(deviceId);

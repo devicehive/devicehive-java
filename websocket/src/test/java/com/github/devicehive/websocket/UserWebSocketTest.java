@@ -4,6 +4,7 @@ import com.github.devicehive.rest.model.*;
 import com.github.devicehive.websocket.api.UserWS;
 import com.github.devicehive.websocket.listener.UserListener;
 import com.github.devicehive.websocket.model.repsonse.*;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -56,6 +57,7 @@ public class UserWebSocketTest extends Helper {
         final CountDownLatch latch = new CountDownLatch(1);
 
         final UserWS userWS = client.createUserWS();
+        userWS.getCurrent(null);
         userWS.setListener(new UserListener() {
             @Override
             public void onList(UserListResponse response) {
@@ -114,8 +116,6 @@ public class UserWebSocketTest extends Helper {
             }
 
         });
-
-        userWS.getCurrent(null);
         latch.await(awaitTimeout, awaitTimeUnit);
 
         Assert.assertEquals(0, latch.getCount());
@@ -126,6 +126,12 @@ public class UserWebSocketTest extends Helper {
         final CountDownLatch latch = new CountDownLatch(1);
 
         final UserWS userWS = client.createUserWS();
+        JsonStringWrapper updatedData = new JsonStringWrapper();
+        updatedData.setJsonString(JSON_DATA);
+        UserUpdate userUpdate = new UserUpdate();
+        userUpdate.setData(updatedData);
+
+        userWS.updateCurrent(null, userUpdate);
         userWS.setListener(new UserListener() {
             @Override
             public void onList(UserListResponse response) {
@@ -184,13 +190,6 @@ public class UserWebSocketTest extends Helper {
             }
 
         });
-
-        JsonStringWrapper updatedData = new JsonStringWrapper();
-        updatedData.setJsonString(JSON_DATA);
-        UserUpdate userUpdate = new UserUpdate();
-        userUpdate.setData(updatedData);
-
-        userWS.updateCurrent(null, userUpdate);
         latch.await(awaitTimeout, awaitTimeUnit);
 
         Assert.assertEquals(0, latch.getCount());
@@ -201,6 +200,9 @@ public class UserWebSocketTest extends Helper {
         final CountDownLatch latch = new CountDownLatch(1);
 
         final UserWS userWS = client.createUserWS();
+        UserUpdate user = createNewUserUpdate();
+        userWS.insert(null, user);
+
         userWS.setListener(new UserListener() {
             @Override
             public void onList(UserListResponse response) {
@@ -260,11 +262,7 @@ public class UserWebSocketTest extends Helper {
             }
 
         });
-
-        UserUpdate user = createNewUserUpdate();
-        userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
-
         restHelper.deleteUsers(userId);
 
         Assert.assertEquals(0, latch.getCount());
@@ -275,6 +273,8 @@ public class UserWebSocketTest extends Helper {
         final CountDownLatch latch = new CountDownLatch(1);
 
         final UserWS userWS = client.createUserWS();
+        UserUpdate user = createNewUserUpdate();
+        userWS.insert(null, user);
         userWS.setListener(new UserListener() {
             @Override
             public void onList(UserListResponse response) {
@@ -335,9 +335,6 @@ public class UserWebSocketTest extends Helper {
             }
 
         });
-
-        UserUpdate user = createNewUserUpdate();
-        userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
 
         Assert.assertEquals(0, latch.getCount());
@@ -348,6 +345,8 @@ public class UserWebSocketTest extends Helper {
         final CountDownLatch latch = new CountDownLatch(1);
 
         final UserWS userWS = client.createUserWS();
+        UserUpdate user = createNewUserUpdate();
+        userWS.insert(null, user);
         userWS.setListener(new UserListener() {
             @Override
             public void onList(UserListResponse response) {
@@ -411,8 +410,7 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        UserUpdate user = createNewUserUpdate();
-        userWS.insert(null, user);
+
         latch.await(awaitTimeout, awaitTimeUnit);
 
         restHelper.deleteUsers(userId);
@@ -425,6 +423,8 @@ public class UserWebSocketTest extends Helper {
         final CountDownLatch latch = new CountDownLatch(1);
 
         final UserWS userWS = client.createUserWS();
+        UserUpdate user = createNewUserUpdate();
+        userWS.insert(null, user);
         userWS.setListener(new UserListener() {
             @Override
             public void onList(UserListResponse response) {
@@ -490,11 +490,7 @@ public class UserWebSocketTest extends Helper {
             }
 
         });
-
-        UserUpdate user = createNewUserUpdate();
-        userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
-
         restHelper.deleteUsers(userId);
 
         Assert.assertEquals(0, latch.getCount());
@@ -505,6 +501,8 @@ public class UserWebSocketTest extends Helper {
         final CountDownLatch latch = new CountDownLatch(1);
 
         final UserWS userWS = client.createUserWS();
+        UserUpdate user = createNewUserUpdate();
+        userWS.insert(null, user);
         userWS.setListener(new UserListener() {
             @Override
             public void onList(UserListResponse response) {
@@ -565,11 +563,7 @@ public class UserWebSocketTest extends Helper {
             }
 
         });
-
-        UserUpdate user = createNewUserUpdate();
-        userWS.insert(null, user);
         latch.await(awaitTimeout, awaitTimeUnit);
-
         restHelper.deleteUsers(userId);
 
         Assert.assertEquals(0, latch.getCount());
@@ -581,6 +575,8 @@ public class UserWebSocketTest extends Helper {
 
         networkId = createTestNetwork();
         final UserWS userWS = client.createUserWS();
+        UserUpdate user = createNewUserUpdate();
+        userWS.insert(null, user);
         userWS.setListener(new UserListener() {
             @Override
             public void onList(UserListResponse response) {
@@ -642,8 +638,7 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        UserUpdate user = createNewUserUpdate();
-        userWS.insert(null, user);
+
         latch.await(awaitTimeout, awaitTimeUnit);
 
         restHelper.deleteUsers(userId);
@@ -658,6 +653,8 @@ public class UserWebSocketTest extends Helper {
 
         networkId = createTestNetwork();
         final UserWS userWS = client.createUserWS();
+        UserUpdate user = createNewUserUpdate();
+        userWS.insert(null, user);
         userWS.setListener(new UserListener() {
             @Override
             public void onList(UserListResponse response) {
@@ -720,8 +717,7 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        UserUpdate user = createNewUserUpdate();
-        userWS.insert(null, user);
+
         latch.await(awaitTimeout, awaitTimeUnit);
 
         restHelper.deleteUsers(userId);
@@ -736,6 +732,8 @@ public class UserWebSocketTest extends Helper {
 
         networkId = createTestNetwork();
         final UserWS userWS = client.createUserWS();
+        UserUpdate user = createNewUserUpdate();
+        userWS.insert(null, user);
         userWS.setListener(new UserListener() {
             @Override
             public void onList(UserListResponse response) {
@@ -798,8 +796,7 @@ public class UserWebSocketTest extends Helper {
 
         });
 
-        UserUpdate user = createNewUserUpdate();
-        userWS.insert(null, user);
+
         latch.await(awaitTimeout, awaitTimeUnit);
 
         restHelper.deleteUsers(userId);
