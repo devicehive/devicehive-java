@@ -25,7 +25,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class ErrorResponse extends ResponseAction {
     public static final String ERROR = "error";
-
+    public static final int DEFAULT_CODE = -1;
     @SerializedName("code")
     int code;
     @SerializedName("error")
@@ -61,6 +61,13 @@ public class ErrorResponse extends ResponseAction {
     public static ErrorResponse create(int code, String message) {
         ErrorResponse response = new ErrorResponse();
         response.setCode(code);
+        response.setError(message);
+        return response;
+    }
+
+    public static ErrorResponse create(String message) {
+        ErrorResponse response = new ErrorResponse();
+        response.setCode(DEFAULT_CODE);
         response.setError(message);
         return response;
     }

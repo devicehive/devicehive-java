@@ -1,6 +1,7 @@
 package example;
 
 import com.github.devicehive.client.model.CommandFilter;
+import com.github.devicehive.client.model.DHResponse;
 import com.github.devicehive.client.model.DeviceCommandsCallback;
 import com.github.devicehive.client.model.DeviceNotification;
 import com.github.devicehive.client.model.DeviceNotificationsCallback;
@@ -47,7 +48,12 @@ public class Main {
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
         String DEVICE_ID = "123456-example";
         //Device Initiating
-        final Device device = deviceHive.getDevice(DEVICE_ID);
+        DHResponse<Device> deviceResponse = deviceHive.getDevice(DEVICE_ID);
+        if (!deviceResponse.isSuccessful()) {
+            System.out.println(deviceResponse);
+           return;
+        }
+        final Device device = deviceResponse.getData();
         //Creating filter to listen commands from the server
         CommandFilter commandFilter = new CommandFilter();
         commandFilter.setCommandNames(PING);
@@ -65,8 +71,8 @@ public class Main {
 
                 if (params != null) {
                     //Getting param value
-                    Gson gson=new Gson();
-                    JsonObject jsonObject =gson.fromJson(params.getJsonString(),JsonObject.class);
+                    Gson gson = new Gson();
+                    JsonObject jsonObject = gson.fromJson(params.getJsonString(), JsonObject.class);
 
                     boolean needToSend = false;
                     if (jsonObject.has(PRODUCE_NOTIFICATION)) {

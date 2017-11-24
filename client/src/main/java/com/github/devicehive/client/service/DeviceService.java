@@ -48,7 +48,7 @@ class DeviceService extends BaseService {
         }
     }
 
-    Device getDevice(String deviceId) {
+    DHResponse<Device> getDevice(String deviceId) {
         deviceApi = createService(DeviceApi.class);
         DHResponse<Device> response;
         DHResponse<com.github.devicehive.rest.model.Device> result;
@@ -56,23 +56,23 @@ class DeviceService extends BaseService {
         result = execute(deviceApi.get(deviceId));
         response = new DHResponse<Device>(Device.create(result.getData()), result.getFailureData());
         if (response.isSuccessful()) {
-            return response.getData();
+            return response;
         } else if (response.getFailureData().getCode() == 401) {
             authorize();
             deviceApi = createService(DeviceApi.class);
             result = execute(deviceApi.get(deviceId));
             response = new DHResponse<Device>(Device.create(result.getData()), result.getFailureData());
             if (response.isSuccessful()) {
-                return response.getData();
+                return response;
             } else if (response.getFailureData().getCode() == 404 || response.getFailureData().getCode() == 403) {
                 return createAndGetDevice(deviceId);
             } else {
-                return null;
+                return response;
             }
         } else if (response.getFailureData().getCode() == 404 || response.getFailureData().getCode() == 403) {
             return createAndGetDevice(deviceId);
         } else {
-            return null;
+            return response;
         }
     }
 
@@ -114,11 +114,10 @@ class DeviceService extends BaseService {
         }
     }
 
-    private Device createAndGetDevice(String id) {
+    private DHResponse<Device> createAndGetDevice(String id) {
         createDevice(id, id);
         DHResponse<com.github.devicehive.rest.model.Device> result = execute(deviceApi.get(id));
-        DHResponse<Device> response = new DHResponse<Device>(Device.create(result.getData()), result.getFailureData());
-        return response.isSuccessful() ? response.getData() : null;
+        return new DHResponse<>(Device.create(result.getData()), result.getFailureData());
 
     }
 }
