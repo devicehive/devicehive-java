@@ -110,12 +110,7 @@ public class ApiClient {
                 .registerTypeAdapter(DateTime.class,
                         typeAdapter)
                 .create();
-//        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-//         set your desired log level
-//        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-
         okClient = new OkHttpClient().newBuilder()
-//                .addInterceptor(logging)
                 .readTimeout(35, TimeUnit.SECONDS)
                 .connectTimeout(35, TimeUnit.SECONDS)
                 .build();
@@ -174,18 +169,22 @@ public class ApiClient {
      * @param authorization
      */
     public void addAuthorization(String authName, Interceptor authorization) {
+        if (apiAuthorizations.containsKey(authName)) {
+            apiAuthorizations.remove(authName);
+        }
         apiAuthorizations.put(authName, authorization);
-        okClient = okClient.newBuilder()
-                .addInterceptor(authorization)
-                .build();
+        OkHttpClient.Builder builder = okClient.newBuilder();
+        builder.interceptors().clear();
+        builder.addInterceptor(authorization);
+        okClient = builder.build();
         adapterBuilder.client(okClient);
     }
 
     public void clearAuthorizations() {
         apiAuthorizations.clear();
-        okClient = okClient.newBuilder()
-                .build();
-
+        OkHttpClient.Builder builder = okClient.newBuilder();
+        builder.interceptors().clear();
+        okClient = builder.build();
         adapterBuilder.client(okClient);
     }
 

@@ -8,7 +8,6 @@ import com.github.devicehive.client.model.DeviceNotificationsCallback;
 import com.github.devicehive.client.model.FailureData;
 import com.github.devicehive.client.model.NotificationFilter;
 import com.github.devicehive.client.model.Parameter;
-import com.github.devicehive.client.model.TokenAuth;
 import com.github.devicehive.client.service.Device;
 import com.github.devicehive.client.service.DeviceCommand;
 import com.github.devicehive.client.service.DeviceHive;
@@ -41,7 +40,7 @@ public class Main {
 
     //Initiating DeviceHive
     private static DeviceHive deviceHive = DeviceHive.getInstance()
-            .init(URL, WS_URL, new TokenAuth(refreshToken, accessToken));
+            .init(URL, WS_URL, refreshToken, accessToken);
 
 
     public static void main(String[] args) {
@@ -51,7 +50,7 @@ public class Main {
         DHResponse<Device> deviceResponse = deviceHive.getDevice(DEVICE_ID);
         if (!deviceResponse.isSuccessful()) {
             System.out.println(deviceResponse);
-           return;
+            return;
         }
         final Device device = deviceResponse.getData();
         //Creating filter to listen commands from the server

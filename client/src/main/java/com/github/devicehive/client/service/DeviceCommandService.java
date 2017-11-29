@@ -69,7 +69,7 @@ class DeviceCommandService extends BaseService {
         if (response.isSuccessful()) {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             deviceCommandApi = createService(DeviceCommandApi.class);
             result = execute(deviceCommandApi.poll(deviceId, null, startTimestamp.toString(),
                     30L, maxNumber));
@@ -93,7 +93,7 @@ class DeviceCommandService extends BaseService {
         if (response.isSuccessful()) {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             deviceCommandApi = createService(DeviceCommandApi.class);
             result = execute(deviceCommandApi.insert(deviceId, wrapper));
             return new DHResponse<>(DeviceCommand.create(result.getData(), command, deviceId, networkId,
@@ -122,7 +122,7 @@ class DeviceCommandService extends BaseService {
         if (response.isSuccessful()) {
             return new DHResponse<>(response.getData(), response.getFailureData());
         } else if (response.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             deviceCommandApi = createService(DeviceCommandApi.class);
             return execute(deviceCommandApi.get(deviceId, String.valueOf(commandId)));
         } else {
@@ -136,7 +136,7 @@ class DeviceCommandService extends BaseService {
         if (response.isSuccessful()) {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             deviceCommandApi = createService(DeviceCommandApi.class);
             return execute(deviceCommandApi.update(deviceId, commandId, body));
         } else {

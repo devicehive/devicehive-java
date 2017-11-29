@@ -25,7 +25,6 @@ import com.github.devicehive.client.model.CommandFilter;
 import com.github.devicehive.client.model.DHResponse;
 import com.github.devicehive.client.model.DeviceCommandsCallback;
 import com.github.devicehive.client.model.FailureData;
-import com.github.devicehive.client.model.TokenAuth;
 import com.github.devicehive.client.service.Device;
 import com.github.devicehive.client.service.DeviceCommand;
 import com.github.devicehive.client.service.DeviceHive;
@@ -46,7 +45,7 @@ public class Echo {
     private static final String COMMAND_NAME = "echo_command";
 
     public static void main(String[] args) {
-        final DeviceHive deviceHive = DeviceHive.getInstance().init(URL, new TokenAuth(refreshToken, accessToken));
+        final DeviceHive deviceHive = DeviceHive.getInstance().init(URL, refreshToken, accessToken);
         final String deviceId = UUID.randomUUID().toString();
         DHResponse<Device> deviceResponse = deviceHive.getDevice(deviceId);
         if (!deviceResponse.isSuccessful()) {

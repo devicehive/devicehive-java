@@ -39,7 +39,7 @@ public class UserService extends BaseService {
         if (response.isSuccessful()) {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             userApi = createService(UserApi.class);
             result = execute(userApi.getCurrent());
             return DHResponse.create(User.create(result.getData()), result.getFailureData());
@@ -58,7 +58,7 @@ public class UserService extends BaseService {
         if (response.isSuccessful()) {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             userApi = createService(UserApi.class);
             result = execute(userApi.list(null, null,
                     null, null, null, null, null, null));
@@ -79,7 +79,7 @@ public class UserService extends BaseService {
             updateUser(response, login, role, data);
             return response;
         } else if (response.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             userApi = createService(UserApi.class);
             result = execute(userApi.insertUser(userUpdate));
             response = DHResponse.create(User.create(result.getData()), result.getFailureData());
@@ -116,7 +116,7 @@ public class UserService extends BaseService {
         if (response.isSuccessful()) {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             userApi = createService(UserApi.class);
             return execute(userApi.updateCurrentUser(body));
         } else {
@@ -130,7 +130,7 @@ public class UserService extends BaseService {
         if (response.isSuccessful()) {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             userApi = createService(UserApi.class);
             return execute(userApi.deleteUser(id));
         } else {
@@ -144,7 +144,7 @@ public class UserService extends BaseService {
         if (result.isSuccessful()) {
             return DHResponse.create(Network.createList(result.getData().getNetworks()), result.getFailureData());
         } else if (result.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             userApi = createService(UserApi.class);
             result = execute(userApi.getCurrent());
             return DHResponse.create(Network.createList(result.getData().getNetworks()), result.getFailureData());
@@ -164,7 +164,7 @@ public class UserService extends BaseService {
         if (response.isSuccessful()) {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             userApi = createService(UserApi.class);
             return execute(userApi.unassignNetwork(userId, networkId));
         } else {
@@ -179,7 +179,7 @@ public class UserService extends BaseService {
         if (response.isSuccessful()) {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             userApi = createService(UserApi.class);
             return execute(userApi.assignNetwork(userId, networkId));
         } else {
@@ -199,7 +199,7 @@ public class UserService extends BaseService {
         if (response.isSuccessful()) {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             userApi = createService(UserApi.class);
             result = execute(userApi.list(filter.getLogin(), filter.getLoginPattern(),
                     filter.getRole() != null ? filter.getRole().getValue() : null,

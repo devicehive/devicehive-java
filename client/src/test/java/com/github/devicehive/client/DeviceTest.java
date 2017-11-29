@@ -29,7 +29,6 @@ import com.github.devicehive.client.model.DeviceNotificationsCallback;
 import com.github.devicehive.client.model.FailureData;
 import com.github.devicehive.client.model.NotificationFilter;
 import com.github.devicehive.client.model.Parameter;
-import com.github.devicehive.client.model.TokenAuth;
 import com.github.devicehive.client.service.Device;
 import com.github.devicehive.client.service.DeviceCommand;
 import com.github.devicehive.client.service.DeviceHive;
@@ -60,10 +59,10 @@ public class DeviceTest {
     private static final String COM_B = "comB";
     private static final String COM_Z = "comZ";
     private static final String DEVICE_PREFIX = "JAVA-LIB-";
-    private String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTA4NDI4MjAxMTA4LCJ0IjoxfX0.bYIkp2Gm_fMHcxcaFm6xqB91Fp8C2DdenmdGgsVNqcc";
+    private String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7ImUiOjE1MTE5NjY3NjAwMDAsInQiOjEsInUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdfX0.3CQdiMua9SSIMF6jMjZocBTuAbcDCPtVfKIy0rEzAG8";
     private String refreshToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTI0MTUxMjAxMTA4LCJ0IjowfX0.2wfpmIjrHRtGBoSF3-T77aSAiUYPFSGtgBuGoVZtSxc";
 
-    private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, WS_URL, new TokenAuth(refreshToken, accessToken));
+    private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, WS_URL, refreshToken, accessToken);
 
 
     @Test
@@ -179,7 +178,7 @@ public class DeviceTest {
     @Test
     public void subscribeNotifications() throws IOException, InterruptedException {
         String deviceId = DEVICE_PREFIX + UUID.randomUUID().toString();
-
+        deviceHive.enableDebug(true);
         DHResponse<Device> deviceResponse = deviceHive.getDevice(deviceId);
         Assert.assertTrue(deviceResponse.isSuccessful());
         final Device device = deviceResponse.getData();

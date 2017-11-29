@@ -34,7 +34,7 @@ class ConfigurationService extends BaseService {
         if (response.isSuccessful()) {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             configurationApi = createService(ConfigurationApi.class);
             return execute(configurationApi.get(name));
         } else {
@@ -50,7 +50,7 @@ class ConfigurationService extends BaseService {
         if (response.isSuccessful()) {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             configurationApi = createService(ConfigurationApi.class);
             return execute(configurationApi.setProperty(name, body));
         } else {
@@ -66,7 +66,7 @@ class ConfigurationService extends BaseService {
         if (response.isSuccessful()) {
             return response;
         } else if (response.getFailureData() != null && response.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             configurationApi = createService(ConfigurationApi.class);
             return execute(configurationApi.deleteProperty(name));
         } else {

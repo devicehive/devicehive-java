@@ -33,7 +33,6 @@ import com.github.devicehive.client.model.DeviceNotificationsCallback;
 import com.github.devicehive.client.model.FailureData;
 import com.github.devicehive.client.model.NetworkFilter;
 import com.github.devicehive.client.model.NotificationFilter;
-import com.github.devicehive.client.model.TokenAuth;
 import com.github.devicehive.client.model.UserFilter;
 import com.github.devicehive.rest.api.AuthApi;
 import com.github.devicehive.rest.model.ApiInfo;
@@ -123,15 +122,30 @@ public class DeviceHive implements MainDeviceHive {
     }
 
 
-    public DeviceHive init(String url, TokenAuth tokenAuth) {
+    public DeviceHive init(String url, String refreshToken) {
+        return init(url, refreshToken, null);
+    }
+
+    public DeviceHive init(String url, String refreshToken, String accessToken) {
+        return init(url, createWSUrl(url), refreshToken, accessToken);
+    }
+
+    public DeviceHive init(String url, String wsUrl, String refreshToken, String accessToken) {
         if (url == null || url.length() == 0) {
-            throw new NullPointerException("Server url cannot be empty");
+            throw new NullPointerException("Server url cannot be null or empty");
         }
         this.url = url;
-        this.wsUrl = createWSUrl(url);
-        this.setAuth(tokenAuth.getAccessToken(), tokenAuth.getRefreshToken());
+        if (wsUrl == null || wsUrl.length() == 0) {
+            throw new NullPointerException("Server ws url cannot be null or empty");
+        }
+        if (refreshToken == null || refreshToken.length() == 0) {
+            throw new NullPointerException("Refresh Token cannot be null or empty");
+        }
+        this.wsUrl = wsUrl;
+        this.setAuth(accessToken, refreshToken);
         this.createServices();
         this.createWsServices();
+        RestHelper.getInstance().authorize();
         return this;
     }
 
@@ -149,20 +163,6 @@ public class DeviceHive implements MainDeviceHive {
 
     }
 
-    public DeviceHive init(String url, String wsUrl, TokenAuth tokenAuth) {
-        if (url == null || url.length() == 0) {
-            throw new NullPointerException("Server url cannot be empty");
-        }
-        this.url = url;
-        if (wsUrl == null || wsUrl.length() == 0) {
-            throw new NullPointerException("Server ws url cannot be empty");
-        }
-        this.wsUrl = wsUrl;
-        this.setAuth(tokenAuth.getAccessToken(), tokenAuth.getRefreshToken());
-        this.createServices();
-        this.createWsServices();
-        return this;
-    }
 
     private void setAuth(String accessToken, String refreshToken) {
         TokenHelper.getInstance()
@@ -170,6 +170,7 @@ public class DeviceHive implements MainDeviceHive {
                 .setAccessToken(accessToken)
                 .setRefreshToken(refreshToken);
     }
+
     public void enableDebug(boolean enable) {
         RestHelper.getInstance().enableDebug(enable);
         createServices();
@@ -436,7 +437,7 @@ public class DeviceHive implements MainDeviceHive {
         return deviceService.removeDevice(id);
     }
 
-    public  DHResponse<Device> getDevice(String id) {
+    public DHResponse<Device> getDevice(String id) {
         return deviceService.getDevice(id);
     }
 

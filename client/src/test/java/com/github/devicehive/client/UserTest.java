@@ -22,12 +22,12 @@
 package com.github.devicehive.client;
 
 import com.github.devicehive.client.model.DHResponse;
-import com.github.devicehive.client.service.Network;
 import com.github.devicehive.client.model.NetworkFilter;
-import com.github.devicehive.client.model.TokenAuth;
 import com.github.devicehive.client.service.DeviceHive;
+import com.github.devicehive.client.service.Network;
 import com.github.devicehive.client.service.User;
 import com.github.devicehive.rest.model.JsonStringWrapper;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -47,7 +47,7 @@ public class UserTest {
     private String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTA4NDI4MjAxMTA4LCJ0IjoxfX0.bYIkp2Gm_fMHcxcaFm6xqB91Fp8C2DdenmdGgsVNqcc";
     private String refreshToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTI0MTUxMjAxMTA4LCJ0IjowfX0.2wfpmIjrHRtGBoSF3-T77aSAiUYPFSGtgBuGoVZtSxc";
 
-    private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, WS_URL, new TokenAuth(refreshToken, accessToken));
+    private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, WS_URL,refreshToken, accessToken);
 
     User currentUser = deviceHive.getCurrentUser().getData();
 

@@ -47,7 +47,7 @@ class JwtTokenService extends BaseService {
         if (response.isSuccessful()) {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             jwtService = createService(AuthApi.class);
             response = execute(jwtService.tokenRequest(payload));
             if (response.isSuccessful()) {
@@ -69,7 +69,7 @@ class JwtTokenService extends BaseService {
         if (response.isSuccessful()) {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             jwtService = createService(AuthApi.class);
             response = execute(jwtService.refreshTokenRequest(refreshToken));
             return response;

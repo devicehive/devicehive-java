@@ -29,6 +29,7 @@ public class TokenAuth {
     public TokenAuth(String refreshToken, String accessToken) {
         this.refreshToken = refreshToken;
         this.accessToken = accessToken;
+        System.out.println("TokenAuth:"+accessToken);
     }
 
     public TokenAuth() {
