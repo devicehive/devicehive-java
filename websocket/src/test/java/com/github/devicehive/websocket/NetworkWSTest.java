@@ -35,15 +35,12 @@ import com.github.devicehive.websocket.model.repsonse.ResponseAction;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
 import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class NetworkWSTest extends Helper {
 
 
@@ -55,17 +52,20 @@ public class NetworkWSTest extends Helper {
     @Before
     public void preTest() throws InterruptedException, IOException {
         authenticate();
-        networkWS = client.createNetworkWS();
         latch = new CountDownLatch(1);
+        networkWS = client.createNetworkWS();
     }
 
-    @After
+    @After()
     public void clear() throws IOException {
+        if (networkId == -1) {
+            return;
+        }
         deleteNetwork(networkWS, networkId);
     }
 
     @Test
-    public void A_Insert() throws InterruptedException {
+    public void insert() throws InterruptedException {
         networkWS.setListener(new NetworkListener() {
             @Override
             public void onList(NetworkListResponse response) {
@@ -106,7 +106,7 @@ public class NetworkWSTest extends Helper {
     }
 
     @Test
-    public void B_Get() throws InterruptedException {
+    public void get() throws InterruptedException {
         networkId = registerNetwork(networkWS, JAVA_LIB_TEST + new Random().nextInt());
         networkWS.setListener(new NetworkListener() {
             @Override
@@ -143,7 +143,7 @@ public class NetworkWSTest extends Helper {
     }
 
     @Test
-    public void C_List() throws InterruptedException {
+    public void list() throws InterruptedException {
         networkId = registerNetwork(networkWS, JAVA_LIB_TEST + new Random().nextInt());
         networkWS.setListener(new NetworkListener() {
             @Override
@@ -183,7 +183,7 @@ public class NetworkWSTest extends Helper {
     }
 
     @Test
-    public void D_Update() throws InterruptedException {
+    public void update() throws InterruptedException {
         networkId = registerNetwork(networkWS, JAVA_LIB_TEST + new Random().nextInt());
         networkWS.setListener(new NetworkListener() {
             @Override
@@ -223,7 +223,7 @@ public class NetworkWSTest extends Helper {
     }
 
     @Test
-    public void E_Delete() throws InterruptedException {
+    public void delete() throws InterruptedException {
         networkId = registerNetwork(networkWS, JAVA_LIB_TEST + new Random().nextInt());
         networkWS.setListener(new NetworkListener() {
             @Override
@@ -241,7 +241,9 @@ public class NetworkWSTest extends Helper {
 
             @Override
             public void onDelete(ResponseAction response) {
+                System.out.println("here");
                 Assert.assertTrue(true);
+                networkId = -1;
                 latch.countDown();
             }
 

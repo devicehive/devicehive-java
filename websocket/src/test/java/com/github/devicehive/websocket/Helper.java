@@ -18,7 +18,7 @@ class Helper {
     private String accessToken = "***REMOVED***";
     private static final String REFRESH_TOKEN = "***REMOVED***";
 
-    int awaitTimeout = 30;
+    int awaitTimeout = 10;
     TimeUnit awaitTimeUnit = TimeUnit.SECONDS;
 
     WebSocketClient client = new WebSocketClient
@@ -29,8 +29,6 @@ class Helper {
     private TokenWS tokenWS = client.createTokenWS();
     private DeviceWS deviceWS = client.createDeviceWS();
     private NetworkWS networkWS = client.createNetworkWS();
-
-    private static Long networkId;
 
     void authenticate() throws InterruptedException {
         final CountDownLatch latch = new CountDownLatch(1);
@@ -84,11 +82,8 @@ class Helper {
     }
 
 
-    boolean deleteConfiguration(String name) throws InterruptedException {
+    void deleteConfiguration(ConfigurationWS configurationWS, String name) throws InterruptedException {
         final CountDownLatch latch = new CountDownLatch(1);
-
-        final Counter counter = new Counter();
-        final ConfigurationWS configurationWS = client.createConfigurationWS();
         configurationWS.setListener(new ConfigurationListener() {
             @Override
             public void onGet(ConfigurationGetResponse response) {
@@ -102,9 +97,6 @@ class Helper {
 
             @Override
             public void onDelete(ResponseAction response) {
-                if (response.getStatus().equals(ResponseAction.SUCCESS)) {
-                    counter.increment();
-                }
                 latch.countDown();
             }
 
@@ -116,7 +108,6 @@ class Helper {
 
         configurationWS.delete(null, name);
         latch.await(awaitTimeout, awaitTimeUnit);
-        return counter.getCount() == 1;
     }
 
     void registerDevice(DeviceWS deviceWS, String deviceId, String deviceName, Long networkId) throws InterruptedException {

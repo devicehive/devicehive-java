@@ -59,7 +59,7 @@ public class CommandTest extends Helper {
 
 
     @Test
-    public void A_insertCommand() throws InterruptedException, IOException {
+    public void insertCommand() throws InterruptedException, IOException {
         commandWS.setListener(new CommandListener() {
             @Override
             public void onList(CommandListResponse response) {
@@ -103,7 +103,7 @@ public class CommandTest extends Helper {
     }
 
     @Test
-    public void B_getCommand() throws InterruptedException, IOException {
+    public void getCommand() throws InterruptedException, IOException {
         commandWS.setListener(new CommandListener() {
             @Override
             public void onList(CommandListResponse response) {
@@ -151,7 +151,7 @@ public class CommandTest extends Helper {
     }
 
     @Test
-    public void C_subscribeCommand() throws InterruptedException, IOException {
+    public void subscribeCommand() throws InterruptedException, IOException {
         commandWS.setListener(new CommandListener() {
             @Override
             public void onList(CommandListResponse response) {
@@ -195,7 +195,7 @@ public class CommandTest extends Helper {
     }
 
     @Test
-    public void D_unsubscribeCommand() throws InterruptedException, IOException {
+    public void unsubscribeCommand() throws InterruptedException, IOException {
         commandWS.setListener(new CommandListener() {
             @Override
             public void onList(CommandListResponse response) {
@@ -240,7 +240,7 @@ public class CommandTest extends Helper {
     }
 
     @Test
-    public void F_listCommand() throws InterruptedException, IOException {
+    public void listCommand() throws InterruptedException, IOException {
         commandWS.setListener(new CommandListener() {
             @Override
             public void onList(CommandListResponse response) {
