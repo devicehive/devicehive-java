@@ -26,6 +26,7 @@ public class ConfigurationWebSocketTest extends Helper {
     private CountDownLatch latch;
     private ConfigurationWS configurationWS;
     private String configurationName;
+    private boolean configurationDeleted = false;
 
     @Before
     public void preTest() throws InterruptedException, IOException {
@@ -36,12 +37,15 @@ public class ConfigurationWebSocketTest extends Helper {
     }
 
     @After
-    public void clean() {
-        configurationWS.delete(null, configurationName);
+    public void clean() throws InterruptedException {
+        if (configurationDeleted) {
+            return;
+        }
+        deleteConfiguration(configurationWS,configurationName);
     }
 
     @Test
-    public void A_putConfigurationProperty() throws InterruptedException, IOException {
+    public void putConfigurationProperty() throws InterruptedException, IOException {
         configurationWS.setListener(new ConfigurationListener() {
             @Override
             public void onGet(ConfigurationGetResponse response) {
@@ -50,7 +54,6 @@ public class ConfigurationWebSocketTest extends Helper {
 
             @Override
             public void onPut(ConfigurationInsertResponse response) {
-                Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
                 latch.countDown();
             }
 
@@ -61,6 +64,7 @@ public class ConfigurationWebSocketTest extends Helper {
 
             @Override
             public void onError(ErrorResponse error) {
+                System.out.println(error);
                 Assert.assertTrue(false);
             }
 
@@ -71,11 +75,10 @@ public class ConfigurationWebSocketTest extends Helper {
     }
 
     @Test
-    public void B_getConfigurationProperty() throws InterruptedException, IOException {
+    public void getConfigurationProperty() throws InterruptedException, IOException {
         configurationWS.setListener(new ConfigurationListener() {
             @Override
             public void onGet(ConfigurationGetResponse response) {
-                Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
                 Assert.assertEquals(configurationName, response.getConfiguration().getName());
                 Assert.assertEquals(CONFIGURATION_VALUE, response.getConfiguration().getValue());
                 latch.countDown();
@@ -83,7 +86,6 @@ public class ConfigurationWebSocketTest extends Helper {
 
             @Override
             public void onPut(ConfigurationInsertResponse response) {
-                Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
                 configurationWS.get(null, configurationName);
             }
 
@@ -104,7 +106,8 @@ public class ConfigurationWebSocketTest extends Helper {
     }
 
     @Test
-    public void C_deleteConfigurationProperty() throws InterruptedException, IOException {
+    public void deleteConfigurationProperty() throws InterruptedException, IOException {
+
         configurationWS.setListener(new ConfigurationListener() {
             @Override
             public void onGet(ConfigurationGetResponse response) {
@@ -113,13 +116,12 @@ public class ConfigurationWebSocketTest extends Helper {
 
             @Override
             public void onPut(ConfigurationInsertResponse response) {
-                Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
                 configurationWS.delete(null, configurationName);
             }
 
             @Override
             public void onDelete(ResponseAction response) {
-                Assert.assertEquals(ResponseAction.SUCCESS, response.getStatus());
+                configurationDeleted = true;
                 latch.countDown();
             }
 

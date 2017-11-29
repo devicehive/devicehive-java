@@ -66,7 +66,7 @@ public class NotificationTest extends Helper {
     }
 
     @Test
-    public void A_insert() throws InterruptedException {
+    public void insert() throws InterruptedException {
         latch = new CountDownLatch(1);
         notificationWS.setListener(new NotificationListener() {
             @Override
@@ -106,7 +106,7 @@ public class NotificationTest extends Helper {
     }
 
     @Test
-    public void B_get() throws InterruptedException {
+    public void get() throws InterruptedException {
         latch = new CountDownLatch(2);
         notificationWS.setListener(new NotificationListener() {
             @Override
@@ -149,7 +149,7 @@ public class NotificationTest extends Helper {
     }
 
     @Test
-    public void C_list() throws InterruptedException {
+    public void list() throws InterruptedException {
         latch = new CountDownLatch(2);
         notificationWS.setListener(new NotificationListener() {
             @Override
@@ -193,7 +193,7 @@ public class NotificationTest extends Helper {
 
 
     @Test
-    public void D_subscribe() throws InterruptedException {
+    public void subscribe() throws InterruptedException {
         latch = new CountDownLatch(2);
         notificationWS.setListener(new NotificationListener() {
             @Override
@@ -235,7 +235,7 @@ public class NotificationTest extends Helper {
     }
 
     @Test
-    public void E_unsubscribe() throws InterruptedException {
+    public void unsubscribe() throws InterruptedException {
         latch = new CountDownLatch(2);
         notificationWS.setListener(new NotificationListener() {
             @Override

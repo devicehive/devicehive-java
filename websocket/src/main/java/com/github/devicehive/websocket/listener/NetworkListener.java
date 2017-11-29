@@ -22,6 +22,7 @@
 package com.github.devicehive.websocket.listener;
 
 import com.github.devicehive.websocket.model.repsonse.NetworkInsertResponse;
+import com.github.devicehive.websocket.model.repsonse.ResponseAction;
 
 public interface NetworkListener extends ErrorListener {
 
@@ -31,7 +32,7 @@ public interface NetworkListener extends ErrorListener {
 
     void onInsert(NetworkInsertResponse response);
 
-    void onDelete(com.github.devicehive.websocket.model.repsonse.ResponseAction response);
+    void onDelete(ResponseAction response);
 
-    void onUpdate(com.github.devicehive.websocket.model.repsonse.ResponseAction response);
+    void onUpdate(ResponseAction response);
 }

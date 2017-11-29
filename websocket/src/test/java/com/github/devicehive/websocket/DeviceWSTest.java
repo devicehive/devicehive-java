@@ -76,7 +76,7 @@ public class DeviceWSTest extends Helper {
     }
 
     @Test
-    public void A_registerDevice() throws IOException, InterruptedException {
+    public void registerDevice() throws IOException, InterruptedException {
         deviceWS.setListener(new DeviceListener() {
             @Override
             public void onList(List<Device> response) {
@@ -113,7 +113,7 @@ public class DeviceWSTest extends Helper {
     }
 
     @Test
-    public void B_getDevice() throws IOException, InterruptedException {
+    public void getDevice() throws IOException, InterruptedException {
         deviceWS.setListener(new DeviceListener() {
             @Override
             public void onList(List<Device> response) {
@@ -146,7 +146,7 @@ public class DeviceWSTest extends Helper {
     }
 
     @Test
-    public void C_getDeviceList() throws IOException, InterruptedException {
+    public void getDeviceList() throws IOException, InterruptedException {
         registerDevice(deviceWS, deviceId, DEVICE_NAME, networkId);
         deviceWS.setListener(new DeviceListener() {
             @Override
@@ -181,7 +181,7 @@ public class DeviceWSTest extends Helper {
 
 
     @Test
-    public void D_deleteDevice() throws IOException, InterruptedException {
+    public void deleteDevice() throws IOException, InterruptedException {
         deviceWS.setListener(new DeviceListener() {
             @Override
             public void onList(List<Device> response) {
