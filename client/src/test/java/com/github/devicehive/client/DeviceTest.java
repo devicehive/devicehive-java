@@ -29,7 +29,6 @@ import com.github.devicehive.client.model.DeviceNotificationsCallback;
 import com.github.devicehive.client.model.FailureData;
 import com.github.devicehive.client.model.NotificationFilter;
 import com.github.devicehive.client.model.Parameter;
-import com.github.devicehive.client.model.TokenAuth;
 import com.github.devicehive.client.service.Device;
 import com.github.devicehive.client.service.DeviceCommand;
 import com.github.devicehive.client.service.DeviceHive;
@@ -63,7 +62,7 @@ public class DeviceTest {
     private String accessToken = "***REMOVED***";
     private String refreshToken = "***REMOVED***";
 
-    private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, WS_URL, new TokenAuth(refreshToken, accessToken));
+    private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, WS_URL, refreshToken, accessToken);
 
 
     @Test
@@ -179,7 +178,7 @@ public class DeviceTest {
     @Test
     public void subscribeNotifications() throws IOException, InterruptedException {
         String deviceId = DEVICE_PREFIX + UUID.randomUUID().toString();
-
+        deviceHive.enableDebug(true);
         DHResponse<Device> deviceResponse = deviceHive.getDevice(deviceId);
         Assert.assertTrue(deviceResponse.isSuccessful());
         final Device device = deviceResponse.getData();

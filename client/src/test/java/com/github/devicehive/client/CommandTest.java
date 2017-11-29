@@ -22,7 +22,6 @@
 package com.github.devicehive.client;
 
 import com.github.devicehive.client.model.DHResponse;
-import com.github.devicehive.client.model.TokenAuth;
 import com.github.devicehive.client.service.Device;
 import com.github.devicehive.client.service.DeviceCommand;
 import com.github.devicehive.client.service.DeviceHive;
@@ -40,7 +39,7 @@ public class CommandTest {
     private String accessToken = "***REMOVED***";
     private String refreshToken = "***REMOVED***";
 
-    private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, WS_URL, new TokenAuth(refreshToken, accessToken));
+    private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, WS_URL, refreshToken, accessToken);
 
     private DHResponse<Device> deviceResponse = deviceHive.getDevice(DEVICE_ID);
 

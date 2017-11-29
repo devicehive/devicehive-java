@@ -40,7 +40,7 @@ class DeviceService extends BaseService {
         if (response.isSuccessful()) {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             deviceApi = createService(DeviceApi.class);
             return execute(deviceApi.register(device, deviceId));
         } else {
@@ -58,7 +58,7 @@ class DeviceService extends BaseService {
         if (response.isSuccessful()) {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             deviceApi = createService(DeviceApi.class);
             result = execute(deviceApi.get(deviceId));
             response = new DHResponse<Device>(Device.create(result.getData()), result.getFailureData());
@@ -89,7 +89,7 @@ class DeviceService extends BaseService {
             return response;
 
         } else if (response.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             deviceApi = createService(DeviceApi.class);
             result = execute(deviceApi.list(filter.getName(), filter.getNamePattern(), filter.getNetworkId(), filter.getNetworkName(),
                     sortField, filter.getSortOrder().sortOrder(), filter.getTake(), filter.getSkip()));
@@ -106,7 +106,7 @@ class DeviceService extends BaseService {
         if (response.isSuccessful()) {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             deviceApi = createService(DeviceApi.class);
             return execute(deviceApi.delete(deviceId));
         } else {

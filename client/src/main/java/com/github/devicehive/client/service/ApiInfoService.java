@@ -30,24 +30,23 @@ import com.github.devicehive.rest.model.ClusterConfig;
 public class ApiInfoService extends BaseService {
     private ApiInfoApi apiInfo;
 
-
     public DHResponse<ApiInfo> getApiInfo() {
-        apiInfo = createService(ApiInfoApi.class);
+        apiInfo = createService(ApiInfoApi.class,true);
         return execute(apiInfo.getApiInfo());
     }
 
     public void getApiInfo(ResponseCallback<ApiInfo> callback) {
-        apiInfo = createService(ApiInfoApi.class);
+        apiInfo = createService(ApiInfoApi.class,true);
         execute(apiInfo.getApiInfo(), callback);
     }
 
     public DHResponse<ClusterConfig> getClusterConfig() {
-        apiInfo = createService(ApiInfoApi.class);
+        apiInfo = createService(ApiInfoApi.class,true);
         return execute(apiInfo.getClusterConfig());
     }
 
     public void getClusterConfig(ResponseCallback<ClusterConfig> callback) {
-        apiInfo = createService(ApiInfoApi.class);
+        apiInfo = createService(ApiInfoApi.class,true);
         execute(apiInfo.getClusterConfig(), callback);
     }
 }

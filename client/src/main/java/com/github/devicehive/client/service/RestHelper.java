@@ -23,6 +23,7 @@ package com.github.devicehive.client.service;
 
 import com.github.devicehive.rest.ApiClient;
 import com.github.devicehive.rest.api.AuthApi;
+import com.github.devicehive.rest.auth.ApiKeyAuth;
 import com.github.devicehive.rest.model.JwtAccessToken;
 import com.github.devicehive.rest.model.JwtRefreshToken;
 
@@ -59,6 +60,15 @@ class RestHelper {
         JwtRefreshToken token = new JwtRefreshToken();
         token.setRefreshToken(TokenHelper.getInstance().getTokenAuth().getRefreshToken());
         authApi.refreshTokenRequest(token).enqueue(callback);
+    }
+
+    void authorize() {
+        if (TokenHelper.getInstance().getTokenAuth().canAccess()) {
+            ApiKeyAuth apiKeyAuth = ApiKeyAuth.newInstance();
+            apiKeyAuth.setApiKey(TokenHelper.getInstance()
+                    .getTokenAuth().getAccessToken());
+            apiClient.addAuthorization(ApiClient.AUTH_API_KEY, apiKeyAuth);
+        }
     }
 
     void enableDebug(boolean enable) {

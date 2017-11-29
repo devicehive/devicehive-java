@@ -44,7 +44,7 @@ class NetworkService extends BaseService {
         if (dhResponse.isSuccessful()) {
             return dhResponse;
         } else if (dhResponse.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             api = createService(NetworkApi.class);
             restResponse = execute(api.list(filter.name(),
                     filter.namePattern(), filter.sortField(), filter.sortOrder(), filter.take(), filter.skip()));
@@ -61,7 +61,7 @@ class NetworkService extends BaseService {
         if (response.isSuccessful()) {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             api = createService(NetworkApi.class);
             return execute(api.get(id));
         } else {
@@ -75,7 +75,7 @@ class NetworkService extends BaseService {
         if (response.isSuccessful()) {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             api = createService(NetworkApi.class);
             return execute(api.delete(id));
         } else {
@@ -98,7 +98,7 @@ class NetworkService extends BaseService {
         if (dhResponse.isSuccessful()) {
             return dhResponse;
         } else if (dhResponse.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             api = createService(NetworkApi.class);
             restResponse = execute(api.insert(network));
             dhResponse = createNetwork(name, description, restResponse);
@@ -138,7 +138,7 @@ class NetworkService extends BaseService {
         DHResponse<Void> restResponse = execute(api.update(id, body));
         if (!restResponse.isSuccessful()) {
             if (restResponse.getFailureData().getCode() == 401) {
-                authorize();
+                refreshAndAuthorize();
                 api = createService(NetworkApi.class);
                 execute(api.update(id, body));
             }

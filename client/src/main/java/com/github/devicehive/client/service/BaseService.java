@@ -53,26 +53,35 @@ public class BaseService {
         this.apiClient = RestHelper.getInstance().getApiClient();
     }
 
-    public TokenAuth getTokenAuth() {
+    TokenAuth getTokenAuth() {
         return TokenHelper.getInstance().getTokenAuth();
     }
 
 
-    public void updateAccessToken(JwtAccessToken token) {
+    private void updateAccessToken(JwtAccessToken token) {
         TokenHelper.getInstance().getTokenAuth().setAccessToken(token.getAccessToken());
     }
 
-    void authorize() {
+
+    void refreshAndAuthorize() {
         if (getTokenAuth().canRefresh()) {
+            clearAccessToken();
             refreshToken();
             authorizeViaToken();
         }
     }
 
     private void authorizeViaToken() {
-        ApiKeyAuth apiKeyAuth = ApiKeyAuth.newInstance();
-        apiKeyAuth.setApiKey(getTokenAuth().getAccessToken());
-        apiClient.addAuthorization(ApiClient.AUTH_API_KEY, apiKeyAuth);
+        if (getTokenAuth().canAccess()) {
+            ApiKeyAuth apiKeyAuth = ApiKeyAuth.newInstance();
+            apiKeyAuth.setApiKey(getTokenAuth().getAccessToken());
+            apiClient.addAuthorization(ApiClient.AUTH_API_KEY, apiKeyAuth);
+        }
+    }
+
+    private void clearAccessToken() {
+        apiClient.clearAuthorizations();
+        TokenHelper.getInstance().getTokenAuth().setAccessToken(null);
     }
 
     private void refreshToken() {
@@ -84,7 +93,7 @@ public class BaseService {
             response = authApi.refreshTokenRequest(refreshToken).execute();
             if (response.isSuccessful()) {
                 JwtAccessToken accessToken = response.body();
-                getTokenAuth().setAccessToken(accessToken.getAccessToken());
+                updateAccessToken(accessToken);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -99,6 +108,9 @@ public class BaseService {
                 return new DHResponse<T>(response.body(), null);
             } else {
                 FailureData failureData = createFailData(response.code(), parseErrorMessage(response));
+                if (failureData.getCode() == 401) {
+                    clearAccessToken();
+                }
                 return new DHResponse<T>(null, failureData);
             }
         } catch (IOException e) {
@@ -116,7 +128,8 @@ public class BaseService {
                 if (response.isSuccessful()) {
                     callback.onResponse(new DHResponse<T>(response.body(), null));
                 } else {
-                    FailureData failureData = createFailData(response.code(), BaseService.parseErrorMessage(response));
+                    FailureData failureData = createFailData(response.code(),
+                            BaseService.parseErrorMessage(response));
                     callback.onResponse(new DHResponse<T>(null, failureData));
                 }
             }
@@ -135,6 +148,13 @@ public class BaseService {
     }
 
     public <S> S createService(Class<S> serviceClass) {
+        return createService(serviceClass, false);
+    }
+    //FIXME Delete this method after the fix of Headers filter on backend;
+    public <S> S createService(Class<S> serviceClass, boolean clearInterceptors) {
+        if (clearInterceptors) {
+            clearAccessToken();
+        }
         return apiClient.createService(serviceClass);
     }
 

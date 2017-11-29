@@ -22,12 +22,12 @@
 package com.github.devicehive.client;
 
 import com.github.devicehive.client.model.DHResponse;
-import com.github.devicehive.client.service.Network;
 import com.github.devicehive.client.model.NetworkFilter;
-import com.github.devicehive.client.model.TokenAuth;
 import com.github.devicehive.client.service.DeviceHive;
+import com.github.devicehive.client.service.Network;
 import com.github.devicehive.client.service.User;
 import com.github.devicehive.rest.model.JsonStringWrapper;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -47,7 +47,7 @@ public class UserTest {
     private String accessToken = "***REMOVED***";
     private String refreshToken = "***REMOVED***";
 
-    private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, WS_URL, new TokenAuth(refreshToken, accessToken));
+    private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, WS_URL,refreshToken, accessToken);
 
     User currentUser = deviceHive.getCurrentUser().getData();
 

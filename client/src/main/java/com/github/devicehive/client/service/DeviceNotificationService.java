@@ -59,7 +59,7 @@ class DeviceNotificationService extends BaseService {
         if (result.isSuccessful()) {
             return getNotification(deviceId, result.getData().getId());
         } else if (result.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             result = execute(notificationApi.insert(deviceId, notificationWrapper));
             return getNotification(deviceId, result.getData().getId());
         } else {
@@ -85,7 +85,7 @@ class DeviceNotificationService extends BaseService {
             return DHResponse.create(DeviceNotification.create(result.getData()),
                     result.getFailureData());
         } else if (result.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             result = execute(notificationApi.get(deviceId,
                     notificationId));
             return DHResponse.create(DeviceNotification.create(result.getData()),
@@ -113,7 +113,7 @@ class DeviceNotificationService extends BaseService {
         if (response.isSuccessful()) {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
-            authorize();
+            refreshAndAuthorize();
             notificationApi = createService(DeviceNotificationApi.class);
             result = execute(notificationApi.poll(deviceId, null, startTimestamp.toString(),
                     30L));
@@ -159,7 +159,7 @@ class DeviceNotificationService extends BaseService {
                             pollNotifications(deviceId, filter, false, notificationCallback);
                         }
                     } else if (response.code() == 401 && isAuthNeeded) {
-                        authorize();
+                        refreshAndAuthorize();
                         pollNotifications(deviceId, filter, false, notificationCallback);
                     } else {
                         notificationCallback.onFail(createFailData(response.code(), parseErrorMessage(response)));
@@ -213,7 +213,7 @@ class DeviceNotificationService extends BaseService {
                             pollManyNotifications(deviceIds, filter, false, notificationCallback);
                         }
                     } else if (response.code() == 401 && isAuthNeeded) {
-                        authorize();
+                        refreshAndAuthorize();
                         pollManyNotifications(deviceIds, filter, false, notificationCallback);
                     } else {
                         notificationCallback.onFail(createFailData(response.code(), parseErrorMessage(response)));
