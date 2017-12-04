@@ -28,7 +28,6 @@ class Helper {
 
     private TokenWS tokenWS = client.createTokenWS();
     private DeviceWS deviceWS = client.createDeviceWS();
-    private NetworkWS networkWS = client.createNetworkWS();
 
     void authenticate() throws InterruptedException {
         final CountDownLatch latch = new CountDownLatch(1);
@@ -118,7 +117,7 @@ class Helper {
         deviceWS.save(null, deviceId, deviceUpdate);
     }
 
-    boolean registerDevice(String deviceId) throws InterruptedException {
+    void registerDevice(String deviceId) throws InterruptedException {
         authenticate();
         final CountDownLatch latch = new CountDownLatch(1);
         final AtomicBoolean atomicBoolean = new AtomicBoolean(false);
@@ -154,16 +153,10 @@ class Helper {
         });
         latch.await(awaitTimeout, TimeUnit.SECONDS);
         deviceWS.setListener(null);
-        return atomicBoolean.get();
     }
 
     void deleteDevice(String id) {
         deviceWS.delete(null, id);
-    }
-
-
-    long registerNetwork(String networkName) throws InterruptedException {
-        return registerNetwork(networkWS, networkName);
     }
 
     long registerNetwork(NetworkWS networkWS, String networkName) throws InterruptedException {
@@ -212,10 +205,6 @@ class Helper {
         NetworkUpdate networkUpdate = new NetworkUpdate();
         networkUpdate.setName(networkName);
         return networkUpdate;
-    }
-
-    void deleteNetwork(long id) {
-        deleteNetwork(networkWS, id);
     }
 
     void deleteNetwork(NetworkWS networkWS, long id) {
