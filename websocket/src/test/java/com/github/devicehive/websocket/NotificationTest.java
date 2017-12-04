@@ -25,30 +25,53 @@ import com.github.devicehive.rest.model.DeviceNotificationWrapper;
 import com.github.devicehive.rest.model.JsonStringWrapper;
 import com.github.devicehive.websocket.api.NotificationWS;
 import com.github.devicehive.websocket.listener.NotificationListener;
-import com.github.devicehive.websocket.model.repsonse.*;
-import org.junit.Assert;
-import org.junit.Test;
+import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
+import com.github.devicehive.websocket.model.repsonse.NotificationGetResponse;
+import com.github.devicehive.websocket.model.repsonse.NotificationInsertResponse;
+import com.github.devicehive.websocket.model.repsonse.NotificationListResponse;
+import com.github.devicehive.websocket.model.repsonse.NotificationSubscribeResponse;
+import com.github.devicehive.websocket.model.repsonse.ResponseAction;
 
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
+
+import java.io.IOException;
 import java.util.Collections;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class NotificationTest extends Helper {
-    public static final String NOTIFICATION_1 = "notification1";
+    private static final String NOTIFICATION_1 = "notification1";
+    private NotificationWS notificationWS;
+    private CountDownLatch latch;
+    private String deviceId;
+
+    @Before
+    public void preTest() throws InterruptedException, IOException {
+        authenticate();
+        latch = new CountDownLatch(1);
+        deviceId = UUID.randomUUID().toString();
+        registerDevice(deviceId);
+        notificationWS = client.createNotificationWS();
+    }
+
+    @After
+    public void clear() throws InterruptedException, IOException {
+        deleteDevice(deviceId);
+    }
 
     @Test
-    public void list() throws InterruptedException {
-        final String deviceId = UUID.randomUUID().toString();
-        authenticate();
-        Assert.assertTrue(registerDevice(deviceId));
-        final CountDownLatch latch = new CountDownLatch(2);
-        final NotificationWS notificationWS = client.createNotificationWS();
-        notificationWS.insert(deviceId, getWrapper(NOTIFICATION_1));
+    public void A_insert() throws InterruptedException {
+        latch = new CountDownLatch(1);
         notificationWS.setListener(new NotificationListener() {
             @Override
             public void onList(NotificationListResponse response) {
-                Assert.assertTrue(true);
-                latch.countDown();
+
             }
 
             @Override
@@ -59,7 +82,6 @@ public class NotificationTest extends Helper {
             @Override
             public void onInsert(NotificationInsertResponse response) {
                 Assert.assertTrue(true);
-                notificationWS.list(deviceId, NOTIFICATION_1, null, null, null, null, 30, 0);
                 latch.countDown();
             }
 
@@ -78,20 +100,14 @@ public class NotificationTest extends Helper {
 
             }
         });
+        notificationWS.insert(deviceId, getWrapper(NOTIFICATION_1));
         latch.await(awaitTimeout, awaitTimeUnit);
-        deleteDevice(deviceId);
         Assert.assertTrue(latch.getCount() == 0);
-
     }
 
     @Test
-    public void get() throws InterruptedException {
-        final String deviceId = UUID.randomUUID().toString();
-        authenticate();
-        Assert.assertTrue(registerDevice(deviceId));
-        final CountDownLatch latch = new CountDownLatch(2);
-        final NotificationWS notificationWS = client.createNotificationWS();
-        notificationWS.insert(deviceId, getWrapper(NOTIFICATION_1));
+    public void B_get() throws InterruptedException {
+        latch = new CountDownLatch(2);
         notificationWS.setListener(new NotificationListener() {
             @Override
             public void onList(NotificationListResponse response) {
@@ -126,24 +142,20 @@ public class NotificationTest extends Helper {
 
             }
         });
+        notificationWS.insert(deviceId, getWrapper(NOTIFICATION_1));
         latch.await(awaitTimeout, awaitTimeUnit);
-        deleteDevice(deviceId);
         Assert.assertTrue(latch.getCount() == 0);
 
     }
 
     @Test
-    public void insert() throws InterruptedException {
-        String deviceId = UUID.randomUUID().toString();
-        authenticate();
-        Assert.assertTrue(registerDevice(deviceId));
-        final CountDownLatch latch = new CountDownLatch(1);
-        NotificationWS notificationWS = client.createNotificationWS();
-        notificationWS.insert(deviceId, getWrapper(NOTIFICATION_1));
+    public void C_list() throws InterruptedException {
+        latch = new CountDownLatch(2);
         notificationWS.setListener(new NotificationListener() {
             @Override
             public void onList(NotificationListResponse response) {
-
+                Assert.assertTrue(true);
+                latch.countDown();
             }
 
             @Override
@@ -154,6 +166,7 @@ public class NotificationTest extends Helper {
             @Override
             public void onInsert(NotificationInsertResponse response) {
                 Assert.assertTrue(true);
+                notificationWS.list(deviceId, NOTIFICATION_1, null, null, null, null, 30, 0);
                 latch.countDown();
             }
 
@@ -172,30 +185,16 @@ public class NotificationTest extends Helper {
 
             }
         });
+        notificationWS.insert(deviceId, getWrapper(NOTIFICATION_1));
+
         latch.await(awaitTimeout, awaitTimeUnit);
-        deleteDevice(deviceId);
         Assert.assertTrue(latch.getCount() == 0);
     }
 
-    private DeviceNotificationWrapper getWrapper(String notificationName) {
-        return getWrapper(notificationName, null);
-    }
-
-    private DeviceNotificationWrapper getWrapper(String notificationName, JsonStringWrapper params) {
-        DeviceNotificationWrapper wrapper = new DeviceNotificationWrapper();
-        wrapper.setNotification(notificationName);
-        wrapper.setParameters(params);
-        return wrapper;
-    }
 
     @Test
-    public void subscribe() throws InterruptedException {
-        final String deviceId = UUID.randomUUID().toString();
-        authenticate();
-        Assert.assertTrue(registerDevice(deviceId));
-        final CountDownLatch latch = new CountDownLatch(2);
-        final NotificationWS notificationWS = client.createNotificationWS();
-        notificationWS.subscribe(deviceId, null, Collections.singletonList(NOTIFICATION_1));
+    public void D_subscribe() throws InterruptedException {
+        latch = new CountDownLatch(2);
         notificationWS.setListener(new NotificationListener() {
             @Override
             public void onList(NotificationListResponse response) {
@@ -229,20 +228,15 @@ public class NotificationTest extends Helper {
 
             }
         });
+        notificationWS.subscribe(deviceId, null, Collections.singletonList(NOTIFICATION_1));
         latch.await(awaitTimeout, awaitTimeUnit);
-        deleteDevice(deviceId);
         Assert.assertTrue(latch.getCount() == 0);
 
     }
 
     @Test
-    public void unsubscribe() throws InterruptedException {
-        final String deviceId = UUID.randomUUID().toString();
-        authenticate();
-        Assert.assertTrue(registerDevice(deviceId));
-        final CountDownLatch latch = new CountDownLatch(2);
-        final NotificationWS notificationWS = client.createNotificationWS();
-        notificationWS.subscribe(deviceId, null, Collections.singletonList(NOTIFICATION_1));
+    public void E_unsubscribe() throws InterruptedException {
+        latch = new CountDownLatch(2);
         notificationWS.setListener(new NotificationListener() {
             @Override
             public void onList(NotificationListResponse response) {
@@ -276,15 +270,20 @@ public class NotificationTest extends Helper {
 
             }
         });
+        notificationWS.subscribe(deviceId, null, Collections.singletonList(NOTIFICATION_1));
         latch.await(awaitTimeout, awaitTimeUnit);
-        deleteDevice(deviceId);
         Assert.assertTrue(latch.getCount() == 0);
 
     }
 
-    private void createDevice() throws InterruptedException {
-        final String deviceId = UUID.randomUUID().toString();
-        final CountDownLatch latch = new CountDownLatch(2);
-        registerDevice(deviceId);
+    private DeviceNotificationWrapper getWrapper(String notificationName) {
+        return getWrapper(notificationName, null);
+    }
+
+    private DeviceNotificationWrapper getWrapper(String notificationName, JsonStringWrapper params) {
+        DeviceNotificationWrapper wrapper = new DeviceNotificationWrapper();
+        wrapper.setNotification(notificationName);
+        wrapper.setParameters(params);
+        return wrapper;
     }
 }

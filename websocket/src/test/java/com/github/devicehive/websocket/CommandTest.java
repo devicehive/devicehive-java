@@ -1,22 +1,50 @@
 package com.github.devicehive.websocket;
 
+import com.github.devicehive.rest.model.DeviceCommandWrapper;
 import com.github.devicehive.rest.model.JsonStringWrapper;
 import com.github.devicehive.websocket.api.CommandWS;
 import com.github.devicehive.websocket.listener.CommandListener;
-import com.github.devicehive.websocket.model.repsonse.*;
-import com.github.devicehive.rest.model.DeviceCommandWrapper;
+import com.github.devicehive.websocket.model.repsonse.CommandGetResponse;
+import com.github.devicehive.websocket.model.repsonse.CommandInsertResponse;
+import com.github.devicehive.websocket.model.repsonse.CommandListResponse;
+import com.github.devicehive.websocket.model.repsonse.CommandSubscribeResponse;
+import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
+import com.github.devicehive.websocket.model.repsonse.ResponseAction;
+
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CommandTest extends Helper {
     private static final String COMMAND = "c0mm4nd";
     private static final RESTHelper restHelper = new RESTHelper();
+    private CountDownLatch latch;
+    private CommandWS commandWS;
+    private String deviceId;
+
+
+    @Before
+    public void preTest() throws InterruptedException, IOException {
+        authenticate();
+        latch = new CountDownLatch(1);
+        deviceId = UUID.randomUUID().toString();
+        registerDevice(deviceId);
+        commandWS = client.createCommandWS();
+    }
+
+    @After
+    public void clean() throws IOException {
+        restHelper.deleteDevices(deviceId);
+    }
 
     private DeviceCommandWrapper getWrapper(String notificationName) {
         return getWrapper(notificationName, null);
@@ -29,20 +57,9 @@ public class CommandTest extends Helper {
         return wrapper;
     }
 
-    @Before
-    public void preTest() throws InterruptedException, IOException {
-        authenticate();
-    }
 
     @Test
-    public void insertCommand() throws InterruptedException, IOException {
-        String deviceId = UUID.randomUUID().toString();
-        Assert.assertTrue(registerDevice(deviceId));
-
-        final CountDownLatch latch = new CountDownLatch(1);
-
-        CommandWS commandWS = client.createCommandWS();
-        commandWS.insert(deviceId, getWrapper(COMMAND));
+    public void A_insertCommand() throws InterruptedException, IOException {
         commandWS.setListener(new CommandListener() {
             @Override
             public void onList(CommandListResponse response) {
@@ -80,21 +97,13 @@ public class CommandTest extends Helper {
 
             }
         });
+        commandWS.insert(deviceId, getWrapper(COMMAND));
         latch.await(awaitTimeout, awaitTimeUnit);
-
-        restHelper.deleteDevices(deviceId);
         Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
-    public void getCommand() throws InterruptedException, IOException {
-        final String deviceId = UUID.randomUUID().toString();
-        Assert.assertTrue(registerDevice(deviceId));
-
-        final CountDownLatch latch = new CountDownLatch(1);
-
-        final CommandWS commandWS = client.createCommandWS();
-        commandWS.insert(deviceId, getWrapper(COMMAND));
+    public void B_getCommand() throws InterruptedException, IOException {
         commandWS.setListener(new CommandListener() {
             @Override
             public void onList(CommandListResponse response) {
@@ -136,21 +145,13 @@ public class CommandTest extends Helper {
 
             }
         });
+        commandWS.insert(deviceId, getWrapper(COMMAND));
         latch.await(awaitTimeout, awaitTimeUnit);
-
-        restHelper.deleteDevices(deviceId);
         Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
-    public void subscribeCommand() throws InterruptedException, IOException {
-        final String deviceId = UUID.randomUUID().toString();
-        Assert.assertTrue(registerDevice(deviceId));
-
-        final CountDownLatch latch = new CountDownLatch(1);
-
-        final CommandWS commandWS = client.createCommandWS();
-        commandWS.subscribe(Collections.singletonList(COMMAND), deviceId, null, null, null);
+    public void C_subscribeCommand() throws InterruptedException, IOException {
         commandWS.setListener(new CommandListener() {
             @Override
             public void onList(CommandListResponse response) {
@@ -188,21 +189,13 @@ public class CommandTest extends Helper {
 
             }
         });
+        commandWS.subscribe(Collections.singletonList(COMMAND), deviceId, null, null, null);
         latch.await(awaitTimeout, awaitTimeUnit);
-
-        restHelper.deleteDevices(deviceId);
         Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
-    public void unsubscribeCommand() throws InterruptedException, IOException {
-        final String deviceId = UUID.randomUUID().toString();
-        Assert.assertTrue(registerDevice(deviceId));
-
-        final CountDownLatch latch = new CountDownLatch(1);
-
-        final CommandWS commandWS = client.createCommandWS();
-        commandWS.subscribe(Collections.singletonList(COMMAND), deviceId, null, null, null);
+    public void D_unsubscribeCommand() throws InterruptedException, IOException {
         commandWS.setListener(new CommandListener() {
             @Override
             public void onList(CommandListResponse response) {
@@ -241,21 +234,13 @@ public class CommandTest extends Helper {
 
             }
         });
+        commandWS.subscribe(Collections.singletonList(COMMAND), deviceId, null, null, null);
         latch.await(awaitTimeout, awaitTimeUnit);
-
-        restHelper.deleteDevices(deviceId);
         Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
-    public void listCommand() throws InterruptedException, IOException {
-        final String deviceId = UUID.randomUUID().toString();
-        Assert.assertTrue(registerDevice(deviceId));
-
-        final CountDownLatch latch = new CountDownLatch(1);
-
-        final CommandWS commandWS = client.createCommandWS();
-        commandWS.insert(deviceId, getWrapper(COMMAND));
+    public void F_listCommand() throws InterruptedException, IOException {
         commandWS.setListener(new CommandListener() {
             @Override
             public void onList(CommandListResponse response) {
@@ -295,9 +280,8 @@ public class CommandTest extends Helper {
 
             }
         });
+        commandWS.insert(deviceId, getWrapper(COMMAND));
         latch.await(awaitTimeout, awaitTimeUnit);
-
-        restHelper.deleteDevices(deviceId);
         Assert.assertEquals(0, latch.getCount());
     }
 
