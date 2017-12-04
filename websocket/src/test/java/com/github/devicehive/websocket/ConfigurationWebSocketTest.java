@@ -6,33 +6,42 @@ import com.github.devicehive.websocket.model.repsonse.ConfigurationGetResponse;
 import com.github.devicehive.websocket.model.repsonse.ConfigurationInsertResponse;
 import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
 import com.github.devicehive.websocket.model.repsonse.ResponseAction;
+
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ConfigurationWebSocketTest extends Helper {
     private static final String CONFIGURATION_NAME = "WS T3ZT ";
     private static final String CONFIGURATION_VALUE = "TEST VALUE";
     private static final RESTHelper restHelper = new RESTHelper();
+    private CountDownLatch latch;
+    private ConfigurationWS configurationWS;
+    private String configurationName;
 
     @Before
     public void preTest() throws InterruptedException, IOException {
         authenticate();
+        latch = new CountDownLatch(1);
+        configurationWS = client.createConfigurationWS();
+        configurationName = CONFIGURATION_NAME + new Random().nextInt();
+    }
+
+    @After
+    public void clean() {
+        configurationWS.delete(null, configurationName);
     }
 
     @Test
-    public void putConfigurationProperty() throws InterruptedException, IOException {
-        final String configurationName = CONFIGURATION_NAME + new Random().nextLong();
-        System.out.println("Configuration name for test: " + configurationName);
-
-        final CountDownLatch latch = new CountDownLatch(1);
-
-        final ConfigurationWS configurationWS = client.createConfigurationWS();
-        configurationWS.put(null, configurationName, CONFIGURATION_VALUE);
+    public void A_putConfigurationProperty() throws InterruptedException, IOException {
         configurationWS.setListener(new ConfigurationListener() {
             @Override
             public void onGet(ConfigurationGetResponse response) {
@@ -52,27 +61,17 @@ public class ConfigurationWebSocketTest extends Helper {
 
             @Override
             public void onError(ErrorResponse error) {
-
+                Assert.assertTrue(false);
             }
 
         });
-
+        configurationWS.put(null, configurationName, CONFIGURATION_VALUE);
         latch.await(awaitTimeout, awaitTimeUnit);
-
         Assert.assertEquals(0, latch.getCount());
-
-        restHelper.deleteConfigurations(configurationName);
     }
 
     @Test
-    public void getConfigurationProperty() throws InterruptedException, IOException {
-        final String configurationName = CONFIGURATION_NAME + new Random().nextLong();
-        System.out.println("Configuration name for test: " + configurationName);
-
-        final CountDownLatch latch = new CountDownLatch(1);
-
-        final ConfigurationWS configurationWS = client.createConfigurationWS();
-        configurationWS.put(null, configurationName, CONFIGURATION_VALUE);
+    public void B_getConfigurationProperty() throws InterruptedException, IOException {
         configurationWS.setListener(new ConfigurationListener() {
             @Override
             public void onGet(ConfigurationGetResponse response) {
@@ -99,22 +98,13 @@ public class ConfigurationWebSocketTest extends Helper {
             }
 
         });
+        configurationWS.put(null, configurationName, CONFIGURATION_VALUE);
         latch.await(awaitTimeout, awaitTimeUnit);
-
         Assert.assertEquals(0, latch.getCount());
-
-        restHelper.deleteConfigurations(configurationName);
     }
 
     @Test
-    public void deleteConfigurationProperty() throws InterruptedException, IOException {
-        final String configurationName = CONFIGURATION_NAME + new Random().nextLong();
-        System.out.println("Configuration name for test: " + configurationName);
-
-        final CountDownLatch latch = new CountDownLatch(1);
-
-        final ConfigurationWS configurationWS = client.createConfigurationWS();
-        configurationWS.put(null, configurationName, CONFIGURATION_VALUE);
+    public void C_deleteConfigurationProperty() throws InterruptedException, IOException {
         configurationWS.setListener(new ConfigurationListener() {
             @Override
             public void onGet(ConfigurationGetResponse response) {
@@ -139,8 +129,8 @@ public class ConfigurationWebSocketTest extends Helper {
             }
 
         });
+        configurationWS.put(null, configurationName, CONFIGURATION_VALUE);
         latch.await(awaitTimeout, awaitTimeUnit);
-
         Assert.assertEquals(0, latch.getCount());
     }
 }

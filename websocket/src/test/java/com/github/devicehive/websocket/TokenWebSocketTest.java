@@ -7,8 +7,10 @@ import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
 import com.github.devicehive.websocket.model.repsonse.ResponseAction;
 import com.github.devicehive.websocket.model.repsonse.TokenGetResponse;
 import com.github.devicehive.websocket.model.repsonse.TokenRefreshResponse;
+
 import org.joda.time.DateTime;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -18,16 +20,21 @@ import java.util.concurrent.CountDownLatch;
 public class TokenWebSocketTest extends Helper {
     private static String LOGIN = "dhadmin";
     private static String PASSWORD = "dhadmin_#911";
+    private CountDownLatch latch;
+    private TokenWS tokenWS;
+
+    public TokenWebSocketTest() {
+        this.latch = new CountDownLatch(1);
+    }
+
+    @Before
+    public void preTest() throws InterruptedException {
+        authenticate();
+        tokenWS = client.createTokenWS();
+    }
 
     @Test
     public void createToken() throws InterruptedException {
-        final CountDownLatch latch = new CountDownLatch(1);
-
-        authenticate();
-
-        final TokenWS tokenWS = client.createTokenWS();
-        JwtPayload jwtPayload = createAdminJwtPayload(1L);
-        tokenWS.create(null, jwtPayload);
         tokenWS.setListener(new TokenListener() {
             @Override
             public void onGet(TokenGetResponse response) {
@@ -50,7 +57,10 @@ public class TokenWebSocketTest extends Helper {
 
             }
         });
+        JwtPayload jwtPayload = createAdminJwtPayload(1L);
+        tokenWS.create(null, jwtPayload);
         latch.await(awaitTimeout, awaitTimeUnit);
+        Assert.assertEquals(latch.getCount(), 0);
     }
 
     private JwtPayload createAdminJwtPayload(Long userId) {
@@ -72,12 +82,6 @@ public class TokenWebSocketTest extends Helper {
 
     @Test
     public void getToken() throws InterruptedException {
-        final CountDownLatch latch = new CountDownLatch(1);
-
-        authenticate();
-
-        final TokenWS tokenWS = client.createTokenWS();
-        tokenWS.get(null, LOGIN, PASSWORD);
         tokenWS.setListener(new TokenListener() {
             @Override
             public void onGet(TokenGetResponse response) {
@@ -100,17 +104,13 @@ public class TokenWebSocketTest extends Helper {
 
             }
         });
+        tokenWS.get(null, LOGIN, PASSWORD);
         latch.await(awaitTimeout, awaitTimeUnit);
+        Assert.assertEquals(latch.getCount(), 0);
     }
 
     @Test
     public void refreshToken() throws InterruptedException {
-        final CountDownLatch latch = new CountDownLatch(1);
-
-        authenticate();
-
-        final TokenWS tokenWS = client.createTokenWS();
-        tokenWS.get(null, LOGIN, PASSWORD);
         tokenWS.setListener(new TokenListener() {
             @Override
             public void onGet(TokenGetResponse response) {
@@ -135,9 +135,9 @@ public class TokenWebSocketTest extends Helper {
 
             }
         });
-
-
+        tokenWS.get(null, LOGIN, PASSWORD);
         latch.await(awaitTimeout, awaitTimeUnit);
+        Assert.assertEquals(latch.getCount(), 0);
     }
 
 }

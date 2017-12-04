@@ -172,11 +172,13 @@ class Helper {
 
 
     long registerNetwork(String networkName) throws InterruptedException {
-        authenticate();
+        return registerNetwork(networkWS, networkName);
+    }
+
+    long registerNetwork(NetworkWS networkWS, String networkName) throws InterruptedException {
         final CountDownLatch latch = new CountDownLatch(1);
         final AtomicLong atomicLong = new AtomicLong(-1);
-        NetworkUpdate networkUpdate = new NetworkUpdate();
-        networkUpdate.setName(networkName);
+        NetworkUpdate networkUpdate = getNetworkUpdate(networkName);
         networkWS.insert(null, networkUpdate);
         networkWS.setListener(new NetworkListener() {
             @Override
@@ -212,13 +214,23 @@ class Helper {
             }
         });
         latch.await(awaitTimeout, TimeUnit.SECONDS);
-        networkWS.setListener(null);
         return atomicLong.get();
     }
 
+    private NetworkUpdate getNetworkUpdate(String networkName) {
+        NetworkUpdate networkUpdate = new NetworkUpdate();
+        networkUpdate.setName(networkName);
+        return networkUpdate;
+    }
+
     void deleteNetwork(long id) {
+        deleteNetwork(networkWS, id);
+    }
+
+    void deleteNetwork(NetworkWS networkWS, long id) {
         networkWS.delete(null, id);
     }
+
 
     boolean safeDeleteNetwork(Long id) throws InterruptedException {
         final CountDownLatch latch = new CountDownLatch(1);
