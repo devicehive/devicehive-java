@@ -1,6 +1,12 @@
 package com.github.devicehive.websocket;
 
+import com.github.devicehive.rest.ApiClient;
+import com.github.devicehive.rest.api.AuthApi;
+import com.github.devicehive.rest.api.UserApi;
+import com.github.devicehive.rest.auth.ApiKeyAuth;
 import com.github.devicehive.rest.model.JsonStringWrapper;
+import com.github.devicehive.rest.model.JwtAccessToken;
+import com.github.devicehive.rest.model.JwtRefreshToken;
 import com.github.devicehive.rest.model.NetworkId;
 import com.github.devicehive.rest.model.RoleEnum;
 import com.github.devicehive.rest.model.StatusEnum;
@@ -27,6 +33,8 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 
+import retrofit2.Response;
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class UserWebSocketTest extends Helper {
     private static final String JSON_DATA = "{\"jsonString\": \"NEW STRING DATA\"}";
@@ -41,6 +49,7 @@ public class UserWebSocketTest extends Helper {
     private CountDownLatch latch;
     private UserWS userWS;
     private boolean required = true;
+    private ApiClient apiClient = new ApiClient(HTTP_URL);
 
     @Before
     public void preTest() throws InterruptedException, IOException {
@@ -125,6 +134,7 @@ public class UserWebSocketTest extends Helper {
 
     @Test
     public void getUser() throws InterruptedException, IOException {
+        userId = insertNewUser();
         userWS.setListener(new UserListener() {
             @Override
             public void onList(UserListResponse response) {
@@ -140,8 +150,6 @@ public class UserWebSocketTest extends Helper {
 
             @Override
             public void onInsert(UserInsertResponse response) {
-                userId = response.getUser().getId();
-                userWS.get(null, userId);
             }
 
             @Override
@@ -185,14 +193,14 @@ public class UserWebSocketTest extends Helper {
             }
 
         });
-        UserUpdate user = createNewUserUpdate();
-        userWS.insert(null, user);
+        userWS.get(null, userId);
         latch.await(awaitTimeout, awaitTimeUnit);
         Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
     public void updateUser() throws InterruptedException, IOException {
+        userId = insertNewUser();
         userWS.setListener(new UserListener() {
             @Override
             public void onList(UserListResponse response) {
@@ -206,14 +214,6 @@ public class UserWebSocketTest extends Helper {
             @Override
             public void onInsert(UserInsertResponse response) {
 
-                userId = response.getUser().getId();
-
-                JsonStringWrapper updatedData = new JsonStringWrapper();
-                updatedData.setJsonString(JSON_DATA);
-                UserUpdate userUpdate = new UserUpdate();
-                userUpdate.setData(updatedData);
-
-                userWS.update(null, userId, userUpdate);
             }
 
             @Override
@@ -258,8 +258,12 @@ public class UserWebSocketTest extends Helper {
             }
 
         });
-        UserUpdate user = createNewUserUpdate();
-        userWS.insert(null, user);
+        JsonStringWrapper updatedData = new JsonStringWrapper();
+        updatedData.setJsonString(JSON_DATA);
+        UserUpdate userUpdate = new UserUpdate();
+        userUpdate.setData(updatedData);
+
+        userWS.update(null, userId, userUpdate);
         latch.await(awaitTimeout, awaitTimeUnit);
         Assert.assertEquals(0, latch.getCount());
     }
@@ -267,6 +271,7 @@ public class UserWebSocketTest extends Helper {
     @Test
     public void deleteUser() throws InterruptedException, IOException {
         required = false;
+        userId = insertNewUser();
         userWS.setListener(new UserListener() {
             @Override
             public void onList(UserListResponse response) {
@@ -281,8 +286,6 @@ public class UserWebSocketTest extends Helper {
             @Override
             public void onInsert(UserInsertResponse response) {
 
-                userId = response.getUser().getId();
-                userWS.delete(null, userId);
             }
 
             @Override
@@ -327,8 +330,7 @@ public class UserWebSocketTest extends Helper {
             }
 
         });
-        UserUpdate user = createNewUserUpdate();
-        userWS.insert(null, user);
+        userWS.delete(null, userId);
         latch.await(awaitTimeout, awaitTimeUnit);
 
         Assert.assertEquals(0, latch.getCount());
@@ -476,6 +478,7 @@ public class UserWebSocketTest extends Helper {
 
     @Test
     public void listUsers() throws InterruptedException, IOException {
+        userId = insertNewUser();
         userWS.setListener(new UserListener() {
             @Override
             public void onList(UserListResponse response) {
@@ -489,8 +492,7 @@ public class UserWebSocketTest extends Helper {
 
             @Override
             public void onInsert(UserInsertResponse response) {
-                userId = response.getUser().getId();
-                userWS.list(null, null, LOGIN + "%", null, null, null, null, 30, 0);
+
             }
 
             @Override
@@ -534,14 +536,14 @@ public class UserWebSocketTest extends Helper {
             }
 
         });
-        UserUpdate user = createNewUserUpdate();
-        userWS.insert(null, user);
+        userWS.list(null, null, LOGIN + "%", null, null, null, null, 30, 0);
         latch.await(awaitTimeout, awaitTimeUnit);
         Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
     public void assignNetwork() throws InterruptedException, IOException {
+        userId = insertNewUser();
         userWS.setListener(new UserListener() {
             @Override
             public void onList(UserListResponse response) {
@@ -554,10 +556,6 @@ public class UserWebSocketTest extends Helper {
 
             @Override
             public void onInsert(UserInsertResponse response) {
-
-
-                userId = response.getUser().getId();
-                userWS.assignNetwork(null, userId, networkId);
             }
 
             @Override
@@ -603,9 +601,7 @@ public class UserWebSocketTest extends Helper {
 
         });
         networkId = createTestNetwork();
-        UserUpdate user = createNewUserUpdate();
-        userWS.insert(null, user);
-
+        userWS.assignNetwork(null, userId, networkId);
         latch.await(awaitTimeout, awaitTimeUnit);
         restHelper.deleteNetworks(networkId);
         Assert.assertEquals(0, latch.getCount());
@@ -613,6 +609,7 @@ public class UserWebSocketTest extends Helper {
 
     @Test
     public void unassignNetwork() throws InterruptedException, IOException {
+        userId = insertNewUser();
         userWS.setListener(new UserListener() {
             @Override
             public void onList(UserListResponse response) {
@@ -626,9 +623,6 @@ public class UserWebSocketTest extends Helper {
             @Override
             public void onInsert(UserInsertResponse response) {
 
-
-                userId = response.getUser().getId();
-                userWS.assignNetwork(null, userId, networkId);
             }
 
             @Override
@@ -676,9 +670,7 @@ public class UserWebSocketTest extends Helper {
 
 
         networkId = createTestNetwork();
-        UserUpdate user = createNewUserUpdate();
-        userWS.insert(null, user);
-
+        userWS.assignNetwork(null, userId, networkId);
         latch.await(awaitTimeout, awaitTimeUnit);
         restHelper.deleteNetworks(networkId);
 
@@ -687,6 +679,7 @@ public class UserWebSocketTest extends Helper {
 
     @Test
     public void getNetwork() throws InterruptedException, IOException {
+        userId=insertNewUser();
         userWS.setListener(new UserListener() {
             @Override
             public void onList(UserListResponse response) {
@@ -699,8 +692,6 @@ public class UserWebSocketTest extends Helper {
 
             @Override
             public void onInsert(UserInsertResponse response) {
-                userId = response.getUser().getId();
-                userWS.assignNetwork(null, userId, networkId);
             }
 
             @Override
@@ -747,9 +738,7 @@ public class UserWebSocketTest extends Helper {
 
         });
         networkId = createTestNetwork();
-        UserUpdate user = createNewUserUpdate();
-        userWS.insert(null, user);
-
+        userWS.assignNetwork(null, userId, networkId);
         latch.await(awaitTimeout, awaitTimeUnit);
         restHelper.deleteNetworks(networkId);
 
@@ -776,6 +765,23 @@ public class UserWebSocketTest extends Helper {
         System.out.println("Network name for test: " + networkName);
         NetworkId networkId = restHelper.createNetwork(networkName);
         return networkId.getId();
+    }
+
+
+    private long insertNewUser() throws IOException {
+        AuthApi authApi = apiClient.createService(AuthApi.class);
+        JwtRefreshToken refreshToken = new JwtRefreshToken();
+        refreshToken.setRefreshToken(REFRESH_TOKEN);
+        Response<JwtAccessToken> response = authApi.refreshTokenRequest(refreshToken).execute();
+
+        if (response.isSuccessful()) {
+            String accessToken = response.body().getAccessToken();
+            UserUpdate userUpdate = createNewUserUpdate();
+            apiClient.addAuthorization(ApiClient.AUTH_API_KEY, ApiKeyAuth.newInstance(accessToken));
+            return apiClient.createService(UserApi.class).insertUser(userUpdate).execute().body().getId();
+        } else {
+            throw new IOException("Can't get the token");
+        }
     }
 
 
