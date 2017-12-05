@@ -1,5 +1,12 @@
 package com.github.devicehive.websocket;
 
+import com.github.devicehive.rest.ApiClient;
+import com.github.devicehive.rest.api.AuthApi;
+import com.github.devicehive.rest.api.ConfigurationApi;
+import com.github.devicehive.rest.auth.ApiKeyAuth;
+import com.github.devicehive.rest.model.JwtAccessToken;
+import com.github.devicehive.rest.model.JwtRefreshToken;
+import com.github.devicehive.rest.model.ValueProperty;
 import com.github.devicehive.websocket.api.ConfigurationWS;
 import com.github.devicehive.websocket.listener.ConfigurationListener;
 import com.github.devicehive.websocket.model.repsonse.ConfigurationGetResponse;
@@ -18,6 +25,8 @@ import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 
+import retrofit2.Response;
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ConfigurationWebSocketTest extends Helper {
     private static final String CONFIGURATION_NAME = "WS T3ZT ";
@@ -27,6 +36,7 @@ public class ConfigurationWebSocketTest extends Helper {
     private ConfigurationWS configurationWS;
     private String configurationName;
     private boolean configurationDeleted = false;
+    private ApiClient apiClient = new ApiClient(HTTP_URL);
 
     @Before
     public void preTest() throws InterruptedException, IOException {
@@ -41,7 +51,7 @@ public class ConfigurationWebSocketTest extends Helper {
         if (configurationDeleted) {
             return;
         }
-        deleteConfiguration(configurationWS,configurationName);
+        deleteConfiguration(configurationWS, configurationName);
     }
 
     @Test
@@ -76,6 +86,7 @@ public class ConfigurationWebSocketTest extends Helper {
 
     @Test
     public void getConfigurationProperty() throws InterruptedException, IOException {
+        insertNewConfiguration();
         configurationWS.setListener(new ConfigurationListener() {
             @Override
             public void onGet(ConfigurationGetResponse response) {
@@ -86,7 +97,7 @@ public class ConfigurationWebSocketTest extends Helper {
 
             @Override
             public void onPut(ConfigurationInsertResponse response) {
-                configurationWS.get(null, configurationName);
+
             }
 
             @Override
@@ -100,14 +111,14 @@ public class ConfigurationWebSocketTest extends Helper {
             }
 
         });
-        configurationWS.put(null, configurationName, CONFIGURATION_VALUE);
+        configurationWS.get(null, configurationName);
         latch.await(awaitTimeout, awaitTimeUnit);
         Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
     public void deleteConfigurationProperty() throws InterruptedException, IOException {
-
+        insertNewConfiguration();
         configurationWS.setListener(new ConfigurationListener() {
             @Override
             public void onGet(ConfigurationGetResponse response) {
@@ -116,7 +127,6 @@ public class ConfigurationWebSocketTest extends Helper {
 
             @Override
             public void onPut(ConfigurationInsertResponse response) {
-                configurationWS.delete(null, configurationName);
             }
 
             @Override
@@ -131,8 +141,25 @@ public class ConfigurationWebSocketTest extends Helper {
             }
 
         });
-        configurationWS.put(null, configurationName, CONFIGURATION_VALUE);
+        configurationWS.delete(null, configurationName);
         latch.await(awaitTimeout, awaitTimeUnit);
         Assert.assertEquals(0, latch.getCount());
+    }
+
+    private boolean insertNewConfiguration() throws IOException {
+        AuthApi authApi = apiClient.createService(AuthApi.class);
+        JwtRefreshToken refreshToken = new JwtRefreshToken();
+        refreshToken.setRefreshToken(REFRESH_TOKEN);
+        Response<JwtAccessToken> response = authApi.refreshTokenRequest(refreshToken).execute();
+
+        if (response.isSuccessful()) {
+            String accessToken = response.body().getAccessToken();
+            apiClient.addAuthorization(ApiClient.AUTH_API_KEY, ApiKeyAuth.newInstance(accessToken));
+            ValueProperty valueProperty = new ValueProperty();
+            valueProperty.setValue(CONFIGURATION_VALUE);
+            return apiClient.createService(ConfigurationApi.class).setProperty(configurationName, valueProperty).execute().isSuccessful();
+        } else {
+            throw new IOException("Can't get the token");
+        }
     }
 }
