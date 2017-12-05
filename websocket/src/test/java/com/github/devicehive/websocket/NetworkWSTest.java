@@ -201,7 +201,8 @@ public class NetworkWSTest extends Helper {
     Assert.assertEquals(latch.getCount(), 0);
   }
 
-  @Test public void delete() throws InterruptedException {
+  @Test public void delete() throws InterruptedException, IOException {
+    networkId = insertNetwork();
     networkWS.setListener(new NetworkListener() {
       @Override public void onList(NetworkListResponse response) {
       }
@@ -239,6 +240,7 @@ public class NetworkWSTest extends Helper {
     JwtRefreshToken refreshToken = new JwtRefreshToken();
     refreshToken.setRefreshToken(REFRESH_TOKEN);
     Response<JwtAccessToken> response = authApi.refreshTokenRequest(refreshToken).execute();
+
     if (response.isSuccessful()) {
       String accessToken = response.body().getAccessToken();
       NetworkUpdate networkUpdate = getNetworkUpdate(networkName);
