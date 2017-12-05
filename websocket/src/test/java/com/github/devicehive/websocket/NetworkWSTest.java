@@ -48,6 +48,8 @@ public class NetworkWSTest extends Helper {
     private CountDownLatch latch;
     private NetworkWS networkWS;
     private long networkId;
+    private boolean networkWasDeleted =false;
+
 
     @Before
     public void preTest() throws InterruptedException, IOException {
@@ -58,7 +60,7 @@ public class NetworkWSTest extends Helper {
 
     @After()
     public void clear() throws IOException {
-        if (networkId == -1) {
+        if (networkWasDeleted) {
             return;
         }
         deleteNetwork(networkWS, networkId);
@@ -241,9 +243,8 @@ public class NetworkWSTest extends Helper {
 
             @Override
             public void onDelete(ResponseAction response) {
-                System.out.println("here");
                 Assert.assertTrue(true);
-                networkId = -1;
+                networkWasDeleted =true;
                 latch.countDown();
             }
 
