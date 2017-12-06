@@ -100,6 +100,7 @@ public class DeviceHive implements MainDeviceHive {
     private List<String> commandsIds = new ArrayList<>();
     private CommandFilter commandFilter;
     private Call<ApiInfo> infoCall;
+    private boolean isWsServicesCreated = false;
 
     private DeviceHive() {
     }
@@ -140,11 +141,10 @@ public class DeviceHive implements MainDeviceHive {
         if (wsUrl != null && wsUrl.length() > 0) {
             this.wsUrl = wsUrl;
             this.createWsServices();
-        } else {
-            this.wsUrl = null;
         }
-        this.setAuth(accessToken, refreshToken);
+        isWsServicesCreated = false;
         RestHelper.getInstance().recreate();
+        this.setAuth(accessToken, refreshToken);
         this.createServices();
         RestHelper.getInstance().authorize();
         return this;
@@ -488,7 +488,7 @@ public class DeviceHive implements MainDeviceHive {
     }
 
     private void checkWsInitialized() {
-        if (wsUrl != null) {
+        if (isWsServicesCreated) {
             return;
         }
         if (infoCall != null && infoCall.isExecuted()) {
@@ -504,6 +504,7 @@ public class DeviceHive implements MainDeviceHive {
             if (apiInfoResponse.isSuccessful()) {
                 wsUrl = apiInfoResponse.body().getWebSocketServerUrl();
                 createWsServices();
+                isWsServicesCreated = true;
             } else {
                 throw new RuntimeException("Couldn't initialize WS client. Error code: "
                         + apiInfoResponse.code());

@@ -188,6 +188,11 @@ public class ApiClient {
         adapterBuilder.client(okClient);
     }
 
+    public void recreateClient(String url) {
+        createDefaultAdapter(url);
+        clearAuthorizations();
+    }
+
     public Map<String, Interceptor> getApiAuthorizations() {
         return apiAuthorizations;
     }
