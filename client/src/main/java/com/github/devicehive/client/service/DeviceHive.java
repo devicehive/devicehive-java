@@ -140,6 +140,8 @@ public class DeviceHive implements MainDeviceHive {
         if (wsUrl != null && wsUrl.length() > 0) {
             this.wsUrl = wsUrl;
             this.createWsServices();
+        } else {
+            this.wsUrl = null;
         }
         this.setAuth(accessToken, refreshToken);
         RestHelper.getInstance().recreate();
