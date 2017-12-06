@@ -142,6 +142,7 @@ public class DeviceHive implements MainDeviceHive {
             this.createWsServices();
         }
         this.setAuth(accessToken, refreshToken);
+        RestHelper.getInstance().recreate();
         this.createServices();
         RestHelper.getInstance().authorize();
         return this;

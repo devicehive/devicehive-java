@@ -34,7 +34,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Callback;
 
 class RestHelper {
-    private final ApiClient apiClient;
+    private ApiClient apiClient;
 
     private RestHelper() {
         if (DeviceHive.getInstance().getUrl() == null || DeviceHive.getInstance().getUrl().length() <= 0) {
@@ -49,6 +49,13 @@ class RestHelper {
 
     static RestHelper getInstance() {
         return RestHelper.InstanceHolder.INSTANCE;
+    }
+
+    public void recreate() {
+        if (DeviceHive.getInstance().getUrl() == null || DeviceHive.getInstance().getUrl().length() <= 0) {
+            throw new NullPointerException("Server URL cannot be null or empty");
+        }
+        apiClient = new ApiClient(DeviceHive.getInstance().getUrl());
     }
 
     ApiClient getApiClient() {
