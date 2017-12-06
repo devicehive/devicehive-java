@@ -45,14 +45,13 @@ import retrofit2.Response;
 class DeviceNotificationService extends BaseService {
 
     private static final String CANCELED = "Canceled";
-    private DeviceNotificationApi notificationApi;
     private boolean isSubscribed;
     private Callback<List<com.github.devicehive.rest.model.DeviceNotification>> pollNotificationsCallback;
     private Call<List<com.github.devicehive.rest.model.DeviceNotification>> pollCall;
     private Call<List<com.github.devicehive.rest.model.DeviceNotification>> pollManyCall;
 
     DHResponse<DeviceNotification> sendNotification(String deviceId, String notification, List<Parameter> parameters) {
-        notificationApi = createService(DeviceNotificationApi.class);
+        DeviceNotificationApi notificationApi = createService(DeviceNotificationApi.class);
         DeviceNotificationWrapper notificationWrapper = createDeviceNotificationWrapper(notification, parameters);
         DHResponse<NotificationInsert> result = execute(notificationApi.insert(deviceId, notificationWrapper));
 
@@ -60,6 +59,7 @@ class DeviceNotificationService extends BaseService {
             return getNotification(deviceId, result.getData().getId());
         } else if (result.getFailureData().getCode() == 401) {
             refreshAndAuthorize();
+            notificationApi = createService(DeviceNotificationApi.class);
             result = execute(notificationApi.insert(deviceId, notificationWrapper));
             return getNotification(deviceId, result.getData().getId());
         } else {
@@ -79,6 +79,7 @@ class DeviceNotificationService extends BaseService {
     }
 
     private DHResponse<DeviceNotification> getNotification(String deviceId, long notificationId) {
+        DeviceNotificationApi notificationApi = createService(DeviceNotificationApi.class);
         DHResponse<com.github.devicehive.rest.model.DeviceNotification> result = execute(notificationApi.get(deviceId,
                 notificationId));
         if (result.isSuccessful()) {
@@ -86,6 +87,7 @@ class DeviceNotificationService extends BaseService {
                     result.getFailureData());
         } else if (result.getFailureData().getCode() == 401) {
             refreshAndAuthorize();
+            notificationApi = createService(DeviceNotificationApi.class);
             result = execute(notificationApi.get(deviceId,
                     notificationId));
             return DHResponse.create(DeviceNotification.create(result.getData()),
@@ -97,7 +99,7 @@ class DeviceNotificationService extends BaseService {
 
     DHResponse<List<DeviceNotification>> getDeviceNotifications(String deviceId, DateTime startTimestamp,
                                                                 DateTime endTimestamp) {
-        notificationApi = createService(DeviceNotificationApi.class);
+        DeviceNotificationApi notificationApi = createService(DeviceNotificationApi.class);
 
         Period period = new Period(startTimestamp, endTimestamp);
 
@@ -128,7 +130,7 @@ class DeviceNotificationService extends BaseService {
     void pollNotifications(String deviceId, NotificationFilter filter, boolean isAuthNeeded,
                            DeviceNotificationsCallback notificationsCallback) {
         isSubscribed = true;
-        notificationApi = createService(DeviceNotificationApi.class);
+        DeviceNotificationApi notificationApi = createService(DeviceNotificationApi.class);
         Period period = new Period(filter.getStartTimestamp(), filter.getEndTimestamp());
         if (pollCall != null && pollCall.isExecuted()) {
             pollCall.cancel();
@@ -182,7 +184,7 @@ class DeviceNotificationService extends BaseService {
     public void pollManyNotifications(String deviceIds, NotificationFilter filter, boolean isAuthNeeded,
                                       DeviceNotificationsCallback notificationsCallback) {
         isSubscribed = true;
-        notificationApi = createService(DeviceNotificationApi.class);
+        DeviceNotificationApi notificationApi = createService(DeviceNotificationApi.class);
         Period period = new Period(filter.getStartTimestamp(), filter.getEndTimestamp());
         if (pollManyCall != null && pollManyCall.isExecuted()) {
             pollManyCall.cancel();

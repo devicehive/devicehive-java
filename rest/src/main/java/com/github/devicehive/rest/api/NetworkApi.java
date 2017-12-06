@@ -25,10 +25,18 @@ import com.github.devicehive.rest.model.Network;
 import com.github.devicehive.rest.model.NetworkId;
 import com.github.devicehive.rest.model.NetworkUpdate;
 import com.github.devicehive.rest.model.NetworkVO;
-import retrofit2.Call;
-import retrofit2.http.*;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 
 public interface NetworkApi {
@@ -41,7 +49,7 @@ public interface NetworkApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @DELETE(Const.API_REST+"network/{id}")
+  @DELETE("network/{id}")
   Call<Void> delete(
           @Path("id") Long id
   );
@@ -55,7 +63,7 @@ public interface NetworkApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @GET(Const.API_REST+"network/{id}")
+  @GET("network/{id}")
   Call<NetworkVO> get(
           @Path("id") Long id
   );
@@ -69,7 +77,7 @@ public interface NetworkApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @POST(Const.API_REST+"network")
+  @POST("network")
   Call<NetworkId> insert(
           @Body NetworkUpdate body
   );
@@ -88,7 +96,7 @@ public interface NetworkApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @GET(Const.API_REST+"network")
+  @GET("network")
   Call<List<Network>> list(
          @Query("name") String name, @Query("namePattern") String namePattern, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip
   );
@@ -103,7 +111,7 @@ public interface NetworkApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @PUT(Const.API_REST+"network/{id}")
+  @PUT("network/{id}")
   Call<Void> update(
           @Path("id") Long id, @Body NetworkUpdate body);
 

@@ -22,15 +22,21 @@
 package com.github.devicehive.rest;
 
 import com.github.devicehive.rest.api.AuthApi;
-import com.github.devicehive.rest.model.*;
+import com.github.devicehive.rest.model.JwtAccessToken;
+import com.github.devicehive.rest.model.JwtPayload;
+import com.github.devicehive.rest.model.JwtRefreshToken;
+import com.github.devicehive.rest.model.JwtRequest;
+import com.github.devicehive.rest.model.JwtToken;
+
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
-import retrofit2.Response;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Response;
 
 public class AuthApiTest extends Helper {
 
@@ -42,7 +48,6 @@ public class AuthApiTest extends Helper {
         requestBody.setLogin("***REMOVED***");
         requestBody.setPassword("***REMOVED***");
 
-        System.out.println(api.login(requestBody).request().url());
         Response<JwtToken> response = api.login(requestBody).execute();
 
         Assert.assertTrue(response.isSuccessful());

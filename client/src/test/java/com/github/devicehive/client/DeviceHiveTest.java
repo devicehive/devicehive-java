@@ -21,13 +21,25 @@
 
 package com.github.devicehive.client;
 
-import com.github.devicehive.client.callback.ResponseCallback;
-import com.github.devicehive.client.model.*;
+import com.github.devicehive.client.model.DHResponse;
+import com.github.devicehive.client.model.DeviceFilter;
 import com.github.devicehive.client.model.DeviceNotification;
+import com.github.devicehive.client.model.DeviceNotificationsCallback;
+import com.github.devicehive.client.model.FailureData;
+import com.github.devicehive.client.model.NetworkFilter;
+import com.github.devicehive.client.model.NotificationFilter;
+import com.github.devicehive.client.model.UserFilter;
 import com.github.devicehive.client.service.Device;
 import com.github.devicehive.client.service.DeviceHive;
 import com.github.devicehive.client.service.User;
-import com.github.devicehive.rest.model.*;
+import com.github.devicehive.rest.model.ApiInfo;
+import com.github.devicehive.rest.model.Configuration;
+import com.github.devicehive.rest.model.JwtAccessToken;
+import com.github.devicehive.rest.model.JwtToken;
+import com.github.devicehive.rest.model.NetworkVO;
+import com.github.devicehive.rest.model.RoleEnum;
+import com.github.devicehive.rest.model.StatusEnum;
+
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
@@ -42,8 +54,7 @@ import java.util.concurrent.TimeUnit;
 
 public class DeviceHiveTest {
 
-    private static final String URL = "***REMOVED***/";
-    private static final String WS_URL = "ws://playground.dev.devicehive.com/api/websocket";
+    private static final String URL = "***REMOVED***";
     private String accessToken = "***REMOVED***";
     private String refreshToken = "***REMOVED***";
 
@@ -54,17 +65,9 @@ public class DeviceHiveTest {
             .init(URL, refreshToken, accessToken);
 
     @Test
-    public void apiInfoTest() throws InterruptedException {
-        final CountDownLatch latch = new CountDownLatch(1);
-        deviceHive.getInfo(new ResponseCallback<ApiInfo>() {
-            public void onResponse(DHResponse<ApiInfo> response) {
-                Assert.assertTrue(response.isSuccessful());
-                latch.countDown();
-            }
-        });
-        latch.await(20, TimeUnit.SECONDS);
-        Assert.assertTrue(deviceHive.getInfo().isSuccessful());
-
+    public void apiInfoTest() {
+        DHResponse<ApiInfo> response = deviceHive.getInfo();
+        Assert.assertTrue(response.isSuccessful());
     }
 
     @Test
@@ -195,25 +198,29 @@ public class DeviceHiveTest {
         ids.add(DEVICE_ID2);
         deviceHive.subscribeNotifications(ids, notificationFilter, new DeviceNotificationsCallback() {
             public void onSuccess(List<DeviceNotification> notifications) {
+                latch.countDown();
+                Assert.assertTrue(true);
             }
 
             public void onFail(FailureData failureData) {
                 System.out.println(failureData);
             }
         });
+
         ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
         service.schedule(new Thread(new Runnable() {
             public void run() {
-                notificationFilter.setNotificationNames("notificationZ");
-                deviceHive.unsubscribeNotifications(ids, notificationFilter);
+                deviceHive.getDevice(DEVICE_ID).getData().sendNotification("notificationA", null);
             }
         }), 5, TimeUnit.SECONDS);
-        latch.await(1, TimeUnit.SECONDS);
+        latch.await(10, TimeUnit.SECONDS);
+        Assert.assertEquals(0, latch.getCount());
     }
 
     @Test
     public void getDevices() {
         DHResponse<List<Device>> devices = deviceHive.listDevices(new DeviceFilter());
+        Assert.assertTrue(devices.isSuccessful());
     }
 
 
@@ -236,9 +243,10 @@ public class DeviceHiveTest {
         DHResponse<Void> delete = deviceHive.removeUser(userId);
         Assert.assertTrue(delete.isSuccessful());
     }
+
     @Test
-    public void getCurrentUser(){
-        DHResponse<com.github.devicehive.client.service.User> userDHResponse=deviceHive.getCurrentUser();
+    public void getCurrentUser() {
+        DHResponse<com.github.devicehive.client.service.User> userDHResponse = deviceHive.getCurrentUser();
         Assert.assertTrue(userDHResponse.isSuccessful());
     }
 }

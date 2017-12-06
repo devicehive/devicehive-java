@@ -37,7 +37,7 @@ public interface ConfigurationApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @DELETE(Const.API_REST+"configuration/{name}")
+  @DELETE("configuration/{name}")
   Call<Void> deleteProperty(
           @Path("name") String name
   );
@@ -51,7 +51,7 @@ public interface ConfigurationApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @GET(Const.API_REST+"configuration/{name}")
+  @GET("configuration/{name}")
   Call<Configuration> get(
           @Path("name") String name
   );
@@ -66,7 +66,7 @@ public interface ConfigurationApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @PUT(Const.API_REST+"configuration/{name}")
+  @PUT("configuration/{name}")
   Call<Configuration> setProperty(
           @Path("name") String name, @Body ValueProperty body
   );

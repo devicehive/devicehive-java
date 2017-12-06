@@ -37,10 +37,10 @@ import java.util.UUID;
 
 public class Echo {
     //DeviceHive settings
-    private static final String accessToken = "***REMOVED***";
-    private static final String refreshToken = "***REMOVED***";
+    private static final String accessToken = "";
+    private static final String refreshToken = "";
 
-    private static final String URL = "***REMOVED***/";
+    private static final String URL = "";
 
     private static final String COMMAND_NAME = "echo_command";
 

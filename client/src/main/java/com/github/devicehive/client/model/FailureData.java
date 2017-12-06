@@ -62,4 +62,11 @@ public class FailureData {
         return new FailureData(response.getCode(), response.getError());
     }
 
+    @Override
+    public String toString() {
+        return "FailureData{" +
+                "code=" + code +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

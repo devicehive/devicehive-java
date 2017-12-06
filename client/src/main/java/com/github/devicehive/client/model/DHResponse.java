@@ -54,4 +54,12 @@ public class DHResponse<T> {
     public static <T> DHResponse<T> create(T data, FailureData failureData) {
         return new DHResponse<>(data, failureData);
     }
+
+    @Override
+    public String toString() {
+        return "DHResponse{" +
+                "data=" + data +
+                ", failureData=" + failureData +
+                '}';
+    }
 }

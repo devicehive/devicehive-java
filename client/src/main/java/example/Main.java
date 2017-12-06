@@ -25,11 +25,11 @@ import java.util.concurrent.TimeUnit;
 public class Main {
 
     //DeviceHive settings
-    private static final String accessToken = "***REMOVED***";
-    private static final String refreshToken = "***REMOVED***";
+    private static final String accessToken = "";
+    private static final String refreshToken = "";
 
-    private static final String URL = "***REMOVED***";
-    private static final String WS_URL = "ws://playground.dev.devicehive.com/api/websocket";
+    private static final String URL = "";
+    private static final String WS_URL = "";
 
     //Constants
     private static final String SUCCESS = "SUCCESS";

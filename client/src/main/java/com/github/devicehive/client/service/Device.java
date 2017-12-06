@@ -297,7 +297,6 @@ public class Device implements DeviceInterface {
 
     public void unsubscribeCommands(CommandFilter commandFilter) {
         this.commandFilter = commandFilter;
-        this.notificationFilter = notificationFilter;
         commandWS.subscribe(commandFilter.getCommandNames(),
                 id,
                 null,
@@ -319,6 +318,7 @@ public class Device implements DeviceInterface {
 
 
     public void unsubscribeNotifications(NotificationFilter notificationFilter) {
+        this.notificationFilter=notificationFilter;
         notificationWS.subscribe(null, id, null, notificationFilter.getNotificationNames());
     }
 

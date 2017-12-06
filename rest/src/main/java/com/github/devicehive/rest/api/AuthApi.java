@@ -42,7 +42,7 @@ public interface AuthApi {
     @Headers({
             "Content-Type:application/json"
     })
-    @POST(Const.AUTH_API + "token")
+    @POST( "token")
     Call<JwtToken> login(
             @Body com.github.devicehive.rest.model.JwtRequest body
     );
@@ -56,7 +56,7 @@ public interface AuthApi {
     @Headers({
             "Content-Type:application/json"
     })
-    @POST(Const.AUTH_API + "token/refresh")
+    @POST( "token/refresh")
     Call<JwtAccessToken> refreshTokenRequest(
             @Body JwtRefreshToken refreshToken
     );
@@ -70,7 +70,7 @@ public interface AuthApi {
     @Headers({
             "Content-Type:application/json"
     })
-    @POST(Const.AUTH_API + "token/create")
+    @POST( "token/create")
     Call<JwtToken> tokenRequest(
             @Body JwtPayload payload
     );
