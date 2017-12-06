@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.github.devicehive</groupId>
         <artifactId>devicehive-java</artifactId>
-        <version>3.0.6</version>
+        <version>3.0.7</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <name>devicehive-websocket</name>
