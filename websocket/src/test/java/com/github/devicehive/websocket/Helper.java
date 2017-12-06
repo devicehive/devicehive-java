@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 class Helper {
-  static final String HTTP_URL = "http://playground.dev.devicehive.com";
+  static final String HTTP_URL = "http://playground.dev.devicehive.com/api/rest";
   private static final String URL = "ws://playground.dev.devicehive.com/api/websocket";
   String accessToken =
       "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTA5NzIwMDQwNzE4LCJ0IjoxfX0.G_u8MiEKDKnWJdplfBo6_MI5BNyupaOLsg46PsdNRa8";

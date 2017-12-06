@@ -84,7 +84,7 @@ public class DeviceNotification {
                 .deviceId(notification.getDeviceId())
                 .networkId(notification.getNetworkId())
                 .timestamp(notification.getTimestamp())
-                .parameters(new JsonStringWrapper(notification.getParameters().getJsonString()))
+                .parameters(notification.getParameters() == null ? null : new JsonStringWrapper(notification.getParameters().getJsonString()))
                 .build();
     }
 

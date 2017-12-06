@@ -41,7 +41,7 @@ public interface DeviceCommandApi {
     @Headers({
             "Content-Type:application/json"
     })
-    @GET(Const.API_REST+"device/{deviceId}/command/{commandId}")
+    @GET("device/{deviceId}/command/{commandId}")
     Call<com.github.devicehive.rest.model.DeviceCommand> get(
             @Path("deviceId") String deviceId, @Path("commandId") String commandId
     );
@@ -57,7 +57,7 @@ public interface DeviceCommandApi {
     @Headers({
             "Content-Type:application/json"
     })
-    @POST(Const.API_REST+"device/{deviceId}/command")
+    @POST("device/{deviceId}/command")
     Call<CommandInsert> insert(
             @Path("deviceId") String deviceId, @Body DeviceCommandWrapper body
     );
@@ -76,7 +76,7 @@ public interface DeviceCommandApi {
     @Headers({
             "Content-Type:application/json"
     })
-    @GET(Const.API_REST+"device/{deviceId}/command/poll")
+    @GET("device/{deviceId}/command/poll")
     Call<List<com.github.devicehive.rest.model.DeviceCommand>> poll(
             @Path("deviceId") String deviceId, @Query("names") String names, @Query("timestamp") String timestamp, @Query("waitTimeout") Long waitTimeout, @Query("limit") Integer limit
     );
@@ -95,7 +95,7 @@ public interface DeviceCommandApi {
     @Headers({
             "Content-Type:application/json"
     })
-    @GET(Const.API_REST+"device/command/poll")
+    @GET("device/command/poll")
     Call<List<com.github.devicehive.rest.model.DeviceCommand>> pollMany(
             @Query("deviceId") String deviceIds, @Query("names") String names, @Query("timestamp") String timestamp, @Query("waitTimeout") Long waitTimeout, @Query("limit") Integer limit
     );
@@ -118,7 +118,7 @@ public interface DeviceCommandApi {
     @Headers({
             "Content-Type:application/json"
     })
-    @GET(Const.API_REST+"device/{deviceId}/command")
+    @GET("device/{deviceId}/command")
     Call<List<com.github.devicehive.rest.model.DeviceCommand>> query(
             @Path("deviceId") String deviceId, @Query("start") String start, @Query("end") String end, @Query("command") String command, @Query("status") String status, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip
     );
@@ -135,7 +135,7 @@ public interface DeviceCommandApi {
     @Headers({
             "Content-Type:application/json"
     })
-    @PUT(Const.API_REST+"device/{deviceId}/command/{commandId}")
+    @PUT("device/{deviceId}/command/{commandId}")
     Call<Void> update(
             @Path("deviceId") String deviceId, @Path("commandId") Long commandId, @Body DeviceCommandWrapper body
     );
@@ -152,7 +152,7 @@ public interface DeviceCommandApi {
     @Headers({
             "Content-Type:application/json"
     })
-    @GET(Const.API_REST+"device/{deviceId}/command/{commandId}/poll")
+    @GET("device/{deviceId}/command/{commandId}/poll")
     Call<com.github.devicehive.rest.model.DeviceCommand> wait(
             @Path("deviceId") String deviceId, @Path("commandId") Long commandId, @Query("waitTimeout") Long waitTimeout
     );

@@ -41,7 +41,7 @@ class Helper {
 
     private static final String LOGIN = "dhadmin";
     private static final String PASSWORD = "dhadmin_#911";
-    private static final String URL = "http://playground.dev.devicehive.com";
+    private static final String URL = "http://playground.dev.devicehive.com/api/rest";
 
     ApiClient client = new ApiClient(URL);
 

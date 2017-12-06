@@ -41,7 +41,7 @@ public interface UserApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @PUT(Const.API_REST+"user/{id}/network/{networkId}")
+  @PUT("user/{id}/network/{networkId}")
   Call<Void> assignNetwork(
           @Path("id") Long id, @Path("networkId") Long networkId
   );
@@ -55,7 +55,7 @@ public interface UserApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @DELETE(Const.API_REST+"user/{id}")
+  @DELETE("user/{id}")
   Call<Void> deleteUser(
           @Path("id") Long id
   );
@@ -68,7 +68,7 @@ public interface UserApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @GET(Const.API_REST+"user/current")
+  @GET("user/current")
   Call<UserWithNetwork> getCurrent();
 
   /**
@@ -81,7 +81,7 @@ public interface UserApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @GET(Const.API_REST+"user/{id}/network/{networkId}")
+  @GET("user/{id}/network/{networkId}")
   Call<UserNetworkResponse> getNetwork(
           @Path("id") Long id, @Path("networkId") Long networkId
   );
@@ -95,7 +95,7 @@ public interface UserApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @GET(Const.API_REST+"user/{id}")
+  @GET("user/{id}")
   Call<com.github.devicehive.rest.model.UserResponse> getUser(
           @Path("id") Long id
   );
@@ -109,7 +109,7 @@ public interface UserApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @POST(Const.API_REST+"user")
+  @POST("user")
   Call<com.github.devicehive.rest.model.UserVO> insertUser(
           @Body com.github.devicehive.rest.model.UserUpdate body
   );
@@ -130,7 +130,7 @@ public interface UserApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @GET(Const.API_REST+"user")
+  @GET("user")
   Call<List<com.github.devicehive.rest.model.UserVO>> list(
          @Query("login") String login, @Query("loginPattern") String loginPattern, @Query("role") Integer role,
          @Query("status") Integer status, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder,
@@ -147,7 +147,7 @@ public interface UserApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @DELETE(Const.API_REST+"user/{id}/network/{networkId}")
+  @DELETE("user/{id}/network/{networkId}")
   Call<Void> unassignNetwork(
           @Path("id") Long id, @Path("networkId") Long networkId
   );
@@ -161,7 +161,7 @@ public interface UserApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @PUT(Const.API_REST+"user/current")
+  @PUT("user/current")
   Call<Void> updateCurrentUser(
           @Body com.github.devicehive.rest.model.UserUpdate body
   );
@@ -176,7 +176,7 @@ public interface UserApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @PUT(Const.API_REST+"user/{id}")
+  @PUT("user/{id}")
   Call<Void> updateUser(
           @Path("id") Long id, @Body UserUpdate body
   );

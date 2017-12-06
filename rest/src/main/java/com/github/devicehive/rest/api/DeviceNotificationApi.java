@@ -38,7 +38,7 @@ public interface DeviceNotificationApi {
    * @param id Notification id (required)
    * @return Call&lt;DeviceNotification&gt;
    */
-  @GET(Const.API_REST+"device/{deviceId}/notification/{id}")
+  @GET("device/{deviceId}/notification/{id}")
   Call<DeviceNotification> get(
           @Path("deviceId") String deviceId, @Path("id") Long id);
 
@@ -52,7 +52,7 @@ public interface DeviceNotificationApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @POST(Const.API_REST+"device/{deviceId}/notification")
+  @POST("device/{deviceId}/notification")
   Call<NotificationInsert> insert(
           @Path("deviceId") String deviceId, @Body DeviceNotificationWrapper body
   );
@@ -66,7 +66,7 @@ public interface DeviceNotificationApi {
    * @param waitTimeout Wait timeout (optional, default to 30)
    * @return Call&lt;List&lt;DeviceNotification&gt;&gt;
    */
-  @GET(Const.API_REST+"device/{deviceId}/notification/poll")
+  @GET("device/{deviceId}/notification/poll")
   Call<List<DeviceNotification>> poll(
           @Path("deviceId") String deviceId,@Query("names") String names, @Query("timestamp") String timestamp, @Query("waitTimeout") Long waitTimeout
   );
@@ -80,7 +80,7 @@ public interface DeviceNotificationApi {
    * @param timestamp Timestamp to start from (optional)
    * @return Call&lt;List&lt;DeviceNotification&gt;&gt;
    */
-  @GET(Const.API_REST+"device/notification/poll")
+  @GET("device/notification/poll")
   Call<List<DeviceNotification>> pollMany(
          @Query("deviceIds") String deviceIds, @Query("names") String names, @Query("timestamp") String timestamp, @Query("waitTimeout") Long waitTimeout
   );
@@ -98,7 +98,7 @@ public interface DeviceNotificationApi {
    * @param skip Skip param (optional, default to 0)
    * @return Call&lt;DeviceNotification&gt;
    */
-  @GET(Const.API_REST+"device/{deviceId}/notification")
+  @GET("device/{deviceId}/notification")
   Call<List<DeviceNotification>> query(
           @Path("deviceId") String deviceId,  @Query("start") String start, @Query("end") String end, @Query("notification") String notification, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder, @Query("take") Integer take, @Query("skip") Integer skip
   );

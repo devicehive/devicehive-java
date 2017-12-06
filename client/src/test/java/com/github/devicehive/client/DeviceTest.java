@@ -50,8 +50,7 @@ import java.util.concurrent.TimeUnit;
 public class DeviceTest {
 
 
-    private static final String URL = "http://playground.dev.devicehive.com";
-    private static final String WS_URL = "ws://playground.dev.devicehive.com/api/websocket";
+    private static final String URL = "http://playground.dev.devicehive.com/api/rest";
     private static final String NOTIFICATION_A = "notificationA";
     private static final String NOTIFICATION_B = "notificationB";
     private static final String NOTIFICATION_Z = "notificationZ";
@@ -62,7 +61,7 @@ public class DeviceTest {
     private String accessToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7ImUiOjE1MTE5NjY3NjAwMDAsInQiOjEsInUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdfX0.3CQdiMua9SSIMF6jMjZocBTuAbcDCPtVfKIy0rEzAG8";
     private String refreshToken = "eyJhbGciOiJIUzI1NiJ9.eyJwYXlsb2FkIjp7InUiOjEsImEiOlswXSwibiI6WyIqIl0sImQiOlsiKiJdLCJlIjoxNTI0MTUxMjAxMTA4LCJ0IjowfX0.2wfpmIjrHRtGBoSF3-T77aSAiUYPFSGtgBuGoVZtSxc";
 
-    private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, WS_URL, refreshToken, accessToken);
+    private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, refreshToken, accessToken);
 
 
     @Test
@@ -161,7 +160,6 @@ public class DeviceTest {
             }
 
             public void onFail(FailureData failureData) {
-                System.out.println(failureData);
                 for (int i = 0; i < latch.getCount(); i++) {
                     latch.countDown();
                 }
@@ -232,18 +230,18 @@ public class DeviceTest {
                 parameters.add(new Parameter("Param 3", "Value 3"));
                 parameters.add(new Parameter("Param 4", "Value 4"));
                 device.sendNotification(notificationName3, parameters);
+
             }
         }), 5, TimeUnit.SECONDS);
         service.schedule(new Thread(new Runnable() {
             public void run() {
                 List<Parameter> parameters = new ArrayList<Parameter>();
-
                 parameters.add(new Parameter("Param 1", "Value 1"));
                 parameters.add(new Parameter("Param 2", "Value 2"));
                 parameters.add(new Parameter("Param 3", "Value 3"));
                 parameters.add(new Parameter("Param 4", "Value 4"));
                 device.sendNotification(notificationName1, parameters);
-                device.sendNotification(notificationName2, parameters);
+                DHResponse<DeviceNotification> notificationDHResponse=device.sendNotification(notificationName2, parameters);
             }
         }), 2, TimeUnit.SECONDS);
         latch.await(15, TimeUnit.SECONDS);

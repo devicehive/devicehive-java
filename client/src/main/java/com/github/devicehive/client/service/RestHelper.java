@@ -56,6 +56,8 @@ class RestHelper {
     }
 
     void authorize(Callback<JwtAccessToken> callback) {
+        TokenHelper.getInstance().getTokenAuth().setAccessToken(null);
+        RestHelper.getInstance().getApiClient().clearAuthorizations();
         AuthApi authApi = RestHelper.getInstance().getApiClient().createService(AuthApi.class);
         JwtRefreshToken token = new JwtRefreshToken();
         token.setRefreshToken(TokenHelper.getInstance().getTokenAuth().getRefreshToken());

@@ -22,8 +22,6 @@
 package com.github.devicehive.client.service;
 
 import com.github.devicehive.client.api.MainDeviceHive;
-import com.github.devicehive.client.callback.ResponseCallback;
-import com.github.devicehive.client.exceptions.IncorrectUrlException;
 import com.github.devicehive.client.model.CommandFilter;
 import com.github.devicehive.client.model.DHResponse;
 import com.github.devicehive.client.model.DeviceCommandsCallback;
@@ -34,6 +32,8 @@ import com.github.devicehive.client.model.FailureData;
 import com.github.devicehive.client.model.NetworkFilter;
 import com.github.devicehive.client.model.NotificationFilter;
 import com.github.devicehive.client.model.UserFilter;
+import com.github.devicehive.rest.ApiClient;
+import com.github.devicehive.rest.api.ApiInfoApi;
 import com.github.devicehive.rest.api.AuthApi;
 import com.github.devicehive.rest.model.ApiInfo;
 import com.github.devicehive.rest.model.ClusterConfig;
@@ -64,8 +64,6 @@ import com.github.devicehive.websocket.model.repsonse.ResponseAction;
 import org.joda.time.DateTime;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -101,6 +99,7 @@ public class DeviceHive implements MainDeviceHive {
     private NotificationFilter notificationFilter;
     private List<String> commandsIds = new ArrayList<>();
     private CommandFilter commandFilter;
+    private Call<ApiInfo> infoCall;
 
     private DeviceHive() {
     }
@@ -127,7 +126,7 @@ public class DeviceHive implements MainDeviceHive {
     }
 
     public DeviceHive init(String url, String refreshToken, String accessToken) {
-        return init(url, createWSUrl(url), refreshToken, accessToken);
+        return init(url, null, refreshToken, accessToken);
     }
 
     public DeviceHive init(String url, String wsUrl, String refreshToken, String accessToken) {
@@ -135,34 +134,18 @@ public class DeviceHive implements MainDeviceHive {
             throw new NullPointerException("Server url cannot be null or empty");
         }
         this.url = url;
-        if (wsUrl == null || wsUrl.length() == 0) {
-            throw new NullPointerException("Server ws url cannot be null or empty");
-        }
         if (refreshToken == null || refreshToken.length() == 0) {
             throw new NullPointerException("Refresh Token cannot be null or empty");
         }
-        this.wsUrl = wsUrl;
+        if (wsUrl != null && wsUrl.length() > 0) {
+            this.wsUrl = wsUrl;
+            this.createWsServices();
+        }
         this.setAuth(accessToken, refreshToken);
         this.createServices();
-        this.createWsServices();
         RestHelper.getInstance().authorize();
         return this;
     }
-
-    private String createWSUrl(String httpUrl) {
-        try {
-            URI uri = new URI(httpUrl);
-            return new URI(
-                    uri.getScheme().replace(HTTP, WS),
-                    uri.getHost(),
-                    WEBSOCKET_PATH,
-                    null).toString();
-        } catch (URISyntaxException e) {
-            throw new IncorrectUrlException(httpUrl);
-        }
-
-    }
-
 
     private void setAuth(String accessToken, String refreshToken) {
         TokenHelper.getInstance()
@@ -174,14 +157,11 @@ public class DeviceHive implements MainDeviceHive {
     public void enableDebug(boolean enable) {
         RestHelper.getInstance().enableDebug(enable);
         createServices();
-        createWsServices();
-
     }
 
     public void enableDebug(boolean enable, HttpLoggingInterceptor.Level level) {
         RestHelper.getInstance().enableDebug(enable, level);
         createServices();
-        createWsServices();
     }
 
     private void createServices() {
@@ -318,6 +298,7 @@ public class DeviceHive implements MainDeviceHive {
     }
 
     public void login(String username, String password) throws IOException {
+        checkWsInitialized();
         JwtRequest body = new JwtRequest();
         body.setLogin(username);
         body.setPassword(password);
@@ -333,43 +314,43 @@ public class DeviceHive implements MainDeviceHive {
     }
 
     public DHResponse<ApiInfo> getInfo() {
+        checkWsInitialized();
         return apiInfoService.getApiInfo();
     }
 
-    public void getInfo(ResponseCallback<ApiInfo> callback) {
-        apiInfoService.getApiInfo(callback);
-    }
-
-
     public DHResponse<ClusterConfig> getClusterInfo() {
+        checkWsInitialized();
         return apiInfoService.getClusterConfig();
     }
 
-    public void getClusterInfo(ResponseCallback<ClusterConfig> callback) {
-        apiInfoService.getClusterConfig(callback);
-    }
-
     public DHResponse<JwtToken> createToken(List<String> actions, Long userId, List<String> networkIds, List<String> deviceIds, DateTime expiration) {
+        checkWsInitialized();
         return jwtTokenService.createToken(actions, userId, networkIds, deviceIds, expiration);
     }
 
     public DHResponse<JwtAccessToken> refreshToken() {
+        checkWsInitialized();
         return jwtTokenService.getRefreshToken();
     }
 
     public DHResponse<Configuration> getProperty(String name) {
+        checkWsInitialized();
         return configurationService.getProperty(name);
     }
 
     public DHResponse<Configuration> setProperty(String name, String value) {
+        checkWsInitialized();
         return configurationService.setProperty(name, value);
     }
 
     public DHResponse<Void> removeProperty(String name) {
+        checkWsInitialized();
         return configurationService.removeProperty(name);
     }
 
-    public void subscribeCommands(List<String> ids, CommandFilter commandFilter, DeviceCommandsCallback commandsCallback) {
+    public void subscribeCommands(final List<String> ids, final CommandFilter commandFilter, final DeviceCommandsCallback commandsCallback) {
+        checkWsInitialized();
+
         this.commandsCallback = commandsCallback;
         this.commandFilter = commandFilter;
         commandsIds.clear();
@@ -379,6 +360,8 @@ public class DeviceHive implements MainDeviceHive {
     }
 
     public void subscribeNotifications(List<String> ids, NotificationFilter notificationFilter, DeviceNotificationsCallback notificationsCallback) {
+        checkWsInitialized();
+
         this.notificationsCallback = notificationsCallback;
         this.notificationFilter = notificationFilter;
         notificationsIds.clear();
@@ -387,6 +370,8 @@ public class DeviceHive implements MainDeviceHive {
     }
 
     public void unsubscribeCommands(List<String> ids, CommandFilter commandFilter) {
+        checkWsInitialized();
+
         this.commandFilter = commandFilter;
         commandsIds.clear();
         commandsIds.addAll(ids);
@@ -395,6 +380,7 @@ public class DeviceHive implements MainDeviceHive {
     }
 
     public void unsubscribeNotifications(List<String> ids, NotificationFilter notificationFilter) {
+        checkWsInitialized();
         this.notificationFilter = notificationFilter;
         notificationsIds.clear();
         notificationsIds.addAll(ids);
@@ -402,79 +388,126 @@ public class DeviceHive implements MainDeviceHive {
     }
 
     public void unsubscribeAllCommands() {
+        checkWsInitialized();
         if (commandWS != null && commandSubscriptionId != null) {
+            checkWsInitialized();
             commandWS.unsubscribe(commandSubscriptionId, null);
         }
     }
 
     public void unsubscribeAllNotifications() {
+        checkWsInitialized();
         if (notificationWS != null && notificationSubscriptionId != null) {
+            checkWsInitialized();
             notificationWS.unsubscribe(notificationSubscriptionId, null);
         }
     }
 
     public DHResponse<List<Network>> listNetworks(NetworkFilter filter) {
+        checkWsInitialized();
         return networkService.listNetworks(filter);
     }
 
     public DHResponse<NetworkVO> getNetwork(long id) {
+        checkWsInitialized();
         return networkService.getNetwork(id);
     }
 
     public DHResponse<Void> removeNetwork(long id) {
+        checkWsInitialized();
         return networkService.removeNetwork(id);
     }
 
     public DHResponse<Network> createNetwork(String name, String description) {
+        checkWsInitialized();
         return networkService.createNetwork(name, description);
     }
 
     public DHResponse<List<Device>> listDevices(DeviceFilter filter) {
+        checkWsInitialized();
         return deviceService.getDevices(filter);
     }
 
     public DHResponse<Void> removeDevice(String id) {
+        checkWsInitialized();
         return deviceService.removeDevice(id);
     }
 
     public DHResponse<Device> getDevice(String id) {
+        checkWsInitialized();
         return deviceService.getDevice(id);
     }
 
     public DHResponse<User> getCurrentUser() {
+        checkWsInitialized();
         return userService.getCurrentUser();
     }
 
     public DHResponse<List<User>> getUsers(UserFilter filter) {
+        checkWsInitialized();
         return userService.listUsers(filter);
     }
 
     public DHResponse<User> createUser(String login, String password, RoleEnum role, StatusEnum status, JsonStringWrapper data) {
+        checkWsInitialized();
         return userService.createUser(login, password, role, status, data);
     }
 
     public DHResponse<Void> removeUser(long id) {
+        checkWsInitialized();
         return userService.removeUser(id);
     }
 
     //GET SERVICES
     public DHResponse<Void> putDevice(String id, String name) {
+        checkWsInitialized();
         return deviceService.createDevice(id, name);
     }
 
     NetworkService getNetworkService() {
+        checkWsInitialized();
         return networkService;
     }
 
     DeviceCommandService getCommandService() {
+        checkWsInitialized();
         return commandService;
     }
 
     UserService getUserService() {
+        checkWsInitialized();
         return userService;
     }
 
     DeviceNotificationService getDeviceNotificationService() {
+        checkWsInitialized();
         return notificationService;
+    }
+
+    private void checkWsInitialized() {
+        if (wsUrl != null) {
+            return;
+        }
+        if (infoCall != null && infoCall.isExecuted()) {
+            return;
+        }
+        ApiClient apiClient = new ApiClient(url);
+        apiClient.clearAuthorizations();
+        ApiInfoApi api = apiClient.createService(ApiInfoApi.class);
+        infoCall = api.getApiInfo();
+
+        try {
+            Response<ApiInfo> apiInfoResponse = infoCall.execute();
+            if (apiInfoResponse.isSuccessful()) {
+                wsUrl = apiInfoResponse.body().getWebSocketServerUrl();
+                createWsServices();
+            } else {
+                throw new RuntimeException("Couldn't initialize WS client. Error code: "
+                        + apiInfoResponse.code());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

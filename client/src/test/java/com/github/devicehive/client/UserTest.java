@@ -36,7 +36,7 @@ import java.util.List;
 public class UserTest {
 
 
-    private static final String URL = "http://playground.dev.devicehive.com/";
+    private static final String URL = "http://playground.dev.devicehive.com/api/rest";
     private static final String WS_URL = "ws://playground.dev.devicehive.com/api/websocket";
     private static final String NOTIFICATION_A = "notificationA";
     private static final String NOTIFICATION_B = "notificationB";

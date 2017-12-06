@@ -37,7 +37,7 @@ public interface ApiInfoApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @GET(Const.API_REST+"info")
+  @GET("info")
   Call<ApiInfo> getApiInfo();
 
 
@@ -49,7 +49,7 @@ public interface ApiInfoApi {
   @Headers({
     "Content-Type:application/json"
   })
-  @GET(Const.API_REST+"info/config/cluster")
+  @GET("info/config/cluster")
   Call<ClusterConfig> getClusterConfig();
 
 
