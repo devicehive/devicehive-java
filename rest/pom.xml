@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.github.devicehive</groupId>
         <artifactId>devicehive-java</artifactId>
-        <version>3.0.5</version>
+        <version>3.0.6</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <name>devicehive-rest</name>
