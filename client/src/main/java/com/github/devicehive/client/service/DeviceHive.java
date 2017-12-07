@@ -32,7 +32,6 @@ import com.github.devicehive.client.model.FailureData;
 import com.github.devicehive.client.model.NetworkFilter;
 import com.github.devicehive.client.model.NotificationFilter;
 import com.github.devicehive.client.model.UserFilter;
-import com.github.devicehive.rest.ApiClient;
 import com.github.devicehive.rest.api.ApiInfoApi;
 import com.github.devicehive.rest.api.AuthApi;
 import com.github.devicehive.rest.model.ApiInfo;
@@ -491,14 +490,10 @@ public class DeviceHive implements MainDeviceHive {
         if (isWsServicesCreated) {
             return;
         }
-        if (infoCall != null && infoCall.isExecuted()) {
-            return;
-        }
-        ApiClient apiClient = new ApiClient(url);
-        apiClient.clearAuthorizations();
-        ApiInfoApi api = apiClient.createService(ApiInfoApi.class);
+        RestHelper.getInstance().getApiClient().clearAuthorizations();
+        ApiInfoApi api = RestHelper.getInstance().getApiClient()
+                .createService(ApiInfoApi.class);
         infoCall = api.getApiInfo();
-
         try {
             Response<ApiInfo> apiInfoResponse = infoCall.execute();
             if (apiInfoResponse.isSuccessful()) {
@@ -506,6 +501,7 @@ public class DeviceHive implements MainDeviceHive {
                 createWsServices();
                 isWsServicesCreated = true;
             } else {
+                isWsServicesCreated = false;
                 throw new RuntimeException("Couldn't initialize WS client. Error code: "
                         + apiInfoResponse.code());
             }
