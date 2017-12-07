@@ -34,12 +34,11 @@ public class CommandTest {
     private static final String DEVICE_ID = "271990123";
 
     private static final String URL = "***REMOVED***";
-    private static final String WS_URL = "ws://playground.dev.devicehive.com/api/websocket";
     private static final String COM_A = "comA";
     private String accessToken = "***REMOVED***";
     private String refreshToken = "***REMOVED***";
 
-    private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, WS_URL, refreshToken, accessToken);
+    private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, refreshToken, accessToken);
 
     private DHResponse<Device> deviceResponse = deviceHive.getDevice(DEVICE_ID);
 

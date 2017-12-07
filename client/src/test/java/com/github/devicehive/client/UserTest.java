@@ -37,17 +37,10 @@ public class UserTest {
 
 
     private static final String URL = "***REMOVED***";
-    private static final String WS_URL = "ws://playground.dev.devicehive.com/api/websocket";
-    private static final String NOTIFICATION_A = "notificationA";
-    private static final String NOTIFICATION_B = "notificationB";
-    private static final String NOTIFICATION_Z = "notificationZ";
-    private static final String COM_A = "comA";
-    private static final String COM_B = "comB";
-    private static final String COM_Z = "comZ";
     private String accessToken = "***REMOVED***";
     private String refreshToken = "***REMOVED***";
 
-    private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, WS_URL,refreshToken, accessToken);
+    private DeviceHive deviceHive = DeviceHive.getInstance().init(URL,refreshToken, accessToken);
 
     User currentUser = deviceHive.getCurrentUser().getData();
 

@@ -29,7 +29,6 @@ public class Main {
     private static final String refreshToken = "";
 
     private static final String URL = "";
-    private static final String WS_URL = "";
 
     //Constants
     private static final String SUCCESS = "SUCCESS";
@@ -40,7 +39,7 @@ public class Main {
 
     //Initiating DeviceHive
     private static DeviceHive deviceHive = DeviceHive.getInstance()
-            .init(URL, WS_URL, refreshToken, accessToken);
+            .init(URL, refreshToken, accessToken);
 
 
     public static void main(String[] args) {

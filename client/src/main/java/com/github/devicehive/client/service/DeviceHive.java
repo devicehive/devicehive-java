@@ -126,10 +126,6 @@ public class DeviceHive implements MainDeviceHive {
     }
 
     public DeviceHive init(String url, String refreshToken, String accessToken) {
-        return init(url, null, refreshToken, accessToken);
-    }
-
-    public DeviceHive init(String url, String wsUrl, String refreshToken, String accessToken) {
         if (url == null || url.length() == 0) {
             throw new NullPointerException("Server url cannot be null or empty");
         }
