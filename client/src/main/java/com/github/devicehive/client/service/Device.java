@@ -29,6 +29,8 @@ import com.github.devicehive.client.model.DeviceNotificationsCallback;
 import com.github.devicehive.client.model.FailureData;
 import com.github.devicehive.client.model.NotificationFilter;
 import com.github.devicehive.client.model.Parameter;
+import com.github.devicehive.rest.api.ApiInfoApi;
+import com.github.devicehive.rest.model.ApiInfo;
 import com.github.devicehive.rest.model.JsonStringWrapper;
 import com.github.devicehive.rest.model.JwtAccessToken;
 import com.github.devicehive.websocket.api.CommandWS;
@@ -49,6 +51,7 @@ import com.github.devicehive.websocket.model.repsonse.ResponseAction;
 
 import org.joda.time.DateTime;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -60,8 +63,8 @@ import retrofit2.Response;
 public class Device implements DeviceInterface {
 
 
-    private final NotificationWS notificationWS;
-    private final WebSocketClient wsClient;
+    private NotificationWS notificationWS;
+    private WebSocketClient wsClient;
     private CommandWS commandWS;
     private String id = null;
     private String name = null;
@@ -222,7 +225,34 @@ public class Device implements DeviceInterface {
     private NotificationFilter notificationFilter;
 
     private Device() {
-        wsClient = new WebSocketClient.Builder().url(DeviceHive.getInstance().getWSUrl()).build();
+        String wsUrl = DeviceHive.getInstance().getWSUrl();
+        if (wsUrl != null && !wsUrl.isEmpty()) {
+            init(wsUrl);
+        } else {
+            DeviceHive.getInstance().getWebSocketUrlFromServer();
+            RestHelper.getInstance().getApiClient().clearAuthorizations();
+            ApiInfoApi api = RestHelper.getInstance().getApiClient()
+                    .createService(ApiInfoApi.class);
+            Call<ApiInfo> infoCall = api.getApiInfo();
+            try {
+                Response<ApiInfo> apiInfoResponse = infoCall.execute();
+                if (apiInfoResponse.isSuccessful()) {
+                    String webSocketServerUrl = apiInfoResponse.body().getWebSocketServerUrl();
+                    DeviceHive.getInstance().serWSUrl(webSocketServerUrl);
+                    init(webSocketServerUrl);
+                } else {
+                    throw new RuntimeException("Could not initialize WS Client for Device:" + id
+                            + " with error code: " + apiInfoResponse.code());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Error occurred while creating WS Client for device " + id);
+            }
+        }
+    }
+
+    private void init(String wsUrl) {
+        wsClient = new WebSocketClient.Builder().url(wsUrl).build();
         commandWS = wsClient.createCommandWS();
         commandWS.setListener(commandListener);
         notificationWS = wsClient.createNotificationWS();
@@ -318,7 +348,7 @@ public class Device implements DeviceInterface {
 
 
     public void unsubscribeNotifications(NotificationFilter notificationFilter) {
-        this.notificationFilter=notificationFilter;
+        this.notificationFilter = notificationFilter;
         notificationWS.subscribe(null, id, null, notificationFilter.getNotificationNames());
     }
 
