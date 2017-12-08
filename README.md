@@ -18,14 +18,13 @@ Creating a client with a new version of library is very simple. First of all you
 ```java
     DeviceHive deviceHive = DeviceHive.getInstance()
         .init("http://devicehive.server.rest.url", 
-        "ws://devicehive.server.websocket.url",
         new TokenAuth("refreshToken", "accessToken"));
 ```
-or you can initiate the client without Websocket url. In this case `DeviceHive` will create the default url based on rest url:
+or you can initiate the client without Access token. In this case `DeviceHive` will automaticaly get it:
 ```java
     DeviceHive deviceHive = DeviceHive.getInstance()
         .init("http://devicehive.server.rest.url", 
-        new TokenAuth("refreshToken", "accessToken"));
+        new TokenAuth("refreshToken"));
 ```
 
 <details>
