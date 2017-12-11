@@ -24,8 +24,8 @@ package com.github.devicehive.rest.utils;
 public class Const {
 
     //Auth
-    public static final String LOGIN = "***REMOVED***";
-    public static final String PASSWORD = "***REMOVED***";
+    public static final String LOGIN = "";
+    public static final String PASSWORD = "";
 
     //Device
     public static final String DEVICE_ID = "3d77f31c-bddd-443b-b11c-640946b0581z4123tzxc1";

@@ -33,10 +33,10 @@ import org.junit.Test;
 public class CommandTest {
     private static final String DEVICE_ID = "271990123";
 
-    private static final String URL = "***REMOVED***";
+    private static final String URL = "";
     private static final String COM_A = "comA";
-    private String accessToken = "***REMOVED***";
-    private String refreshToken = "***REMOVED***";
+    private String accessToken = "";
+    private String refreshToken = "";
 
     private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, refreshToken, accessToken);
 

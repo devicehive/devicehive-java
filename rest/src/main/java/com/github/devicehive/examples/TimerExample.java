@@ -27,16 +27,17 @@ import com.github.devicehive.rest.auth.ApiKeyAuth;
 import com.github.devicehive.rest.model.JwtRequest;
 import com.github.devicehive.rest.model.JwtToken;
 import com.github.devicehive.rest.utils.Const;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class TimerExample {
-    public static final String URL = "***REMOVED***";
+    public static final String URL = "";
 
     public static void main(String[] args) {
         final ExecutorService executorService = Executors.newFixedThreadPool(2);

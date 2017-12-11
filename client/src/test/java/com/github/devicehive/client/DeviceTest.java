@@ -50,7 +50,6 @@ import java.util.concurrent.TimeUnit;
 public class DeviceTest {
 
 
-    private static final String URL = "***REMOVED***";
     private static final String NOTIFICATION_A = "notificationA";
     private static final String NOTIFICATION_B = "notificationB";
     private static final String NOTIFICATION_Z = "notificationZ";
@@ -58,8 +57,10 @@ public class DeviceTest {
     private static final String COM_B = "comB";
     private static final String COM_Z = "comZ";
     private static final String DEVICE_PREFIX = "JAVA-LIB-";
-    private String accessToken = "***REMOVED***";
-    private String refreshToken = "***REMOVED***";
+
+    private static final String URL = "";
+    private String accessToken = "";
+    private String refreshToken = "";
 
     private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, refreshToken, accessToken);
 

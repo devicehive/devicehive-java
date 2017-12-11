@@ -39,9 +39,9 @@ import retrofit2.Response;
 
 class Helper {
 
-    private static final String LOGIN = "***REMOVED***";
-    private static final String PASSWORD = "***REMOVED***";
-    private static final String URL = "***REMOVED***";
+    private static final String LOGIN = "";
+    private static final String PASSWORD = "";
+    private static final String URL = "";
 
     ApiClient client = new ApiClient(URL);
 

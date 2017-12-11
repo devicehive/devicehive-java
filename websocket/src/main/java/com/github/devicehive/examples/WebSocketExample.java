@@ -32,8 +32,8 @@ import com.github.devicehive.websocket.model.repsonse.*;
 import java.util.List;
 
 public class WebSocketExample {
-    private static final String URL = "ws://playground.dev.devicehive.com/api/websocket";
-    private static final String TOKEN = "***REMOVED***";
+    private static final String URL = "";
+    private static final String TOKEN = "";
 
     public static void main(String[] args) {
 
@@ -114,7 +114,6 @@ public class WebSocketExample {
                 null, null,
                 null, 0, 0);
         deviceWS.get(null, "441z79GRgY0QnV9HKrLra8Jt2FXRQ6MzqmuP");
-//        deviceWS.delete(null, "1234");
         commandWS.list(null, "3d77f31c-bddd-443b-b11c-640946b0581z4123tzxc3", null, null, "ALARM", null, null, null, null);
 
     }

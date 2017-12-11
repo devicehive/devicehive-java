@@ -41,12 +41,15 @@ import retrofit2.Response;
 public class AuthApiTest extends Helper {
 
 
+    private static String PASSWORD="";
+    private static String LOGIN="";
+
     @Test
     public void getToken() throws IOException {
         AuthApi api = client.createService(AuthApi.class);
         JwtRequest requestBody = new JwtRequest();
-        requestBody.setLogin("***REMOVED***");
-        requestBody.setPassword("***REMOVED***");
+        requestBody.setLogin(LOGIN);
+        requestBody.setPassword(PASSWORD);
 
         Response<JwtToken> response = api.login(requestBody).execute();
 
@@ -72,8 +75,8 @@ public class AuthApiTest extends Helper {
     public void refreshToken() throws IOException {
         AuthApi api = client.createService(AuthApi.class);
         JwtRequest requestBody = new JwtRequest();
-        requestBody.setLogin("***REMOVED***");
-        requestBody.setPassword("***REMOVED***");
+        requestBody.setLogin(LOGIN);
+        requestBody.setPassword(PASSWORD);
 
         Response<JwtToken> loginResponse = api.login(requestBody).execute();
 

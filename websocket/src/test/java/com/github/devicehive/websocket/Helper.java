@@ -24,12 +24,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 class Helper {
-  static final String HTTP_URL = "***REMOVED***";
-  private static final String URL = "ws://playground.dev.devicehive.com/api/websocket";
-  String accessToken =
-      "***REMOVED***";
-  static final String REFRESH_TOKEN =
-      "***REMOVED***";
+  static final String HTTP_URL = "";
+  private static final String URL = "";
+  String accessToken = "";
+  static final String REFRESH_TOKEN = "";
 
   int awaitTimeout = 10;
   TimeUnit awaitTimeUnit = TimeUnit.SECONDS;

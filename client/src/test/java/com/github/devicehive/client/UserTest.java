@@ -36,9 +36,9 @@ import java.util.List;
 public class UserTest {
 
 
-    private static final String URL = "***REMOVED***";
-    private String accessToken = "***REMOVED***";
-    private String refreshToken = "***REMOVED***";
+    private static final String URL = "";
+    private String accessToken = "";
+    private String refreshToken = "";
 
     private DeviceHive deviceHive = DeviceHive.getInstance().init(URL,refreshToken, accessToken);
 

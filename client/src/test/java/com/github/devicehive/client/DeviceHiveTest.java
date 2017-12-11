@@ -54,9 +54,11 @@ import java.util.concurrent.TimeUnit;
 
 public class DeviceHiveTest {
 
-    private static final String URL = "***REMOVED***";
-    private String accessToken = "***REMOVED***";
-    private String refreshToken = "***REMOVED***";
+    private static final String URL = "";
+    public static final String PASSWORD = "";
+    public static final String LOGIN="";
+    private String accessToken = "";
+    private String refreshToken = "";
 
     private static final String DEVICE_ID = "271990123";
     private static final String DEVICE_ID2 = "271990";
@@ -72,7 +74,7 @@ public class DeviceHiveTest {
 
     @Test
     public void createToken() throws IOException {
-        deviceHive.login("***REMOVED***", "***REMOVED***");
+        deviceHive.login(LOGIN, PASSWORD);
 
         List<String> actions = new ArrayList<String>();
         actions.add("*");

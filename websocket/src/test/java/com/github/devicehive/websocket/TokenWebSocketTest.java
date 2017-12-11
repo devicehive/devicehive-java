@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 public class TokenWebSocketTest extends Helper {
-    private static String LOGIN = "***REMOVED***";
-    private static String PASSWORD = "***REMOVED***";
+    private static String LOGIN = "";
+    private static String PASSWORD = "";
     private CountDownLatch latch;
     private TokenWS tokenWS;
 
