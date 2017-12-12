@@ -105,7 +105,7 @@ public class DeviceHiveTest {
 
     @Test
     public void refreshToken() throws IOException {
-        deviceHive.login("***REMOVED***", "***REMOVED***");
+        deviceHive.login("***REMOVED**", "***REMOVED***");
 
         DHResponse<JwtAccessToken> response2 = deviceHive.refreshToken();
         Assert.assertTrue(response2.isSuccessful());
