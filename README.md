@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/devicehive/devicehive-java.svg?branch=master)](https://travis-ci.org/devicehive/devicehive-java)
-
 DeviceHive Java Client Library & Examples
 =========================================
 
@@ -17,14 +15,12 @@ sensing, telemetry, remote control and monitoring software and much more.
 Creating a client with a new version of library is very simple. First of all you need to initiate `DeviceHive` client:
 ```java
     DeviceHive deviceHive = DeviceHive.getInstance()
-        .init("http://devicehive.server.rest.url", 
-        new TokenAuth("refreshToken", "accessToken"));
+        .init("http://devicehive.server.rest.url", "refreshToken", "accessToken");
 ```
 or you can initiate the client without Access token. In this case `DeviceHive` will automaticaly get it:
 ```java
     DeviceHive deviceHive = DeviceHive.getInstance()
-        .init("http://devicehive.server.rest.url", 
-        new TokenAuth("refreshToken"));
+        .init("http://devicehive.server.rest.url", "refreshToken");
 ```
 
 <details>
