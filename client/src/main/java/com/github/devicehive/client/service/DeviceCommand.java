@@ -25,6 +25,8 @@ import com.github.devicehive.client.model.DHResponse;
 import com.github.devicehive.rest.model.DeviceCommandWrapper;
 import com.github.devicehive.rest.model.JsonStringWrapper;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,6 +39,8 @@ public class DeviceCommand {
     private Long networkId = null;
     private JsonStringWrapper parameters = null;
     private String status;
+    private DateTime timestamp;
+    private int lifetime;
     private JsonStringWrapper result;
 
     private DeviceCommand() {
@@ -61,6 +65,14 @@ public class DeviceCommand {
 
     public JsonStringWrapper getParameters() {
         return parameters;
+    }
+
+    public DateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public int getLifetime() {
+        return lifetime;
     }
 
     public String getStatus() {
@@ -90,6 +102,7 @@ public class DeviceCommand {
         deviceCommand.deviceId = deviceId;
         deviceCommand.networkId = networkId;
         deviceCommand.parameters = parameters;
+        deviceCommand.timestamp = command.getTimestamp();
         return deviceCommand;
     }
 
@@ -103,6 +116,7 @@ public class DeviceCommand {
         deviceCommand.deviceId = command.getDeviceId();
         deviceCommand.parameters = command.getParameters();
         deviceCommand.networkId = command.getNetworkId();
+        deviceCommand.timestamp = command.getTimestamp();
         return deviceCommand;
     }
 
@@ -115,9 +129,8 @@ public class DeviceCommand {
         deviceCommand.id = command.getId();
         deviceCommand.deviceId = command.getDeviceId();
         deviceCommand.networkId = command.getNetworkId();
-        if (command.getParameters() != null) {
-            deviceCommand.parameters = new JsonStringWrapper(command.getParameters().getJsonString());
-        }
+        deviceCommand.parameters = command.getParameters();
+        deviceCommand.timestamp = command.getTimestamp();
         return deviceCommand;
     }
 
@@ -153,9 +166,11 @@ public class DeviceCommand {
     public boolean updateCommand() {
         DeviceCommandWrapper wrapper = new DeviceCommandWrapper();
         wrapper.setCommand(commandName);
-        if (parameters != null) {
-            wrapper.setParameters(new JsonStringWrapper(parameters.getJsonString()));
-        }
+        wrapper.setParameters(parameters);
+        wrapper.setResult(result);
+        wrapper.setStatus(status);
+        wrapper.setTimestamp(timestamp);
+        wrapper.setLifetime(lifetime);
         return DeviceHive.getInstance().getCommandService().updateCommand(deviceId, id, wrapper).isSuccessful();
     }
 

@@ -22,6 +22,7 @@
 package com.github.devicehive.rest.adapters;
 
 
+import com.github.devicehive.rest.model.JsonStringWrapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 import com.google.gson.TypeAdapter;
@@ -41,7 +42,7 @@ public class JsonStringWrapperAdapterFactory implements TypeAdapterFactory {
 
     @Override
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
-        if (!com.github.devicehive.rest.model.JsonStringWrapper.class.isAssignableFrom(type.getRawType())) {
+        if (!JsonStringWrapper.class.isAssignableFrom(type.getRawType())) {
             return null;
         }
         /**
@@ -52,22 +53,22 @@ public class JsonStringWrapperAdapterFactory implements TypeAdapterFactory {
         return result;
     }
 
-    private static class JsonStringWrapperAdapter extends TypeAdapter<com.github.devicehive.rest.model.JsonStringWrapper> {
+    private static class JsonStringWrapperAdapter extends TypeAdapter<JsonStringWrapper> {
 
 
         @Override
-        public void write(JsonWriter out, com.github.devicehive.rest.model.JsonStringWrapper value) throws IOException {
+        public void write(JsonWriter out, JsonStringWrapper value) throws IOException {
             if (value == null) {
                 out.nullValue();
             } else {
-                Streams.write(new JsonParser().parse(value.getJsonString()), out);
+                Streams.write(new JsonParser().parse(new Gson().toJson(value)), out);
             }
 
         }
 
         @Override
-        public com.github.devicehive.rest.model.JsonStringWrapper read(JsonReader in) throws IOException {
-            com.github.devicehive.rest.model.JsonStringWrapper wrapper = new com.github.devicehive.rest.model.JsonStringWrapper();
+        public JsonStringWrapper read(JsonReader in) {
+            JsonStringWrapper wrapper = new JsonStringWrapper();
             try {
                 JsonToken jsonToken = in.peek();
                 if (jsonToken == JsonToken.NULL) {

@@ -25,24 +25,13 @@ import com.github.devicehive.client.model.DHResponse;
 import com.github.devicehive.client.model.Parameter;
 import com.github.devicehive.rest.api.DeviceCommandApi;
 import com.github.devicehive.rest.model.DeviceCommandWrapper;
+
 import org.joda.time.DateTime;
 import org.joda.time.Period;
-import retrofit2.Call;
-import retrofit2.Callback;
 
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 class DeviceCommandService extends BaseService {
-
-    public static final String CANCELED = "Canceled";
-    private Call<List<com.github.devicehive.rest.model.DeviceCommand>> pollCall;
-    private boolean isSubscribed = false;
-    private boolean isSubscribedMany = false;
-    private Callback<List<com.github.devicehive.rest.model.DeviceCommand>> pollCommandsCallback;
-    private Call<List<com.github.devicehive.rest.model.DeviceCommand>> pollManyCall;
-    private CountDownLatch pollLatch = new CountDownLatch(1);
-
 
     DHResponse<List<DeviceCommand>> getDeviceCommands(String deviceId, DateTime startTimestamp,
                                                       DateTime endTimestamp, int maxNumber) {
