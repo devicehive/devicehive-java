@@ -286,7 +286,7 @@ public class Device implements DeviceInterface {
     }
 
     public void save() {
-        DeviceHive.getInstance().putDevice(id, name);
+        DeviceHive.getInstance().updateDevice(this);
     }
 
     public List<DeviceCommand> getCommands(DateTime startTimestamp, DateTime endTimestamp, int maxNumber) {

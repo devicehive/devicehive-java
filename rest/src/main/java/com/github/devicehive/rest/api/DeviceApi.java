@@ -21,11 +21,19 @@
 
 package com.github.devicehive.rest.api;
 
+import com.github.devicehive.rest.model.Device;
 import com.github.devicehive.rest.model.DeviceUpdate;
-import retrofit2.Call;
-import retrofit2.http.*;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 
 public interface DeviceApi {
@@ -54,7 +62,7 @@ public interface DeviceApi {
             "Content-Type:application/json"
     })
     @GET("device/{id}")
-    Call<com.github.devicehive.rest.model.Device> get(
+    Call<Device> get(
             @Path("id") String id
     );
 
@@ -76,7 +84,7 @@ public interface DeviceApi {
             "Content-Type:application/json"
     })
     @GET("device")
-    Call<List<com.github.devicehive.rest.model.Device>> list(
+    Call<List<Device>> list(
             @Query("name") String name,
             @Query("namePattern") String namePattern,
             @Query("networkId") Long networkId,

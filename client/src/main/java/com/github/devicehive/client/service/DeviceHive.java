@@ -459,6 +459,10 @@ public class DeviceHive implements MainDeviceHive {
         return deviceService.createDevice(id, name);
     }
 
+    void updateDevice(Device device) {
+        deviceService.updateDevice(device);
+    }
+
     NetworkService getNetworkService() {
         return networkService;
     }
