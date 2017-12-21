@@ -233,7 +233,7 @@ allprojects {
 Gradle is the only supported build configuration, so just add the dependency to your project `build.gradle` file:
  ```groovy
 dependencies {  
-   compile 'com.github.devicehive:devicehive-java:3.0.10'
+   compile 'com.github.devicehive:devicehive-java:3.0.11'
 }
 ```
 DeviceHive Server
