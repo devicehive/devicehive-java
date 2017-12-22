@@ -26,14 +26,14 @@ import com.github.devicehive.rest.api.ApiInfoApi;
 import com.github.devicehive.rest.api.DeviceApi;
 import com.github.devicehive.rest.api.DeviceCommandApi;
 import com.github.devicehive.rest.api.DeviceNotificationApi;
+import com.github.devicehive.rest.model.Device;
 import com.github.devicehive.rest.model.DeviceCommandWrapper;
 import com.github.devicehive.rest.model.DeviceNotification;
-import com.github.devicehive.rest.model.Device;
 import com.github.devicehive.rest.model.JsonStringWrapper;
 import com.github.devicehive.rest.utils.Const;
 import com.google.gson.Gson;
+
 import org.joda.time.DateTime;
-import retrofit2.Response;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -41,6 +41,10 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import retrofit2.Response;
+
+import static com.github.devicehive.examples.TimerDevice.DEVICE_ID;
 
 class TimerClient {
     private ScheduledExecutorService ses;
@@ -53,6 +57,7 @@ class TimerClient {
 
     private String deviceId = null;
     private DateTime timestamp = null;
+
 
     public TimerClient(ApiClient client) {
         this.client = client;
@@ -99,7 +104,7 @@ class TimerClient {
             @Override
             public void run() {
                 try {
-                    setTimer(Const.DEVICE_ID, true, DateTime.now().plusSeconds(5));
+                    setTimer(DEVICE_ID, true, DateTime.now().plusSeconds(5));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -120,7 +125,7 @@ class TimerClient {
 
     private void pollNotifications(String timestamp) throws IOException {
         List<DeviceNotification> deviceNotifications =
-                notificationApi.poll(Const.DEVICE_ID, null, timestamp, 30L).execute().body();
+                notificationApi.poll(DEVICE_ID, null, timestamp, 30L).execute().body();
         if (deviceNotifications.size() != 0) {
             Collections.sort(deviceNotifications);
             DeviceNotification notification = deviceNotifications.get(deviceNotifications.size() - 1);

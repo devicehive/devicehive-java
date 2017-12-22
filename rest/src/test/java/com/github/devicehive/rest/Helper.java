@@ -27,29 +27,31 @@ import com.github.devicehive.rest.api.DeviceApi;
 import com.github.devicehive.rest.api.NetworkApi;
 import com.github.devicehive.rest.api.UserApi;
 import com.github.devicehive.rest.auth.ApiKeyAuth;
-import com.github.devicehive.rest.model.*;
+import com.github.devicehive.rest.model.DeviceUpdate;
+import com.github.devicehive.rest.model.JwtRequest;
+import com.github.devicehive.rest.model.JwtToken;
+import com.github.devicehive.rest.model.Network;
+import com.github.devicehive.rest.model.NetworkId;
+import com.github.devicehive.rest.model.NetworkUpdate;
+import com.github.devicehive.rest.model.UserVO;
 import com.github.devicehive.rest.utils.Const;
 
 import java.io.IOException;
 import java.util.List;
 
-
 import retrofit2.Response;
+
 
 
 class Helper {
 
-    private static final String LOGIN = "";
-    private static final String PASSWORD = "";
-    private static final String URL = "";
-
-    ApiClient client = new ApiClient(URL);
+    ApiClient client = new ApiClient(System.getProperty("url"));
 
     boolean authenticate() throws IOException {
         AuthApi api = client.createService(AuthApi.class);
         JwtRequest requestBody = new JwtRequest();
-        requestBody.setLogin(LOGIN);
-        requestBody.setPassword(PASSWORD);
+        requestBody.setLogin(System.getProperty("login"));
+        requestBody.setPassword(System.getProperty("password"));
         Response<JwtToken> response = api.login(requestBody).execute();
         if (response.isSuccessful()) {
             client.addAuthorization(ApiClient.AUTH_API_KEY, ApiKeyAuth.newInstance(response.body().getAccessToken()));

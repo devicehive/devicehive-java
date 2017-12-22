@@ -19,11 +19,8 @@ import retrofit2.Response;
 
 class RESTHelper {
 
-    private static final String LOGIN = "";
-    private static final String PASSWORD = "";
-    private static final String URL = "";
 
-    ApiClient client = new ApiClient(URL);
+    ApiClient client = new ApiClient(System.getProperty("url"));
 
     RESTHelper() {
         authenticate();
@@ -32,8 +29,8 @@ class RESTHelper {
     boolean authenticate() {
         AuthApi api = client.createService(AuthApi.class);
         JwtRequest requestBody = new JwtRequest();
-        requestBody.setLogin(LOGIN);
-        requestBody.setPassword(PASSWORD);
+        requestBody.setLogin(System.getProperty("login"));
+        requestBody.setPassword(System.getProperty("password"));
         Response<JwtToken> response = null;
         try {
             response = api.login(requestBody).execute();

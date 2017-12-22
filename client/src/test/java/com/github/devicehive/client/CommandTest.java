@@ -31,14 +31,13 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class CommandTest {
-    private static final String DEVICE_ID = "271990123";
 
-    private static final String URL = "";
-    private static final String COM_A = "comA";
-    private String accessToken = "";
-    private String refreshToken = "";
-
-    private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, refreshToken, accessToken);
+    static final String COM_A = "comA";
+    static final String DEVICE_ID = "CommandTest-123";
+    private DeviceHive deviceHive = DeviceHive.getInstance().init(
+            System.getProperty("url"),
+            System.getProperty("refreshToken"),
+            System.getProperty("accessToken"));
 
     private DHResponse<Device> deviceResponse = deviceHive.getDevice(DEVICE_ID);
 
@@ -49,8 +48,9 @@ public class CommandTest {
         DHResponse<DeviceCommand> response = device.sendCommand(COM_A, null);
         Assert.assertTrue(response.isSuccessful());
         DeviceCommand command = response.getData();
+        command.setStatus("COMPLETED");
         command.setResult(new JsonStringWrapper("SUCCESS"));
-        command.updateCommand();
+        Assert.assertTrue(command.updateCommand());
         Assert.assertTrue(command.fetchCommandResult().getData() != null);
     }
 }

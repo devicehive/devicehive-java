@@ -26,7 +26,6 @@ import com.github.devicehive.rest.api.AuthApi;
 import com.github.devicehive.rest.auth.ApiKeyAuth;
 import com.github.devicehive.rest.model.JwtRequest;
 import com.github.devicehive.rest.model.JwtToken;
-import com.github.devicehive.rest.utils.Const;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -37,13 +36,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class TimerExample {
-    public static final String URL = "";
+    private static final String URL = "";
+    private static final String LOGIN = "";
+    private static final String PASSWORD = "";
 
     public static void main(String[] args) {
         final ExecutorService executorService = Executors.newFixedThreadPool(2);
 
 
-        JwtRequest auth = new JwtRequest(Const.LOGIN, Const.PASSWORD);
+        JwtRequest auth = new JwtRequest(LOGIN, PASSWORD);
         final ApiClient client = new ApiClient(URL);
 
         client.createService(AuthApi.class).login(auth).enqueue(new Callback<JwtToken>() {

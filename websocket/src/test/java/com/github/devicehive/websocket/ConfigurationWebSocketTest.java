@@ -36,7 +36,7 @@ public class ConfigurationWebSocketTest extends Helper {
     private ConfigurationWS configurationWS;
     private String configurationName;
     private boolean configurationDeleted = false;
-    private ApiClient apiClient = new ApiClient(HTTP_URL);
+    private ApiClient apiClient = new ApiClient(getRestUrl());
 
     @Before
     public void preTest() throws InterruptedException, IOException {
@@ -149,7 +149,7 @@ public class ConfigurationWebSocketTest extends Helper {
     private boolean insertNewConfiguration() throws IOException {
         AuthApi authApi = apiClient.createService(AuthApi.class);
         JwtRefreshToken refreshToken = new JwtRefreshToken();
-        refreshToken.setRefreshToken(REFRESH_TOKEN);
+        refreshToken.setRefreshToken(getRefreshToken());
         Response<JwtAccessToken> response = authApi.refreshTokenRequest(refreshToken).execute();
 
         if (response.isSuccessful()) {

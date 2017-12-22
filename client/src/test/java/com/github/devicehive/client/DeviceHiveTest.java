@@ -54,17 +54,13 @@ import java.util.concurrent.TimeUnit;
 
 public class DeviceHiveTest {
 
-    private static final String URL = "";
-    public static final String PASSWORD = "";
-    public static final String LOGIN="";
-    private String accessToken = "";
-    private String refreshToken = "";
-
     private static final String DEVICE_ID = "271990123";
     private static final String DEVICE_ID2 = "271990";
 
     private DeviceHive deviceHive = DeviceHive.getInstance()
-            .init(URL, refreshToken, accessToken);
+            .init( System.getProperty("url"),
+                    System.getProperty("refreshToken"),
+                    System.getProperty("accessToken"));
 
     @Test
     public void apiInfoTest() {
@@ -72,9 +68,9 @@ public class DeviceHiveTest {
         Assert.assertTrue(response.isSuccessful());
     }
 
-    @Test
+//    @Test
     public void createToken() throws IOException {
-        deviceHive.login(LOGIN, PASSWORD);
+        deviceHive.login(System.getProperty("login"), System.getProperty("password"));
 
         List<String> actions = new ArrayList<String>();
         actions.add("*");

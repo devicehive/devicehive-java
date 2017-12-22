@@ -36,13 +36,12 @@ import java.util.List;
 public class UserTest {
 
 
-    private static final String URL = "";
-    private String accessToken = "";
-    private String refreshToken = "";
+    private DeviceHive deviceHive = DeviceHive.getInstance().init(
+            System.getProperty("url"),
+            System.getProperty("refreshToken"),
+            System.getProperty("accessToken"));
 
-    private DeviceHive deviceHive = DeviceHive.getInstance().init(URL,refreshToken, accessToken);
-
-    User currentUser = deviceHive.getCurrentUser().getData();
+    private User currentUser = deviceHive.getCurrentUser().getData();
 
     @Test
     public void getUserNetworks() {

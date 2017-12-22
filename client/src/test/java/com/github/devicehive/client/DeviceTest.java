@@ -58,11 +58,10 @@ public class DeviceTest {
     private static final String COM_Z = "comZ";
     private static final String DEVICE_PREFIX = "JAVA-LIB-";
 
-    private static final String URL = "";
-    private String accessToken = "";
-    private String refreshToken = "";
-
-    private DeviceHive deviceHive = DeviceHive.getInstance().init(URL, refreshToken, accessToken);
+    private DeviceHive deviceHive = DeviceHive.getInstance().init(
+            System.getProperty("url"),
+            System.getProperty("refreshToken"),
+            System.getProperty("accessToken"));
 
 
     @Test
@@ -177,7 +176,6 @@ public class DeviceTest {
     @Test
     public void subscribeNotifications() throws IOException, InterruptedException {
         String deviceId = DEVICE_PREFIX + UUID.randomUUID().toString();
-        deviceHive.enableDebug(true);
         DHResponse<Device> deviceResponse = deviceHive.getDevice(deviceId);
         Assert.assertTrue(deviceResponse.isSuccessful());
         final Device device = deviceResponse.getData();

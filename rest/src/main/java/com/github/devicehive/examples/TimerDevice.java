@@ -26,6 +26,7 @@ import com.github.devicehive.rest.api.*;
 import com.github.devicehive.rest.model.*;
 import com.github.devicehive.rest.utils.Const;
 import com.google.gson.Gson;
+
 import org.joda.time.DateTime;
 
 import java.io.IOException;
@@ -38,7 +39,7 @@ import java.util.concurrent.TimeUnit;
 class TimerDevice {
     private DateTime alarmTime = null;
     private DateTime currentTime = null;
-
+    static final String DEVICE_ID = "TIMER-1234";
     private ApiClient client;
 
     private ScheduledExecutorService ses;
@@ -77,7 +78,7 @@ class TimerDevice {
             public void run() {
                 DeviceNotificationWrapper myDevice = getTimestampNotificationWrapper();
                 try {
-                    notificationApiImpl.insert(Const.DEVICE_ID, myDevice).execute();
+                    notificationApiImpl.insert(DEVICE_ID, myDevice).execute();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -90,7 +91,7 @@ class TimerDevice {
             public void run() {
                 List<DeviceCommand> commands = null;
                 try {
-                    commands = commandApiImpl.poll(Const.DEVICE_ID, "ON", timestamp.toString(), 30L, null)
+                    commands = commandApiImpl.poll(DEVICE_ID, "ON", timestamp.toString(), 30L, null)
                             .execute()
                             .body();
                 } catch (IOException e) {
@@ -119,7 +120,7 @@ class TimerDevice {
                 DeviceNotificationWrapper alarmNotification = createAlarmNotificationWrapper();
                 if (isAlarmTime()) {
                     try {
-                        notificationApiImpl.insert(Const.DEVICE_ID, alarmNotification).execute();
+                        notificationApiImpl.insert(DEVICE_ID, alarmNotification).execute();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -137,7 +138,7 @@ class TimerDevice {
                     execute().body();
             if (networks != null && !networks.isEmpty()) {
                 device.setNetworkId(networks.get(0).getId());
-                deviceApiImpl.register(device, Const.DEVICE_ID).execute().raw().toString();
+                deviceApiImpl.register(device, DEVICE_ID).execute().raw().toString();
             }
         } catch (IOException e) {
             e.printStackTrace();

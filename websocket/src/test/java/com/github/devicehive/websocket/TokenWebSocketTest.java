@@ -18,8 +18,6 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 public class TokenWebSocketTest extends Helper {
-    private static String LOGIN = "";
-    private static String PASSWORD = "";
     private CountDownLatch latch;
     private TokenWS tokenWS;
 
@@ -104,7 +102,7 @@ public class TokenWebSocketTest extends Helper {
 
             }
         });
-        tokenWS.get(null, LOGIN, PASSWORD);
+        tokenWS.get(null, getLogin(), getPassword());
         latch.await(awaitTimeout, awaitTimeUnit);
         Assert.assertEquals(latch.getCount(), 0);
     }
@@ -135,7 +133,7 @@ public class TokenWebSocketTest extends Helper {
 
             }
         });
-        tokenWS.get(null, LOGIN, PASSWORD);
+        tokenWS.get(null, getLogin(), getPassword());
         latch.await(awaitTimeout, awaitTimeUnit);
         Assert.assertEquals(latch.getCount(), 0);
     }

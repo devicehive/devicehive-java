@@ -22,10 +22,10 @@
 package com.github.devicehive.websocket.model;
 
 import com.github.devicehive.rest.adapters.DateTimeTypeAdapter;
-import com.github.devicehive.rest.adapters.JsonStringWrapperAdapterFactory;
 import com.github.devicehive.websocket.Const;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 import org.joda.time.DateTime;
 
 public class GsonHelper {
@@ -34,7 +34,6 @@ public class GsonHelper {
 
     private GsonHelper() {
         gson = new GsonBuilder()
-                .registerTypeAdapterFactory(new JsonStringWrapperAdapterFactory())
                 .registerTypeAdapter(DateTime.class, new DateTimeTypeAdapter(Const.TIMESTAMP_FORMAT))
                 .create();
     }

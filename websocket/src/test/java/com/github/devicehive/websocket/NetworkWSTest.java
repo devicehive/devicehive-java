@@ -57,7 +57,7 @@ public class NetworkWSTest extends Helper {
     private long networkId;
     private boolean networkWasDeleted = false;
     private String networkName;
-    ApiClient apiClient = new ApiClient(HTTP_URL);
+    ApiClient apiClient = new ApiClient(getRestUrl());
 
     @Before
     public void preTest() throws InterruptedException, IOException {
@@ -276,7 +276,7 @@ public class NetworkWSTest extends Helper {
     private long insertNetwork() throws IOException {
         AuthApi authApi = apiClient.createService(AuthApi.class);
         JwtRefreshToken refreshToken = new JwtRefreshToken();
-        refreshToken.setRefreshToken(REFRESH_TOKEN);
+        refreshToken.setRefreshToken(getRefreshToken());
         Response<JwtAccessToken> response = authApi.refreshTokenRequest(refreshToken).execute();
 
         if (response.isSuccessful()) {
