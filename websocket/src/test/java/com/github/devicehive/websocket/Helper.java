@@ -1,7 +1,11 @@
 package com.github.devicehive.websocket;
 
+import com.github.devicehive.rest.ApiClient;
+import com.github.devicehive.rest.api.AuthApi;
 import com.github.devicehive.rest.model.Device;
 import com.github.devicehive.rest.model.DeviceUpdate;
+import com.github.devicehive.rest.model.JwtRequest;
+import com.github.devicehive.rest.model.JwtToken;
 import com.github.devicehive.rest.model.NetworkUpdate;
 import com.github.devicehive.websocket.api.AuthListener;
 import com.github.devicehive.websocket.api.ConfigurationWS;
@@ -19,6 +23,7 @@ import com.github.devicehive.websocket.model.repsonse.ResponseAction;
 import com.github.devicehive.websocket.model.repsonse.TokenGetResponse;
 import com.github.devicehive.websocket.model.repsonse.TokenRefreshResponse;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -34,15 +39,36 @@ class Helper {
 
     private TokenWS tokenWS;
     private DeviceWS deviceWS;
+
     Helper() {
         restUrl = System.getProperty("url");
-        accessToken = System.getProperty("accessToken");
-        refreshToken = System.getProperty("refreshToken");
         login = System.getProperty("login");
         password = System.getProperty("password");
         client = new WebSocketClient.Builder().url(System.getProperty("wsUrl")).build();
         tokenWS = client.createTokenWS();
         deviceWS = client.createDeviceWS();
+        try {
+            JwtToken jwtToken = login(restUrl);
+            accessToken = jwtToken.getAccessToken();
+            refreshToken = jwtToken.getRefreshToken();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public JwtToken login(String url) throws IOException {
+        String login = System.getProperty("login");
+        String password = System.getProperty("password");
+        ApiClient apiClient = new ApiClient(url);
+
+        AuthApi authApi = apiClient.createService(AuthApi.class);
+        JwtRequest body = new JwtRequest();
+        body.setLogin(login);
+        body.setPassword(password);
+
+        return authApi.login(body).execute().body();
     }
 
     public String getRestUrl() {

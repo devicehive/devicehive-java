@@ -30,7 +30,7 @@ import java.io.IOException;
 
 public class Helper {
 
-    public JwtToken login(String url) throws IOException {
+    JwtToken login(String url) throws IOException {
         String login = System.getProperty("login");
         String password = System.getProperty("password");
         ApiClient apiClient = new ApiClient(url);
