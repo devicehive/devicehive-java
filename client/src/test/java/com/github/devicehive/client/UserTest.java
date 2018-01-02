@@ -27,19 +27,30 @@ import com.github.devicehive.client.service.DeviceHive;
 import com.github.devicehive.client.service.Network;
 import com.github.devicehive.client.service.User;
 import com.github.devicehive.rest.model.JsonStringWrapper;
+import com.github.devicehive.rest.model.JwtToken;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.List;
 
-public class UserTest {
+public class UserTest extends Helper {
 
 
-    private DeviceHive deviceHive = DeviceHive.getInstance().init(
-            System.getProperty("url"),
-            System.getProperty("refreshToken"),
-            System.getProperty("accessToken"));
+    private DeviceHive deviceHive;
+
+    @Before
+    public void init() throws IOException {
+        String url = System.getProperty("url");
+        JwtToken token = login(url);
+
+        deviceHive = DeviceHive.getInstance().init(
+                url,
+                token.getRefreshToken(),
+                token.getAccessToken());
+    }
 
     private User currentUser = deviceHive.getCurrentUser().getData();
 

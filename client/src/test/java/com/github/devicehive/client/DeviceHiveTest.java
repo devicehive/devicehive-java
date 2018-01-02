@@ -42,6 +42,7 @@ import com.github.devicehive.rest.model.StatusEnum;
 
 import org.joda.time.DateTime;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -52,15 +53,23 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class DeviceHiveTest {
+public class DeviceHiveTest extends Helper {
 
     private static final String DEVICE_ID = "271990123";
     private static final String DEVICE_ID2 = "271990";
 
-    private DeviceHive deviceHive = DeviceHive.getInstance()
-            .init( System.getProperty("url"),
-                    System.getProperty("refreshToken"),
-                    System.getProperty("accessToken"));
+    private DeviceHive deviceHive;
+
+    @Before
+    public void init() throws IOException {
+        String url = System.getProperty("url");
+        JwtToken token = login(url);
+
+        deviceHive = DeviceHive.getInstance().init(
+                url,
+                token.getRefreshToken(),
+                token.getAccessToken());
+    }
 
     @Test
     public void apiInfoTest() {
@@ -68,7 +77,7 @@ public class DeviceHiveTest {
         Assert.assertTrue(response.isSuccessful());
     }
 
-//    @Test
+    @Test
     public void createToken() throws IOException {
         deviceHive.login(System.getProperty("login"), System.getProperty("password"));
 

@@ -26,20 +26,34 @@ import com.github.devicehive.client.service.Device;
 import com.github.devicehive.client.service.DeviceCommand;
 import com.github.devicehive.client.service.DeviceHive;
 import com.github.devicehive.rest.model.JsonStringWrapper;
+import com.github.devicehive.rest.model.JwtToken;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
-public class CommandTest {
+import java.io.IOException;
+
+public class CommandTest extends Helper {
 
     static final String COM_A = "comA";
     static final String DEVICE_ID = "CommandTest-123";
-    private DeviceHive deviceHive = DeviceHive.getInstance().init(
-            System.getProperty("url"),
-            System.getProperty("refreshToken"),
-            System.getProperty("accessToken"));
 
-    private DHResponse<Device> deviceResponse = deviceHive.getDevice(DEVICE_ID);
+    private DeviceHive deviceHive;
+
+    private DHResponse<Device> deviceResponse;
+
+    @Before
+    public void init() throws IOException {
+        String url = System.getProperty("url");
+        JwtToken token = login(url);
+
+        deviceHive = DeviceHive.getInstance().init(
+                url,
+                token.getRefreshToken(),
+                token.getAccessToken());
+        deviceResponse = deviceHive.getDevice(DEVICE_ID);
+    }
 
     @Test
     public void createAndUpdate() throws InterruptedException {

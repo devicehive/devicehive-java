@@ -32,9 +32,11 @@ import com.github.devicehive.client.model.Parameter;
 import com.github.devicehive.client.service.Device;
 import com.github.devicehive.client.service.DeviceCommand;
 import com.github.devicehive.client.service.DeviceHive;
+import com.github.devicehive.rest.model.JwtToken;
 
 import org.joda.time.DateTime;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -47,7 +49,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class DeviceTest {
+public class DeviceTest extends Helper {
 
 
     private static final String NOTIFICATION_A = "notificationA";
@@ -58,11 +60,18 @@ public class DeviceTest {
     private static final String COM_Z = "comZ";
     private static final String DEVICE_PREFIX = "JAVA-LIB-";
 
-    private DeviceHive deviceHive = DeviceHive.getInstance().init(
-            System.getProperty("url"),
-            System.getProperty("refreshToken"),
-            System.getProperty("accessToken"));
+    private DeviceHive deviceHive;
 
+    @Before
+    public void init() throws IOException {
+        String url = System.getProperty("url");
+        JwtToken token = login(url);
+
+        deviceHive = DeviceHive.getInstance().init(
+                url,
+                token.getRefreshToken(),
+                token.getAccessToken());
+    }
 
     @Test
     public void createDevice() throws IOException {
@@ -240,7 +249,7 @@ public class DeviceTest {
                 parameters.add(new Parameter("Param 3", "Value 3"));
                 parameters.add(new Parameter("Param 4", "Value 4"));
                 device.sendNotification(notificationName1, parameters);
-                DHResponse<DeviceNotification> notificationDHResponse=device.sendNotification(notificationName2, parameters);
+                DHResponse<DeviceNotification> notificationDHResponse = device.sendNotification(notificationName2, parameters);
             }
         }), 2, TimeUnit.SECONDS);
         latch.await(15, TimeUnit.SECONDS);
