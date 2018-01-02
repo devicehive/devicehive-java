@@ -220,7 +220,7 @@ public class DeviceHiveTest extends Helper {
                 deviceHive.getDevice(DEVICE_ID).getData().sendNotification("notificationA", null);
             }
         }), 5, TimeUnit.SECONDS);
-        latch.await(10, TimeUnit.SECONDS);
+        latch.await(30, TimeUnit.SECONDS);
         Assert.assertEquals(0, latch.getCount());
     }
 

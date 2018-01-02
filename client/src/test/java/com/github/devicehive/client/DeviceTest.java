@@ -42,6 +42,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
@@ -143,9 +144,9 @@ public class DeviceTest extends Helper {
         device.subscribeCommands(commandFilter, new DeviceCommandsCallback() {
             public void onSuccess(List<DeviceCommand> commands) {
                 for (DeviceCommand command : commands) {
-                    if (command.getCommandName().equals(commandName1)) {
+                    if (Objects.equals(command.getCommandName(), commandName1)) {
                         latch.countDown();
-                    } else if (command.getCommandName().equals(commandName2)) {
+                    } else if (Objects.equals(command.getCommandName(), commandName2)) {
                         latch.countDown();
                         commandFilter.setCommandNames(commandName3);
                         device.unsubscribeCommands(commandFilter);
@@ -159,7 +160,7 @@ public class DeviceTest extends Helper {
                             }
                         }), 3, TimeUnit.SECONDS);
 
-                    } else if ((command.getCommandName().equals(commandName3))) {
+                    } else if ((Objects.equals(command.getCommandName(), commandName3))) {
                         latch.countDown();
                         return;
                     }
@@ -176,7 +177,7 @@ public class DeviceTest extends Helper {
             }
         });
 
-        latch.await(15, TimeUnit.SECONDS);
+        latch.await(30, TimeUnit.SECONDS);
         Assert.assertTrue(latch.getCount() == 0);
         device.unsubscribeAllCommands();
         Assert.assertTrue(deviceHive.removeDevice(deviceId).isSuccessful());
@@ -187,11 +188,13 @@ public class DeviceTest extends Helper {
         String deviceId = DEVICE_PREFIX + UUID.randomUUID().toString();
         DHResponse<Device> deviceResponse = deviceHive.getDevice(deviceId);
         Assert.assertTrue(deviceResponse.isSuccessful());
+
         final Device device = deviceResponse.getData();
         final CountDownLatch latch = new CountDownLatch(3);
-        final String notificationName1 = NOTIFICATION_A + new Random().nextInt();
-        final String notificationName2 = NOTIFICATION_B + new Random().nextInt();
-        final String notificationName3 = NOTIFICATION_Z + new Random().nextInt();
+
+        final String notificationName1 = NOTIFICATION_A;
+        final String notificationName2 = NOTIFICATION_B;
+        final String notificationName3 = NOTIFICATION_Z;
 
         final NotificationFilter notificationFilter = new NotificationFilter();
         notificationFilter.setNotificationNames(notificationName1, notificationName2);
@@ -200,18 +203,18 @@ public class DeviceTest extends Helper {
 
         device.subscribeNotifications(notificationFilter, new DeviceNotificationsCallback() {
             public void onSuccess(List<DeviceNotification> notifications) {
-                for (DeviceNotification notification :
-                        notifications) {
-                    if (notification.getNotification().equals(notificationName1)) {
+                for (DeviceNotification notification : notifications) {
+                    if (Objects.equals(notification.getNotification(), notificationName1)) {
                         latch.countDown();
                         Assert.assertTrue(true);
-                    } else if (notification.getNotification().equals(notificationName2)) {
+                    } else if (Objects.equals(notification.getNotification(), notificationName2)) {
                         Assert.assertTrue(true);
                         latch.countDown();
-                    } else if ((notification.getNotification().equals(notificationName3))) {
+                    } else if ((Objects.equals(notification.getNotification(), notificationName3))) {
                         Assert.assertTrue(true);
                         latch.countDown();
                     }
+
                 }
             }
 
@@ -222,6 +225,7 @@ public class DeviceTest extends Helper {
                 Assert.assertTrue(false);
             }
         });
+
         ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
         service.schedule(new Thread(new Runnable() {
             public void run() {
@@ -229,6 +233,7 @@ public class DeviceTest extends Helper {
                 device.unsubscribeNotifications(notificationFilter);
             }
         }), 4, TimeUnit.SECONDS);
+
         service.schedule(new Thread(new Runnable() {
             public void run() {
                 List<Parameter> parameters = new ArrayList<Parameter>();
@@ -252,7 +257,8 @@ public class DeviceTest extends Helper {
                 DHResponse<DeviceNotification> notificationDHResponse = device.sendNotification(notificationName2, parameters);
             }
         }), 2, TimeUnit.SECONDS);
-        latch.await(15, TimeUnit.SECONDS);
+
+        latch.await(30, TimeUnit.SECONDS);
         Assert.assertTrue(latch.getCount() == 0);
         Assert.assertTrue(deviceHive.removeDevice(deviceId).isSuccessful());
     }

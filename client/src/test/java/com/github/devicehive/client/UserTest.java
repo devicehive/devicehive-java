@@ -40,6 +40,7 @@ public class UserTest extends Helper {
 
 
     private DeviceHive deviceHive;
+    private User currentUser;
 
     @Before
     public void init() throws IOException {
@@ -50,9 +51,9 @@ public class UserTest extends Helper {
                 url,
                 token.getRefreshToken(),
                 token.getAccessToken());
+        currentUser=deviceHive.getCurrentUser().getData();
     }
 
-    private User currentUser = deviceHive.getCurrentUser().getData();
 
     @Test
     public void getUserNetworks() {
