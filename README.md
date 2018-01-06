@@ -192,7 +192,7 @@ To subscribe on notifications you just need to create `NotificationFilter` where
  </details>
  
  ### Working with User
- To create `User` you just need to call  `createUser(String login, String password, User.RoleEnum role, StatusEnum status, JsonStringWrapper data)`  method of  `DeviceHive` class
+ To create `User` you just need to call  `createUser(String login, String password, User.RoleEnum role, StatusEnum status, JsonObject data)`  method of  `DeviceHive` class
  
  ```java
  DHResponse<User> response = deviceHive.createUser("javaLibTest", "123456", RoleEnum.ADMIN, StatusEnum.ACTIVE, null);
