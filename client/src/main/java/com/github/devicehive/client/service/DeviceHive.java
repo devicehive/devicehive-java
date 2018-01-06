@@ -37,7 +37,6 @@ import com.github.devicehive.rest.api.AuthApi;
 import com.github.devicehive.rest.model.ApiInfo;
 import com.github.devicehive.rest.model.ClusterConfig;
 import com.github.devicehive.rest.model.Configuration;
-import com.github.devicehive.rest.model.JsonStringWrapper;
 import com.github.devicehive.rest.model.JwtAccessToken;
 import com.github.devicehive.rest.model.JwtRequest;
 import com.github.devicehive.rest.model.JwtToken;
@@ -59,6 +58,7 @@ import com.github.devicehive.websocket.model.repsonse.NotificationInsertResponse
 import com.github.devicehive.websocket.model.repsonse.NotificationListResponse;
 import com.github.devicehive.websocket.model.repsonse.NotificationSubscribeResponse;
 import com.github.devicehive.websocket.model.repsonse.ResponseAction;
+import com.google.gson.JsonObject;
 
 import org.joda.time.DateTime;
 
@@ -446,7 +446,7 @@ public class DeviceHive implements MainDeviceHive {
         return userService.listUsers(filter);
     }
 
-    public DHResponse<User> createUser(String login, String password, RoleEnum role, StatusEnum status, JsonStringWrapper data) {
+    public DHResponse<User> createUser(String login, String password, RoleEnum role, StatusEnum status, JsonObject data) {
         return userService.createUser(login, password, role, status, data);
     }
 

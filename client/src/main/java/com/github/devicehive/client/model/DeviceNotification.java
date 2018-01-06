@@ -21,7 +21,7 @@
 
 package com.github.devicehive.client.model;
 
-import com.github.devicehive.rest.model.JsonStringWrapper;
+import com.google.gson.JsonObject;
 
 import org.joda.time.DateTime;
 
@@ -39,18 +39,18 @@ public class DeviceNotification {
 
     private DateTime timestamp;
 
-    private JsonStringWrapper parameters;
+    private JsonObject parameters = new JsonObject();
 
-    public DeviceNotification() {
+    private DeviceNotification() {
     }
 
-    private DeviceNotification(Long id, String notification, String deviceId, Long networkId, DateTime timestamp, JsonStringWrapper parameters) {
+    private DeviceNotification(Long id, String notification, String deviceId, Long networkId, DateTime timestamp, JsonObject parameters) {
         this.id = id;
         this.notification = notification;
         this.deviceId = deviceId;
         this.networkId = networkId;
         this.timestamp = timestamp;
-        this.parameters = parameters;
+        this.parameters = parameters == null ? new JsonObject() : parameters;
     }
 
     public Long getId() {
@@ -73,7 +73,7 @@ public class DeviceNotification {
         return timestamp;
     }
 
-    public JsonStringWrapper getParameters() {
+    public JsonObject getParameters() {
         return parameters;
     }
 
@@ -84,7 +84,7 @@ public class DeviceNotification {
                 .deviceId(notification.getDeviceId())
                 .networkId(notification.getNetworkId())
                 .timestamp(notification.getTimestamp())
-                .parameters(notification.getParameters() == null ? null : new JsonStringWrapper(notification.getParameters().getJsonString()))
+                .parameters(notification.getParameters())
                 .build();
     }
 
@@ -139,7 +139,7 @@ public class DeviceNotification {
         private String deviceId;
         private Long networkId;
         private DateTime timestamp;
-        private JsonStringWrapper parameters;
+        private JsonObject parameters = new JsonObject();
 
         Builder id(Long id) {
             this.id = id;
@@ -166,7 +166,10 @@ public class DeviceNotification {
             return this;
         }
 
-        Builder parameters(JsonStringWrapper parameters) {
+        Builder parameters(JsonObject parameters) {
+            if (parameters == null) {
+                return this;
+            }
             this.parameters = parameters;
             return this;
         }

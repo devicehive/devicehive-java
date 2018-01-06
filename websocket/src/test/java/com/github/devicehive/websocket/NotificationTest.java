@@ -22,7 +22,6 @@
 package com.github.devicehive.websocket;
 
 import com.github.devicehive.rest.model.DeviceNotificationWrapper;
-import com.github.devicehive.rest.model.JsonStringWrapper;
 import com.github.devicehive.websocket.api.NotificationWS;
 import com.github.devicehive.websocket.listener.NotificationListener;
 import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
@@ -31,6 +30,7 @@ import com.github.devicehive.websocket.model.repsonse.NotificationInsertResponse
 import com.github.devicehive.websocket.model.repsonse.NotificationListResponse;
 import com.github.devicehive.websocket.model.repsonse.NotificationSubscribeResponse;
 import com.github.devicehive.websocket.model.repsonse.ResponseAction;
+import com.google.gson.JsonObject;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -280,7 +280,7 @@ public class NotificationTest extends Helper {
         return getWrapper(notificationName, null);
     }
 
-    private DeviceNotificationWrapper getWrapper(String notificationName, JsonStringWrapper params) {
+    private DeviceNotificationWrapper getWrapper(String notificationName, JsonObject params) {
         DeviceNotificationWrapper wrapper = new DeviceNotificationWrapper();
         wrapper.setNotification(notificationName);
         wrapper.setParameters(params);

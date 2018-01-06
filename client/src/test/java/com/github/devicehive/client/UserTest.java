@@ -26,8 +26,8 @@ import com.github.devicehive.client.model.NetworkFilter;
 import com.github.devicehive.client.service.DeviceHive;
 import com.github.devicehive.client.service.Network;
 import com.github.devicehive.client.service.User;
-import com.github.devicehive.rest.model.JsonStringWrapper;
 import com.github.devicehive.rest.model.JwtToken;
+import com.google.gson.JsonObject;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -63,9 +63,9 @@ public class UserTest extends Helper {
 
     @Test
     public void updateUser() {
-        JsonStringWrapper data = currentUser.getData();
-        JsonStringWrapper newData = new JsonStringWrapper();
-        newData.setJsonString("BLABLA");
+        JsonObject data = currentUser.getData();
+        JsonObject newData = new JsonObject();
+        newData.addProperty("test","test");
         currentUser.setData(newData);
         Assert.assertTrue(currentUser.save());
     }

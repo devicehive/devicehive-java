@@ -22,7 +22,6 @@
 package com.github.devicehive.websocket;
 
 import com.github.devicehive.rest.model.DeviceCommandWrapper;
-import com.github.devicehive.rest.model.JsonStringWrapper;
 import com.github.devicehive.websocket.api.CommandWS;
 import com.github.devicehive.websocket.listener.CommandListener;
 import com.github.devicehive.websocket.model.repsonse.CommandGetResponse;
@@ -31,6 +30,7 @@ import com.github.devicehive.websocket.model.repsonse.CommandListResponse;
 import com.github.devicehive.websocket.model.repsonse.CommandSubscribeResponse;
 import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
 import com.github.devicehive.websocket.model.repsonse.ResponseAction;
+import com.google.gson.JsonObject;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -71,7 +71,7 @@ public class CommandTest extends Helper {
         return getWrapper(notificationName, null);
     }
 
-    private DeviceCommandWrapper getWrapper(String notificationName, JsonStringWrapper params) {
+    private DeviceCommandWrapper getWrapper(String notificationName, JsonObject params) {
         DeviceCommandWrapper wrapper = new DeviceCommandWrapper();
         wrapper.setCommand(notificationName);
         wrapper.setParameters(params);

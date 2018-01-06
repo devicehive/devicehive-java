@@ -30,7 +30,6 @@ import com.github.devicehive.client.model.TokenAuth;
 import com.github.devicehive.rest.ApiClient;
 import com.github.devicehive.rest.api.AuthApi;
 import com.github.devicehive.rest.auth.ApiKeyAuth;
-import com.github.devicehive.rest.model.JsonStringWrapper;
 import com.github.devicehive.rest.model.JwtAccessToken;
 import com.github.devicehive.rest.model.JwtRefreshToken;
 import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
@@ -158,15 +157,13 @@ public class BaseService {
         return apiClient.createService(serviceClass);
     }
 
-    JsonStringWrapper wrapParameters(List<Parameter> parameters) {
+    JsonObject wrapParameters(List<Parameter> parameters) {
         JsonObject object = new JsonObject();
         for (Parameter p :
                 parameters) {
             object.addProperty(p.getKey(), p.getValue());
         }
-        JsonStringWrapper wrapper = new JsonStringWrapper();
-        wrapper.setJsonString(object.toString());
-        return wrapper;
+        return object;
     }
 
     static String parseErrorMessage(Response response) {

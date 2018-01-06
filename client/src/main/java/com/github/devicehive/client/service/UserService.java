@@ -25,6 +25,7 @@ import com.github.devicehive.client.model.DHResponse;
 import com.github.devicehive.client.model.UserFilter;
 import com.github.devicehive.rest.api.UserApi;
 import com.github.devicehive.rest.model.*;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 
@@ -69,7 +70,7 @@ public class UserService extends BaseService {
 
     }
 
-    public DHResponse<User> createUser(String login, String password, RoleEnum role, StatusEnum statusEnum, JsonStringWrapper data) {
+    public DHResponse<User> createUser(String login, String password, RoleEnum role, StatusEnum statusEnum, JsonObject data) {
         UserApi userApi = createService(UserApi.class);
         UserUpdate userUpdate = createUserBody(login, password, role, statusEnum, data);
         DHResponse<User> response;
@@ -91,7 +92,7 @@ public class UserService extends BaseService {
         }
     }
 
-    private void updateUser(DHResponse<User> response, String login, RoleEnum role, JsonStringWrapper data) {
+    private void updateUser(DHResponse<User> response, String login, RoleEnum role, JsonObject data) {
         if (response.isSuccessful()) {
             User user = response.getData();
             user.setLogin(login);
@@ -100,7 +101,7 @@ public class UserService extends BaseService {
         }
     }
 
-    private UserUpdate createUserBody(String login, String password,RoleEnum role, StatusEnum statusEnum, JsonStringWrapper data) {
+    private UserUpdate createUserBody(String login, String password, RoleEnum role, StatusEnum statusEnum, JsonObject data) {
         UserUpdate userUpdate = new UserUpdate();
         userUpdate.setLogin(login);
         userUpdate.setRole(role);
@@ -110,7 +111,7 @@ public class UserService extends BaseService {
         return userUpdate;
     }
 
-    public DHResponse<Void> updateUser( UserUpdate body) {
+    public DHResponse<Void> updateUser(UserUpdate body) {
         UserApi userApi = createService(UserApi.class);
         DHResponse<Void> response = execute(userApi.updateCurrentUser(body));
         if (response.isSuccessful()) {

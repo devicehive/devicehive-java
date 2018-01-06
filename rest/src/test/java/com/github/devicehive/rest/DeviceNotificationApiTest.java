@@ -24,7 +24,6 @@ package com.github.devicehive.rest;
 import com.github.devicehive.rest.api.DeviceNotificationApi;
 import com.github.devicehive.rest.model.DeviceNotification;
 import com.github.devicehive.rest.model.DeviceNotificationWrapper;
-import com.github.devicehive.rest.model.JsonStringWrapper;
 import com.github.devicehive.rest.model.NotificationInsert;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -51,9 +50,9 @@ public class DeviceNotificationApiTest extends Helper {
 
         JsonObject data = new JsonObject();
         data.addProperty(TEST_PROP, TEST_VALUE);
-        JsonStringWrapper jsonStringWrapper = new JsonStringWrapper();
-        jsonStringWrapper.setJsonString(new Gson().toJson(data));
-        deviceNotificationWrapper.setParameters(jsonStringWrapper);
+        JsonObject params = new JsonObject();
+        params.addProperty("customData",new Gson().toJson(data));
+        deviceNotificationWrapper.setParameters(params);
         return deviceNotificationWrapper;
     }
 

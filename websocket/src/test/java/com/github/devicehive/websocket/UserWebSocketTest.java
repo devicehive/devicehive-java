@@ -25,7 +25,6 @@ import com.github.devicehive.rest.ApiClient;
 import com.github.devicehive.rest.api.AuthApi;
 import com.github.devicehive.rest.api.UserApi;
 import com.github.devicehive.rest.auth.ApiKeyAuth;
-import com.github.devicehive.rest.model.JsonStringWrapper;
 import com.github.devicehive.rest.model.JwtAccessToken;
 import com.github.devicehive.rest.model.JwtRefreshToken;
 import com.github.devicehive.rest.model.NetworkId;
@@ -42,6 +41,7 @@ import com.github.devicehive.websocket.model.repsonse.UserGetNetworkResponse;
 import com.github.devicehive.websocket.model.repsonse.UserGetResponse;
 import com.github.devicehive.websocket.model.repsonse.UserInsertResponse;
 import com.github.devicehive.websocket.model.repsonse.UserListResponse;
+import com.google.gson.JsonObject;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -279,8 +279,8 @@ public class UserWebSocketTest extends Helper {
             }
 
         });
-        JsonStringWrapper updatedData = new JsonStringWrapper();
-        updatedData.setJsonString(JSON_DATA);
+        JsonObject updatedData = new JsonObject();
+        updatedData.addProperty("customData",JSON_DATA);
         UserUpdate userUpdate = new UserUpdate();
         userUpdate.setData(updatedData);
 
@@ -485,8 +485,8 @@ public class UserWebSocketTest extends Helper {
             }
 
         });
-        JsonStringWrapper updatedData = new JsonStringWrapper();
-        updatedData.setJsonString(JSON_DATA);
+        JsonObject updatedData = new JsonObject();
+        updatedData.addProperty("customData",JSON_DATA);
         UserUpdate userUpdate = new UserUpdate();
         userUpdate.setData(updatedData);
 

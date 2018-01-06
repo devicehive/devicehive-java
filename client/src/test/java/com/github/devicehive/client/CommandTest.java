@@ -25,8 +25,8 @@ import com.github.devicehive.client.model.DHResponse;
 import com.github.devicehive.client.service.Device;
 import com.github.devicehive.client.service.DeviceCommand;
 import com.github.devicehive.client.service.DeviceHive;
-import com.github.devicehive.rest.model.JsonStringWrapper;
 import com.github.devicehive.rest.model.JwtToken;
+import com.google.gson.JsonObject;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -63,7 +63,9 @@ public class CommandTest extends Helper {
         Assert.assertTrue(response.isSuccessful());
         DeviceCommand command = response.getData();
         command.setStatus("COMPLETED");
-        command.setResult(new JsonStringWrapper("SUCCESS"));
+        JsonObject result=new JsonObject();
+        result.addProperty("status","SUCCESS");
+        command.setResult(result);
         Assert.assertTrue(command.updateCommand());
         Assert.assertTrue(command.fetchCommandResult().getData() != null);
     }

@@ -21,6 +21,7 @@
 
 package com.github.devicehive.rest.model;
 
+import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ public class User {
     private Long entityVersion = null;
 
     @SerializedName("data")
-    private JsonStringWrapper data = null;
+    private JsonObject data = new JsonObject();
 
     @SerializedName("admin")
     private Boolean admin = false;
@@ -178,12 +179,12 @@ public class User {
         this.entityVersion = entityVersion;
     }
 
-    public JsonStringWrapper getData() {
+    public JsonObject getData() {
         return data;
     }
 
-    public void setData(JsonStringWrapper data) {
-        this.data = data;
+    public void setData(JsonObject data) {
+        if (data != null) this.data = data;
     }
 
     public Boolean getAdmin() {

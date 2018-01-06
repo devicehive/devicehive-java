@@ -25,7 +25,6 @@ import com.github.devicehive.rest.api.DeviceCommandApi;
 import com.github.devicehive.rest.model.CommandInsert;
 import com.github.devicehive.rest.model.DeviceCommand;
 import com.github.devicehive.rest.model.DeviceCommandWrapper;
-import com.github.devicehive.rest.model.JsonStringWrapper;
 import com.github.devicehive.rest.utils.StringUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -58,9 +57,9 @@ public class DeviceCommandApiTest extends Helper {
 
         JsonObject data = new JsonObject();
         data.addProperty(TEST_PROP, TEST_VALUE);
-        JsonStringWrapper jsonStringWrapper = new JsonStringWrapper();
-        jsonStringWrapper.setJsonString(new Gson().toJson(data));
-        deviceCommandWrapper.setParameters(jsonStringWrapper);
+        JsonObject params = new JsonObject();
+        params.addProperty("customData",new Gson().toJson(data));
+        deviceCommandWrapper.setParameters(params);
         return deviceCommandWrapper;
     }
 

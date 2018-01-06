@@ -29,9 +29,9 @@ import com.github.devicehive.rest.api.DeviceNotificationApi;
 import com.github.devicehive.rest.model.Device;
 import com.github.devicehive.rest.model.DeviceCommandWrapper;
 import com.github.devicehive.rest.model.DeviceNotification;
-import com.github.devicehive.rest.model.JsonStringWrapper;
 import com.github.devicehive.rest.utils.Const;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.joda.time.DateTime;
 
@@ -147,10 +147,10 @@ class TimerClient {
             TimeStamp timeStamp = new TimeStamp();
             timeStamp.setTimestamp(time.toString());
 
-            JsonStringWrapper jsonStringWrapper = new JsonStringWrapper();
-            jsonStringWrapper.setJsonString(new Gson().toJson(timeStamp));
+            JsonObject params = new JsonObject();
+            params.addProperty("timestamp", new Gson().toJson(timeStamp));
 
-            deviceCommandWrapper.setParameters(jsonStringWrapper);
+            deviceCommandWrapper.setParameters(params);
         }
         commandApi.insert(guid, deviceCommandWrapper).execute();
     }

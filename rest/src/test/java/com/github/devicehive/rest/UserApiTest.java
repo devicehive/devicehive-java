@@ -22,15 +22,25 @@
 package com.github.devicehive.rest;
 
 import com.github.devicehive.rest.api.UserApi;
-import com.github.devicehive.rest.model.*;
+import com.github.devicehive.rest.model.NetworkId;
+import com.github.devicehive.rest.model.RoleEnum;
+import com.github.devicehive.rest.model.StatusEnum;
+import com.github.devicehive.rest.model.UserNetworkResponse;
+import com.github.devicehive.rest.model.UserResponse;
+import com.github.devicehive.rest.model.UserUpdate;
+import com.github.devicehive.rest.model.UserVO;
+import com.github.devicehive.rest.model.UserWithNetwork;
+import com.google.gson.JsonObject;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import retrofit2.Response;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
+
+import retrofit2.Response;
 
 public class UserApiTest extends Helper {
     private static final String JSON_DATA = "{\"jsonString\": \"NEW STRING DATA\"}";
@@ -85,10 +95,10 @@ public class UserApiTest extends Helper {
     public void updateCurrentUser() throws IOException {
         UserApi userApi = client.createService(UserApi.class);
 
-        JsonStringWrapper updatedData = new JsonStringWrapper();
-        updatedData.setJsonString(JSON_DATA);
+        JsonObject params = new JsonObject();
+        params.addProperty("customData",JSON_DATA);
         UserUpdate userUpdate = new UserUpdate();
-        userUpdate.setData(updatedData);
+        userUpdate.setData(params);
 
         Response<Void> putResponse = userApi.updateCurrentUser(userUpdate).execute();
         Assert.assertTrue(putResponse.isSuccessful());
@@ -152,8 +162,8 @@ public class UserApiTest extends Helper {
         Long userId = postResponse.body().getId();
         Assert.assertNotNull(userId);
 
-        JsonStringWrapper updatedData = new JsonStringWrapper();
-        updatedData.setJsonString(JSON_DATA);
+        JsonObject updatedData = new JsonObject();
+        updatedData.addProperty("customData",JSON_DATA);
         UserUpdate userUpdateData = new UserUpdate();
         userUpdateData.setData(updatedData);
 

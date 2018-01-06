@@ -22,8 +22,11 @@
 package com.github.devicehive.client.service;
 
 import com.github.devicehive.client.model.DHResponse;
-import com.github.devicehive.rest.model.*;
-import com.google.gson.Gson;
+import com.github.devicehive.rest.model.RoleEnum;
+import com.github.devicehive.rest.model.UserUpdate;
+import com.github.devicehive.rest.model.UserVO;
+import com.github.devicehive.rest.model.UserWithNetwork;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +37,7 @@ public class User {
     private String login;
     private RoleEnum role;
     private String password;
-    private JsonStringWrapper data;
+    private JsonObject data=new JsonObject();
 
     private User() {
     }
@@ -78,7 +81,7 @@ public class User {
     public boolean save() {
         UserUpdate body = new UserUpdate();
         if (data != null) {
-            body.setData(new JsonStringWrapper(new Gson().toJson(data)));
+            body.setData(data);
         }
         if (password != null && password.length() > 0) {
             body.setPassword(password);
@@ -130,12 +133,13 @@ public class User {
         this.role = role;
     }
 
-    public JsonStringWrapper getData() {
+    public JsonObject getData() {
         return data;
     }
 
-    public void setData(JsonStringWrapper data) {
-        this.data = data;
+    public void setData(JsonObject data) {
+        if (data != null)
+            this.data = data;
     }
 
     public void setPassword(String password) {

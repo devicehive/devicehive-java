@@ -31,7 +31,6 @@ import com.github.devicehive.client.model.NotificationFilter;
 import com.github.devicehive.client.model.Parameter;
 import com.github.devicehive.rest.api.ApiInfoApi;
 import com.github.devicehive.rest.model.ApiInfo;
-import com.github.devicehive.rest.model.JsonStringWrapper;
 import com.github.devicehive.rest.model.JwtAccessToken;
 import com.github.devicehive.websocket.api.CommandWS;
 import com.github.devicehive.websocket.api.NotificationWS;
@@ -48,6 +47,7 @@ import com.github.devicehive.websocket.model.repsonse.NotificationInsertResponse
 import com.github.devicehive.websocket.model.repsonse.NotificationListResponse;
 import com.github.devicehive.websocket.model.repsonse.NotificationSubscribeResponse;
 import com.github.devicehive.websocket.model.repsonse.ResponseAction;
+import com.google.gson.JsonObject;
 
 import org.joda.time.DateTime;
 
@@ -68,7 +68,7 @@ public class Device implements DeviceInterface {
     private CommandWS commandWS;
     private String id = null;
     private String name = null;
-    private JsonStringWrapper data = null;
+    private JsonObject data = new JsonObject();
     private Long networkId = null;
     private Boolean isBlocked = false;
 
@@ -84,12 +84,12 @@ public class Device implements DeviceInterface {
         this.name = name;
     }
 
-    public JsonStringWrapper getData() {
+    public JsonObject getData() {
         return data;
     }
 
-    public void setData(JsonStringWrapper data) {
-        this.data = data;
+    public void setData(JsonObject data) {
+        if (data != null) this.data = data;
     }
 
     public Long getNetworkId() {

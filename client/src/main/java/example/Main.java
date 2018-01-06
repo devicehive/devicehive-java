@@ -32,8 +32,6 @@ import com.github.devicehive.client.model.Parameter;
 import com.github.devicehive.client.service.Device;
 import com.github.devicehive.client.service.DeviceCommand;
 import com.github.devicehive.client.service.DeviceHive;
-import com.github.devicehive.rest.model.JsonStringWrapper;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.util.Collections;
@@ -84,18 +82,19 @@ public class Main {
                 System.out.println("Command:" + commands.get(0).getCommandName());
 
                 DeviceCommand command = commands.get(0);
-                command.setResult(new JsonStringWrapper(SUCCESS));
+                JsonObject result=new JsonObject();
+                result.addProperty("status",SUCCESS);
+
+                command.setResult(result);
                 command.updateCommand();
-                JsonStringWrapper params = commands.get(0).getParameters();
+                JsonObject params = commands.get(0).getParameters();
 
                 if (params != null) {
                     //Getting param value
-                    Gson gson = new Gson();
-                    JsonObject jsonObject = gson.fromJson(params.getJsonString(), JsonObject.class);
 
                     boolean needToSend = false;
-                    if (jsonObject.has(PRODUCE_NOTIFICATION)) {
-                        needToSend = jsonObject.get(PRODUCE_NOTIFICATION).getAsBoolean();
+                    if (params.has(PRODUCE_NOTIFICATION)) {
+                        needToSend = params.get(PRODUCE_NOTIFICATION).getAsBoolean();
                     }
 
                     if (needToSend) {

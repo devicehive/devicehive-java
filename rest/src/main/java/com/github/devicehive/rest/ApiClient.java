@@ -36,6 +36,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
@@ -275,10 +276,9 @@ class GsonCustomConverterFactory extends Converter.Factory {
         this.gson = gson;
         this.gsonConverterFactory = GsonConverterFactory.create(gson);
     }
-
     @Override
     public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
-        if (type.equals(String.class))
+        if (Objects.equals(type, String.class))
             return new GsonResponseBodyConverterToString<Object>(gson, type);
         else
             return gsonConverterFactory.responseBodyConverter(type, annotations, retrofit);

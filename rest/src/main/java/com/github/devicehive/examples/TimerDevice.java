@@ -26,6 +26,7 @@ import com.github.devicehive.rest.api.*;
 import com.github.devicehive.rest.model.*;
 import com.github.devicehive.rest.utils.Const;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.joda.time.DateTime;
 
@@ -101,10 +102,14 @@ class TimerDevice {
                     Collections.sort(commands);
                     DeviceCommand command = commands.get(commands.size() - 1);
                     updateTimestamp(command.getTimestamp());
-                    JsonStringWrapper deviceParams = command.getParameters();
+                    JsonObject deviceParams = command.getParameters();
                     try {
-                        TimeStamp timestamp = new Gson().fromJson(deviceParams.getJsonString(), TimeStamp.class);
-                        alarmTime = DateTime.parse(timestamp.getTimestamp()).withMillisOfSecond(0);
+                        if (deviceParams.has("timestamp")) {
+                            TimeStamp timestamp = new Gson().fromJson(deviceParams.get("timestamp").getAsString(),
+                                    TimeStamp.class);
+                            alarmTime = DateTime.parse(timestamp.getTimestamp()).withMillisOfSecond(0);
+                        }
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -158,12 +163,12 @@ class TimerDevice {
 
     private DeviceNotificationWrapper getTimestampNotificationWrapper() {
         DeviceNotificationWrapper wrapper = new DeviceNotificationWrapper();
-        JsonStringWrapper jsonStringWrapper = new JsonStringWrapper();
+        JsonObject params = new JsonObject();
         DateTime currentTimestamp = DateTime.now();
         TimeStamp timeStamp = new TimeStamp();
         timeStamp.setTimestamp(currentTimestamp.toString());
-        jsonStringWrapper.setJsonString(new Gson().toJson(timeStamp));
-        wrapper.setParameters(jsonStringWrapper);
+        params.addProperty("timestamp", new Gson().toJson(timeStamp));
+        wrapper.setParameters(params);
         wrapper.setNotification("Timestamp");
         return wrapper;
     }
@@ -174,10 +179,9 @@ class TimerDevice {
         AlarmNotification notification = new AlarmNotification();
         notification.setMessage("BIP BIP BIP at " + alarmTime);
 
-        JsonStringWrapper jsonStringWrapper = new JsonStringWrapper();
-        jsonStringWrapper.setJsonString(new Gson().toJson(notification));
-
-        wrapper.setParameters(jsonStringWrapper);
+        JsonObject params = new JsonObject();
+        params.addProperty("notification", new Gson().toJson(notification));
+        wrapper.setParameters(params);
         wrapper.setNotification("ALARM");
         return wrapper;
     }

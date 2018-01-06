@@ -23,7 +23,7 @@ package com.github.devicehive.client.service;
 
 import com.github.devicehive.client.model.DHResponse;
 import com.github.devicehive.rest.model.DeviceCommandWrapper;
-import com.github.devicehive.rest.model.JsonStringWrapper;
+import com.google.gson.JsonObject;
 
 import org.joda.time.DateTime;
 
@@ -37,11 +37,11 @@ public class DeviceCommand {
     private String commandName = null;
     private String deviceId = null;
     private Long networkId = null;
-    private JsonStringWrapper parameters = null;
+    private JsonObject parameters = new JsonObject();
     private String status;
     private DateTime timestamp;
     private int lifetime;
-    private JsonStringWrapper result;
+    private JsonObject result=new JsonObject();
 
     private DeviceCommand() {
 
@@ -63,7 +63,7 @@ public class DeviceCommand {
         return networkId;
     }
 
-    public JsonStringWrapper getParameters() {
+    public JsonObject getParameters() {
         return parameters;
     }
 
@@ -83,16 +83,16 @@ public class DeviceCommand {
         this.status = status;
     }
 
-    public JsonStringWrapper getResult() {
+    public JsonObject getResult() {
         return result;
     }
 
-    public void setResult(JsonStringWrapper result) {
+    public void setResult(JsonObject result) {
         this.result = result;
     }
 
     static DeviceCommand create(com.github.devicehive.rest.model.CommandInsert command, String commandName,
-                                String deviceId, long networkId, com.github.devicehive.rest.model.JsonStringWrapper parameters) {
+                                String deviceId, long networkId, JsonObject parameters) {
         if (command == null) {
             return null;
         }
@@ -101,7 +101,7 @@ public class DeviceCommand {
         deviceCommand.id = command.getCommandId();
         deviceCommand.deviceId = deviceId;
         deviceCommand.networkId = networkId;
-        deviceCommand.parameters = parameters;
+        deviceCommand.parameters = parameters == null ? new JsonObject() : parameters;
         deviceCommand.timestamp = command.getTimestamp();
         return deviceCommand;
     }
@@ -114,7 +114,7 @@ public class DeviceCommand {
         deviceCommand.commandName = command.getCommandName();
         deviceCommand.id = command.getId();
         deviceCommand.deviceId = command.getDeviceId();
-        deviceCommand.parameters = command.getParameters();
+        deviceCommand.parameters = command.getParameters() == null ? new JsonObject() : command.getParameters();
         deviceCommand.networkId = command.getNetworkId();
         deviceCommand.timestamp = command.getTimestamp();
         return deviceCommand;
@@ -129,7 +129,7 @@ public class DeviceCommand {
         deviceCommand.id = command.getId();
         deviceCommand.deviceId = command.getDeviceId();
         deviceCommand.networkId = command.getNetworkId();
-        deviceCommand.parameters = command.getParameters();
+        deviceCommand.parameters = command.getParameters() == null ? new JsonObject() : command.getParameters();
         deviceCommand.timestamp = command.getTimestamp();
         return deviceCommand;
     }
@@ -181,12 +181,12 @@ public class DeviceCommand {
         return new DHResponse<>(status, deviceCommand.getFailureData());
     }
 
-    public DHResponse<JsonStringWrapper> fetchCommandResult() {
+    public DHResponse<JsonObject> fetchCommandResult() {
         DHResponse<com.github.devicehive.rest.model.DeviceCommand> deviceCommand =
                 DeviceHive.getInstance().getCommandService().getCommand(deviceId, id);
         if (deviceCommand.isSuccessful()) {
             if (deviceCommand.getData().getResult() != null) {
-                result = new JsonStringWrapper(deviceCommand.getData().getResult().getJsonString());
+                result = deviceCommand.getData().getResult();
             }
         }
         return new DHResponse<>(result, deviceCommand.getFailureData());

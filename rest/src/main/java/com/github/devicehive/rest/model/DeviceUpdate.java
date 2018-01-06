@@ -34,6 +34,7 @@
 
 package com.github.devicehive.rest.model;
 
+import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -46,7 +47,7 @@ public class DeviceUpdate {
   private String name = null;
 
   @SerializedName("data")
-  private JsonStringWrapper data = null;
+  private JsonObject data = new JsonObject();
 
   @SerializedName("networkId")
   private Long networkId = null;
@@ -62,11 +63,14 @@ public class DeviceUpdate {
     this.name = name;
   }
 
-  public JsonStringWrapper getData() {
+  public JsonObject getData() {
     return data;
   }
 
-  public void setData(JsonStringWrapper data) {
+  public void setData(JsonObject data) {
+    if (data==null){
+      return;
+    }
     this.data = data;
   }
 
