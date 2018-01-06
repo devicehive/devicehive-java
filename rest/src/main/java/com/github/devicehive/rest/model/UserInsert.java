@@ -1,7 +1,7 @@
 /*
  *
  *
- *   Device.java
+ *   UserInsertResponse.java
  *
  *   Copyright (C) 2018 DataArt
  *
@@ -39,40 +39,47 @@ import com.google.gson.JsonObject;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
+import org.joda.time.DateTime;
+
 /**
- * Device
+ * UserVO
  */
 
-public class Device {
+public class UserInsert {
     @SerializedName("id")
-    private String id = null;
+    private Long id = null;
 
-    @SerializedName("name")
-    private String name = null;
+    @SerializedName("lastLogin")
+    private DateTime lastLogin = null;
     @JsonAdapter(value = NullJsonAdapter.class)
     @SerializedName("data")
     private JsonObject data = new JsonObject();
 
-    @SerializedName("networkId")
-    private Long networkId = null;
+    @SerializedName("introReviewed")
+    private Boolean introReviewed = false;
 
-    @SerializedName("isBlocked")
-    private Boolean isBlocked = false;
+    @SerializedName("allDeviceTypesAvailable")
+    private Boolean allDeviceTypesAvailable = false;
 
-    public String getId() {
+    public UserInsert id(Long id) {
+        this.id = id;
+        return this;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public DateTime getLastLogin() {
+        return lastLogin;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLastLogin(DateTime lastLogin) {
+        this.lastLogin = lastLogin;
     }
 
     public JsonObject getData() {
@@ -83,31 +90,21 @@ public class Device {
         if (data != null) this.data = data;
     }
 
-    public Long getNetworkId() {
-        return networkId;
+    public Boolean getIntroReviewed() {
+        return introReviewed;
     }
 
-    public void setNetworkId(Long networkId) {
-        this.networkId = networkId;
+    public void setIntroReviewed(Boolean introReviewed) {
+        this.introReviewed = introReviewed;
     }
 
-    public Boolean getIsBlocked() {
-        return isBlocked;
+    public Boolean getAllDeviceTypesAvailable() {
+        return allDeviceTypesAvailable;
     }
 
-    public void setIsBlocked(Boolean blocked) {
-        isBlocked = blocked;
-    }
-
-    @Override
-    public String toString() {
-        return "{\n\"Device\":{\n"
-                + "\"id\":\"" + id + "\""
-                + ",\n \"name\":\"" + name + "\""
-                + ",\n \"data\":" + data
-                + ",\n \"networkId\":\"" + networkId + "\""
-                + ",\n \"isBlocked\":\"" + isBlocked + "\""
-                + "}\n}";
+    public UserInsert setAllDeviceTypesAvailable(Boolean allDeviceTypesAvailable) {
+        this.allDeviceTypesAvailable = allDeviceTypesAvailable;
+        return this;
     }
 }
 

@@ -34,7 +34,9 @@
 
 package com.github.devicehive.rest.model;
 
+import com.github.devicehive.rest.adapters.NullJsonAdapter;
 import com.google.gson.JsonObject;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -57,6 +59,7 @@ public class UserUpdate {
     @SerializedName("oldPassword")
     private String oldPassword = null;
 
+    @JsonAdapter(value = NullJsonAdapter.class)
     @SerializedName("data")
     private JsonObject data = new JsonObject();
 

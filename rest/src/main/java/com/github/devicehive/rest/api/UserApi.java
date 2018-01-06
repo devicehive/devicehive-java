@@ -21,13 +21,23 @@
 
 package com.github.devicehive.rest.api;
 
+import com.github.devicehive.rest.model.UserInsert;
 import com.github.devicehive.rest.model.UserNetworkResponse;
 import com.github.devicehive.rest.model.UserUpdate;
+import com.github.devicehive.rest.model.UserVO;
 import com.github.devicehive.rest.model.UserWithNetwork;
-import retrofit2.Call;
-import retrofit2.http.*;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 
 public interface UserApi {
@@ -110,8 +120,8 @@ public interface UserApi {
     "Content-Type:application/json"
   })
   @POST("user")
-  Call<com.github.devicehive.rest.model.UserVO> insertUser(
-          @Body com.github.devicehive.rest.model.UserUpdate body
+  Call<UserInsert> insertUser(
+          @Body UserUpdate body
   );
 
   /**
@@ -131,7 +141,7 @@ public interface UserApi {
     "Content-Type:application/json"
   })
   @GET("user")
-  Call<List<com.github.devicehive.rest.model.UserVO>> list(
+  Call<List<UserVO>> list(
          @Query("login") String login, @Query("loginPattern") String loginPattern, @Query("role") Integer role,
          @Query("status") Integer status, @Query("sortField") String sortField, @Query("sortOrder") String sortOrder,
          @Query("take") Integer take, @Query("skip") Integer skip
@@ -163,7 +173,7 @@ public interface UserApi {
   })
   @PUT("user/current")
   Call<Void> updateCurrentUser(
-          @Body com.github.devicehive.rest.model.UserUpdate body
+          @Body UserUpdate body
   );
 
   /**

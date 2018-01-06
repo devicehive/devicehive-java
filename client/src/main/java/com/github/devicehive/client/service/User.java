@@ -23,6 +23,7 @@ package com.github.devicehive.client.service;
 
 import com.github.devicehive.client.model.DHResponse;
 import com.github.devicehive.rest.model.RoleEnum;
+import com.github.devicehive.rest.model.UserInsert;
 import com.github.devicehive.rest.model.UserUpdate;
 import com.github.devicehive.rest.model.UserVO;
 import com.github.devicehive.rest.model.UserWithNetwork;
@@ -37,7 +38,7 @@ public class User {
     private String login;
     private RoleEnum role;
     private String password;
-    private JsonObject data=new JsonObject();
+    private JsonObject data = new JsonObject();
 
     private User() {
     }
@@ -51,6 +52,16 @@ public class User {
         result.setId(user.getId());
         result.setLogin(user.getLogin());
         result.setRole(user.getRole());
+        result.setData(user.getData());
+        return result;
+    }
+
+    public static User create(UserInsert user) {
+        if (user == null) {
+            return null;
+        }
+        User result = new User();
+        result.setId(user.getId());
         result.setData(user.getData());
         return result;
     }

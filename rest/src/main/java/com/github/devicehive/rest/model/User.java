@@ -21,7 +21,9 @@
 
 package com.github.devicehive.rest.model;
 
+import com.github.devicehive.rest.adapters.NullJsonAdapter;
 import com.google.gson.JsonObject;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -68,7 +70,7 @@ public class User {
 
     @SerializedName("entityVersion")
     private Long entityVersion = null;
-
+    @JsonAdapter(value = NullJsonAdapter.class)
     @SerializedName("data")
     private JsonObject data = new JsonObject();
 

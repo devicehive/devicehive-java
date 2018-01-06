@@ -34,7 +34,9 @@
 
 package com.github.devicehive.rest.model;
 
+import com.github.devicehive.rest.adapters.NullJsonAdapter;
 import com.google.gson.JsonObject;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import org.joda.time.DateTime;
@@ -61,7 +63,7 @@ public class DeviceCommand implements Comparable<DeviceCommand> {
 
     @SerializedName("networkId")
     private Long networkId = null;
-
+    @JsonAdapter(value = NullJsonAdapter.class)
     @SerializedName("parameters")
     private JsonObject parameters = new JsonObject();
 
@@ -71,6 +73,7 @@ public class DeviceCommand implements Comparable<DeviceCommand> {
     @SerializedName("status")
     private String status = null;
 
+    @JsonAdapter(value = NullJsonAdapter.class)
     @SerializedName("result")
     private JsonObject result = new JsonObject();
 

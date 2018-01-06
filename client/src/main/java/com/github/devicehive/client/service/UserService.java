@@ -74,7 +74,7 @@ public class UserService extends BaseService {
         UserApi userApi = createService(UserApi.class);
         UserUpdate userUpdate = createUserBody(login, password, role, statusEnum, data);
         DHResponse<User> response;
-        DHResponse<UserVO> result = execute(userApi.insertUser(userUpdate));
+        DHResponse<UserInsert> result = execute(userApi.insertUser(userUpdate));
         response = DHResponse.create(User.create(result.getData()), result.getFailureData());
         if (response.isSuccessful()) {
             updateUser(response, login, role, data);

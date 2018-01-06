@@ -25,6 +25,7 @@ import com.github.devicehive.rest.api.UserApi;
 import com.github.devicehive.rest.model.NetworkId;
 import com.github.devicehive.rest.model.RoleEnum;
 import com.github.devicehive.rest.model.StatusEnum;
+import com.github.devicehive.rest.model.UserInsert;
 import com.github.devicehive.rest.model.UserNetworkResponse;
 import com.github.devicehive.rest.model.UserResponse;
 import com.github.devicehive.rest.model.UserUpdate;
@@ -109,7 +110,7 @@ public class UserApiTest extends Helper {
         UserApi userApi = client.createService(UserApi.class);
         UserUpdate userUpdate = createNewUserUpdate();
 
-        Response<UserVO> postResponse = userApi.insertUser(userUpdate).execute();
+        Response<UserInsert> postResponse = userApi.insertUser(userUpdate).execute();
         Assert.assertTrue(postResponse.isSuccessful());
 
         Long userId = postResponse.body().getId();
@@ -122,7 +123,7 @@ public class UserApiTest extends Helper {
         UserApi userApi = client.createService(UserApi.class);
         UserUpdate userUpdate = createNewUserUpdate();
 
-        Response<UserVO> postResponse = userApi.insertUser(userUpdate).execute();
+        Response<UserInsert> postResponse = userApi.insertUser(userUpdate).execute();
         Assert.assertTrue(postResponse.isSuccessful());
 
         Long userId = postResponse.body().getId();
@@ -137,7 +138,7 @@ public class UserApiTest extends Helper {
         UserApi userApi = client.createService(UserApi.class);
         UserUpdate userUpdate = createNewUserUpdate();
 
-        Response<UserVO> postResponse = userApi.insertUser(userUpdate).execute();
+        Response<UserInsert> postResponse = userApi.insertUser(userUpdate).execute();
         Assert.assertTrue(postResponse.isSuccessful());
 
         Long userId = postResponse.body().getId();
@@ -156,7 +157,7 @@ public class UserApiTest extends Helper {
         UserApi userApi = client.createService(UserApi.class);
         UserUpdate userUpdate = createNewUserUpdate();
 
-        Response<UserVO> postResponse = userApi.insertUser(userUpdate).execute();
+        Response<UserInsert> postResponse = userApi.insertUser(userUpdate).execute();
         Assert.assertTrue(postResponse.isSuccessful());
 
         Long userId = postResponse.body().getId();
@@ -178,7 +179,7 @@ public class UserApiTest extends Helper {
         UserApi userApi = client.createService(UserApi.class);
         UserUpdate userUpdate = createNewUserUpdate();
 
-        Response<UserVO> postResponse = userApi.insertUser(userUpdate).execute();
+        Response<UserInsert> postResponse = userApi.insertUser(userUpdate).execute();
         Assert.assertTrue(postResponse.isSuccessful());
         Long userId = postResponse.body().getId();
         Assert.assertNotNull(userId);
@@ -197,7 +198,7 @@ public class UserApiTest extends Helper {
         UserApi userApi = client.createService(UserApi.class);
         UserUpdate userUpdate = createNewUserUpdate();
 
-        Response<UserVO> postResponse = userApi.insertUser(userUpdate).execute();
+        Response<UserInsert> postResponse = userApi.insertUser(userUpdate).execute();
         Assert.assertTrue(postResponse.isSuccessful());
         Long userId = postResponse.body().getId();
         Assert.assertNotNull(userId);
@@ -222,7 +223,7 @@ public class UserApiTest extends Helper {
         UserApi userApi = client.createService(UserApi.class);
         UserUpdate userUpdate = createNewUserUpdate();
 
-        Response<UserVO> postResponse = userApi.insertUser(userUpdate).execute();
+        Response<UserInsert> postResponse = userApi.insertUser(userUpdate).execute();
         Assert.assertTrue(postResponse.isSuccessful());
         Long userId = postResponse.body().getId();
         Assert.assertNotNull(userId);
@@ -246,7 +247,7 @@ public class UserApiTest extends Helper {
             String userLogin = String.format("%s%d_", LOGIN, j);
             UserUpdate userUpdate = createNewUserUpdate(userLogin);
 
-            Response<UserVO> postResponse = userApi.insertUser(userUpdate).execute();
+            Response<UserInsert> postResponse = userApi.insertUser(userUpdate).execute();
             Assert.assertTrue(postResponse.isSuccessful());
 
             Long userId = postResponse.body().getId();

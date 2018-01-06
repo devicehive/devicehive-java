@@ -21,19 +21,19 @@
 
 package com.github.devicehive.websocket.model.repsonse;
 
-import com.github.devicehive.rest.model.UserVO;
+import com.github.devicehive.rest.model.UserInsert;
 import com.google.gson.annotations.SerializedName;
 
 public class UserInsertResponse extends ResponseAction {
 
     @SerializedName("user")
-    UserVO user;
+    UserInsert user;
 
-    public UserVO getUser() {
+    public UserInsert getUser() {
         return user;
     }
 
-    public void setUser(UserVO user) {
+    public void setUser(UserInsert user) {
         this.user = user;
     }
 }

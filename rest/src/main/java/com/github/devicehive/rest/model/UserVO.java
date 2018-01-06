@@ -34,7 +34,9 @@
 
 package com.github.devicehive.rest.model;
 
+import com.github.devicehive.rest.adapters.NullJsonAdapter;
 import com.google.gson.JsonObject;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import org.joda.time.DateTime;
@@ -63,6 +65,7 @@ public class UserVO {
     @SerializedName("lastLogin")
     private DateTime lastLogin = null;
 
+    @JsonAdapter(value = NullJsonAdapter.class)
     @SerializedName("data")
     private JsonObject data = new JsonObject();
 
@@ -119,7 +122,9 @@ public class UserVO {
     }
 
     public void setData(JsonObject data) {
-        if (data != null) this.data = data;
+        if (data != null) {
+            this.data = data;
+        }
     }
 
     public Boolean getIntroReviewed() {

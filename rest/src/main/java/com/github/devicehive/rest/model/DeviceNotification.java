@@ -34,7 +34,9 @@
 
 package com.github.devicehive.rest.model;
 
+import com.github.devicehive.rest.adapters.NullJsonAdapter;
 import com.google.gson.JsonObject;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import org.joda.time.DateTime;
@@ -59,6 +61,7 @@ public class DeviceNotification implements Comparable<DeviceNotification> {
     @SerializedName("timestamp")
     private DateTime timestamp = null;
 
+    @JsonAdapter(value = NullJsonAdapter.class)
     @SerializedName("parameters")
     private JsonObject parameters = new JsonObject();
 
