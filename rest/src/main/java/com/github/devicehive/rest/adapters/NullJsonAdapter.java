@@ -27,11 +27,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
 import java.util.Objects;
 
-public class NullJsonAdapter implements JsonDeserializer<JsonObject> {
+public class NullJsonAdapter implements JsonDeserializer<JsonObject>, JsonSerializer<JsonObject> {
     @Override
     public JsonObject deserialize(JsonElement jsonElement, Type type,
                                   JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
@@ -42,5 +44,10 @@ public class NullJsonAdapter implements JsonDeserializer<JsonObject> {
             return new JsonObject();
         }
         return jsonElement.getAsJsonObject();
+    }
+
+    @Override
+    public JsonElement serialize(JsonObject jsonObject, Type type, JsonSerializationContext jsonSerializationContext) {
+        return jsonSerializationContext.serialize(jsonObject);
     }
 }
