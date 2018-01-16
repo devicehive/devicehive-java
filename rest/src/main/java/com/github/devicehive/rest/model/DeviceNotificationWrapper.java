@@ -53,7 +53,7 @@ public class DeviceNotificationWrapper {
     private DateTime timestamp = null;
 
     @JsonAdapter(value = NullJsonAdapter.class)
-    @SerializedName("data")
+    @SerializedName("parameters")
     private JsonObject parameters = new JsonObject();
 
     public String getNotification() {
