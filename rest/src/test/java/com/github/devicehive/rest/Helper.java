@@ -24,9 +24,12 @@ package com.github.devicehive.rest;
 import com.github.devicehive.rest.api.AuthApi;
 import com.github.devicehive.rest.api.ConfigurationApi;
 import com.github.devicehive.rest.api.DeviceApi;
+import com.github.devicehive.rest.api.DeviceTypeApi;
 import com.github.devicehive.rest.api.NetworkApi;
 import com.github.devicehive.rest.api.UserApi;
 import com.github.devicehive.rest.auth.ApiKeyAuth;
+import com.github.devicehive.rest.model.DeviceTypeInserted;
+import com.github.devicehive.rest.model.DeviceTypeUpdate;
 import com.github.devicehive.rest.model.DeviceUpdate;
 import com.github.devicehive.rest.model.JwtRequest;
 import com.github.devicehive.rest.model.JwtToken;
@@ -40,7 +43,6 @@ import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Response;
-
 
 
 class Helper {
@@ -77,6 +79,15 @@ class Helper {
         }
     }
 
+    long createDeviceType(String name) throws IOException {
+        DeviceTypeUpdate deviceTypeUpdate = new DeviceTypeUpdate();
+        deviceTypeUpdate.setName(name);
+        DeviceTypeApi deviceTypeApi = client.createService(DeviceTypeApi.class);
+        Response<DeviceTypeInserted> response = deviceTypeApi.insert(deviceTypeUpdate).execute();
+        System.out.println(response.toString());
+        return response.isSuccessful() ? response.body().getId() : 0;
+    }
+
     NetworkId createNetwork(String networkName) throws IOException {
         NetworkApi networkApi = client.createService(NetworkApi.class);
         NetworkUpdate networkUpdate = new NetworkUpdate();
@@ -90,6 +101,19 @@ class Helper {
         int count = 0;
         DeviceApi api = client.createService(DeviceApi.class);
         for (String id : ids) {
+            if (api.delete(id).execute().isSuccessful()) {
+                count++;
+            } else {
+                return false;
+            }
+        }
+        return count == ids.length;
+    }
+
+    boolean deleteDeviceTypes(long... ids) throws IOException {
+        int count = 0;
+        DeviceTypeApi api = client.createService(DeviceTypeApi.class);
+        for (long id : ids) {
             if (api.delete(id).execute().isSuccessful()) {
                 count++;
             } else {
@@ -144,7 +168,7 @@ class Helper {
         Response<List<Network>> getResponse = networkApi.list(null, networkNamePrefix + "%",
                 null, null, Integer.MAX_VALUE, 0).execute();
         List<Network> existingNetworks = getResponse.body();
-        for (Network network: existingNetworks) {
+        for (Network network : existingNetworks) {
             deleteNetworks(network.getId());
         }
     }
@@ -156,7 +180,7 @@ class Helper {
         Response<List<UserVO>> getResponse = userApi.list(null, userLoginPrefix + "%",
                 null, null, null, null, Integer.MAX_VALUE, 0).execute();
         List<UserVO> existingUsers = getResponse.body();
-        for (UserVO user: existingUsers) {
+        for (UserVO user : existingUsers) {
             deleteUsers(user.getId());
         }
     }
