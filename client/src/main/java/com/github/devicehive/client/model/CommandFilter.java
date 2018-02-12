@@ -39,8 +39,10 @@ public class CommandFilter {
     }
 
     private List<String> commandNames;
+    private List<String> deviceTypeIds;
+    private List<String> networkIds;
+    private Boolean returnUpdatedCommands;
     private DateTime startTimestamp;
-    private DateTime endTimestamp;
     private SortOrder sortOrder;
     private SortField sortField;
     private int maxNumber = 30;
@@ -71,19 +73,39 @@ public class CommandFilter {
         this.startTimestamp = startTimestamp;
     }
 
-    public DateTime getEndTimestamp() {
-        return endTimestamp;
-    }
-
-    public void setEndTimestamp(DateTime endTimestamp) {
-        this.endTimestamp = endTimestamp;
-    }
-
     public int getMaxNumber() {
         return maxNumber;
     }
 
     public void setMaxNumber(int maxNumber) {
         this.maxNumber = maxNumber;
+    }
+
+    public void setCommandNames(List<String> commandNames) {
+        this.commandNames = commandNames;
+    }
+
+    public List<String> getDeviceTypeIds() {
+        return deviceTypeIds;
+    }
+
+    public void setDeviceTypeIds(List<String> deviceTypeIds) {
+        this.deviceTypeIds = deviceTypeIds;
+    }
+
+    public List<String> getNetworkIds() {
+        return networkIds;
+    }
+
+    public void setNetworkIds(List<String> networkIds) {
+        this.networkIds = networkIds;
+    }
+
+    public Boolean getReturnUpdatedCommands() {
+        return returnUpdatedCommands;
+    }
+
+    public void setReturnUpdatedCommands(Boolean returnUpdatedCommands) {
+        this.returnUpdatedCommands = returnUpdatedCommands;
     }
 }

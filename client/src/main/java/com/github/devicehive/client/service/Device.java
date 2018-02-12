@@ -320,11 +320,9 @@ public class Device implements DeviceInterface {
     public void subscribeCommands(CommandFilter commandFilter, DeviceCommandsCallback commandCallback) {
         this.commandCallback = commandCallback;
         this.commandFilter = commandFilter;
-        commandWS.subscribe(commandFilter.getCommandNames(),
-                id,
-                null,
-                commandFilter.getStartTimestamp(),
-                commandFilter.getMaxNumber());
+        commandWS.subscribe(id,commandFilter.getDeviceTypeIds(),commandFilter.getNetworkIds(),
+                commandFilter.getCommandNames(),commandFilter.getStartTimestamp(),
+                commandFilter.getReturnUpdatedCommands(),commandFilter.getMaxNumber());
 
     }
 
@@ -338,11 +336,9 @@ public class Device implements DeviceInterface {
 
     public void unsubscribeCommands(CommandFilter commandFilter) {
         this.commandFilter = commandFilter;
-        commandWS.subscribe(commandFilter.getCommandNames(),
-                id,
-                null,
-                commandFilter.getStartTimestamp(),
-                commandFilter.getMaxNumber());
+        commandWS.subscribe(id,commandFilter.getDeviceTypeIds(),commandFilter.getNetworkIds(),
+                commandFilter.getCommandNames(),commandFilter.getStartTimestamp(),
+                commandFilter.getReturnUpdatedCommands(),commandFilter.getMaxNumber());
     }
 
     public void unsubscribeAllCommands() {

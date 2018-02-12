@@ -23,6 +23,7 @@ package com.github.devicehive.websocket.api;
 
 import com.github.devicehive.rest.model.SortOrder;
 import com.github.devicehive.rest.model.DeviceCommandWrapper;
+
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -30,18 +31,20 @@ import java.util.List;
 interface CommandApi {
 
 
-    void get( Long requestId, String deviceId, Long commandId);
+    void get(Long requestId, String deviceId, Long commandId);
 
     void list(Long requestId, String deviceId, DateTime start, DateTime end, String commandName, String status,
               SortOrder sortOrder, Integer take, Integer skip);
 
-    void insert( Long requestId, String deviceId, DeviceCommandWrapper wrapper);
+    void insert(Long requestId, String deviceId, DeviceCommandWrapper wrapper);
 
-    void update( Long requestId, String deviceId, String commandId, DeviceCommandWrapper wrapper);
+    void update(Long requestId, String deviceId, String commandId, DeviceCommandWrapper wrapper);
 
-    void subscribe( Long requestId, List<String> names, String deviceId, List<String> deviceIds, DateTime timestamp, Integer limit);
+    void subscribe(Long requestId, String deviceId, List<String> deviceTypeIds,
+                   List<String> networkIds, List<String> names, DateTime timestamp,
+                   Boolean returnUpdatedCommands, Integer limit);
 
-    void unsubscribe( Long requestId, String subscriptionId, List<String> deviceIds);
+    void unsubscribe(Long requestId, String subscriptionId, List<String> deviceIds);
 
 
 }

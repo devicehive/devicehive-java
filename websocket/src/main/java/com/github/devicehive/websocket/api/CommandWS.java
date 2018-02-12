@@ -28,6 +28,7 @@ import com.github.devicehive.websocket.model.repsonse.*;
 import com.github.devicehive.websocket.model.request.*;
 import com.github.devicehive.rest.model.DeviceCommandWrapper;
 import com.google.gson.JsonSyntaxException;
+
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -95,8 +96,9 @@ public class CommandWS extends BaseWebSocketApi implements CommandApi {
         update(null, deviceId, commandId, wrapper);
     }
 
-    public void subscribe(List<String> names, String deviceId, List<String> deviceIds, DateTime timestamp, Integer limit) {
-        subscribe(null, names, deviceId, deviceIds, timestamp, limit);
+    public void subscribe(String deviceId, List<String> deviceTypeIds,
+                          List<String> networkIds, List<String> names, DateTime timestamp, Boolean returnUpdatedCommands, Integer limit) {
+        subscribe(null, deviceId, deviceTypeIds, networkIds, names, timestamp, returnUpdatedCommands, limit);
     }
 
     public void unsubscribe(String subscriptionId, List<String> deviceIds) {
@@ -148,13 +150,16 @@ public class CommandWS extends BaseWebSocketApi implements CommandApi {
     }
 
     @Override
-    public void subscribe(Long requestId, List<String> names, String deviceId,
-                          List<String> deviceIds, DateTime timestamp, Integer limit) {
+    public void subscribe(Long requestId, String deviceId, List<String> deviceTypeIds,
+                          List<String> networkIds, List<String> names, DateTime timestamp,
+                          Boolean returnUpdatedCommands, Integer limit) {
         CommandSubscribeAction action = new CommandSubscribeAction();
 
         action.setNames(names);
         action.setDeviceId(deviceId);
-        action.setDeviceIds(deviceIds);
+        action.setDeviceTypeIds(deviceTypeIds);
+        action.setNetworkIds(networkIds);
+        action.setReturnUpdatedCommands(returnUpdatedCommands);
         action.setTimestamp(timestamp);
         action.setLimit(limit);
         action.setRequestId(requestId);

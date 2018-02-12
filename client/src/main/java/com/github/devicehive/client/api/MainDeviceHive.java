@@ -45,11 +45,11 @@ public interface MainDeviceHive {
 
     DHResponse<Void> removeProperty(String name) ;
 
-    void subscribeCommands(List<String> ids, CommandFilter commandFilter, DeviceCommandsCallback commandsCallback);
+    void subscribeCommands(String deviceId, CommandFilter commandFilter, DeviceCommandsCallback commandsCallback);
 
     void subscribeNotifications(String deviceId, NotificationFilter notificationFilter, DeviceNotificationsCallback notificationsCallback);
 
-    void unsubscribeCommands(List<String> ids, CommandFilter commandFilter);
+    void unsubscribeCommands(String deviceId, CommandFilter commandFilter);
 
     void unsubscribeNotifications(String deviceId, NotificationFilter notificationFilter);
 

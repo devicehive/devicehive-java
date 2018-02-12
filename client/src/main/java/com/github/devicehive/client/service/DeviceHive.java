@@ -93,7 +93,7 @@ public class DeviceHive implements MainDeviceHive {
     private String notificationSubscriptionId;
     private String notificationDeviceId = null;
     private NotificationFilter notificationFilter;
-    private List<String> commandsIds = new ArrayList<>();
+    private String commandDeviceId = null;
     private CommandFilter commandFilter;
 
     private DeviceHive() {
@@ -280,7 +280,7 @@ public class DeviceHive implements MainDeviceHive {
                             if (response.isSuccessful()) {
                                 TokenHelper.getInstance().getTokenAuth().setAccessToken(response.body().getAccessToken());
                                 wsClient.authenticate(TokenHelper.getInstance().getTokenAuth().getAccessToken());
-                                subscribeCommands(commandsIds, commandFilter, commandsCallback);
+                                subscribeCommands(commandDeviceId, commandFilter, commandsCallback);
                             } else {
                                 commandsCallback.onFail(FailureData.create(
                                         ErrorResponse.create(response.code(), BaseService.parseErrorMessage(response))));
@@ -365,13 +365,13 @@ public class DeviceHive implements MainDeviceHive {
         return configurationService.removeProperty(name);
     }
 
-    public void subscribeCommands(final List<String> ids, final CommandFilter commandFilter, final DeviceCommandsCallback commandsCallback) {
+    public void subscribeCommands(String deviceId, final CommandFilter commandFilter, final DeviceCommandsCallback commandsCallback) {
         this.commandsCallback = commandsCallback;
         this.commandFilter = commandFilter;
-        commandsIds.clear();
-        commandsIds.addAll(ids);
-        commandWS.subscribe(commandFilter.getCommandNames(), null,
-                ids, commandFilter.getStartTimestamp(), commandFilter.getMaxNumber());
+        commandDeviceId = deviceId;
+        commandWS.subscribe(deviceId, commandFilter.getDeviceTypeIds(), commandFilter.getNetworkIds(),
+                commandFilter.getCommandNames(), commandFilter.getStartTimestamp(),
+                commandFilter.getReturnUpdatedCommands(), commandFilter.getMaxNumber());
     }
 
     public void subscribeNotifications(String deviceId, NotificationFilter notificationFilter, DeviceNotificationsCallback notificationsCallback) {
@@ -383,12 +383,12 @@ public class DeviceHive implements MainDeviceHive {
                 notificationFilter.getNotificationNames());
     }
 
-    public void unsubscribeCommands(List<String> ids, CommandFilter commandFilter) {
+    public void unsubscribeCommands(String deviceId, CommandFilter commandFilter) {
         this.commandFilter = commandFilter;
-        commandsIds.clear();
-        commandsIds.addAll(ids);
-        commandWS.subscribe(commandFilter.getCommandNames(), null,
-                ids, commandFilter.getStartTimestamp(), commandFilter.getMaxNumber());
+        commandDeviceId = deviceId;
+        commandWS.subscribe(deviceId, commandFilter.getDeviceTypeIds(), commandFilter.getNetworkIds(),
+                commandFilter.getCommandNames(), commandFilter.getStartTimestamp(),
+                commandFilter.getReturnUpdatedCommands(), commandFilter.getMaxNumber());
     }
 
     public void unsubscribeNotifications(String deviceId, NotificationFilter notificationFilter) {

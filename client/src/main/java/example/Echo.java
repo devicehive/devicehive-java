@@ -31,7 +31,6 @@ import com.github.devicehive.client.service.DeviceHive;
 
 import org.joda.time.DateTime;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,7 +53,7 @@ public class Echo {
         }
         Device device = deviceResponse.getData();
         CommandFilter filter = getFilter();
-        deviceHive.subscribeCommands(Collections.singletonList(deviceId), filter, new DeviceCommandsCallback() {
+        deviceHive.subscribeCommands(deviceId, filter, new DeviceCommandsCallback() {
             @Override
             public void onSuccess(List<DeviceCommand> commands) {
                 System.out.println("echo");

@@ -36,10 +36,14 @@ public class CommandSubscribeAction extends RequestAction {
     DateTime timestamp;
     @SerializedName("deviceId")
     String deviceId;
-    @SerializedName("deviceIds")
-    List<String> deviceIds;
+    @SerializedName("networkIds")
+    List<String> networkIds;
+    @SerializedName("deviceTypeIds")
+    List<String> deviceTypeIds;
     @SerializedName("names")
     List<String> names;
+    @SerializedName("returnUpdatedCommands")
+    Boolean returnUpdatedCommands;
     @SerializedName("limit")
     Integer limit;
 
@@ -64,12 +68,28 @@ public class CommandSubscribeAction extends RequestAction {
         this.deviceId = deviceId;
     }
 
-    public List<String> getDeviceIds() {
-        return deviceIds;
+    public List<String> getNetworkIds() {
+        return networkIds;
     }
 
-    public void setDeviceIds(List<String> deviceIds) {
-        this.deviceIds = deviceIds;
+    public void setNetworkIds(List<String> networkIds) {
+        this.networkIds = networkIds;
+    }
+
+    public List<String> getDeviceTypeIds() {
+        return deviceTypeIds;
+    }
+
+    public void setDeviceTypeIds(List<String> deviceTypeIds) {
+        this.deviceTypeIds = deviceTypeIds;
+    }
+
+    public Boolean getReturnUpdatedCommands() {
+        return returnUpdatedCommands;
+    }
+
+    public void setReturnUpdatedCommands(Boolean returnUpdatedCommands) {
+        this.returnUpdatedCommands = returnUpdatedCommands;
     }
 
     public List<String> getNames() {
@@ -90,13 +110,14 @@ public class CommandSubscribeAction extends RequestAction {
 
     @Override
     public String toString() {
-        return "{\n\"CommandSubscribeAction\":{\n"
+        return "{\"CommandSubscribeAction\":{"
                 + "\"timestamp\":" + timestamp
-                + ",\n \"deviceId\":\"" + deviceId + "\""
-                + ",\n \"deviceIds\":" + deviceIds
-                + ",\n \"names\":" + names
-                + ",\n \"limit\":\"" + limit + "\""
-                + ",\n \"requestId\":\"" + requestId + "\""
-                + "}\n}";
+                + ", \"deviceId\":\"" + deviceId + "\""
+                + ", \"networkIds\":" + networkIds
+                + ", \"deviceTypeIds\":" + deviceTypeIds
+                + ", \"names\":" + names
+                + ", \"returnUpdatedCommands\":\"" + returnUpdatedCommands + "\""
+                + ", \"limit\":\"" + limit + "\""
+                + "}}";
     }
 }

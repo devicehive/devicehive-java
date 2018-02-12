@@ -210,7 +210,7 @@ public class CommandTest extends Helper {
 
             }
         });
-        commandWS.subscribe(Collections.singletonList(COMMAND), deviceId, null, null, null);
+        commandWS.subscribe(deviceId,null,null,Collections.singletonList(COMMAND), null, null, null);
         latch.await(awaitTimeout, awaitTimeUnit);
         Assert.assertEquals(0, latch.getCount());
     }
@@ -255,7 +255,7 @@ public class CommandTest extends Helper {
 
             }
         });
-        commandWS.subscribe(Collections.singletonList(COMMAND), deviceId, null, null, null);
+        commandWS.subscribe(deviceId,null,null,Collections.singletonList(COMMAND), null, null, null);
         latch.await(awaitTimeout, awaitTimeUnit);
         Assert.assertEquals(0, latch.getCount());
     }
