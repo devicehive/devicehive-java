@@ -120,7 +120,7 @@ public interface NetworkApi {
   @Headers({
           "Content-Type:application/json"
   })
-  @GET("device/count")
+  @GET("network/count")
   Call<NetworkCount> count(
           @Query("name") String name,
           @Query("namePattern") String namePattern
