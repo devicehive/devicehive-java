@@ -276,6 +276,7 @@ public class Device implements DeviceInterface {
         result.id = device.getId();
         result.name = device.getName();
         result.data = device.getData();
+        result.deviceTypeId = device.getDeviceTypeId();
         result.networkId = device.getNetworkId();
         result.isBlocked = device.getIsBlocked();
         return result;
@@ -320,9 +321,9 @@ public class Device implements DeviceInterface {
     public void subscribeCommands(CommandFilter commandFilter, DeviceCommandsCallback commandCallback) {
         this.commandCallback = commandCallback;
         this.commandFilter = commandFilter;
-        commandWS.subscribe(id,commandFilter.getDeviceTypeIds(),commandFilter.getNetworkIds(),
-                commandFilter.getCommandNames(),commandFilter.getStartTimestamp(),
-                commandFilter.getReturnUpdatedCommands(),commandFilter.getMaxNumber());
+        commandWS.subscribe(id, commandFilter.getDeviceTypeIds(), commandFilter.getNetworkIds(),
+                commandFilter.getCommandNames(), commandFilter.getStartTimestamp(),
+                commandFilter.getReturnUpdatedCommands(), commandFilter.getMaxNumber());
 
     }
 
@@ -336,9 +337,9 @@ public class Device implements DeviceInterface {
 
     public void unsubscribeCommands(CommandFilter commandFilter) {
         this.commandFilter = commandFilter;
-        commandWS.subscribe(id,commandFilter.getDeviceTypeIds(),commandFilter.getNetworkIds(),
-                commandFilter.getCommandNames(),commandFilter.getStartTimestamp(),
-                commandFilter.getReturnUpdatedCommands(),commandFilter.getMaxNumber());
+        commandWS.subscribe(id, commandFilter.getDeviceTypeIds(), commandFilter.getNetworkIds(),
+                commandFilter.getCommandNames(), commandFilter.getStartTimestamp(),
+                commandFilter.getReturnUpdatedCommands(), commandFilter.getMaxNumber());
     }
 
     public void unsubscribeAllCommands() {

@@ -26,7 +26,7 @@ import com.google.gson.annotations.SerializedName;
 public class DeviceTypeListItem {
 
     @SerializedName("id")
-    private String id = null;
+    private Long id = null;
 
     @SerializedName("name")
     private String name = null;
@@ -34,11 +34,11 @@ public class DeviceTypeListItem {
     @SerializedName("description")
     private String description = null;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

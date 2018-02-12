@@ -25,12 +25,14 @@ import com.github.devicehive.client.model.DHResponse;
 import com.github.devicehive.client.model.DeviceFilter;
 import com.github.devicehive.client.model.DeviceNotification;
 import com.github.devicehive.client.model.DeviceNotificationsCallback;
+import com.github.devicehive.client.model.DeviceTypeFilter;
 import com.github.devicehive.client.model.FailureData;
 import com.github.devicehive.client.model.NetworkFilter;
 import com.github.devicehive.client.model.NotificationFilter;
 import com.github.devicehive.client.model.UserFilter;
 import com.github.devicehive.client.service.Device;
 import com.github.devicehive.client.service.DeviceHive;
+import com.github.devicehive.client.service.DeviceType;
 import com.github.devicehive.client.service.User;
 import com.github.devicehive.rest.model.ApiInfo;
 import com.github.devicehive.rest.model.Configuration;
@@ -48,6 +50,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -56,6 +59,7 @@ import java.util.concurrent.TimeUnit;
 public class DeviceHiveTest extends Helper {
 
     private static final String DEVICE_ID = "271990123";
+    private static final String DEVICE_TYPE_NAME = "DEVICE TYPE NAME ";
 
     private DeviceHive deviceHive;
 
@@ -251,5 +255,47 @@ public class DeviceHiveTest extends Helper {
     public void getCurrentUser() {
         DHResponse<com.github.devicehive.client.service.User> userDHResponse = deviceHive.getCurrentUser();
         Assert.assertTrue(userDHResponse.isSuccessful());
+    }
+
+    @Test
+    public void getDeviceType() {
+        DHResponse<DeviceType> deviceTypeDHResponse =
+                deviceHive.createDeviceType(DEVICE_TYPE_NAME + new Random().nextInt(300), null);
+        Assert.assertTrue(deviceTypeDHResponse.isSuccessful());
+        DHResponse<DeviceType> deviceTypeDHResponse2 =
+                deviceHive.getDeviceType(deviceTypeDHResponse.getData().getId());
+        Assert.assertTrue(deviceTypeDHResponse2.isSuccessful());
+
+    }
+
+    @Test
+    public void CRUDDeviceType() {
+        DHResponse<DeviceType> createResponse =
+                deviceHive.createDeviceType(DEVICE_TYPE_NAME + new Random().nextInt(300), null);
+        Assert.assertTrue(createResponse.isSuccessful());
+
+        DHResponse<DeviceType> getResponse =
+                deviceHive.getDeviceType(createResponse.getData().getId());
+        Assert.assertTrue(getResponse.isSuccessful());
+
+        DeviceType deviceType = getResponse.getData();
+        deviceType.setName(DEVICE_TYPE_NAME + new Random().nextInt(300));
+        boolean updateResponse = deviceType.updateDeviceType();
+        Assert.assertTrue(updateResponse);
+
+        DHResponse<Void> deleteResponse =
+                deviceHive.deleteDeviceType(createResponse.getData().getId());
+        Assert.assertTrue(deleteResponse.isSuccessful());
+
+    }
+
+    @Test
+    public void listDeviceType() {
+        DHResponse<DeviceType> createResponse =
+                deviceHive.createDeviceType(DEVICE_TYPE_NAME + new Random().nextInt(300), null);
+        Assert.assertTrue(createResponse.isSuccessful());
+        DHResponse<List<DeviceType>> listResponse =
+                deviceHive.listDeviceTypes(new DeviceTypeFilter());
+        Assert.assertTrue(listResponse.isSuccessful());
     }
 }

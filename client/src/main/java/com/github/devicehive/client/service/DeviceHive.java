@@ -28,6 +28,7 @@ import com.github.devicehive.client.model.DeviceCommandsCallback;
 import com.github.devicehive.client.model.DeviceFilter;
 import com.github.devicehive.client.model.DeviceNotification;
 import com.github.devicehive.client.model.DeviceNotificationsCallback;
+import com.github.devicehive.client.model.DeviceTypeFilter;
 import com.github.devicehive.client.model.FailureData;
 import com.github.devicehive.client.model.NetworkFilter;
 import com.github.devicehive.client.model.NotificationFilter;
@@ -63,7 +64,6 @@ import com.google.gson.JsonObject;
 import org.joda.time.DateTime;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -81,6 +81,7 @@ public class DeviceHive implements MainDeviceHive {
     private DeviceService deviceService;
     private String url;
     private DeviceCommandService commandService;
+    private DeviceTypeService deviceTypeService;
     private DeviceNotificationService notificationService;
     private DeviceNotificationsCallback notificationsCallback;
     private DeviceCommandsCallback commandsCallback;
@@ -171,6 +172,7 @@ public class DeviceHive implements MainDeviceHive {
         commandService = new DeviceCommandService();
         notificationService = new DeviceNotificationService();
         userService = new UserService();
+        deviceTypeService = new DeviceTypeService();
     }
 
     private void createWSClient() {
@@ -456,7 +458,6 @@ public class DeviceHive implements MainDeviceHive {
         return userService.removeUser(id);
     }
 
-    //GET SERVICES
     public DHResponse<Void> putDevice(String id, String name) {
         return deviceService.createDevice(id, name);
     }
@@ -465,6 +466,23 @@ public class DeviceHive implements MainDeviceHive {
         deviceService.updateDevice(device);
     }
 
+    public DHResponse<DeviceType> createDeviceType(String name, String description) {
+        return deviceTypeService.createDeviceType(name, description);
+    }
+
+    public DHResponse<DeviceType> getDeviceType(long id) {
+        return deviceTypeService.getDeviceType(id);
+    }
+
+    public DHResponse<List<DeviceType>> listDeviceTypes(DeviceTypeFilter filter) {
+        return deviceTypeService.getDeviceTypes(filter);
+    }
+
+    public DHResponse<Void> deleteDeviceType(long id) {
+        return deviceTypeService.removeDeviceType(id);
+    }
+
+    //GET SERVICES
     NetworkService getNetworkService() {
         return networkService;
     }
@@ -480,4 +498,9 @@ public class DeviceHive implements MainDeviceHive {
     DeviceNotificationService getDeviceNotificationService() {
         return notificationService;
     }
+
+    DeviceTypeService getDeviceTypeService() {
+        return deviceTypeService;
+    }
 }
+
