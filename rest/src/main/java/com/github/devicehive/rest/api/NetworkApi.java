@@ -22,6 +22,7 @@
 package com.github.devicehive.rest.api;
 
 import com.github.devicehive.rest.model.Network;
+import com.github.devicehive.rest.model.NetworkCount;
 import com.github.devicehive.rest.model.NetworkId;
 import com.github.devicehive.rest.model.NetworkUpdate;
 import com.github.devicehive.rest.model.NetworkVO;
@@ -115,4 +116,13 @@ public interface NetworkApi {
   Call<Void> update(
           @Path("id") Long id, @Body NetworkUpdate body);
 
+
+  @Headers({
+          "Content-Type:application/json"
+  })
+  @GET("device/count")
+  Call<NetworkCount> count(
+          @Query("name") String name,
+          @Query("namePattern") String namePattern
+  );
 }
