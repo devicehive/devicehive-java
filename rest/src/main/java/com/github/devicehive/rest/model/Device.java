@@ -56,6 +56,9 @@ public class Device {
     @SerializedName("networkId")
     private Long networkId = null;
 
+    @SerializedName("deviceTypeId")
+    private Long deviceTypeId = null;
+
     @SerializedName("isBlocked")
     private Boolean isBlocked = false;
 
@@ -99,15 +102,24 @@ public class Device {
         isBlocked = blocked;
     }
 
+    public Long getDeviceTypeId() {
+        return deviceTypeId;
+    }
+
+    public void setDeviceTypeId(Long deviceTypeId) {
+        this.deviceTypeId = deviceTypeId;
+    }
+
     @Override
     public String toString() {
-        return "{\n\"Device\":{\n"
+        return "{\"Device\":{"
                 + "\"id\":\"" + id + "\""
-                + ",\n \"name\":\"" + name + "\""
-                + ",\n \"data\":" + data
-                + ",\n \"networkId\":\"" + networkId + "\""
-                + ",\n \"isBlocked\":\"" + isBlocked + "\""
-                + "}\n}";
+                + ", \"name\":\"" + name + "\""
+                + ", \"data\":" + data
+                + ", \"networkId\":\"" + networkId + "\""
+                + ", \"deviceTypeId\":\"" + deviceTypeId + "\""
+                + ", \"isBlocked\":\"" + isBlocked + "\""
+                + "}}";
     }
 }
 
