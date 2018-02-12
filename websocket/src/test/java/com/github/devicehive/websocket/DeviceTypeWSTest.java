@@ -343,7 +343,7 @@ public class DeviceTypeWSTest extends Helper {
                 Assert.assertTrue(true);
                 deviceTypeId = response.getId();
                 DeviceTypeUpdate update = new DeviceTypeUpdate();
-                update.setName(deviceTypeName);
+                update.setName(deviceTypeName+"123");
                 update.setDescription(DESCRIPTION);
                 deviceTypeWS.update(null,
                         deviceTypeId,update);

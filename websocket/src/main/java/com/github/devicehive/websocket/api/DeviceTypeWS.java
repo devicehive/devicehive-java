@@ -133,6 +133,7 @@ public class DeviceTypeWS extends BaseWebSocketApi implements DeviceTypeApi {
         DeviceTypeUpdateAction action = new DeviceTypeUpdateAction();
         action.setRequestId(requestId);
         action.setDeviceTypeId(deviceTypeId);
+        action.setDeviceType(deviceTypeUpdate);
         send(action);
     }
 
