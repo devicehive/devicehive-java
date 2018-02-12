@@ -22,6 +22,7 @@
 package com.github.devicehive.rest.api;
 
 import com.github.devicehive.rest.model.Device;
+import com.github.devicehive.rest.model.DeviceCount;
 import com.github.devicehive.rest.model.DeviceUpdate;
 
 import java.util.List;
@@ -41,7 +42,7 @@ public interface DeviceApi {
      * Delete device
      * Deletes an existing device.
      *
-     * @param id            Device unique identifier. (required)
+     * @param id Device unique identifier. (required)
      * @return Call&lt;Void&gt;
      */
     @Headers({
@@ -55,7 +56,7 @@ public interface DeviceApi {
      * Get device
      * Gets information about device.
      *
-     * @param id            Device unique identifier. (required)
+     * @param id Device unique identifier. (required)
      * @return Call&lt;Void&gt;
      */
     @Headers({
@@ -111,4 +112,14 @@ public interface DeviceApi {
             @Body DeviceUpdate body, @Path("id") String id
     );
 
+    @Headers({
+            "Content-Type:application/json"
+    })
+    @GET("device/count")
+    Call<DeviceCount> count(
+            @Query("name") String name,
+            @Query("namePattern") String namePattern,
+            @Query("networkId") long networkId,
+            @Query("networkName") String networkName
+    );
 }
