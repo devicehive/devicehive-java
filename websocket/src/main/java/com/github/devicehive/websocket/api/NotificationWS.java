@@ -26,6 +26,7 @@ import com.github.devicehive.rest.model.SortOrder;
 import com.github.devicehive.websocket.listener.NotificationListener;
 import com.github.devicehive.websocket.model.repsonse.*;
 import com.github.devicehive.websocket.model.request.*;
+
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -87,8 +88,8 @@ public class NotificationWS extends BaseWebSocketApi implements NotificationApi 
         insert(null, deviceId, notification);
     }
 
-    public void subscribe(String deviceId, List<String> deviceIds, List<String> names) {
-        subscribe(null, deviceId, deviceIds, names);
+    public void subscribe(String deviceId, List<String> deviceTypeIds, List<String> networkIds, List<String> names) {
+        subscribe(null, deviceId, deviceTypeIds, networkIds, names);
     }
 
     public void unsubscribe(String subscriptionId, List<String> deviceIds) {
@@ -130,11 +131,13 @@ public class NotificationWS extends BaseWebSocketApi implements NotificationApi 
     }
 
     @Override
-    public void subscribe(Long requestId, String deviceId, List<String> deviceIds, List<String> names) {
+    public void subscribe(Long requestId, String deviceId, List<String> deviceTypeIds,
+                          List<String> networkIds, List<String> names) {
         NotificationSubscribeAction action = new NotificationSubscribeAction();
         action.setRequestId(requestId);
         action.setDeviceId(deviceId);
-        action.setDeviceIds(deviceIds);
+        action.setDeviceTypeIds(deviceTypeIds);
+        action.setNetworkIds(networkIds);
         action.setNames(names);
         send(action);
     }

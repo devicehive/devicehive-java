@@ -82,8 +82,8 @@ public class Main {
                 System.out.println("Command:" + commands.get(0).getCommandName());
 
                 DeviceCommand command = commands.get(0);
-                JsonObject result=new JsonObject();
-                result.addProperty("status",SUCCESS);
+                JsonObject result = new JsonObject();
+                result.addProperty("status", SUCCESS);
 
                 command.setResult(result);
                 command.updateCommand();
@@ -123,7 +123,7 @@ public class Main {
 
         //Subscribing for notifications
         deviceHive.subscribeNotifications(
-                Collections.singletonList(DEVICE_ID),
+                DEVICE_ID,
                 notificationFilter,
                 new DeviceNotificationsCallback() {
                     @Override

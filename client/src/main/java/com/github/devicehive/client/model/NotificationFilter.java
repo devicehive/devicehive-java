@@ -32,7 +32,7 @@ public class NotificationFilter {
 
     private List<String> notificationNames;
     private List<String> deviceTypesIds;
-    private List<String> netwirkIds;
+    private List<String> networkIds;
     private DateTime startTimestamp;
     private DateTime endTimestamp;
     private SortOrder sortOrder;
@@ -93,7 +93,7 @@ public class NotificationFilter {
         return deviceTypesIds;
     }
 
-    public List<String> getNetwirkIds() {
-        return netwirkIds;
+    public List<String> getNetworkIds() {
+        return networkIds;
     }
 }

@@ -228,7 +228,7 @@ public class NotificationTest extends Helper {
 
             }
         });
-        notificationWS.subscribe(deviceId, null, Collections.singletonList(NOTIFICATION_1));
+        notificationWS.subscribe(deviceId, null, null, Collections.singletonList(NOTIFICATION_1));
         latch.await(awaitTimeout, awaitTimeUnit);
         Assert.assertTrue(latch.getCount() == 0);
 
@@ -270,7 +270,7 @@ public class NotificationTest extends Helper {
 
             }
         });
-        notificationWS.subscribe(deviceId, null, Collections.singletonList(NOTIFICATION_1));
+        notificationWS.subscribe(deviceId, null, null, Collections.singletonList(NOTIFICATION_1));
         latch.await(awaitTimeout, awaitTimeUnit);
         Assert.assertTrue(latch.getCount() == 0);
 

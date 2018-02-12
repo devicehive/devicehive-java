@@ -47,11 +47,11 @@ public interface MainDeviceHive {
 
     void subscribeCommands(List<String> ids, CommandFilter commandFilter, DeviceCommandsCallback commandsCallback);
 
-    void subscribeNotifications(List<String> ids, NotificationFilter notificationFilter, DeviceNotificationsCallback notificationsCallback);
+    void subscribeNotifications(String deviceId, NotificationFilter notificationFilter, DeviceNotificationsCallback notificationsCallback);
 
     void unsubscribeCommands(List<String> ids, CommandFilter commandFilter);
 
-    void unsubscribeNotifications(List<String> ids, NotificationFilter notificationFilter);
+    void unsubscribeNotifications(String deviceId, NotificationFilter notificationFilter);
 
     DHResponse<List<com.github.devicehive.client.service.Network>> listNetworks(NetworkFilter filter) ;
 

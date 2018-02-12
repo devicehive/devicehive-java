@@ -34,8 +34,10 @@ public class NotificationSubscribeAction extends RequestAction {
     private DateTime timestamp;
     @SerializedName("deviceId")
     private String deviceId;
-    @SerializedName("deviceIds")
-    private List<String> deviceIds;
+    @SerializedName("networkIds")
+    private List<String> networkIds;
+    @SerializedName("deviceTypeIds")
+    private List<String> deviceTypeIds;
     @SerializedName("names")
     private List<String> names;
 
@@ -55,12 +57,20 @@ public class NotificationSubscribeAction extends RequestAction {
         this.deviceId = deviceId;
     }
 
-    public List<String> getDeviceIds() {
-        return deviceIds;
+    public List<String> getNetworkIds() {
+        return networkIds;
     }
 
-    public void setDeviceIds(List<String> deviceIds) {
-        this.deviceIds = deviceIds;
+    public void setNetworkIds(List<String> networkIds) {
+        this.networkIds = networkIds;
+    }
+
+    public List<String> getDeviceTypeIds() {
+        return deviceTypeIds;
+    }
+
+    public void setDeviceTypeIds(List<String> deviceTypeIds) {
+        this.deviceTypeIds = deviceTypeIds;
     }
 
     public List<String> getNames() {

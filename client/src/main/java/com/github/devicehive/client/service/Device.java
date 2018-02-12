@@ -331,7 +331,9 @@ public class Device implements DeviceInterface {
     public void subscribeNotifications(NotificationFilter notificationFilter, DeviceNotificationsCallback notificationCallback) {
         this.notificationCallback = notificationCallback;
         this.notificationFilter = notificationFilter;
-        notificationWS.subscribe(id, null, notificationFilter.getNotificationNames());
+        notificationWS.subscribe(id, notificationFilter.getNetworkIds(),
+                notificationFilter.getDeviceTypesIds(),
+                notificationFilter.getNotificationNames());
     }
 
     public void unsubscribeCommands(CommandFilter commandFilter) {
@@ -358,7 +360,9 @@ public class Device implements DeviceInterface {
 
     public void unsubscribeNotifications(NotificationFilter notificationFilter) {
         this.notificationFilter = notificationFilter;
-        notificationWS.subscribe(null, id, null, notificationFilter.getNotificationNames());
+        notificationWS.subscribe(null, id, notificationFilter.getNetworkIds(),
+                notificationFilter.getDeviceTypesIds(),
+                notificationFilter.getNotificationNames());
     }
 
     @Override

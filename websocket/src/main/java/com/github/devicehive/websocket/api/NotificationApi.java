@@ -36,7 +36,7 @@ interface NotificationApi {
 
     void insert(Long requestId, String deviceId, DeviceNotificationWrapper notification);
 
-    void subscribe(Long requestId, String deviceId, List<String> deviceIds, List<String> names);
+    void subscribe(Long requestId, String deviceId, List<String> deviceTypeIds, List<String> networkIds, List<String> names);
 
     void unsubscribe(Long requestId, String subscriptionId, List<String> deviceIds);
 }

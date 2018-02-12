@@ -56,7 +56,6 @@ import java.util.concurrent.TimeUnit;
 public class DeviceHiveTest extends Helper {
 
     private static final String DEVICE_ID = "271990123";
-    private static final String DEVICE_ID2 = "271990";
 
     private DeviceHive deviceHive;
 
@@ -200,10 +199,7 @@ public class DeviceHiveTest extends Helper {
         notificationFilter.setNotificationNames("notificationA", "notificationB");
         notificationFilter.setStartTimestamp(DateTime.now());
         notificationFilter.setEndTimestamp(DateTime.now().plusSeconds(10));
-        final List<String> ids = new ArrayList<String>();
-        ids.add(DEVICE_ID);
-        ids.add(DEVICE_ID2);
-        deviceHive.subscribeNotifications(ids, notificationFilter, new DeviceNotificationsCallback() {
+        deviceHive.subscribeNotifications(DEVICE_ID, notificationFilter, new DeviceNotificationsCallback() {
             public void onSuccess(List<DeviceNotification> notifications) {
                 latch.countDown();
                 Assert.assertTrue(true);

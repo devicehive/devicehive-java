@@ -194,7 +194,7 @@ class DeviceNotificationService extends BaseService {
         pollManyCall = notificationApi.pollMany(
                 deviceId,
                 StringUtils.join(DELIMITER, filter.getDeviceTypesIds()),
-                StringUtils.join(DELIMITER, filter.getNetwirkIds()),
+                StringUtils.join(DELIMITER, filter.getNetworkIds()),
                 StringUtils.join(DELIMITER, filter.getNotificationNames()),
                 filter.getStartTimestamp().toString(), (long) period.toStandardSeconds().getSeconds());
 
