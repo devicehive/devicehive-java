@@ -68,6 +68,7 @@ public class Device implements DeviceInterface {
     private CommandWS commandWS;
     private String id = null;
     private String name = null;
+    private Long deviceTypeId = null;
     private JsonObject data = new JsonObject();
     private Long networkId = null;
     private Boolean isBlocked = false;
@@ -78,6 +79,14 @@ public class Device implements DeviceInterface {
 
     public String getName() {
         return name;
+    }
+
+    public Long getDeviceTypeId() {
+        return deviceTypeId;
+    }
+
+    public void setDeviceTypeId(Long deviceTypeId) {
+        this.deviceTypeId = deviceTypeId;
     }
 
     public void setName(String name) {
@@ -354,12 +363,13 @@ public class Device implements DeviceInterface {
 
     @Override
     public String toString() {
-        return "{\n\"Device\":{\n"
+        return "{\"Device\":{"
                 + "\"id\":\"" + id + "\""
-                + ",\n \"name\":\"" + name + "\""
-                + ",\n \"data\":" + data
-                + ",\n \"networkId\":\"" + networkId + "\""
-                + ",\n \"isBlocked\":\"" + isBlocked + "\""
-                + "}\n}";
+                + ", \"name\":\"" + name + "\""
+                + ", \"deviceTypeId\":\"" + deviceTypeId + "\""
+                + ", \"data\":" + data
+                + ", \"networkId\":\"" + networkId + "\""
+                + ", \"isBlocked\":\"" + isBlocked + "\""
+                + "}}";
     }
 }

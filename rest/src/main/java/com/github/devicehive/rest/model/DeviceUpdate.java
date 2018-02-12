@@ -55,6 +55,9 @@ public class DeviceUpdate {
   @SerializedName("networkId")
   private Long networkId = null;
 
+  @SerializedName("deviceTypeId")
+  private Long deviceTypeId = null;
+
   @SerializedName("blocked")
   private Boolean blocked = false;
 
@@ -91,6 +94,14 @@ public class DeviceUpdate {
 
   public void setBlocked(Boolean blocked) {
     this.blocked = blocked;
+  }
+
+  public Long getDeviceTypeId() {
+    return deviceTypeId;
+  }
+
+  public void setDeviceTypeId(Long deviceTypeId) {
+    this.deviceTypeId = deviceTypeId;
   }
 }
 

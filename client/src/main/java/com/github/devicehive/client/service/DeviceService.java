@@ -53,17 +53,18 @@ class DeviceService extends BaseService {
         String id = device.getId();
         DeviceUpdate deviceUpdate = new DeviceUpdate();
         deviceUpdate.setName(device.getName());
+        deviceUpdate.setDeviceTypeId(device.getDeviceTypeId());
         deviceUpdate.setBlocked(device.getBlocked());
         deviceUpdate.setNetworkId(device.getNetworkId());
         deviceUpdate.setData(device.getData());
 
-        DHResponse<Void> response = execute(deviceApi.register(deviceUpdate,id));
+        DHResponse<Void> response = execute(deviceApi.register(deviceUpdate, id));
         if (response.isSuccessful()) {
             return response;
         } else if (response.getFailureData().getCode() == 401) {
             refreshAndAuthorize();
             deviceApi = createService(DeviceApi.class);
-            return execute(deviceApi.register(deviceUpdate,id));
+            return execute(deviceApi.register(deviceUpdate, id));
         } else {
             return response;
         }
