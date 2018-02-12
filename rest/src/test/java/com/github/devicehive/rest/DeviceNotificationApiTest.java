@@ -51,7 +51,7 @@ public class DeviceNotificationApiTest extends Helper {
         JsonObject data = new JsonObject();
         data.addProperty(TEST_PROP, TEST_VALUE);
         JsonObject params = new JsonObject();
-        params.addProperty("customData",new Gson().toJson(data));
+        params.addProperty("customData", new Gson().toJson(data));
         deviceNotificationWrapper.setParameters(params);
         return deviceNotificationWrapper;
     }
@@ -138,10 +138,10 @@ public class DeviceNotificationApiTest extends Helper {
         String timestamp = currentTimestamp.withMillis(0).toString();
 
         Response<List<DeviceNotification>> pollResponse = notificationApi.pollMany(firstDeviceId,
-                null,null,
+                null, null,
                 NOTIFICATION_NAME, timestamp, 30L).execute();
         Assert.assertTrue(pollResponse.isSuccessful());
-        Assert.assertEquals(2 * notificationPollAmount, pollResponse.body().size());
+        Assert.assertEquals(notificationPollAmount, pollResponse.body().size());
         Assert.assertTrue(deleteDevices(firstDeviceId));
     }
 
