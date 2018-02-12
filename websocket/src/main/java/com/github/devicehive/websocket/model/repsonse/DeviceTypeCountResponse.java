@@ -1,7 +1,7 @@
 /*
  *
  *
- *   WebSocketCreator.java
+ *   DeviceTypeCountResponse.java
  *
  *   Copyright (C) 2018 DataArt
  *
@@ -19,23 +19,19 @@
  *
  */
 
-package com.github.devicehive.websocket.api;
+package com.github.devicehive.websocket.model.repsonse;
 
-interface WebSocketCreator {
+import com.google.gson.annotations.SerializedName;
 
-    DeviceWS createDeviceWS();
+public class DeviceTypeCountResponse extends ResponseAction {
+    @SerializedName("count")
+    private int count;
 
-    CommandWS createCommandWS();
+    public int getCount() {
+        return count;
+    }
 
-    ConfigurationWS createConfigurationWS();
-
-    NotificationWS createNotificationWS();
-
-    NetworkWS createNetworkWS();
-
-    TokenWS createTokenWS();
-
-    UserWS createUserWS();
-
-    DeviceTypeWS createDeviceTypeWS();
+    public void setCount(int count) {
+        this.count = count;
+    }
 }

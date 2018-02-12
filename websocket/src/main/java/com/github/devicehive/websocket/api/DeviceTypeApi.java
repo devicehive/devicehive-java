@@ -1,7 +1,7 @@
 /*
  *
  *
- *   WebSocketCreator.java
+ *   DeviceTypeApi.java
  *
  *   Copyright (C) 2018 DataArt
  *
@@ -21,21 +21,23 @@
 
 package com.github.devicehive.websocket.api;
 
-interface WebSocketCreator {
+import com.github.devicehive.rest.model.DeviceTypeUpdate;
+import com.github.devicehive.rest.model.SortOrder;
 
-    DeviceWS createDeviceWS();
+interface DeviceTypeApi {
 
-    CommandWS createCommandWS();
 
-    ConfigurationWS createConfigurationWS();
+    void get(Long requestId, long deviceTypeId);
 
-    NotificationWS createNotificationWS();
+    void list(Long requestId, String name, String namePattern, String sortField, SortOrder sortOrder, int take, int skip);
 
-    NetworkWS createNetworkWS();
+    void insert(Long requestId, DeviceTypeUpdate deviceTypeUpdate);
 
-    TokenWS createTokenWS();
+    void count(Long requestId, String name, String namePattern);
 
-    UserWS createUserWS();
+    void update(Long requestId, long deviceTypeId, DeviceTypeUpdate deviceTypeUpdate);
 
-    DeviceTypeWS createDeviceTypeWS();
+    void delete(Long requestId, long deviceTypeId);
+
+
 }

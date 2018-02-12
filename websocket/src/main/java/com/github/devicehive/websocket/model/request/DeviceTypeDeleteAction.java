@@ -1,7 +1,7 @@
 /*
  *
  *
- *   WebSocketCreator.java
+ *   DeviceTypeDeleteAction.java
  *
  *   Copyright (C) 2018 DataArt
  *
@@ -19,23 +19,27 @@
  *
  */
 
-package com.github.devicehive.websocket.api;
+package com.github.devicehive.websocket.model.request;
 
-interface WebSocketCreator {
+import com.google.gson.annotations.SerializedName;
 
-    DeviceWS createDeviceWS();
+import static com.github.devicehive.websocket.model.ActionConstant.DEVICE_TYPE_DELETE;
 
-    CommandWS createCommandWS();
+public class DeviceTypeDeleteAction extends RequestAction {
 
-    ConfigurationWS createConfigurationWS();
 
-    NotificationWS createNotificationWS();
+    @SerializedName("deviceTypeId")
+    long deviceTypeId;
 
-    NetworkWS createNetworkWS();
+    public DeviceTypeDeleteAction() {
+        super(DEVICE_TYPE_DELETE);
+    }
 
-    TokenWS createTokenWS();
+    public long getDeviceTypeId() {
+        return deviceTypeId;
+    }
 
-    UserWS createUserWS();
-
-    DeviceTypeWS createDeviceTypeWS();
+    public void setDeviceTypeId(long deviceTypeId) {
+        this.deviceTypeId = deviceTypeId;
+    }
 }

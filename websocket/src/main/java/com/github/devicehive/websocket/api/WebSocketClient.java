@@ -25,14 +25,15 @@ import com.github.devicehive.websocket.model.repsonse.ErrorResponse;
 import com.github.devicehive.websocket.model.repsonse.ResponseAction;
 import com.github.devicehive.websocket.model.request.AuthenticateAction;
 import com.google.gson.Gson;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.WebSocket;
-import okhttp3.WebSocketListener;
 
 import java.io.Closeable;
 import java.util.HashMap;
 import java.util.Map;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.WebSocket;
+import okhttp3.WebSocketListener;
 
 import static com.github.devicehive.websocket.model.ActionConstant.AUTHENTICATE;
 import static com.github.devicehive.websocket.model.repsonse.ResponseAction.SUCCESS;
@@ -96,7 +97,7 @@ public class WebSocketClient extends WebSocketListener implements WebSocketCreat
 
     private BaseWebSocketApi getBaseWebSocketApi(String actionName) {
         BaseWebSocketApi api = null;
-        if (actionName.startsWith(DeviceWS.TAG)) {
+        if (actionName.startsWith(DeviceWS.TAG) && !actionName.startsWith(DeviceTypeWS.TAG)) {
             api = map.get(DeviceWS.TAG);
         } else if (actionName.startsWith(CommandWS.TAG)) {
             api = map.get(CommandWS.TAG);
@@ -110,6 +111,8 @@ public class WebSocketClient extends WebSocketListener implements WebSocketCreat
             api = map.get(UserWS.TAG);
         } else if (actionName.startsWith(TokenWS.TAG)) {
             api = map.get(TokenWS.TAG);
+        } else if (actionName.startsWith(DeviceTypeWS.TAG)) {
+            api = map.get(DeviceTypeWS.TAG);
         }
         return api;
     }
@@ -178,6 +181,13 @@ public class WebSocketClient extends WebSocketListener implements WebSocketCreat
         UserWS userWS = new UserWS(this);
         put(UserWS.TAG, userWS);
         return userWS;
+    }
+
+    @Override
+    public DeviceTypeWS createDeviceTypeWS() {
+        DeviceTypeWS deviceTypeWS = new DeviceTypeWS(this);
+        put(DeviceTypeWS.TAG, deviceTypeWS);
+        return deviceTypeWS;
     }
 
 

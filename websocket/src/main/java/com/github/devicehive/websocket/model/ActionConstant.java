@@ -69,5 +69,12 @@ public class ActionConstant {
     public static final String USER_ASSIGN_NETWORK = "user/assignNetwork";
     public static final String USER_UNASSIGN_NETWORK = "user/unassignNetwork";
 
+    public static final String DEVICE_TYPE_GET = "devicetype/get";
+    public static final String DEVICE_TYPE_DELETE = "devicetype/delete";
+    public static final String DEVICE_TYPE_LIST = "devicetype/list";
+    public static final String DEVICE_TYPE_INSERT = "devicetype/insert";
+    public static final String DEVICE_TYPE_UPDATE = "devicetype/update";
+    public static final String DEVICE_TYPE_COUNT = "devicetype/count";
+
 
 }

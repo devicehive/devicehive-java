@@ -1,7 +1,7 @@
 /*
  *
  *
- *   WebSocketCreator.java
+ *   DeviceTypeInsertResponse.java
  *
  *   Copyright (C) 2018 DataArt
  *
@@ -19,23 +19,20 @@
  *
  */
 
-package com.github.devicehive.websocket.api;
+package com.github.devicehive.websocket.model.repsonse;
 
-interface WebSocketCreator {
+import com.github.devicehive.rest.model.DeviceTypeInserted;
+import com.google.gson.annotations.SerializedName;
 
-    DeviceWS createDeviceWS();
+public class DeviceTypeInsertResponse extends ResponseAction {
+    @SerializedName("deviceType")
+    private DeviceTypeInserted deviceType;
 
-    CommandWS createCommandWS();
+    public DeviceTypeInserted getDeviceType() {
+        return deviceType;
+    }
 
-    ConfigurationWS createConfigurationWS();
-
-    NotificationWS createNotificationWS();
-
-    NetworkWS createNetworkWS();
-
-    TokenWS createTokenWS();
-
-    UserWS createUserWS();
-
-    DeviceTypeWS createDeviceTypeWS();
+    public void setDeviceType(DeviceTypeInserted deviceType) {
+        this.deviceType = deviceType;
+    }
 }

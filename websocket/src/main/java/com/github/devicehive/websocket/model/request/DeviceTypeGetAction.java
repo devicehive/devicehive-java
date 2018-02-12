@@ -1,7 +1,7 @@
 /*
  *
  *
- *   WebSocketCreator.java
+ *   DeviceTypeGetAction.java
  *
  *   Copyright (C) 2018 DataArt
  *
@@ -19,23 +19,26 @@
  *
  */
 
-package com.github.devicehive.websocket.api;
+package com.github.devicehive.websocket.model.request;
 
-interface WebSocketCreator {
+import com.google.gson.annotations.SerializedName;
 
-    DeviceWS createDeviceWS();
+import static com.github.devicehive.websocket.model.ActionConstant.DEVICE_TYPE_GET;
 
-    CommandWS createCommandWS();
+public class DeviceTypeGetAction extends RequestAction {
 
-    ConfigurationWS createConfigurationWS();
+    @SerializedName("deviceTypeId")
+    Long deviceTypeId;
 
-    NotificationWS createNotificationWS();
+    public DeviceTypeGetAction() {
+        super(DEVICE_TYPE_GET);
+    }
 
-    NetworkWS createNetworkWS();
+    public Long getDeviceTypeId() {
+        return deviceTypeId;
+    }
 
-    TokenWS createTokenWS();
-
-    UserWS createUserWS();
-
-    DeviceTypeWS createDeviceTypeWS();
+    public void setDeviceTypeId(Long deviceTypeId) {
+        this.deviceTypeId = deviceTypeId;
+    }
 }
