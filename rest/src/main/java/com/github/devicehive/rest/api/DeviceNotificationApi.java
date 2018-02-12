@@ -24,10 +24,16 @@ package com.github.devicehive.rest.api;
 import com.github.devicehive.rest.model.DeviceNotification;
 import com.github.devicehive.rest.model.DeviceNotificationWrapper;
 import com.github.devicehive.rest.model.NotificationInsert;
-import retrofit2.Call;
-import retrofit2.http.*;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 
 public interface DeviceNotificationApi {
@@ -75,14 +81,18 @@ public interface DeviceNotificationApi {
    * Poll for notifications
    * Polls new device notifications.  This method returns all device notifications that were created after specified timestamp.  In the case when no notifications were found, the method blocks until new notification is received. If no notifications are received within the waitTimeout period, the server returns an empty response. In this case, to continue polling, the client should repeat the call with the same timestamp value.
    * @param waitTimeout Wait timeout (optional, default to 30)
-   * @param deviceIds Device ids (optional)
+   * @param deviceId Device id (optional)
    * @param names Notification names (optional)
    * @param timestamp Timestamp to start from (optional)
    * @return Call&lt;List&lt;DeviceNotification&gt;&gt;
    */
   @GET("device/notification/poll")
   Call<List<DeviceNotification>> pollMany(
-         @Query("deviceIds") String deviceIds, @Query("names") String names, @Query("timestamp") String timestamp, @Query("waitTimeout") Long waitTimeout
+         @Query("deviceId") String deviceId,
+         @Query("deviceTypeIds") String deviceTypeIds,
+         @Query("networkIds") String networkIds,
+         @Query("names") String names,
+         @Query("timestamp") String timestamp, @Query("waitTimeout") Long waitTimeout
   );
 
   /**

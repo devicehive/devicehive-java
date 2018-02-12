@@ -123,11 +123,9 @@ public class DeviceNotificationApiTest extends Helper {
     @Test
     public void pollManyNotification() throws IOException {
         String firstDeviceId = UUID.randomUUID().toString();
-        String secondDeviceId = UUID.randomUUID().toString();
         boolean authenticated = authenticate();
         boolean firstDeviceCreated = createDevice(firstDeviceId);
-        boolean secondDeviceCreated = createDevice(secondDeviceId);
-        Assert.assertTrue(authenticated && firstDeviceCreated && secondDeviceCreated);
+        Assert.assertTrue(authenticated && firstDeviceCreated);
 
         DeviceNotificationWrapper deviceNotificationWrapper = getNotificationWrapper();
         DeviceNotificationApi notificationApi = client.createService(DeviceNotificationApi.class);
@@ -136,16 +134,15 @@ public class DeviceNotificationApiTest extends Helper {
         DateTime currentTimestamp = DateTime.now();
         for (int j = 0; j < notificationPollAmount; ++j) {
             notificationApi.insert(firstDeviceId, deviceNotificationWrapper).execute();
-            notificationApi.insert(secondDeviceId, deviceNotificationWrapper).execute();
         }
         String timestamp = currentTimestamp.withMillis(0).toString();
 
-        String deviceIds = firstDeviceId + "," + secondDeviceId;
-        Response<List<DeviceNotification>> pollResponse = notificationApi.pollMany(deviceIds,
+        Response<List<DeviceNotification>> pollResponse = notificationApi.pollMany(firstDeviceId,
+                null,null,
                 NOTIFICATION_NAME, timestamp, 30L).execute();
         Assert.assertTrue(pollResponse.isSuccessful());
         Assert.assertEquals(2 * notificationPollAmount, pollResponse.body().size());
-        Assert.assertTrue(deleteDevices(firstDeviceId, secondDeviceId));
+        Assert.assertTrue(deleteDevices(firstDeviceId));
     }
 
     @Test

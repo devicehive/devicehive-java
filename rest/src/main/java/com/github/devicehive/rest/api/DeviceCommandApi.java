@@ -22,11 +22,19 @@
 package com.github.devicehive.rest.api;
 
 import com.github.devicehive.rest.model.CommandInsert;
+import com.github.devicehive.rest.model.DeviceCommand;
 import com.github.devicehive.rest.model.DeviceCommandWrapper;
-import retrofit2.Call;
-import retrofit2.http.*;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 
 public interface DeviceCommandApi {
@@ -85,7 +93,7 @@ public interface DeviceCommandApi {
      * Polls the server to get commands.
      * This method returns all device commands that were created after specified timestamp. In the case when no commands were found, the method blocks until new command is received. If no commands are received within the waitTimeout period, the server returns an empty response. In this case, to continue polling, the client should repeat the call with the same timestamp value.
      *
-     * @param deviceIds   List of device IDs (optional)
+     * @param deviceId     Device ID (optional)
      * @param names       Command names (optional)
      * @param timestamp   Timestamp to start from (optional)
      * @param waitTimeout Wait timeout in seconds (optional, default to 30)
@@ -96,8 +104,12 @@ public interface DeviceCommandApi {
             "Content-Type:application/json"
     })
     @GET("device/command/poll")
-    Call<List<com.github.devicehive.rest.model.DeviceCommand>> pollMany(
-            @Query("deviceId") String deviceIds, @Query("names") String names, @Query("timestamp") String timestamp, @Query("waitTimeout") Long waitTimeout, @Query("limit") Integer limit
+    Call<List<DeviceCommand>> pollMany(
+            @Query("deviceId") String deviceId,
+            @Query("deviceTypeIds") String deviceTypeIds,
+            @Query("networkIds") String networkIds,
+            @Query("names") String names, @Query("timestamp") String timestamp,
+            @Query("waitTimeout") Long waitTimeout, @Query("limit") Integer limit
     );
 
     /**

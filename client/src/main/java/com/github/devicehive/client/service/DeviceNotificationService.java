@@ -45,6 +45,7 @@ import retrofit2.Response;
 class DeviceNotificationService extends BaseService {
 
     private static final String CANCELED = "Canceled";
+    public static final String DELIMITER = ",";
     private boolean isSubscribed;
     private Callback<List<com.github.devicehive.rest.model.DeviceNotification>> pollNotificationsCallback;
     private Call<List<com.github.devicehive.rest.model.DeviceNotification>> pollCall;
@@ -181,7 +182,7 @@ class DeviceNotificationService extends BaseService {
         return pollNotificationsCallback;
     }
 
-    public void pollManyNotifications(String deviceIds, NotificationFilter filter, boolean isAuthNeeded,
+    public void pollManyNotifications(String deviceId, NotificationFilter filter, boolean isAuthNeeded,
                                       DeviceNotificationsCallback notificationsCallback) {
         isSubscribed = true;
         DeviceNotificationApi notificationApi = createService(DeviceNotificationApi.class);
@@ -190,16 +191,20 @@ class DeviceNotificationService extends BaseService {
             pollManyCall.cancel();
             pollManyCall = null;
         }
-        pollManyCall = notificationApi.pollMany(deviceIds, StringUtils.join(",", filter.getNotificationNames()),
+        pollManyCall = notificationApi.pollMany(
+                deviceId,
+                StringUtils.join(DELIMITER, filter.getDeviceTypesIds()),
+                StringUtils.join(DELIMITER, filter.getNetwirkIds()),
+                StringUtils.join(DELIMITER, filter.getNotificationNames()),
                 filter.getStartTimestamp().toString(), (long) period.toStandardSeconds().getSeconds());
 
-        pollManyCall.enqueue(getNotificationsAllCallback(deviceIds, filter, isAuthNeeded, notificationsCallback));
+        pollManyCall.enqueue(getNotificationsAllCallback(deviceId, filter, isAuthNeeded, notificationsCallback));
 
     }
 
 
     private Callback<List<com.github.devicehive.rest.model.DeviceNotification>> getNotificationsAllCallback(
-            final String deviceIds, final NotificationFilter filter, final boolean isAuthNeeded,
+            final String deviceId, final NotificationFilter filter, final boolean isAuthNeeded,
             final DeviceNotificationsCallback notificationCallback) {
         if (pollNotificationsCallback == null) {
             pollNotificationsCallback = new Callback<List<com.github.devicehive.rest.model.DeviceNotification>>() {
@@ -212,11 +217,11 @@ class DeviceNotificationService extends BaseService {
                         if (isSubscribed) {
                             filter.setStartTimestamp(DateTime.now());
                             filter.setEndTimestamp(DateTime.now().plusSeconds(30));
-                            pollManyNotifications(deviceIds, filter, false, notificationCallback);
+                            pollManyNotifications(deviceId, filter, false, notificationCallback);
                         }
                     } else if (response.code() == 401 && isAuthNeeded) {
                         refreshAndAuthorize();
-                        pollManyNotifications(deviceIds, filter, false, notificationCallback);
+                        pollManyNotifications(deviceId, filter, false, notificationCallback);
                     } else {
                         notificationCallback.onFail(createFailData(response.code(), parseErrorMessage(response)));
                         unsubscribeAll();

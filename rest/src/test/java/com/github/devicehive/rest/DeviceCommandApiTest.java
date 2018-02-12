@@ -25,7 +25,6 @@ import com.github.devicehive.rest.api.DeviceCommandApi;
 import com.github.devicehive.rest.model.CommandInsert;
 import com.github.devicehive.rest.model.DeviceCommand;
 import com.github.devicehive.rest.model.DeviceCommandWrapper;
-import com.github.devicehive.rest.utils.StringUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -34,7 +33,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.Executors;
@@ -58,7 +56,7 @@ public class DeviceCommandApiTest extends Helper {
         JsonObject data = new JsonObject();
         data.addProperty(TEST_PROP, TEST_VALUE);
         JsonObject params = new JsonObject();
-        params.addProperty("customData",new Gson().toJson(data));
+        params.addProperty("customData", new Gson().toJson(data));
         deviceCommandWrapper.setParameters(params);
         return deviceCommandWrapper;
     }
@@ -132,12 +130,10 @@ public class DeviceCommandApiTest extends Helper {
     @Test
     public void pollManyCommand() throws IOException {
         String deviceId1 = UUID.randomUUID().toString();
-        String deviceId2 = UUID.randomUUID().toString();
 
         boolean authenticated = authenticate();
         boolean firstDeviceCreated = createDevice(deviceId1);
-        boolean secondDeviceCreated = createDevice(deviceId2);
-        Assert.assertTrue(authenticated && firstDeviceCreated && secondDeviceCreated);
+        Assert.assertTrue(authenticated && firstDeviceCreated);
 
         DeviceCommandApi commandApi = client.createService(DeviceCommandApi.class);
 
@@ -146,21 +142,16 @@ public class DeviceCommandApiTest extends Helper {
         String timestamp = currentTimestamp.withMillis(0).toString();
         for (int i = 0; i < 5; i++) {
             commandApi.insert(deviceId1, deviceCommandWrapper).execute();
-            commandApi.insert(deviceId2, deviceCommandWrapper).execute();
         }
 
 
-        List<String> list = new ArrayList<>();
-        list.add(deviceId1);
-        list.add(deviceId2);
-        String deviceIds = StringUtils.join(",", list);
         Response<List<DeviceCommand>> pollResponse = commandApi.pollMany(
-                deviceIds,
+                deviceId1, null, null,
                 COMMAND_NAME,
                 timestamp, 30L, 20).execute();
         Assert.assertTrue(pollResponse.isSuccessful());
         Assert.assertNotEquals(0, pollResponse.body().size());
-        Assert.assertTrue(deleteDevices(deviceId1, deviceId2));
+        Assert.assertTrue(deleteDevices(deviceId1));
     }
 
     @Test

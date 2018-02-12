@@ -31,6 +31,8 @@ import java.util.List;
 public class NotificationFilter {
 
     private List<String> notificationNames;
+    private List<String> deviceTypesIds;
+    private List<String> netwirkIds;
     private DateTime startTimestamp;
     private DateTime endTimestamp;
     private SortOrder sortOrder;
@@ -78,4 +80,20 @@ public class NotificationFilter {
         this.endTimestamp = endTimestamp;
     }
 
+    public void setDeviceTypeIds(String... notificationNames) {
+        this.notificationNames = Arrays.asList(notificationNames);
+
+    }
+    public void setNetworkIds(String... notificationNames) {
+        this.notificationNames = Arrays.asList(notificationNames);
+
+    }
+
+    public List<String> getDeviceTypesIds() {
+        return deviceTypesIds;
+    }
+
+    public List<String> getNetwirkIds() {
+        return netwirkIds;
+    }
 }
