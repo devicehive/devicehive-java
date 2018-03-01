@@ -3,8 +3,10 @@ DeviceHive Java Client Library & Examples
 
 [![Build Status](https://travis-ci.org/devicehive/devicehive-java.svg?branch=master)](https://travis-ci.org/devicehive/devicehive-java)
 
-[DeviceHive]: http://devicehive.com "DeviceHive framework"
-[DataArt]: http://dataart.com "DataArt"
+[DeviceHive](http://devicehive.com)
+
+[DataArt](http://dataart.com)
+
 DeviceHive Client Library is an open source project based on Java. It can be used to build `Android` or `Java` applications.
 
 DeviceHive turns any connected device into the part of Internet of Things.
